@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
+<meta charset="UTF-8" />
   <title>Rails31</title>
-  <%= stylesheet_link_tag    "application" %>
-  <%= javascript_include_tag "application" %>
+  <%= stylesheet_link_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -12,5 +12,6 @@
   <p class="alert"><%= alert %></p>
   <%= yield %>
 
+<%= javascript_include_tag "application" %>
 </body>
 </html>
