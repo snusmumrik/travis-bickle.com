@@ -1,0 +1,45 @@
+#!/bin/sh
+cp config/database.yml.sample config/database.yml
+cp config/initializers/secret_token.rb.sample config/initializers/secret_token.rb
+cp config/initializers/session_store.rb.sample config/initializers/session_store.rb
+
+# change application name
+
+# shell script references
+# http://d.hatena.ne.jp/BigFatCat/20070807/1186461385
+
+filepath=`pwd`
+filename=`basename ${filepath}`
+
+# change database.yml
+default_db_name="rails31"
+ruby -pi -e "gsub(/${default_db_name}/, '${dir_name}')" config/database.yml
+echo "database.yml has been rewritted to ${dir_name}"
+
+echo "Enter new application name: "
+read filename
+default_name="Rails31"
+echo "The application name is being changed to '${filename}'..."
+
+echo "Enter MySQL password: "
+read password
+default_name="password:"
+ruby -pi -e "gsub(/password:/, 'password: ${password}')" config/database.yml
+echo "MySQL password has been set."
+
+ruby -pi -e "gsub(/${default_name}/, '${filename}')" Rakefile
+ruby -pi -e "gsub(/${default_name}/, '${filename}')" config.ru
+ruby -pi -e "gsub(/${default_name}/, '${filename}')" config/application.rb
+ruby -pi -e "gsub(/${default_name}/, '${filename}')" config/environment.rb
+ruby -pi -e "gsub(/${default_name}/, '${filename}')" config/environments/development.rb
+ruby -pi -e "gsub(/${default_name}/, '${filename}')" config/environments/production.rb
+ruby -pi -e "gsub(/${default_name}/, '${filename}')" config/environments/test.rb
+ruby -pi -e "gsub(/${default_name}/, '${filename}')" config/initializers/secret_token.rb
+ruby -pi -e "gsub(/${default_name}/, '${filename}')" config/initializers/session_store.rb
+ruby -pi -e "gsub(/${default_name}/, '${filename}')" config/routes.rb
+
+echo "Application name has been changed to '${filename}'."
+
+echo "Bundle install is being processed..."
+bundle install
+echo "Bundel install finished."
