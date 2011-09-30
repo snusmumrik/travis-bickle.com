@@ -1,4 +1,10 @@
 Rails31::Application.routes.draw do
+  devise_for :users do
+    get "signin", :to => "devise/sessions#new"
+    get "signup", :to => "devise/registrations#new"
+    get "signout", :to => "devise/sessions#destroy"
+  end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -49,6 +55,7 @@ Rails31::Application.routes.draw do
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   # root :to => 'welcome#index'
+  root :to => 'welcome#index'
 
   # See how all your routes lay out with "rake routes"
 

@@ -1,5 +1,6 @@
 #!/bin/sh
 cp config/database.yml.sample config/database.yml
+cp config/initializers/devise.rb.sample config/initializers/devise.rb
 cp config/initializers/secret_token.rb.sample config/initializers/secret_token.rb
 cp config/initializers/session_store.rb.sample config/initializers/session_store.rb
 
