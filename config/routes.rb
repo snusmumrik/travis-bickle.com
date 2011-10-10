@@ -1,8 +1,9 @@
 Rails31::Application.routes.draw do
-  devise_for :users do
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" } do
     get "signin", :to => "devise/sessions#new"
     get "signup", :to => "devise/registrations#new"
     get "signout", :to => "devise/sessions#destroy"
+    get '/users/auth/:provider' => 'users/omniauth_callbacks#passthru'
   end
 
   # The priority is based upon order of creation:
