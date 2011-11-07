@@ -39,3 +39,4 @@ end
 
 gem 'devise'
 gem "omniauth"
+gem 'oa-oauth', :require => "omniauth/oauth"
