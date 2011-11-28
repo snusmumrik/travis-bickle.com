@@ -1,5 +1,16 @@
 Rails31::Application.routes.draw do
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" } do
+  devise_for :admins, :path_names => {
+    :sign_in => "signin",
+    :sign_out => "signout",
+    :sign_up => "signup"
+  }
+
+  devise_for :users, :path_names => {
+    :sign_in => "signin",
+    :sign_out => "signout",
+    :sign_up => "signup"
+  },
+  :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" } do
     get "signin", :to => "devise/sessions#new"
     get "signup", :to => "devise/registrations#new"
     get "signout", :to => "devise/sessions#destroy"
