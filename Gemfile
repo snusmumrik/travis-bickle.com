@@ -20,6 +20,7 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'guard-rspec'
+  gem 'parallel_tests'
 end
 
 gem 'jquery-rails'
@@ -38,6 +39,7 @@ group :test do
   gem 'turn', :require => false
   gem 'guard-rspec'
   gem 'spork', '>=0.9.0.rc2'
+  gem 'parallel_tests'
 end
 
 gem 'devise'
