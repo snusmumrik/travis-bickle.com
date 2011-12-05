@@ -21,6 +21,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'guard-rspec'
   gem 'parallel_tests'
+  gem 'metric_fu'
 end
 
 gem 'jquery-rails'
@@ -40,6 +41,7 @@ group :test do
   gem 'guard-rspec'
   gem 'spork', '>=0.9.0.rc2'
   gem 'parallel_tests'
+    gem 'minitest'
 end
 
 gem 'devise'
