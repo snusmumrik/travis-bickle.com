@@ -37,6 +37,7 @@ group :test do
   # Pretty printed test output
   gem 'turn', :require => false
   gem 'guard-rspec'
+  gem 'spork', '>=0.9.0.rc2'
 end
 
 gem 'devise'
