@@ -23,6 +23,7 @@ group :development, :test do
   gem 'parallel_tests'
   gem 'metric_fu'
   gem 'rails3-generators'
+  gem 'capybara'
 end
 
 gem 'jquery-rails'
@@ -41,7 +42,6 @@ group :test do
   gem 'turn', :require => false
   gem 'guard-rspec'
   gem 'spork', '>=0.9.0.rc2'
-  gem 'parallel_tests'
   gem 'minitest'
   gem 'factory_girl_rails'
 end
