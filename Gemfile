@@ -19,6 +19,7 @@ end
 group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
+  gem 'guard-rspec'
 end
 
 gem 'jquery-rails'
@@ -35,6 +36,7 @@ gem 'jquery-rails'
 group :test do
   # Pretty printed test output
   gem 'turn', :require => false
+  gem 'guard-rspec'
 end
 
 gem 'devise'
