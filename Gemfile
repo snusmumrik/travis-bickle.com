@@ -24,6 +24,8 @@ group :development, :test do
   gem 'metric_fu'
   gem 'rails3-generators'
   gem 'capybara'
+  gem 'cucumber-rails' # rails generate cucumber:install --capybara --rspec --spork
+  gem 'database_cleaner' # database_cleaner is not required, but highly recommended
 end
 
 gem 'jquery-rails'
