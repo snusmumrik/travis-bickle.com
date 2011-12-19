@@ -13,7 +13,7 @@ filepath=`pwd`
 dir_name=`basename ${filepath}`
 
 # change database.yml
-default_db_name="rails3.1"
+default_db_name="rails31"
 ruby -pi -e "gsub(/${default_db_name}/, '${dir_name}')" config/database.yml
 echo "database.yml has been rewritted to ${dir_name}"
 
@@ -50,3 +50,6 @@ ln -s "${filepath}/vendor/assets/stylesheets/bootstrap/bootstrap.css"  "${filepa
 echo "Bundle install is being processed..."
 bundle install
 echo "Bundel install finished."
+
+echo "Precompiling Assets..."
+# rake assets:precompile
