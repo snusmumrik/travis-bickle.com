@@ -4,8 +4,18 @@ class User < ActiveRecord::Base
   devise :confirmable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
+  # Virtual attribute for authenticating by either username or email
+  # This is in addition to a real persisted field like 'username'
+  attr_accessor :signin
+
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :signin, :username, :email, :password, :password_confirmation, :remember_me
+
+  def self.find_for_database_authentication(warden_conditions)
+    conditions = warden_conditions.dup
+    signin = conditions.delete(:signin)
+    where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => signin.strip.downcase }]).first
+  end
 
   def self.find_for_facebook_oauth(access_token, signed_in_resource=nil)
     data = access_token['extra']['user_hash']

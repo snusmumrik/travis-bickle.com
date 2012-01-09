@@ -14,6 +14,7 @@
 ActiveRecord::Schema.define(:version => 20111128041328) do
 
   create_table "admins", :force => true do |t|
+    t.string   "username"
     t.string   "email",                                 :default => "", :null => false
     t.string   "encrypted_password",     :limit => 128, :default => "", :null => false
     t.string   "reset_password_token"
@@ -30,8 +31,10 @@ ActiveRecord::Schema.define(:version => 20111128041328) do
 
   add_index "admins", ["email"], :name => "index_admins_on_email", :unique => true
   add_index "admins", ["reset_password_token"], :name => "index_admins_on_reset_password_token", :unique => true
+  add_index "admins", ["username"], :name => "index_admins_on_username", :unique => true
 
   create_table "users", :force => true do |t|
+    t.string   "username"
     t.string   "email",                                 :default => "", :null => false
     t.string   "encrypted_password",     :limit => 128, :default => "", :null => false
     t.string   "reset_password_token"
@@ -52,5 +55,6 @@ ActiveRecord::Schema.define(:version => 20111128041328) do
   add_index "users", ["confirmation_token"], :name => "index_users_on_confirmation_token", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+  add_index "users", ["username"], :name => "index_users_on_username", :unique => true
 
 end
