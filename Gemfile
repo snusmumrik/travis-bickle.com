@@ -26,6 +26,7 @@ group :development, :test do
   gem 'capybara'
   gem 'cucumber-rails' # rails generate cucumber:install --capybara --rspec --spork
   gem 'database_cleaner' # database_cleaner is not required, but highly recommended
+  gem 'i18n_generators', :git => 'git://github.com/amatsuda/i18n_generators'
 end
 
 gem 'jquery-rails'

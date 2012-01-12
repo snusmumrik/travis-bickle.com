@@ -1,0 +1,53 @@
+ja:
+  activerecord:
+    models:
+      admin: admin  #g
+      user: user  #g
+
+    attributes:
+      admin:
+        username: username  #g
+        email: email  #g
+        encrypted_password: encrypted_password  #g
+        reset_password_token: reset_password_token  #g
+        reset_password_sent_at: reset_password_sent_at  #g
+        remember_created_at: remember_created_at  #g
+        current_sign_in_at: current_sign_in_at  #g
+        last_sign_in_at: last_sign_in_at  #g
+        current_sign_in_ip: current_sign_in_ip  #g
+        last_sign_in_ip: last_sign_in_ip  #g
+
+      user:
+        username: username  #g
+        email: email  #g
+        password: "パスワード"
+        current_password: "現在のパスワード"
+        password_confirmation: "パスワードの確認"
+        remember_me: "サインイン状態を維持"
+        encrypted_password: encrypted_password  #g
+        reset_password_token: reset_password_token  #g
+        reset_password_sent_at: reset_password_sent_at  #g
+        remember_created_at: remember_created_at  #g
+        current_sign_in_at: current_sign_in_at  #g
+        last_sign_in_at: last_sign_in_at  #g
+        current_sign_in_ip: current_sign_in_ip  #g
+        last_sign_in_ip: last_sign_in_ip  #g
+        confirmation_token: confirmation_token  #g
+        confirmed_at: confirmed_at  #g
+        confirmation_sent_at: confirmation_sent_at  #g
+
+  link:
+    new: "新規作成"
+    show: "詳細"
+    edit: "編集"
+    destroy: "削除"
+    back: "戻る"
+
+    user:
+      signin: "サインイン"
+      signout: "サインアウト"
+      signup: "サインアップ"
+      change_password: "パスワードの変更"
+      reset_password: "パスワードの再設定"
+      forgot_password: "パスワードをお忘れですか？"
+      resend_confirmation: "登録メールを再送しましょうか？"
