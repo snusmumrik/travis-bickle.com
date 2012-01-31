@@ -1,9 +1,9 @@
-Rails31::Application.routes.draw do
-  devise_for :admins, :path_names => {
-    :sign_in => "signin",
-    :sign_out => "signout",
-    :sign_up => "signup"
-  }
+Rails3::Application.routes.draw do
+  # devise_for :admins, :path_names => {
+  #   :sign_in => "signin",
+  #   :sign_out => "signout",
+  #   :sign_up => "signup"
+  # }
 
   devise_for :users, :path_names => {
     :sign_in => "signin",

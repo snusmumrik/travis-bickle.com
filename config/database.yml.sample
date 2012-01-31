@@ -12,7 +12,7 @@ development:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: rails3.1_development
+  database: rails3_development
   pool: 5
   username: root
   password:
@@ -25,7 +25,7 @@ test:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: rails3.1_test<%#= ENV['TEST_ENV_NUMBER'] %>
+  database: rails3_test<%#= ENV['TEST_ENV_NUMBER'] %>
   pool: 5
   username: root
   password:
@@ -35,7 +35,7 @@ production:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: rails3.1_production
+  database: rails3_production
   pool: 5
   username: root
   password:
