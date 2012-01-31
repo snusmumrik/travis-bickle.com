@@ -50,5 +50,6 @@ group :test do
 end
 
 gem 'devise'
-gem 'omniauth'
-gem 'oa-oauth', :require => 'omniauth/oauth'
+gem "omniauth"
+gem 'oa-oauth', :require => "omniauth/oauth"
+gem 'will_paginate'
