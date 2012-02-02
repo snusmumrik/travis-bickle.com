@@ -23,6 +23,7 @@ Rails3::Application.routes.draw do
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
+  match '/:id' => 'contents#show'
 
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
@@ -31,7 +32,8 @@ Rails3::Application.routes.draw do
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
   resources :contents
-  
+  resources :users
+
   # Sample resource route with options:
   #   resources :products do
   #     member do

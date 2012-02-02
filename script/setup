@@ -44,9 +44,6 @@ echo "git submodule is being initialized..."
 git submodule init
 git submodule update
 
-echo "bootstrap.css symbolic link created"
-ln -s "${filepath}/vendor/assets/stylesheets/bootstrap/bootstrap.css"  "${filepath}/app/assets/stylesheets"
-
 echo "Bundle install is being processed..."
 bundle install
 echo "Bundel install finished."

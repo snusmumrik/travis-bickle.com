@@ -1,4 +1,5 @@
 .bundle
+.sass-cache/
 config/database.yml
 config/initializers/devise.rb
 config/initializers/secret_token.rb
@@ -6,4 +7,3 @@ config/initializers/session_store.rb
 db/*.sqlite3
 log/*.log
 tmp/
-.sass-cache/
