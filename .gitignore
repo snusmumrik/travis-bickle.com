@@ -1,6 +1,7 @@
 .bundle
 .sass-cache/
 config/database.yml
+config/environments/production.rb
 config/initializers/devise.rb
 config/initializers/secret_token.rb
 config/initializers/session_store.rb
