@@ -54,3 +54,4 @@ gem "omniauth"
 gem 'oa-oauth', :require => "omniauth/oauth"
 gem 'activeadmin'
 gem 'meta_search', '>= 1.1.0.pre'
+gem 'kaminari'

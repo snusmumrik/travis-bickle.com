@@ -338,6 +338,7 @@ DEPENDENCIES
   guard-rspec
   i18n_generators!
   jquery-rails
+  kaminari
   meta_search (>= 1.1.0.pre)
   metric_fu
   minitest
