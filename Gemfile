@@ -53,3 +53,5 @@ gem 'devise'
 gem "omniauth"
 gem 'oa-oauth', :require => "omniauth/oauth"
 gem 'will_paginate'
+gem 'activeadmin'
+gem 'meta_search', '>= 1.1.0.pre'
