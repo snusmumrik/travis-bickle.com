@@ -4,10 +4,10 @@ Rails3::Application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" } do
-    get "signin", :to => "devise/sessions#new"
-    get "signup", :to => "devise/registrations#new"
-    get "signout", :to => "devise/sessions#destroy"
-    get '/users/auth/:provider' => 'users/omniauth_callbacks#passthru'
+    get "sign_in", :to => "devise/sessions#new"
+    get "sign_up", :to => "devise/registrations#new"
+    get "sign_out", :to => "devise/sessions#destroy"
+    get "/users/auth/:provider" => "users/omniauth_callbacks#passthru"
   end
 
   # The priority is based upon order of creation:

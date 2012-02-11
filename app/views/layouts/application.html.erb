@@ -51,8 +51,8 @@
               <p class="navbar-text pull-right">Logged in as <%= link_to "username", user_path(current_user.username) %></a>
               <p class="navbar-text pull-right"><%= link_to(t("link.user.signout"), destroy_user_session_path, :method => :delete) %></p>
             <% else %>
-              <p class="navbar-text pull-right"><%= link_to t("link.user.signup"), signup_path %></p>
-              <p class="navbar-text pull-right"><%= link_to t("link.user.signin"), signin_path %></p>
+              <p class="navbar-text pull-right"><%= link_to t("link.user.signup"), new_user_registration_path %></p>
+              <p class="navbar-text pull-right"><%= link_to t("link.user.signin"), new_user_session_path %></p>
             <% end %>
           </div><!--/.nav-collapse -->
         </div>
