@@ -50,8 +50,9 @@ group :test do
 end
 
 gem 'devise'
-gem "omniauth"
-gem 'oa-oauth', :require => "omniauth/oauth"
+gem 'rails3_acts_as_paranoid', '~>0.2.0'
+gem 'omniauth'
+gem 'oa-oauth', :require => 'omniauth/oauth'
 gem 'activeadmin'
 gem 'meta_search', '>= 1.1.0.pre'
 gem 'kaminari'
