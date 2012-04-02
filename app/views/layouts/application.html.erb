@@ -48,7 +48,7 @@
               <% if params[:id] == "contact" %><li class="active"><% else %><li><% end %><%= link_to t("contact"), "/fluid" %></li>
             </ul>
             <% if user_signed_in? %>
-              <p class="navbar-text pull-right">Logged in as <%= link_to "username", user_path(current_user.username) %></a>
+              <p class="navbar-text pull-right">Signed in as <%= link_to current_user.username, user_path(current_user.username) %></a>
               <p class="navbar-text pull-right"><%= link_to(t("link.user.signout"), destroy_user_session_path, :method => :delete) %></p>
             <% else %>
               <p class="navbar-text pull-right"><%= link_to t("link.user.signup"), new_user_registration_path %></p>
@@ -60,7 +60,19 @@
     </div>
 
     <div class="container">
-      <%= yield %>
+    <% if notice %>
+      <div class="alert alert-success">
+        <p id="notice"><%= notice %></p>
+      </div>
+    <% end %>
+
+    <% if alert %>
+      <div class="alert alert-error">
+        <p id="alert"><%= alert %></p>
+      </div>
+    <% end %>
+
+    <%= yield %>
 
       <hr>
       <footer>

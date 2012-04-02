@@ -1,12 +1,13 @@
 ja:
   activerecord:
     models:
-      user: user  #g
+      user: "ユーザー"
 
     attributes:
       user:
-        username: username  #g
-        email: email  #g
+        username: "ユーザーネーム"
+        email: "メールアドレス"
+        login: "ユーザーネーム / メールアドレス"
         password: "パスワード"
         current_password: "現在のパスワード"
         password_confirmation: "パスワードの確認"
@@ -23,7 +24,11 @@ ja:
         confirmed_at: confirmed_at  #g
         confirmation_sent_at: confirmation_sent_at  #g
 
+  label:
+    error: "エラー"
+
   link:
+    index: "一覧"
     new: "新規作成"
     show: "詳細"
     edit: "編集"
@@ -37,4 +42,4 @@ ja:
       change_password: "パスワードの変更"
       reset_password: "パスワードの再設定"
       forgot_password: "パスワードをお忘れですか？"
-      resend_confirmation: "登録メールを再送しましょうか？"
+      resend_confirmation: "登録メールの再送"

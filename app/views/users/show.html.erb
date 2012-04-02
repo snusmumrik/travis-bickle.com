@@ -1,0 +1,14 @@
+<h1><%=t "activerecord.models.user" %><%=t "link.show" %></h1>
+
+<p>
+  <b><%=t "activerecord.attributes.user.username" %></b>
+  <%= @user.username %>
+</p>
+
+<p>
+  <b><%=t "activerecord.attributes.user.email" %></b>
+  <%= @user.email %>
+</p>
+
+
+<%= link_to t("link.edit"), edit_user_path(@user.username) %>

@@ -7,16 +7,11 @@ Rails3::Application.routes.draw do
     get "sign_in", :to => "devise/sessions#new"
     get "sign_up", :to => "devise/registrations#new"
     get "sign_out", :to => "devise/sessions#destroy"
-    get "/users/auth/:provider" => "users/omniauth_callbacks#passthru"
+    get "/users/auth/:provider", :to => "users/omniauth_callbacks#passthru"
   end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
-
-  # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
-  # Keep in mind you can assign values other than :controller and :action
-  match '/:id' => 'contents#show'
 
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
@@ -26,6 +21,11 @@ Rails3::Application.routes.draw do
   #   resources :products
   resources :contents
   resources :users
+
+  # Sample of regular route:
+  #   match 'products/:id' => 'catalog#view'
+  # Keep in mind you can assign values other than :controller and :action
+  match '/:id' => 'contents#show'
 
   # Sample resource route with options:
   #   resources :products do

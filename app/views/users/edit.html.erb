@@ -1,0 +1,5 @@
+<h1><%=t "activerecord.models.user" %><%=t "link.edit" %></h1>
+
+<%= render 'form' %>
+
+<%= link_to t("link.back"), user_path(current_user.username), :class => "btn" %>
