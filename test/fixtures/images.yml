@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  type: 
+  parent_type: MyString
+  parent_id: 1
+  image_file_name: MyString
+  image_content_type: MyString
+  image_file_size: 1
+  image_updated_at: 2012-04-04 20:45:43
+
+two:
+  type: 
+  parent_type: MyString
+  parent_id: 1
+  image_file_name: MyString
+  image_content_type: MyString
+  image_file_size: 1
+  image_updated_at: 2012-04-04 20:45:43

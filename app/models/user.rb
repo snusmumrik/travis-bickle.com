@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
 
   validates :username, :uniqueness => true
 
+  has_many :images, :as => :parent, :dependent => :destroy
+
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     login = conditions.delete(:login)

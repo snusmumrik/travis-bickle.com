@@ -6,6 +6,11 @@
 </p>
 
 <p>
+  <b><%=t "activerecord.attributes.user.image" %></b>
+  <%= image_tag @user.images.pop.image.url(:medium) %>
+</p>
+
+<p>
   <b><%=t "activerecord.attributes.user.email" %></b>
   <%= @user.email %>
 </p>
