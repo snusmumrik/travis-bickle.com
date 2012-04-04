@@ -20,7 +20,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-group :development, :test do
+group :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'guard-rspec'
@@ -30,6 +30,9 @@ group :development, :test do
   gem 'capybara'
   gem 'cucumber-rails' # rails generate cucumber:install --capybara --rspec --spork
   gem 'database_cleaner' # database_cleaner is not required, but highly recommended
+end
+
+group :development do
   gem 'i18n_generators', :git => 'git://github.com/amatsuda/i18n_generators'
 end
 

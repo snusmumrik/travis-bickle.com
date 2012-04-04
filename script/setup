@@ -28,16 +28,18 @@ read password
 ruby -pi -e "gsub(/password:/, 'password: ${password}')" config/database.yml
 echo "MySQL password has been set."
 
-ruby -pi -e "gsub(/${default_name}/, '${application_name}')" Rakefile
+ruby -pi -e "gsub(/${default_name}/, '${application_name}')" app/views/layouts/application.html.erb
 ruby -pi -e "gsub(/${default_name}/, '${application_name}')" config.ru
 ruby -pi -e "gsub(/${default_name}/, '${application_name}')" config/application.rb
 ruby -pi -e "gsub(/${default_name}/, '${application_name}')" config/environment.rb
 ruby -pi -e "gsub(/${default_name}/, '${application_name}')" config/environments/development.rb
 ruby -pi -e "gsub(/${default_name}/, '${application_name}')" config/environments/production.rb
 ruby -pi -e "gsub(/${default_name}/, '${application_name}')" config/environments/test.rb
+ruby -pi -e "gsub(/${default_name}/, '${application_name}')" config/initializers/active_admin.rb
 ruby -pi -e "gsub(/${default_name}/, '${application_name}')" config/initializers/secret_token.rb
 ruby -pi -e "gsub(/${default_name}/, '${application_name}')" config/initializers/session_store.rb
 ruby -pi -e "gsub(/${default_name}/, '${application_name}')" config/routes.rb
+ruby -pi -e "gsub(/${default_name}/, '${application_name}')" Rakefile
 
 echo "Application name has been changed to '${application_name}'."
 
