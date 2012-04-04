@@ -21,6 +21,11 @@ group :assets do
 end
 
 group :test do
+  gem 'cucumber-rails' # rails generate cucumber:install --capybara --rspec --spork
+  gem 'database_cleaner' # database_cleaner is not required, but highly recommended
+end
+
+group :test, :development do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'guard-rspec'
@@ -28,11 +33,6 @@ group :test do
   gem 'metric_fu'
   gem 'rails3-generators'
   gem 'capybara'
-  gem 'cucumber-rails' # rails generate cucumber:install --capybara --rspec --spork
-  gem 'database_cleaner' # database_cleaner is not required, but highly recommended
-end
-
-group :development do
   gem 'i18n_generators', :git => 'git://github.com/amatsuda/i18n_generators'
 end
 
