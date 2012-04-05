@@ -7,7 +7,9 @@
 
 <p>
   <b><%=t "activerecord.attributes.user.image" %></b>
-  <%= image_tag @user.images.pop.image.url(:medium) %>
+  <% unless @user.images.blank? %>
+    <%= image_tag @user.images.pop.image.url(:medium) %>
+  <% end %>
 </p>
 
 <p>

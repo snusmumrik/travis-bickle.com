@@ -56,11 +56,11 @@ class UsersController < ApplicationController
   # PUT /users/1
   # PUT /users/1.json
   def update
-    @image = Image::UserImage.new(params[:image])
+    @image = Image::UserImage.new(params[:image]) if params[:image]
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        @user.images << @image
+        @user.images << @image if @image
         format.html { redirect_to user_path(current_user.username), notice: 'User was successfully updated.' }
         format.json { head :ok }
       else

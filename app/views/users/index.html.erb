@@ -12,7 +12,11 @@
   <% @users.each do |user| %>
     <tr>
       <td><%= user.username %></td>
-      <td><%= image_tag user.images.pop.image.url(:thumb) %></td>
+      <td>
+        <% unless user.images.blank? %>
+          <%= image_tag user.images.pop.image.url(:thumb) %>
+        <% end %>
+      </td>
       <td><%= user.email %></td>
       <td><%= link_to t("link.edit"), edit_user_path(user.username) %></td>
       <td><%= link_to t("link.destroy"), user.username, confirm: 'Are you sure?', method: :delete %></td>

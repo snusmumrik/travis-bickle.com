@@ -17,9 +17,9 @@
   </div>
   <div class="field">
     <%= f.label :image %><br />
-
+    <% unless @user.images.blank? %>
       <%= image_tag @user.images.pop.image.url(:thumb) %><br />
-
+    <% end %>
     <%= file_field :image, :image %>
   </div>
   <div class="field">
