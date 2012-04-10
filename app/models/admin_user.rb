@@ -5,15 +5,15 @@ class AdminUser < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :login, :password, :password_confirmation, :remember_me
+  attr_accessible :email, :signin, :password, :password_confirmation, :remember_me
   
-  attr_accessor :login
+  attr_accessor :signin
   
   protected
   
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
-    login = conditions.delete(:login)
-    where(conditions).where(["lower(email) = :value", { :value => login.strip.downcase }]).first
+    signin = conditions.delete(:signin)
+    where(conditions).where(["lower(email) = :value", { :value => signin.strip.downcase }]).first
   end
 end

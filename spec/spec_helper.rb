@@ -74,5 +74,6 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   config.include Devise::TestHelpers, :type => :controller
+  config.include FactoryGirl::Syntax::Methods
   config.extend ControllerMacros, :type => :controller
 end
