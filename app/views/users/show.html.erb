@@ -18,4 +18,6 @@
 </p>
 
 
-<%= link_to t("link.edit"), edit_user_path(@user.username) %>
+<% if user_signed_in? && @user.id == current_user.id %>
+  <%= link_to t("link.edit"), edit_user_path(@user.username) %>
+<% end %>
