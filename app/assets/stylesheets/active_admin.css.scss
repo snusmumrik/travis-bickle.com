@@ -4,3 +4,16 @@
 
 // To customize the Active Admin interfaces, add your
 // styles here:
+
+a, a:link, a:visited {
+    text-decoration: none;
+}
+
+.pagination a, .pagination span.page.current {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    margin-right: 4px;
+    padding: 0 14px;
+    line-height: 34px;
+}
