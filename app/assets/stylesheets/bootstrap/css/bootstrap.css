@@ -4940,6 +4940,7 @@ a.badge:hover {
 
 .hero-unit {
   padding: 60px;
+  margin-top: 50px;
   margin-bottom: 30px;
   background-color: #eeeeee;
   -webkit-border-radius: 6px;
