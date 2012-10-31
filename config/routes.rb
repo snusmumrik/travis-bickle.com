@@ -1,4 +1,4 @@
-Rails3::Application.routes.draw do
+TaxiDriver::Application.routes.draw do
   ActiveAdmin.routes(self)
 
   devise_for :admin_users, ActiveAdmin::Devise.config
