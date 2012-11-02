@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @check_point.user %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @check_point.name %>
+</p>
+
+<p>
+  <b>Deleted at:</b>
+  <%= @check_point.deleted_at %>
+</p>
+
+
+<%= link_to 'Edit', edit_check_point_path(@check_point) %> |
+<%= link_to 'Back', check_points_path %>

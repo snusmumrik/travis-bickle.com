@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120404114543) do
+ActiveRecord::Schema.define(:version => 20121101113726) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -46,6 +46,56 @@ ActiveRecord::Schema.define(:version => 20120404114543) do
   add_index "admin_users", ["email"], :name => "index_admin_users_on_email", :unique => true
   add_index "admin_users", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
 
+  create_table "breaks", :force => true do |t|
+    t.integer  "report_id"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.datetime "ended_at"
+    t.datetime "deleted_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "breaks", ["report_id"], :name => "index_breaks_on_report_id"
+
+  create_table "cars", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.string   "car_type"
+    t.string   "car_model"
+    t.integer  "base_fare"
+    t.integer  "meter_fare"
+    t.datetime "deleted_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "cars", ["user_id"], :name => "index_cars_on_user_id"
+
+  create_table "check_points", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.datetime "deleted_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "check_points", ["user_id"], :name => "index_check_points_on_user_id"
+
+  create_table "drivers", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.date     "birthday"
+    t.string   "blood_type"
+    t.string   "licence_number"
+    t.date     "start_working_at"
+    t.datetime "deleted_at"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "drivers", ["user_id"], :name => "index_drivers_on_user_id"
+
   create_table "images", :force => true do |t|
     t.string   "type"
     t.string   "parent_type"
@@ -57,6 +107,68 @@ ActiveRecord::Schema.define(:version => 20120404114543) do
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
   end
+
+  create_table "locations", :force => true do |t|
+    t.integer  "car_id"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "locations", ["car_id"], :name => "index_locations_on_car_id"
+
+  create_table "meters", :force => true do |t|
+    t.integer  "car_id"
+    t.integer  "meter"
+    t.integer  "mileage"
+    t.integer  "riding_mileage"
+    t.integer  "riding_count"
+    t.integer  "meter_fare_count"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "meters", ["car_id"], :name => "index_meters_on_car_id"
+
+  create_table "reports", :force => true do |t|
+    t.integer  "driver_id"
+    t.integer  "mileage"
+    t.integer  "riding_mileage"
+    t.float    "riding_rate"
+    t.integer  "riding_count"
+    t.integer  "meter_fare_count"
+    t.integer  "passengers"
+    t.integer  "sales"
+    t.integer  "sales_par_kilometer"
+    t.integer  "fuel_cost"
+    t.integer  "ticket"
+    t.integer  "account_receivable"
+    t.integer  "cash"
+    t.integer  "surplus_funds"
+    t.integer  "deficiency_account"
+    t.integer  "advance"
+    t.datetime "deleted_at"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
+  add_index "reports", ["driver_id"], :name => "index_reports_on_driver_id"
+
+  create_table "rides", :force => true do |t|
+    t.integer  "report_id"
+    t.float    "ride_latitude"
+    t.float    "ride_longitude"
+    t.float    "leave_latitude"
+    t.float    "leave_longitude"
+    t.integer  "passengers"
+    t.integer  "fare"
+    t.datetime "deleted_at"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "rides", ["report_id"], :name => "index_rides_on_report_id"
 
   create_table "users", :force => true do |t|
     t.string   "username"

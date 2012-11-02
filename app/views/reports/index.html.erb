@@ -1,0 +1,55 @@
+<h1>Listing reports</h1>
+
+<table>
+  <tr>
+    <th>Driver</th>
+    <th>Mileage</th>
+    <th>Riding mileage</th>
+    <th>Riding rate</th>
+    <th>Riding count</th>
+    <th>Meter fare count</th>
+    <th>Passengers</th>
+    <th>Sales</th>
+    <th>Sales par kilometer</th>
+    <th>Fuel cost</th>
+    <th>Ticket</th>
+    <th>Account receivable</th>
+    <th>Cash</th>
+    <th>Surplus funds</th>
+    <th>Deficiency account</th>
+    <th>Advance</th>
+    <th>Deleted at</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @reports.each do |report| %>
+  <tr>
+    <td><%= report.driver %></td>
+    <td><%= report.mileage %></td>
+    <td><%= report.riding_mileage %></td>
+    <td><%= report.riding_rate %></td>
+    <td><%= report.riding_count %></td>
+    <td><%= report.meter_fare_count %></td>
+    <td><%= report.passengers %></td>
+    <td><%= report.sales %></td>
+    <td><%= report.sales_par_kilometer %></td>
+    <td><%= report.fuel_cost %></td>
+    <td><%= report.ticket %></td>
+    <td><%= report.account_receivable %></td>
+    <td><%= report.cash %></td>
+    <td><%= report.surplus_funds %></td>
+    <td><%= report.deficiency_account %></td>
+    <td><%= report.advance %></td>
+    <td><%= report.deleted_at %></td>
+    <td><%= link_to 'Show', report %></td>
+    <td><%= link_to 'Edit', edit_report_path(report) %></td>
+    <td><%= link_to 'Destroy', report, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Report', new_report_path %>

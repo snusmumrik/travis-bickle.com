@@ -2,6 +2,18 @@ ja:
   activerecord:
     models:
       user: "ユーザー"
+      active_admin/comment: active_admin/comment  #g
+      admin_user: admin_user  #g
+      car: car  #g
+      check_point: check_point  #g
+      driver: driver  #g
+      report: report  #g
+      break: break  #g
+      image: image  #g
+      image/user_image: image/user_image  #g
+      location: location  #g
+      meter: meter  #g
+      ride: ride  #g
 
     attributes:
       user:
@@ -24,6 +36,98 @@ ja:
         confirmation_token: confirmation_token  #g
         confirmed_at: confirmed_at  #g
         confirmation_sent_at: confirmation_sent_at  #g
+        deleted_at: deleted_at  #g
+        images: images  #g
+
+      active_admin/comment:
+        author_type: author_type  #g
+        body: body  #g
+        namespace: namespace  #g
+        resource: resource  #g
+        author: author  #g
+
+      admin_user:
+        encrypted_password: encrypted_password  #g
+        reset_password_token: reset_password_token  #g
+        reset_password_sent_at: reset_password_sent_at  #g
+        remember_created_at: remember_created_at  #g
+        current_sign_in_at: current_sign_in_at  #g
+        last_sign_in_at: last_sign_in_at  #g
+        current_sign_in_ip: current_sign_in_ip  #g
+        last_sign_in_ip: last_sign_in_ip  #g
+
+      car:
+        model: model  #g
+        base_fare: base_fare  #g
+        meter_fare: meter_fare  #g
+        deleted_at: deleted_at  #g
+        user: user  #g
+
+      check_point:
+        deleted_at: deleted_at  #g
+        user: user  #g
+
+      driver:
+        birthday: birthday  #g
+        blood_type: blood_type  #g
+        licence_number: licence_number  #g
+        start_working_at: start_working_at  #g
+        deleted_at: deleted_at  #g
+        user: user  #g
+
+      report:
+        riding_mileage: riding_mileage  #g
+        riding_rate: riding_rate  #g
+        passengers: passengers  #g
+        sales: sales  #g
+        sales_par_kilometer: sales_par_kilometer  #g
+        fuel_cost: fuel_cost  #g
+        ticket: ticket  #g
+        account_receivable: account_receivable  #g
+        cash: cash  #g
+        surplus_funds: surplus_funds  #g
+        deficiency_account: deficiency_account  #g
+        advance: advance  #g
+        deleted_at: deleted_at  #g
+        driver: driver  #g
+
+      break:
+        longitude: longitude  #g
+        ended_at: ended_at  #g
+        deleted_at: deleted_at  #g
+        report: report  #g
+
+      image:
+        image_file_name: image_file_name  #g
+        image_content_type: image_content_type  #g
+        image_file_size: image_file_size  #g
+        image_updated_at: image_updated_at  #g
+        parent: parent  #g
+
+      image/user_image:
+        image_file_name: image_file_name  #g
+        image_content_type: image_content_type  #g
+        image_file_size: image_file_size  #g
+        image_updated_at: image_updated_at  #g
+        parent: parent  #g
+
+      location:
+        longitude: longitude  #g
+        car: car  #g
+
+      meter:
+        mileage: mileage  #g
+        riding_mileage: riding_mileage  #g
+        car: car  #g
+
+      ride:
+        ride_longitude: ride_longitude  #g
+        leave_latitude: leave_latitude  #g
+        leave_longitude: leave_longitude  #g
+        passengers: passengers  #g
+        fare: fare  #g
+        deleted_at: deleted_at  #g
+        report: report  #g
 
   label:
     error: "エラー"
@@ -44,3 +148,12 @@ ja:
       reset_password: "パスワードの再設定"
       forgot_password: "パスワードをお忘れですか？"
       resend_confirmation: "登録メールの再送"
+
+  resource_type: resource_type  #g
+  email: email  #g
+  name: name  #g
+  mileage: mileage  #g
+  latitude: latitude  #g
+  parent_type: parent_type  #g
+  meter: meter  #g
+  ride_latitude: ride_latitude  #g

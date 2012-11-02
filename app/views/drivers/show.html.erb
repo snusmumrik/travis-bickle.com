@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @driver.user %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @driver.name %>
+</p>
+
+<p>
+  <b>Birthday:</b>
+  <%= @driver.birthday %>
+</p>
+
+<p>
+  <b>Blood type:</b>
+  <%= @driver.blood_type %>
+</p>
+
+<p>
+  <b>Licence number:</b>
+  <%= @driver.licence_number %>
+</p>
+
+<p>
+  <b>Start working at:</b>
+  <%= @driver.start_working_at %>
+</p>
+
+<p>
+  <b>Deleted at:</b>
+  <%= @driver.deleted_at %>
+</p>
+
+
+<%= link_to 'Edit', edit_driver_path(@driver) %> |
+<%= link_to 'Back', drivers_path %>

@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @car.user %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @car.name %>
+</p>
+
+<p>
+  <b>Car_Type:</b>
+  <%= @car.car_type %>
+</p>
+
+<p>
+  <b>Car_Modle:</b>
+  <%= @car.model %>
+</p>
+
+<p>
+  <b>Base fare:</b>
+  <%= @car.base_fare %>
+</p>
+
+<p>
+  <b>Meter fare:</b>
+  <%= @car.meter_fare %>
+</p>
+
+<p>
+  <b>Deleted at:</b>
+  <%= @car.deleted_at %>
+</p>
+
+
+<%= link_to 'Edit', edit_car_path(@car) %> |
+<%= link_to 'Back', cars_path %>

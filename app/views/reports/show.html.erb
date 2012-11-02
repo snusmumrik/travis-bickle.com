@@ -1,0 +1,90 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Driver:</b>
+  <%= @report.driver %>
+</p>
+
+<p>
+  <b>Mileage:</b>
+  <%= @report.mileage %>
+</p>
+
+<p>
+  <b>Riding mileage:</b>
+  <%= @report.riding_mileage %>
+</p>
+
+<p>
+  <b>Riding rate:</b>
+  <%= @report.riding_rate %>
+</p>
+
+<p>
+  <b>Riding count:</b>
+  <%= @report.riding_count %>
+</p>
+
+<p>
+  <b>Meter fare count:</b>
+  <%= @report.meter_fare_count %>
+</p>
+
+<p>
+  <b>Passengers:</b>
+  <%= @report.passengers %>
+</p>
+
+<p>
+  <b>Sales:</b>
+  <%= @report.sales %>
+</p>
+
+<p>
+  <b>Sales par kilometer:</b>
+  <%= @report.sales_par_kilometer %>
+</p>
+
+<p>
+  <b>Fuel cost:</b>
+  <%= @report.fuel_cost %>
+</p>
+
+<p>
+  <b>Ticket:</b>
+  <%= @report.ticket %>
+</p>
+
+<p>
+  <b>Account receivable:</b>
+  <%= @report.account_receivable %>
+</p>
+
+<p>
+  <b>Cash:</b>
+  <%= @report.cash %>
+</p>
+
+<p>
+  <b>Surplus funds:</b>
+  <%= @report.surplus_funds %>
+</p>
+
+<p>
+  <b>Deficiency account:</b>
+  <%= @report.deficiency_account %>
+</p>
+
+<p>
+  <b>Advance:</b>
+  <%= @report.advance %>
+</p>
+
+<p>
+  <b>Deleted at:</b>
+  <%= @report.deleted_at %>
+</p>
+
+
+<%= link_to 'Edit', edit_report_path(@report) %> |
+<%= link_to 'Back', reports_path %>

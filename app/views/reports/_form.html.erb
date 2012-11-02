@@ -1,0 +1,85 @@
+<%= form_for(@report) do |f| %>
+  <% if @report.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@report.errors.count, "error") %> prohibited this report from being saved:</h2>
+
+      <ul>
+      <% @report.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :driver %><br />
+    <%= f.text_field :driver %>
+  </div>
+  <div class="field">
+    <%= f.label :mileage %><br />
+    <%= f.number_field :mileage %>
+  </div>
+  <div class="field">
+    <%= f.label :riding_mileage %><br />
+    <%= f.number_field :riding_mileage %>
+  </div>
+  <div class="field">
+    <%= f.label :riding_rate %><br />
+    <%= f.text_field :riding_rate %>
+  </div>
+  <div class="field">
+    <%= f.label :riding_count %><br />
+    <%= f.number_field :riding_count %>
+  </div>
+  <div class="field">
+    <%= f.label :meter_fare_count %><br />
+    <%= f.number_field :meter_fare_count %>
+  </div>
+  <div class="field">
+    <%= f.label :passengers %><br />
+    <%= f.number_field :passengers %>
+  </div>
+  <div class="field">
+    <%= f.label :sales %><br />
+    <%= f.number_field :sales %>
+  </div>
+  <div class="field">
+    <%= f.label :sales_par_kilometer %><br />
+    <%= f.number_field :sales_par_kilometer %>
+  </div>
+  <div class="field">
+    <%= f.label :fuel_cost %><br />
+    <%= f.number_field :fuel_cost %>
+  </div>
+  <div class="field">
+    <%= f.label :ticket %><br />
+    <%= f.number_field :ticket %>
+  </div>
+  <div class="field">
+    <%= f.label :account_receivable %><br />
+    <%= f.number_field :account_receivable %>
+  </div>
+  <div class="field">
+    <%= f.label :cash %><br />
+    <%= f.number_field :cash %>
+  </div>
+  <div class="field">
+    <%= f.label :surplus_funds %><br />
+    <%= f.number_field :surplus_funds %>
+  </div>
+  <div class="field">
+    <%= f.label :deficiency_account %><br />
+    <%= f.number_field :deficiency_account %>
+  </div>
+  <div class="field">
+    <%= f.label :advance %><br />
+    <%= f.number_field :advance %>
+  </div>
+  <div class="field">
+    <%= f.label :deleted_at %><br />
+    <%= f.datetime_select :deleted_at %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
