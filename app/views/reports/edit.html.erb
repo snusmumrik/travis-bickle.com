@@ -1,6 +1,6 @@
-<h1>Editing report</h1>
+<h1><%= t("activerecord.models.report") %><%= t("link.edit") %></h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @report %> |
-<%= link_to 'Back', reports_path %>
+<%= link_to t("link.show"), @report %> |
+<%= link_to t("link.back"), reports_path %>

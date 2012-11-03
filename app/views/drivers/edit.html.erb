@@ -1,6 +1,6 @@
-<h1>Editing driver</h1>
+<h1><%= t("activerecord.models.driver") %><%= t("link.edit") %></h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @driver %> |
-<%= link_to 'Back', drivers_path %>
+<%= link_to t("link.show"), @driver %> |
+<%= link_to t("link.back"), drivers_path %>

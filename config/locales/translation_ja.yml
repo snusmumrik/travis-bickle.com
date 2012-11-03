@@ -1,30 +1,30 @@
 ja:
   activerecord:
     models:
-      user: "ユーザー"
+      user: ユーザー
       active_admin/comment: active_admin/comment  #g
       admin_user: admin_user  #g
-      car: car  #g
-      check_point: check_point  #g
-      driver: driver  #g
-      report: report  #g
-      break: break  #g
+      car: 車両
+      check_point: 点検項目
+      driver: 運転手
+      report: 乗務記録
+      break: 休憩
       image: image  #g
       image/user_image: image/user_image  #g
-      location: location  #g
-      meter: meter  #g
-      ride: ride  #g
+      location: 位置情報
+      meter: メーター
+      ride: 乗車記録
 
     attributes:
       user:
-        username: "ユーザーネーム"
-        image: "アバター"
-        email: "メールアドレス"
-        signin: "ユーザーネーム / メールアドレス"
-        password: "パスワード"
-        current_password: "現在のパスワード"
-        password_confirmation: "パスワードの確認"
-        remember_me: "サインイン状態を維持"
+        username: ユーザーネーム
+        image: アバター
+        email: メールアドレス
+        signin: ユーザーネーム / メールアドレス
+        password: パスワード
+        current_password: 現在のパスワード
+        password_confirmation: パスワードの確認
+        remember_me: サインイン状態を維持
         encrypted_password: encrypted_password  #g
         reset_password_token: reset_password_token  #g
         reset_password_sent_at: reset_password_sent_at  #g
@@ -57,39 +57,39 @@ ja:
         last_sign_in_ip: last_sign_in_ip  #g
 
       car:
-        model: model  #g
-        base_fare: base_fare  #g
-        meter_fare: meter_fare  #g
-        deleted_at: deleted_at  #g
-        user: user  #g
+        name: 車両番号
+        car_type: 車両種類
+        car_model: 年式
+        base_fare: 初乗料金
+        meter_fare: メーター料金
 
       check_point:
-        deleted_at: deleted_at  #g
-        user: user  #g
+        name: "点検項目"
 
       driver:
-        birthday: birthday  #g
-        blood_type: blood_type  #g
-        licence_number: licence_number  #g
-        start_working_at: start_working_at  #g
-        deleted_at: deleted_at  #g
-        user: user  #g
+        name: 氏名
+        birthday: 生年月日
+        blood_type: 血液型
+        licence_number: 免許書番号
+        start_working_at: 入社日
 
       report:
-        riding_mileage: riding_mileage  #g
-        riding_rate: riding_rate  #g
-        passengers: passengers  #g
-        sales: sales  #g
-        sales_par_kilometer: sales_par_kilometer  #g
-        fuel_cost: fuel_cost  #g
-        ticket: ticket  #g
-        account_receivable: account_receivable  #g
-        cash: cash  #g
-        surplus_funds: surplus_funds  #g
-        deficiency_account: deficiency_account  #g
-        advance: advance  #g
-        deleted_at: deleted_at  #g
-        driver: driver  #g
+        mileage: 走行距離
+        riding_mileage: 乗車距離
+        riding_rate: 実車率
+        riding_count: 乗車回数
+        meter_fare_count: 爾後回数
+        passengers: 乗車人数
+        sales: 収入
+        sales_par_kilometer: Km当り収入
+        fuel_cost: 燃料費
+        ticket: チケット
+        account_receivable: 未収金
+        cash: 現金
+        surplus_funds: 過剰金
+        deficiency_account: 不足金
+        advance: 前渡金
+        driver: 運転手
 
       break:
         longitude: longitude  #g
@@ -130,24 +130,25 @@ ja:
         report: report  #g
 
   label:
-    error: "エラー"
+    error: エラー
 
   link:
-    index: "一覧"
-    new: "新規作成"
-    show: "詳細"
-    edit: "編集"
-    destroy: "削除"
-    back: "戻る"
+    index: 一覧
+    new: 新規作成
+    show: 詳細
+    edit: 編集
+    destroy: 削除
+    back: 戻る
+    contact: お問合せ
 
     user:
-      signin: "サインイン"
-      signout: "サインアウト"
-      signup: "サインアップ"
-      change_password: "パスワードの変更"
-      reset_password: "パスワードの再設定"
-      forgot_password: "パスワードをお忘れですか？"
-      resend_confirmation: "登録メールの再送"
+      signin: サインイン
+      signout: サインアウト
+      signup: サインアップ
+      change_password: パスワードの変更
+      reset_password: パスワードの再設定
+      forgot_password: パスワードをお忘れですか？
+      resend_confirmation: 登録メールの再送
 
   resource_type: resource_type  #g
   email: email  #g

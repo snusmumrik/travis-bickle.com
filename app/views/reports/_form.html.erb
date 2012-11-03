@@ -13,7 +13,8 @@
 
   <div class="field">
     <%= f.label :driver %><br />
-    <%= f.text_field :driver %>
+    <%= f.select :driver_id, options_for_select(@drivers_option) %>
+    <%#= f.select :driver_id, options_from_collection_for_select(Driver.all, :id, :name) %>
   </div>
   <div class="field">
     <%= f.label :mileage %><br />
@@ -74,10 +75,6 @@
   <div class="field">
     <%= f.label :advance %><br />
     <%= f.number_field :advance %>
-  </div>
-  <div class="field">
-    <%= f.label :deleted_at %><br />
-    <%= f.datetime_select :deleted_at %>
   </div>
   <div class="actions">
     <%= f.submit %>

@@ -1,14 +1,12 @@
-<h1>Listing cars</h1>
+<h1><%= t("activerecord.models.car") %><%=  t("link.index") %></h1>
 
 <table>
   <tr>
-    <th>User</th>
-    <th>Name</th>
-    <th>Car_Type</th>
-    <th>Car_Modle</th>
-    <th>Base fare</th>
-    <th>Meter fare</th>
-    <th>Deleted at</th>
+    <th><%=t("activerecord.attributes.car.name") %></th>
+    <th><%=t("activerecord.attributes.car.car_type") %></th>
+    <th><%=t("activerecord.attributes.car.car_model") %></th>
+    <th><%=t("activerecord.attributes.car.base_fare") %></th>
+    <th><%=t("activerecord.attributes.car.meter_fare") %></th>
     <th></th>
     <th></th>
     <th></th>
@@ -16,20 +14,18 @@
 
 <% @cars.each do |car| %>
   <tr>
-    <td><%= car.user %></td>
     <td><%= car.name %></td>
     <td><%= car.car_type %></td>
-    <td><%= car.car_modle %></td>
+    <td><%= car.car_model %></td>
     <td><%= car.base_fare %></td>
     <td><%= car.meter_fare %></td>
-    <td><%= car.deleted_at %></td>
-    <td><%= link_to 'Show', car %></td>
-    <td><%= link_to 'Edit', edit_car_path(car) %></td>
-    <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to t("link.show"), car %></td>
+    <td><%= link_to t("link.edit"), edit_car_path(car) %></td>
+    <td><%= link_to t("link.destroy"), car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Car', new_car_path %>
+<%= link_to t("link.new"), new_car_path %>

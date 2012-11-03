@@ -1,40 +1,30 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>User:</b>
-  <%= @car.user %>
-</p>
-
-<p>
-  <b>Name:</b>
+  <b><%=t("activerecord.attributes.car.name") %></b>
   <%= @car.name %>
 </p>
 
 <p>
-  <b>Car_Type:</b>
+  <b><%=t("activerecord.attributes.car.car_type") %></b>
   <%= @car.car_type %>
 </p>
 
 <p>
-  <b>Car_Modle:</b>
-  <%= @car.model %>
+  <b><%=t("activerecord.attributes.car.car_model") %></b>
+  <%= @car.car_model %>
 </p>
 
 <p>
-  <b>Base fare:</b>
+  <b><%=t("activerecord.attributes.car.base_fare") %></b>
   <%= @car.base_fare %>
 </p>
 
 <p>
-  <b>Meter fare:</b>
+  <b><%=t("activerecord.attributes.car.meter_fare") %></b>
   <%= @car.meter_fare %>
 </p>
 
-<p>
-  <b>Deleted at:</b>
-  <%= @car.deleted_at %>
-</p>
 
-
-<%= link_to 'Edit', edit_car_path(@car) %> |
-<%= link_to 'Back', cars_path %>
+<%= link_to t("link.edit"), edit_car_path(@car) %> |
+<%= link_to t("link.back"), cars_path %>

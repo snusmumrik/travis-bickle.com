@@ -1,40 +1,30 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>User:</b>
-  <%= @driver.user %>
-</p>
-
-<p>
-  <b>Name:</b>
+  <b><%=t "activerecord.attributes.driver.name" %></b>
   <%= @driver.name %>
 </p>
 
 <p>
-  <b>Birthday:</b>
+  <b><%=t "activerecord.attributes.driver.birthday" %></b>
   <%= @driver.birthday %>
 </p>
 
 <p>
-  <b>Blood type:</b>
+  <b><%=t "activerecord.attributes.driver.blood_type" %></b>
   <%= @driver.blood_type %>
 </p>
 
 <p>
-  <b>Licence number:</b>
+  <b><%=t "activerecord.attributes.driver.licence_number" %></b>
   <%= @driver.licence_number %>
 </p>
 
 <p>
-  <b>Start working at:</b>
+  <b><%=t "activerecord.attributes.driver.start_working_at" %></b>
   <%= @driver.start_working_at %>
 </p>
 
-<p>
-  <b>Deleted at:</b>
-  <%= @driver.deleted_at %>
-</p>
 
-
-<%= link_to 'Edit', edit_driver_path(@driver) %> |
-<%= link_to 'Back', drivers_path %>
+<%= link_to t("link.edit"), edit_driver_path(@driver) %> |
+<%= link_to t("link.back"), drivers_path %>

@@ -1,90 +1,85 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Driver:</b>
-  <%= @report.driver %>
+  <b><%=t "activerecord.attributes.report.driver" %></b>
+  <%= @report.driver.name %>
 </p>
 
 <p>
-  <b>Mileage:</b>
+  <b><%=t "activerecord.attributes.report.mileage" %></b>
   <%= @report.mileage %>
 </p>
 
 <p>
-  <b>Riding mileage:</b>
+  <b><%=t "activerecord.attributes.report.riding_mileage" %></b>
   <%= @report.riding_mileage %>
 </p>
 
 <p>
-  <b>Riding rate:</b>
+  <b><%=t "activerecord.attributes.report.riding_rate" %></b>
   <%= @report.riding_rate %>
 </p>
 
 <p>
-  <b>Riding count:</b>
+  <b><%=t "activerecord.attributes.report.riding_count" %></b>
   <%= @report.riding_count %>
 </p>
 
 <p>
-  <b>Meter fare count:</b>
+  <b><%=t "activerecord.attributes.report.meter_fare_count" %></b>
   <%= @report.meter_fare_count %>
 </p>
 
 <p>
-  <b>Passengers:</b>
+  <b><%=t "activerecord.attributes.report.passengers" %></b>
   <%= @report.passengers %>
 </p>
 
 <p>
-  <b>Sales:</b>
+  <b><%=t "activerecord.attributes.report.sales" %></b>
   <%= @report.sales %>
 </p>
 
 <p>
-  <b>Sales par kilometer:</b>
+  <b><%=t "activerecord.attributes.report.sales_par_kilometer" %></b>
   <%= @report.sales_par_kilometer %>
 </p>
 
 <p>
-  <b>Fuel cost:</b>
+  <b><%=t "activerecord.attributes.report.fuel_cost" %></b>
   <%= @report.fuel_cost %>
 </p>
 
 <p>
-  <b>Ticket:</b>
+  <b><%=t "activerecord.attributes.report.ticket" %></b>
   <%= @report.ticket %>
 </p>
 
 <p>
-  <b>Account receivable:</b>
+  <b><%=t "activerecord.attributes.report.account_receivable" %></b>
   <%= @report.account_receivable %>
 </p>
 
 <p>
-  <b>Cash:</b>
+  <b><%=t "activerecord.attributes.report.cash" %></b>
   <%= @report.cash %>
 </p>
 
 <p>
-  <b>Surplus funds:</b>
+  <b><%=t "activerecord.attributes.report.surplus_funds" %></b>
   <%= @report.surplus_funds %>
 </p>
 
 <p>
-  <b>Deficiency account:</b>
+  <b><%=t "activerecord.attributes.report.deficiency_account" %></b>
   <%= @report.deficiency_account %>
 </p>
 
 <p>
-  <b>Advance:</b>
+  <b><%=t "activerecord.attributes.report.advance" %></b>
   <%= @report.advance %>
 </p>
 
-<p>
-  <b>Deleted at:</b>
-  <%= @report.deleted_at %>
-</p>
 
-
-<%= link_to 'Edit', edit_report_path(@report) %> |
-<%= link_to 'Back', reports_path %>
+<%= link_to t("link.edit"), edit_report_path(@report) %> |
+<%= link_to t("link.back"), reports_path %>

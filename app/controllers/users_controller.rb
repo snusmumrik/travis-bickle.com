@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.where("deleted_at IS NULL").page params[:page]
+    @user = current_user
 
     respond_to do |format|
       format.html # index.html.erb

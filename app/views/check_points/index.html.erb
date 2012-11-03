@@ -1,10 +1,8 @@
-<h1>Listing check_points</h1>
+<h1><%= t("activerecord.models.check_point") %><%= t("link.index") %></h1>
 
 <table>
   <tr>
-    <th>User</th>
-    <th>Name</th>
-    <th>Deleted at</th>
+    <th><%=t "activerecord.attributes.check_point.name" %></th>
     <th></th>
     <th></th>
     <th></th>
@@ -12,16 +10,14 @@
 
 <% @check_points.each do |check_point| %>
   <tr>
-    <td><%= check_point.user %></td>
     <td><%= check_point.name %></td>
-    <td><%= check_point.deleted_at %></td>
-    <td><%= link_to 'Show', check_point %></td>
-    <td><%= link_to 'Edit', edit_check_point_path(check_point) %></td>
-    <td><%= link_to 'Destroy', check_point, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to t("link.show"), check_point %></td>
+    <td><%= link_to t("link.edit"), edit_check_point_path(check_point) %></td>
+    <td><%= link_to t("link.destroy"), check_point, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Check point', new_check_point_path %>
+<%= link_to t("link.new"), new_check_point_path %>

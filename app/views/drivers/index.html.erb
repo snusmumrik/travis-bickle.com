@@ -1,14 +1,12 @@
-<h1>Listing drivers</h1>
+<h1><%= t("activerecord.models.driver") %><%= t("link.index") %></h1>
 
 <table>
   <tr>
-    <th>User</th>
-    <th>Name</th>
-    <th>Birthday</th>
-    <th>Blood type</th>
-    <th>Licence number</th>
-    <th>Start working at</th>
-    <th>Deleted at</th>
+    <th><%=t "activerecord.attributes.driver.name" %></th>
+    <th><%=t "activerecord.attributes.driver.birthday" %></th>
+    <th><%=t "activerecord.attributes.driver.blood_type" %></th>
+    <th><%=t "activerecord.attributes.driver.licence_number" %></th>
+    <th><%=t "activerecord.attributes.driver.start_working_at" %></th>
     <th></th>
     <th></th>
     <th></th>
@@ -16,20 +14,18 @@
 
 <% @drivers.each do |driver| %>
   <tr>
-    <td><%= driver.user %></td>
     <td><%= driver.name %></td>
     <td><%= driver.birthday %></td>
     <td><%= driver.blood_type %></td>
     <td><%= driver.licence_number %></td>
     <td><%= driver.start_working_at %></td>
-    <td><%= driver.deleted_at %></td>
-    <td><%= link_to 'Show', driver %></td>
-    <td><%= link_to 'Edit', edit_driver_path(driver) %></td>
-    <td><%= link_to 'Destroy', driver, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to t("link.show"), driver %></td>
+    <td><%= link_to t("link.edit"), edit_driver_path(driver) %></td>
+    <td><%= link_to t("link.destroy"), driver, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Driver', new_driver_path %>
+<%= link_to t("link.new"), new_driver_path %>

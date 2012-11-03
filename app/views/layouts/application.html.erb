@@ -43,13 +43,15 @@
           <a class="brand" href="/">TaxiDriver</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <% unless params[:id] %><li class="active"><% else %><li><% end %><%= link_to t("home"), root_path %></li>
-              <% if params[:id] == "about" %><li class="active"><% else %><li><% end %><%= link_to t("about"), "/fluid" %></li>
-              <% if params[:id] == "contact" %><li class="active"><% else %><li><% end %><%= link_to t("contact"), "/fluid" %></li>
+              <% if params[:id] == "cars" %><li class="active"><% else %><li><% end %><%= link_to t("activerecord.models.car"), cars_path %></li>
+              <% if params[:id] == "drivers" %><li class="active"><% else %><li><% end %><%= link_to t("activerecord.models.driver"), drivers_path %></li>
+              <% if params[:id] == "check_points" %><li class="active"><% else %><li><% end %><%= link_to t("activerecord.models.check_point"), check_points_path %></li>
+              <% if params[:id] == "reports" %><li class="active"><% else %><li><% end %><%= link_to t("activerecord.models.report"), reports_path %></li>
+              <% if params[:id] == "contact" %><li class="active"><% else %><li><% end %><%= link_to t("link.contact"), "/fluid" %></li>
             </ul>
             <% if user_signed_in? %>
-              <p class="navbar-text pull-right">Signed in as <%= link_to current_user.username, user_path(current_user.username) %></a>
-              <p class="navbar-text pull-right"><%= link_to(t("link.user.signout"), destroy_user_session_path, :method => :delete) %></p>
+              <p class="navbar-text pull-right"><%= link_to(t("link.user.signout"), destroy_user_session_path, :metho => :delete) %></p>
+              <p class="navbar-text pull-right"><%= link_to current_user.username, user_path(current_user.username) %></a>
             <% else %>
               <p class="navbar-text pull-right"><%= link_to t("link.user.signup"), new_user_registration_path %></p>
               <p class="navbar-text pull-right"><%= link_to t("link.user.signin"), new_user_session_path %></p>
