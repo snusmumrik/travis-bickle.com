@@ -1,0 +1,24 @@
+// Place all the styles related to the locations controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#map img {
+  max-width: none;
+}
+
+#map label {
+  width: auto; display:inline;
+}
+
+.gmaps4rails_map {
+    height: 600px;
+    width: 100%;
+}
+
+.map_container {
+    width: 100%;
+}
+
+.container {
+    width: 90%;
+}

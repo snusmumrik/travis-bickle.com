@@ -1,0 +1,32 @@
+<%#= gmaps4rails(@json) %>
+<%= gmaps(:map_options => {:language => "ja"},
+          :markers => {
+            :data => @json,
+            :options => {:raw => "{animation:google.maps.Animation.BOUNCE}"}
+          }) %>
+
+<table>
+  <tr>
+    <th><%=t "activerecord.attributes.location.car" %></th>
+    <th><%=t "activerecord.attributes.location.address" %></th>
+    <th><%=t "activerecord.attributes.location.updated_at" %></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @locations.each do |location| %>
+  <tr>
+    <td><%= location.car.name %></td>
+    <td><%= location.address %></td>
+    <td><%= location.updated_at.strftime("%Y/%m/%d %H:%M:%S") %></td>
+    <td><%= link_to t("link.show"), location %></td>
+    <td><%= link_to t("link.edit"), edit_location_path(location) %></td>
+    <td><%= link_to t("link.destroy"), location, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to t("link.new"), new_location_path %>

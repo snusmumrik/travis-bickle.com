@@ -112,8 +112,9 @@ ja:
         parent: parent  #g
 
       location:
-        longitude: longitude  #g
-        car: car  #g
+        car: 車両
+        address: 現在地
+        updated_at: 更新時間
 
       meter:
         mileage: mileage  #g

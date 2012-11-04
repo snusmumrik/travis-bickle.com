@@ -1,4 +1,6 @@
 TaxiDriver::Application.routes.draw do
+  resources :locations
+
   resources :check_points
 
   resources :reports
@@ -71,7 +73,7 @@ TaxiDriver::Application.routes.draw do
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   # root :to => 'welcome#index'
-  root :to => 'contents#hero'
+  root :to => 'locations#index'
 
   # See how all your routes lay out with "rake routes"
 

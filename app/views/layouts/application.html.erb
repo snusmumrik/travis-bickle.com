@@ -83,5 +83,6 @@
     </div> <!-- /container -->
 
     <%= javascript_include_tag "application" %>
+    <% if controller.controller_name == "locations" %><%= yield :scripts %><% end %>
   </body>
 </html>
