@@ -62,6 +62,25 @@ class ReportsController < InheritedResources::Base
     end
   end
 
+  # GET /reports/1
+  # GET /reports/1.json
+  def show
+    @report = Report.find(params[:id])
+    @estimated_rest = 0
+
+    @report.rests.each do |rest|
+      @estimated_rest += rest.ended_at - rest.started_at
+    end
+    hours = @estimated_rest.divmod(60*60) #=> [12.0, 1800.0]
+    mins = hours[1].divmod(60) #=> [30.0, 0.0]
+    @estimated_time = "#{hours[0].to_i}時間#{mins[0].to_i}分#{mins[1].ceil}秒"
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @report }
+    end
+  end
+
   # GET /reports/new
   # GET /reports/new.json
   def new
