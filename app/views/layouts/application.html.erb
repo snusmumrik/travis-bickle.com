@@ -50,11 +50,11 @@
               <% if params[:id] == "contact" %><li class="active"><% else %><li><% end %><%= link_to t("link.contact"), "/fluid" %></li>
             </ul>
             <% if user_signed_in? %>
-              <p class="navbar-text pull-right"><%= link_to(t("link.user.signout"), destroy_user_session_path, :metho => :delete) %></p>
-              <p class="navbar-text pull-right"><%= link_to current_user.username, user_path(current_user.username) %></a>
+              <div class="navbar-text pull-right span2"><%= link_to(t("link.user.signout"), destroy_user_session_path, :method => :delete) %></div>
+              <div class="navbar-text pull-right"><%= link_to current_user.username, user_path(current_user.username) %></div>
             <% else %>
-              <p class="navbar-text pull-right"><%= link_to t("link.user.signup"), new_user_registration_path %></p>
-              <p class="navbar-text pull-right"><%= link_to t("link.user.signin"), new_user_session_path %></p>
+              <div class="navbar-text pull-right span2"><%= link_to t("link.user.signup"), new_user_registration_path %></div>
+              <div class="navbar-text pull-right"><%= link_to t("link.user.signin"), new_user_session_path %></div>
             <% end %>
           </div><!--/.nav-collapse -->
         </div>
@@ -78,7 +78,7 @@
 
       <hr>
       <footer>
-        <p>&copy; <%= Date.today.year %></p>
+        <div class="span3 offset6">&copy; <%= Date.today.year %> Chishaku.com</div>
       </footer>
     </div> <!-- /container -->
 

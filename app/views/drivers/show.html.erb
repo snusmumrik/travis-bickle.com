@@ -1,30 +1,31 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b><%=t "activerecord.attributes.driver.name" %></b>
-  <%= @driver.name %>
-</p>
+<table class="table table-striped table-bordered table-hover table-narrow">
+  <tr>
+    <th><%=t "activerecord.attributes.driver.name" %></th>
+    <td><%= @driver.name %></td>
+  </tr>
 
-<p>
-  <b><%=t "activerecord.attributes.driver.birthday" %></b>
-  <%= @driver.birthday %>
-</p>
+  <tr>
+    <th><%=t "activerecord.attributes.driver.birthday" %></th>
+    <td><%= @driver.birthday %></td>
+  </tr>
 
-<p>
-  <b><%=t "activerecord.attributes.driver.blood_type" %></b>
-  <%= @driver.blood_type %>
-</p>
+  <tr>
+    <th><%=t "activerecord.attributes.driver.blood_type" %></th>
+    <td><%= @driver.blood_type %></td>
+  </tr>
 
-<p>
-  <b><%=t "activerecord.attributes.driver.licence_number" %></b>
-  <%= @driver.licence_number %>
-</p>
+  <tr>
+    <th><%=t "activerecord.attributes.driver.licence_number" %></th>
+    <td><%= @driver.licence_number %></td>
+  </tr>
 
-<p>
-  <b><%=t "activerecord.attributes.driver.start_working_at" %></b>
-  <%= @driver.start_working_at %>
-</p>
-
+  <tr>
+    <th><%=t "activerecord.attributes.driver.start_working_at" %></th>
+    <td><%= @driver.start_working_at %></td>
+  </tr>
+</table>
 
 <%= link_to t("link.edit"), edit_driver_path(@driver) %> |
 <%= link_to t("link.back"), drivers_path %>

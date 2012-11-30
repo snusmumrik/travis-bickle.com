@@ -1,6 +1,6 @@
 <h1><%= t("activerecord.models.report") %><%= t("link.index") %></h1>
 
-<table>
+<table class="table table-striped table-bordered table-hover">
   <tr>
     <th><%=t "activerecord.attributes.report.driver" %></th>
     <th><%=t "activerecord.attributes.report.mileage" %></th>
@@ -50,4 +50,4 @@
 
 <br />
 
-<%= link_to t("link.new"), new_report_path %>
+<%= link_to t("link.new"), new_report_path, :class => "btn" %>

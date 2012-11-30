@@ -2,7 +2,7 @@
 
 <p>
   <b>Car:</b>
-  <%= @location.car %>
+  <%= @location.car.name %>
 </p>
 
 <p>
@@ -26,5 +26,5 @@
 </p>
 
 
-<%= link_to 'Edit', edit_location_path(@location) %> |
-<%= link_to 'Back', locations_path %>
+<%= link_to t("link.edit"), edit_location_path(@location) %> |
+<%= link_to t("link.back"), locations_path %>
