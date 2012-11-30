@@ -1,5 +1,22 @@
-# -*- coding: utf-8 -*-
 class LocationsController < InheritedResources::Base
+  before_filter :authenticate_user!, :except => :api_update
+
+  # PUT /locations/api_update
+  # PUT /locations/api_update.json
+  def api_update
+    @location = Location.where(["car_id = ?", params[:car_id]]).first || Location.new(:car_id => params[:car_id])
+
+    @location.latitude = params[:latitude]
+    @location.longitude = params[:longitude]
+
+    respond_to do |format|
+      if @location.save
+        format.json { render json: @location, status: :created, location: @location }
+      else
+        format.json { render json: @location.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   # GET /locations
   # GET /locations.json

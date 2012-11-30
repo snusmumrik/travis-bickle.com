@@ -1,4 +1,16 @@
 class DriversController < InheritedResources::Base
+  before_filter :authenticate_user!, :except => :api
+
+  # GET /drivers
+  # GET /drivers.json
+  def api
+    car = Car.includes(:user).where(["twitter_id = ?", params[:id]]).first
+    @drivers = Driver.where(["user_id = ? AND deleted_at IS NULL", car.user.id]).all
+    respond_to do |format|
+      format.json { render json: @drivers }
+    end
+  end
+
   # POST /drivers
   # POST /drivers.json
   def create

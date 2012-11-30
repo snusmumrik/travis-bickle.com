@@ -1,13 +1,47 @@
 TaxiDriver::Application.routes.draw do
-  resources :locations
+  resources :rests do
+    collection do
+      post "api_create"
+    end
+  end
 
-  resources :check_points
+  resources :locations do
+    collection do
+      put "api_update"
+    end
+  end
 
-  resources :reports
+  resources :rides do
+    collection do
+      post "api_create"
+      put "api_update"
+    end
+  end
 
-  resources :drivers
+  resources :reports do
+    collection do
+      post "api_create"
+      put "api_update"
+    end
+  end
 
-  resources :cars
+  resources :check_points do
+    collection do
+      get "api"
+    end
+  end
+
+  resources :drivers do
+    collection do
+      get "api"
+    end
+  end
+
+  resources :cars do
+    collection do
+      get "api"
+    end
+  end
 
   ActiveAdmin.routes(self)
 
