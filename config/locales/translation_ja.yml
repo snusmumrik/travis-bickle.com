@@ -165,3 +165,6 @@ ja:
   parent_type: parent_type  #g
   meter: meter  #g
   ride_latitude: ride_latitude  #g
+
+  message:
+    created: を登録しました。

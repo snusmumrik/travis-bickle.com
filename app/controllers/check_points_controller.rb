@@ -19,7 +19,7 @@ class CheckPointsController < InheritedResources::Base
 
     respond_to do |format|
       if @check_point.save
-        format.html { redirect_to @check_point, notice: 'Check Point was successfully created.' }
+        format.html { redirect_to @check_point, notice: t("activerecord.models.check_point") + t("message.created") }
         format.json { render json: @check_point, status: :created, location: @check_point }
       else
         format.html { render action: "new" }

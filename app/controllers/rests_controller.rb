@@ -33,7 +33,7 @@ class RestsController < InheritedResources::Base
 
     respond_to do |format|
       if @rest.save
-        format.html { redirect_to report_path @rest.report, notice: 'Rest was successfully created.' }
+        format.html { redirect_to report_path @rest.report, notice: t("activerecord.models.rest") + t("message.created") }
         format.json { render json: @rest, status: :created, location: @rest }
       else
         format.html { render action: "new" }
