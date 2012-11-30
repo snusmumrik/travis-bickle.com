@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b><%=t "activerecord.attributes.driver.name" %></b>
+  <%= @rest.report.driver.name %>
+</p>
+
+<p>
+  <b><%=t "activerecord.attributes.rest.location" %></b>
+  <%= @rest.location %>
+</p>
+
+<p>
+  <b><%=t "activerecord.attributes.rest.started_at" %></b>
+  <%= @rest.started_at %>
+</p>
+
+<p>
+  <b><%=t "activerecord.attributes.rest.ended_at" %></b>
+  <%= @rest.ended_at %>
+</p>
+
+<%= link_to t("link.edit"), edit_rest_path(@rest) %> |
+<%= link_to t("link.back"), rests_path %>

@@ -16,11 +16,6 @@
 </p>
 
 <p>
-  <b><%=t "activerecord.attributes.report.riding_rate" %></b>
-  <%= @report.riding_rate %>
-</p>
-
-<p>
   <b><%=t "activerecord.attributes.report.riding_count" %></b>
   <%= @report.riding_count %>
 </p>
@@ -38,11 +33,6 @@
 <p>
   <b><%=t "activerecord.attributes.report.sales" %></b>
   <%= @report.sales %>
-</p>
-
-<p>
-  <b><%=t "activerecord.attributes.report.sales_par_kilometer" %></b>
-  <%= @report.sales_par_kilometer %>
 </p>
 
 <p>
@@ -80,6 +70,29 @@
   <%= @report.advance %>
 </p>
 
+<% if @report.rests %>
+  <p><%=t "activerecord.models.rest" %></p>
+  <% @report.rests.each do |rest| %>
+    <p>
+      <b><%=t "activerecord.attributes.rest.location" %></b>
+      <%= rest.location %>
+    </p>
+    <p>
+      <b><%=t "activerecord.attributes.rest.started_at" %></b>
+      <%= rest.started_at.strftime("%Y年%m月%d日 %H時%M分") %>
+    </p>
+    <p>
+      <b><%=t "activerecord.attributes.rest.ended_at" %></b>
+      <%= rest.ended_at.strftime("%Y年%m月%d日 %H時%M分") %>
+    </p>
+    <p><%= link_to t("link.edit"), edit_rest_path(rest) %></p>
+  <% end %>
+  <p><%= link_to t("link.new"), "#{new_rest_path}?report_id=#{@report.id}" %></p>
+  <p>
+    <b><%=t "activerecord.attributes.rest.estimated_time" %></b>
+    <%= @estimated_time %>
+  </p>
+<% end %>
 
 <%= link_to t("link.edit"), edit_report_path(@report) %> |
 <%= link_to t("link.back"), reports_path %>

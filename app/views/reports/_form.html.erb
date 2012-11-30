@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= f.label :driver %><br />
-    <%= f.select :driver_id, options_for_select(@drivers_option) %>
+    <%= f.select :driver_id, options_for_select(@drivers_option, @report.driver_id) %>
     <%#= f.select :driver_id, options_from_collection_for_select(Driver.all, :id, :name) %>
   </div>
   <div class="field">
@@ -23,10 +23,6 @@
   <div class="field">
     <%= f.label :riding_mileage %><br />
     <%= f.number_field :riding_mileage %>
-  </div>
-  <div class="field">
-    <%= f.label :riding_rate %><br />
-    <%= f.text_field :riding_rate %>
   </div>
   <div class="field">
     <%= f.label :riding_count %><br />
@@ -43,10 +39,6 @@
   <div class="field">
     <%= f.label :sales %><br />
     <%= f.number_field :sales %>
-  </div>
-  <div class="field">
-    <%= f.label :sales_par_kilometer %><br />
-    <%= f.number_field :sales_par_kilometer %>
   </div>
   <div class="field">
     <%= f.label :fuel_cost %><br />

@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe Break do
+describe Rest do
   pending "add some examples to (or delete) #{__FILE__}"
 end

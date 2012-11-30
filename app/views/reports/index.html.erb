@@ -10,7 +10,7 @@
     <th><%=t "activerecord.attributes.report.meter_fare_count" %></th>
     <th><%=t "activerecord.attributes.report.passengers" %></th>
     <th><%=t "activerecord.attributes.report.sales" %></th>
-    <th><%=t "activerecord.attributes.report.sales_par_kilometer" %></th>
+    <th><%=t "activerecord.attributes.report.sales_per_kilometer" %></th>
     <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
     <th><%=t "activerecord.attributes.report.ticket" %></th>
     <th><%=t "activerecord.attributes.report.account_receivable" %></th>
@@ -28,19 +28,19 @@
     <td><%= report.driver.name %></td>
     <td><%= report.mileage %></td>
     <td><%= report.riding_mileage %></td>
-    <td><%= report.riding_rate %></td>
+    <td><%= number_to_percentage(report.riding_mileage/report.mileage, :precision => 0) rescue "-" %></td>
     <td><%= report.riding_count %></td>
     <td><%= report.meter_fare_count %></td>
     <td><%= report.passengers %></td>
-    <td><%= report.sales %></td>
-    <td><%= report.sales_par_kilometer %></td>
-    <td><%= report.fuel_cost %></td>
-    <td><%= report.ticket %></td>
-    <td><%= report.account_receivable %></td>
-    <td><%= report.cash %></td>
-    <td><%= report.surplus_funds %></td>
-    <td><%= report.deficiency_account %></td>
-    <td><%= report.advance %></td>
+    <td><%= number_to_currency report.sales %></td>
+    <td><%= number_to_currency(report.sales/report.mileage, :precision => 0) rescue "-" %></td>
+    <td><%= number_to_currency report.fuel_cost %></td>
+    <td><%= number_to_currency report.ticket %></td>
+    <td><%= number_to_currency report.account_receivable %></td>
+    <td><%= number_to_currency report.cash %></td>
+    <td><%= number_to_currency report.surplus_funds %></td>
+    <td><%= number_to_currency report.deficiency_account %></td>
+    <td><%= number_to_currency report.advance %></td>
     <td><%= link_to t("link.show"), report %></td>
     <td><%= link_to t("link.edit"), edit_report_path(report) %></td>
     <td><%= link_to t("link.destroy"), report, method: :delete, data: { confirm: 'Are you sure?' } %></td>

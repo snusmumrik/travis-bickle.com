@@ -1,0 +1,29 @@
+<h1><%= t("activerecord.models.rest") %><%= t("link.index") %></h1>
+
+<table class="table table-striped table-bordered table-hover">
+  <tr>
+    <th><%=t "activerecord.attributes.driver.name" %></th>
+    <th><%=t "activerecord.attributes.rest.location" %></th>
+    <th><%=t "activerecord.attributes.rest.started_at" %></th>
+    <th><%=t "activerecord.attributes.rest.ended_at" %></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @rests.each do |rest| %>
+  <tr>
+    <td><%= rest.report.driver.name %></td>
+    <td><%= rest.location %></td>
+    <td><%= rest.started_at %></td>
+    <td><%= rest.ended_at %></td>
+    <td><%= link_to t("link.show"), rest %></td>
+    <td><%= link_to t("link.edit"), edit_rest_path(rest) %></td>
+    <td><%= link_to t("link.destroy"), rest, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to t("link.new"), new_rest_path, :class => "btn" %>

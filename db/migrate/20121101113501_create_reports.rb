@@ -9,7 +9,7 @@ class CreateReports < ActiveRecord::Migration
       t.integer :meter_fare_count
       t.integer :passengers
       t.integer :sales
-      t.integer :sales_par_kilometer
+      t.integer :sales_par_kilometer # wrong spell, "per"
       t.integer :fuel_cost
       t.integer :ticket
       t.integer :account_receivable

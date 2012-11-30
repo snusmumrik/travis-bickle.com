@@ -47,7 +47,7 @@
               <% if params[:id] == "drivers" %><li class="active"><% else %><li><% end %><%= link_to t("activerecord.models.driver"), drivers_path %></li>
               <% if params[:id] == "check_points" %><li class="active"><% else %><li><% end %><%= link_to t("activerecord.models.check_point"), check_points_path %></li>
               <% if params[:id] == "reports" %><li class="active"><% else %><li><% end %><%= link_to t("activerecord.models.report"), reports_path %></li>
-              <% if params[:id] == "contact" %><li class="active"><% else %><li><% end %><%= link_to t("link.contact"), "/fluid" %></li>
+              <li><%= link_to t("link.contact"), "mailto:info@test.com" %></li>
             </ul>
             <% if user_signed_in? %>
               <div class="navbar-text pull-right span2"><%= link_to(t("link.user.signout"), destroy_user_session_path, :method => :delete) %></div>

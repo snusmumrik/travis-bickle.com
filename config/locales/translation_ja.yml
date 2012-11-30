@@ -8,7 +8,7 @@ ja:
       check_point: 点検項目
       driver: 運転手
       report: 乗務記録
-      break: 休憩
+      rest: 休憩
       image: image  #g
       image/user_image: image/user_image  #g
       location: 位置情報
@@ -81,7 +81,7 @@ ja:
         meter_fare_count: 爾後回数
         passengers: 乗車人数
         sales: 収入
-        sales_par_kilometer: Km当り収入
+        sales_per_kilometer: Km当り収入
         fuel_cost: 燃料費
         ticket: チケット
         account_receivable: 未収金
@@ -91,11 +91,13 @@ ja:
         advance: 前渡金
         driver: 運転手
 
-      break:
-        longitude: longitude  #g
-        ended_at: ended_at  #g
-        deleted_at: deleted_at  #g
-        report: report  #g
+      rest:
+        location: 場所
+        latitude: 緯度
+        longitude: 軽度
+        started_at: 開始時間
+        ended_at: 終了時間
+        estimated_time: 合計時間
 
       image:
         image_file_name: image_file_name  #g
