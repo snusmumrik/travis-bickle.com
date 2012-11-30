@@ -62,6 +62,8 @@ ja:
         car_model: 年式
         base_fare: 初乗料金
         meter_fare: メーター料金
+        twitter_id: Twitter ID
+        twitter_name: Twitter Name
 
       check_point:
         name: "点検項目"
@@ -116,6 +118,8 @@ ja:
       location:
         car: 車両
         address: 現在地
+        latitude: 緯度
+        longitude: 軽度
         updated_at: 更新時間
 
       meter:

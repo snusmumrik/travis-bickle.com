@@ -7,6 +7,8 @@
     <th><%=t("activerecord.attributes.car.car_model") %></th>
     <th><%=t("activerecord.attributes.car.base_fare") %></th>
     <th><%=t("activerecord.attributes.car.meter_fare") %></th>
+    <th><%=t("activerecord.attributes.car.twitter_id") %></th>
+    <th><%=t("activerecord.attributes.car.twitter_name") %></th>
     <th></th>
     <th></th>
     <th></th>
@@ -19,6 +21,8 @@
     <td><%= car.car_model %></td>
     <td><%= car.base_fare %></td>
     <td><%= car.meter_fare %></td>
+    <td><%= car.twitter_id %></td>
+    <td><%= car.twitter_name %></td>
     <td><%= link_to t("link.show"), car %></td>
     <td><%= link_to t("link.edit"), edit_car_path(car) %></td>
     <td><%= link_to t("link.destroy"), car, method: :delete, data: { confirm: 'Are you sure?' } %></td>

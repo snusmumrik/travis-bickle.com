@@ -1,30 +1,31 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Car:</b>
-  <%= @location.car.name %>
-</p>
+<table class="table table-striped table-bordered table-hover table-narrow">
+<tr>
+  <th><%=t "activerecord.attributes.location.car" %></th>
+  <td><%= @location.car.name %></td>
+</tr>
 
-<p>
-  <b>Address:</b>
-  <%= @location.address %>
-</p>
+<tr>
+  <th><%=t "activerecord.attributes.location.address" %></th>
+  <td><%= @location.address %></td>
+</tr>
 
-<p>
-  <b>Latitude:</b>
-  <%= @location.latitude %>
-</p>
+<tr>
+  <th><%=t "activerecord.attributes.location.latitude" %></th>
+  <td><%= @location.latitude %></td>
+</tr>
 
-<p>
-  <b>Longitude:</b>
-  <%= @location.longitude %>
-</p>
+<tr>
+  <th><%=t "activerecord.attributes.location.longitude" %></th>
+  <td><%= @location.longitude %></td>
+</tr>
 
-<p>
-  <b>Gmaps:</b>
-  <%= @location.gmaps %>
-</p>
-
+<tr>
+  <th><%=t "activerecord.attributes.location.gmaps" %></th>
+  <td><%= @location.gmaps %></td>
+</tr>
+</table>
 
 <%= link_to t("link.edit"), edit_location_path(@location) %> |
 <%= link_to t("link.back"), locations_path %>

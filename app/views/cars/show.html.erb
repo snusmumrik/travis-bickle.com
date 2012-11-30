@@ -1,30 +1,35 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b><%=t("activerecord.attributes.car.name") %></b>
-  <%= @car.name %>
-</p>
-
-<p>
-  <b><%=t("activerecord.attributes.car.car_type") %></b>
-  <%= @car.car_type %>
-</p>
-
-<p>
-  <b><%=t("activerecord.attributes.car.car_model") %></b>
-  <%= @car.car_model %>
-</p>
-
-<p>
-  <b><%=t("activerecord.attributes.car.base_fare") %></b>
-  <%= @car.base_fare %>
-</p>
-
-<p>
-  <b><%=t("activerecord.attributes.car.meter_fare") %></b>
-  <%= @car.meter_fare %>
-</p>
-
+<table class="table table-striped table-bordered table-hover table-narrow">
+  <tr>
+    <th><%=t("activerecord.attributes.car.name") %></th>
+    <td><%= @car.name %></td>
+  </tr>
+  <tr>
+    <th><%=t("activerecord.attributes.car.car_type") %></th>
+    <td><%= @car.car_type %></td>
+  </tr>
+  <tr>
+    <th><%=t("activerecord.attributes.car.car_model") %></th>
+    <td><%= @car.car_model %></td>
+  </tr>
+  <tr>
+    <th><%=t("activerecord.attributes.car.base_fare") %></th>
+    <td><%= @car.base_fare %></td>
+  </tr>
+  <tr>
+    <th><%=t("activerecord.attributes.car.meter_fare") %></th>
+    <td><%= @car.meter_fare %></td>
+  </tr>
+  <tr>
+    <th><%=t("activerecord.attributes.car.twitter_id") %></th>
+    <td><%= @car.twitter_id %></td>
+  </tr>
+  <tr>
+    <th><%=t("activerecord.attributes.car.twitter_name") %></th>
+    <td><%= @car.twitter_name %></td>
+  </tr>
+</table>
 
 <%= link_to t("link.edit"), edit_car_path(@car) %> |
 <%= link_to t("link.back"), cars_path %>

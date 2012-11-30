@@ -1,97 +1,105 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b><%=t "activerecord.attributes.report.driver" %></b>
-  <%= @report.driver.name %>
-</p>
+<table class="table table-striped table-bordered table-hover table-narrow">
+  <tr>
+    <th><%=t "activerecord.attributes.report.driver" %></th>
+    <td><%= @report.driver.name %></td>
+  </tr>
 
-<p>
-  <b><%=t "activerecord.attributes.report.mileage" %></b>
-  <%= @report.mileage %>
-</p>
+  <tr>
+    <th><%=t "activerecord.attributes.report.mileage" %></th>
+    <td><%= @report.mileage %></td>
+  </tr>
 
-<p>
-  <b><%=t "activerecord.attributes.report.riding_mileage" %></b>
-  <%= @report.riding_mileage %>
-</p>
+  <tr>
+    <th><%=t "activerecord.attributes.report.riding_mileage" %></th>
+    <td><%= @report.riding_mileage %></td>
+  </tr>
 
-<p>
-  <b><%=t "activerecord.attributes.report.riding_count" %></b>
-  <%= @report.riding_count %>
-</p>
+  <tr>
+    <th><%=t "activerecord.attributes.report.riding_count" %></th>
+    <td><%= @report.riding_count %></td>
+  </tr>
 
-<p>
-  <b><%=t "activerecord.attributes.report.meter_fare_count" %></b>
-  <%= @report.meter_fare_count %>
-</p>
+  <tr>
+    <th><%=t "activerecord.attributes.report.meter_fare_count" %></th>
+    <td><%= @report.meter_fare_count %></td>
+  </tr>
 
-<p>
-  <b><%=t "activerecord.attributes.report.passengers" %></b>
-  <%= @report.passengers %>
-</p>
+  <tr>
+    <th><%=t "activerecord.attributes.report.passengers" %></th>
+    <td><%= @report.passengers %></td>
+  </tr>
 
-<p>
-  <b><%=t "activerecord.attributes.report.sales" %></b>
-  <%= @report.sales %>
-</p>
+  <tr>
+    <th><%=t "activerecord.attributes.report.sales" %></th>
+    <td><%= @report.sales %></td>
+  </tr>
 
-<p>
-  <b><%=t "activerecord.attributes.report.fuel_cost" %></b>
-  <%= @report.fuel_cost %>
-</p>
+  <tr>
+    <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
+    <td><%= @report.fuel_cost %></td>
+  </tr>
 
-<p>
-  <b><%=t "activerecord.attributes.report.ticket" %></b>
-  <%= @report.ticket %>
-</p>
+  <tr>
+    <th><%=t "activerecord.attributes.report.ticket" %></th>
+    <td><%= @report.ticket %></td>
+  </tr>
 
-<p>
-  <b><%=t "activerecord.attributes.report.account_receivable" %></b>
-  <%= @report.account_receivable %>
-</p>
+  <tr>
+    <th><%=t "activerecord.attributes.report.account_receivable" %></th>
+    <td><%= @report.account_receivable %></td>
+  </tr>
 
-<p>
-  <b><%=t "activerecord.attributes.report.cash" %></b>
-  <%= @report.cash %>
-</p>
+  <tr>
+    <th><%=t "activerecord.attributes.report.cash" %></th>
+    <td><%= @report.cash %></td>
+  </tr>
 
-<p>
-  <b><%=t "activerecord.attributes.report.surplus_funds" %></b>
-  <%= @report.surplus_funds %>
-</p>
+  <tr>
+    <th><%=t "activerecord.attributes.report.surplus_funds" %></th>
+    <td><%= @report.surplus_funds %></td>
+  </tr>
 
-<p>
-  <b><%=t "activerecord.attributes.report.deficiency_account" %></b>
-  <%= @report.deficiency_account %>
-</p>
+  <tr>
+    <th><%=t "activerecord.attributes.report.deficiency_account" %></th>
+    <td><%= @report.deficiency_account %></td>
+  </tr>
 
-<p>
-  <b><%=t "activerecord.attributes.report.advance" %></b>
-  <%= @report.advance %>
-</p>
+  <tr>
+    <th><%=t "activerecord.attributes.report.advance" %></th>
+    <td><%= @report.advance %></td>
+  </tr>
+</table>
 
 <% if @report.rests %>
   <p><%=t "activerecord.models.rest" %></p>
-  <% @report.rests.each do |rest| %>
-    <p>
-      <b><%=t "activerecord.attributes.rest.location" %></b>
-      <%= rest.location %>
-    </p>
-    <p>
-      <b><%=t "activerecord.attributes.rest.started_at" %></b>
-      <%= rest.started_at.strftime("%Y年%m月%d日 %H時%M分") %>
-    </p>
-    <p>
-      <b><%=t "activerecord.attributes.rest.ended_at" %></b>
-      <%= rest.ended_at.strftime("%Y年%m月%d日 %H時%M分") %>
-    </p>
-    <p><%= link_to t("link.edit"), edit_rest_path(rest) %></p>
-  <% end %>
-  <p><%= link_to t("link.new"), "#{new_rest_path}?report_id=#{@report.id}" %></p>
-  <p>
-    <b><%=t "activerecord.attributes.rest.estimated_time" %></b>
-    <%= @estimated_time %>
-  </p>
+  <p><%=t "activerecord.models.rest" %><%= link_to t("link.new"), "#{new_rest_path}?report_id=#{@report.id}" %></p>
+  <table class="table table-striped table-bordered table-hover table-narrow">
+    <tr>
+      <th><%=t "activerecord.attributes.rest.location" %></th>
+      <th><%=t "activerecord.attributes.rest.started_at" %></th>
+      <th><%=t "activerecord.attributes.rest.ended_at" %></th>
+      <th></th>
+      <th></th>
+    </tr>
+    <% @report.rests.each do |rest| %>
+      <tr>
+        <td><%= rest.location %></td>
+        <td><%= rest.started_at.strftime("%Y年%m月%d日 %H時%M分") %></td>
+        <td><%= rest.ended_at.strftime("%Y年%m月%d日 %H時%M分") %></td>
+        <td><%= link_to t("link.edit"), edit_rest_path(rest) %></td>
+        <td><%= link_to t("link.destroy"), rest, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </table>
+
+  <table class="table table-striped table-bordered table-hover table-narrow">
+    <tr>
+      <th><%=t "activerecord.attributes.rest.estimated_time" %></th>
+      <td><%= @estimated_time %></td>
+    </tr>
+  </table>
 <% end %>
 
 <%= link_to t("link.edit"), edit_report_path(@report) %> |
