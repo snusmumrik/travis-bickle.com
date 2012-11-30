@@ -72,7 +72,7 @@
 
 <% if @report.rests %>
   <p><%=t "activerecord.models.rest" %></p>
-  <p><%=t "activerecord.models.rest" %><%= link_to t("link.new"), "#{new_rest_path}?report_id=#{@report.id}" %></p>
+  <p><%= link_to t("activerecord.models.rest") + t("link.new"), "#{new_rest_path}?report_id=#{@report.id}" %></p>
   <table class="table table-striped table-bordered table-hover table-narrow">
     <tr>
       <th><%=t "activerecord.attributes.rest.location" %></th>

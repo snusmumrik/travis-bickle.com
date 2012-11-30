@@ -1,5 +1,6 @@
 class RestsController < InheritedResources::Base
   before_filter :authenticate_user!, :except => [:api_create]
+  skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
   # POST /rests/api_create
   # POST /rests/api_create.jsonb

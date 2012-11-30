@@ -76,6 +76,8 @@ ja:
         start_working_at: 入社日
 
       report:
+        car_id: 車両
+        driver_id: 運転手
         mileage: 走行距離
         riding_mileage: 乗車距離
         riding_rate: 実車率

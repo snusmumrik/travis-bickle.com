@@ -1,5 +1,6 @@
 class RidesController < InheritedResources::Base
   before_filter :authenticate_user!, :except => [:api_create, :api_update]
+  skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
   # POST /rides/api_create
   # POST /rides/api_create.jsonb

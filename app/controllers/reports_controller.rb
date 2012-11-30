@@ -2,6 +2,7 @@
 class ReportsController < InheritedResources::Base
   before_filter :authenticate_user!, :except => [:api_create, :api_update]
   before_filter :get_drivers_option, :except => [:index, :show]
+  skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
   # POST /reports/api_create
   # POST /reports/api_create.jsonb
@@ -73,7 +74,7 @@ class ReportsController < InheritedResources::Base
     end
     hours = @estimated_rest.divmod(60*60) #=> [12.0, 1800.0]
     mins = hours[1].divmod(60) #=> [30.0, 0.0]
-    @estimated_time = "#{hours[0].to_i}時間#{mins[0].to_i}分#{mins[1].ceil}秒"
+    @estimated_time = "#{hours[0].to_i}時間#{mins[0].to_i}分"
 
     respond_to do |format|
       format.html # show.html.erb
