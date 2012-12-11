@@ -17,7 +17,7 @@
 
 <% @locations.each do |location| %>
   <tr>
-    <td><%= location.car.name %></td>
+    <td><%= link_to location.car.name, "#{car_path(location.car)}/#{Date.today.year}/#{Date.today.month}/#{Date.today.day}" %></td>
     <td><%= location.address %></td>
     <td><%= location.updated_at.strftime("%Y/%m/%d %H:%M:%S") %></td>
     <td><%= link_to t("link.show"), location %></td>

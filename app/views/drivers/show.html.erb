@@ -1,29 +1,94 @@
 <table class="table table-striped table-bordered table-hover table-narrow">
   <tr>
     <th><%=t "activerecord.attributes.driver.name" %></th>
-    <td><%= @driver.name %></td>
-  </tr>
-
-  <tr>
     <th><%=t "activerecord.attributes.driver.birthday" %></th>
-    <td><%= @driver.birthday %></td>
-  </tr>
-
-  <tr>
     <th><%=t "activerecord.attributes.driver.blood_type" %></th>
-    <td><%= @driver.blood_type %></td>
-  </tr>
-
-  <tr>
     <th><%=t "activerecord.attributes.driver.licence_number" %></th>
-    <td><%= @driver.licence_number %></td>
-  </tr>
-
-  <tr>
     <th><%=t "activerecord.attributes.driver.start_working_at" %></th>
-    <td><%= @driver.start_working_at %></td>
+  </tr>
+  <tr>
+    <td><%= @driver.name %></td>
+    <td><%= @driver.birthday.strftime("%Y年%m月%d日") rescue nil %></td>
+    <td><%= @driver.blood_type %></td>
+    <td><%= @driver.licence_number %></td>
+    <td><%= @driver.start_working_at.strftime("%Y年%m月%d日") rescue nil %></td>
   </tr>
 </table>
+
+<%= link_to "#{(Date.new(params[:year].to_i, params[:month].to_i) << 1).year}年#{(Date.new(params[:year].to_i, params[:month].to_i) << 1).month}月", "#{driver_path(@driver)}/#{(Date.new(params[:year].to_i, params[:month].to_i) << 1).year}/#{(Date.new(params[:year].to_i, params[:month].to_i) << 1).month}" %>
+<%= link_to "#{(Date.new(params[:year].to_i, params[:month].to_i) >> 1).year}年#{(Date.new(params[:year].to_i, params[:month].to_i) >> 1).month}月", "#{driver_path(@driver)}/#{(Date.new(params[:year].to_i, params[:month].to_i) >> 1).year}/#{(Date.new(params[:year].to_i, params[:month].to_i) >> 1).month}" %>
+
+<h2>
+  <% if params[:day] %>
+    <%= Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i).strftime("%Y年%m月%d日") %>
+  <% else %>
+    <%= Date.new(params[:year].to_i, params[:month].to_i).strftime("%Y年%m月") %>
+  <% end %>
+  <%=t "activerecord.models.report" %>
+</h2>
+
+<% unless @reports.blank? %>
+  <table class="table table-striped table-bordered table-hover table-narrow">
+    <tr>
+      <% unless params[:day] %>
+        <th><%=t("activerecord.attributes.report.date") %></th>
+        <th><%=t "activerecord.attributes.report.car_id" %></th>
+      <% end %>
+      <th><%=t "activerecord.attributes.report.mileage" %></th>
+      <th><%=t "activerecord.attributes.report.riding_mileage" %></th>
+      <th><%=t "activerecord.attributes.report.riding_rate" %></th>
+      <th><%=t "activerecord.attributes.report.riding_count" %></th>
+      <th><%=t "activerecord.attributes.report.meter_fare_count" %></th>
+      <th><%=t "activerecord.attributes.report.passengers" %></th>
+      <th><%=t "activerecord.attributes.report.sales" %></th>
+      <th><%=t "activerecord.attributes.report.sales_per_kilometer" %></th>
+      <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
+      <th><%=t "activerecord.attributes.report.ticket" %></th>
+      <th><%=t "activerecord.attributes.report.account_receivable" %></th>
+      <th><%=t "activerecord.attributes.report.cash" %></th>
+      <th><%=t "activerecord.attributes.report.surplus_funds" %></th>
+      <th><%=t "activerecord.attributes.report.deficiency_account" %></th>
+      <th><%=t "activerecord.attributes.report.advance" %></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+    <% @reports.each do |report| %>
+      <tr>
+        <% unless params[:day] %>
+          <td>
+            <% if report.date.strftime("%w") == "0" %>
+              <%= link_to "#{report.date.strftime("%d日")} (#{report.date.strftime("%a")})", "#{driver_path(@driver)}/#{report.date.year}/#{report.date.month}/#{report.date.day}", :class => "red" %>
+            <% elsif report.date.strftime("%w") == "6" %>
+              <%= link_to "#{report.date.strftime("%d日")} (#{report.date.strftime("%a")})", "#{driver_path(@driver)}/#{report.date.year}/#{report.date.month}/#{report.date.day}", :class => "blue" %>
+            <% else %>
+              <%= link_to "#{report.date.strftime("%d日")} (#{report.date.strftime("%a")})", "#{driver_path(@driver)}/#{report.date.year}/#{report.date.month}/#{report.date.day}" %>
+            <% end %>
+          </td>
+          <td><%= report.car.name %></td>
+        <% end %>
+        <td><%= number_with_delimiter report.mileage %><% if report.mileage %>Km<% end %></td>
+        <td><%= number_with_delimiter report.riding_mileage %><% if report.riding_mileage %>Km<% end %></td>
+        <td><%= number_to_percentage(report.riding_mileage/report.mileage, :precision => 0) rescue "" %></td>
+        <td><%= number_with_delimiter report.riding_count %><% if report.riding_count %>回<% end %></td>
+        <td><%= number_with_delimiter report.meter_fare_count %><% if report.meter_fare_count %>回<% end %></td>
+        <td><%= number_with_delimiter report.passengers %><% if report.passengers %>人<% end %></td>
+        <td><%= number_to_currency report.sales %></td>
+        <td><%= number_to_currency(report.sales/report.mileage, :precision => 0) rescue "" %></td>
+        <td><%= number_to_currency report.fuel_cost %></td>
+        <td><%= number_to_currency report.ticket %></td>
+        <td><%= number_to_currency report.account_receivable %></td>
+        <td><%= number_to_currency report.cash %></td>
+        <td><%= number_to_currency report.surplus_funds %></td>
+        <td><%= number_to_currency report.deficiency_account %></td>
+        <td><%= number_to_currency report.advance %></td>
+        <td><%= link_to t("link.show"), report %></td>
+        <td><%= link_to t("link.edit"), edit_report_path(report) %></td>
+        <td><%= link_to t("link.destroy"), report, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
 
 <%= link_to t("link.new"), new_driver_path %> |
 <%= link_to t("link.edit"), edit_driver_path(@driver) %> |

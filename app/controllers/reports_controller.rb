@@ -1,8 +1,18 @@
-# -*- coding: utf-8 -*-
 class ReportsController < InheritedResources::Base
-  before_filter :authenticate_user!, :except => [:api_create, :api_update]
+  before_filter :authenticate_user!, :except => [:api_show, :api_create, :api_update]
   before_filter :get_drivers_option, :except => [:index, :show]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
+
+  def api_show
+    @report = Report.where(["car_id = ? AND driver_id = ? AND mileage IS NULL", params[:car_id], params[:driver_id]]).first
+    respond_to do |format|
+      if @report
+        format.json { render json: @report, status: :created, location: @report }
+      else
+        format.json { render json:{:error => "not found" } }
+      end
+    end
+  end
 
   # POST /reports/api_create
   # POST /reports/api_create.jsonb
@@ -14,7 +24,11 @@ class ReportsController < InheritedResources::Base
         format.json { render json: @report }
       end
     else
-      @report = Report.new(:car_id => params[:car_id], :driver_id => params[:driver_id])
+      @report = Report.new(:driver_id => params[:driver_id],
+                           :car_id => params[:car_id],
+                           :date => Date.today(),
+                           :started_at => DateTime.now())
+
       respond_to do |format|
         if @report.save
           format.json { render json: @report, status: :created, location: @report }
@@ -30,12 +44,6 @@ class ReportsController < InheritedResources::Base
   def api_update
     @report = Report.where(["car_id = ? AND driver_id = ? AND mileage IS NULL", params[:car_id], params[:driver_id]]).first
     if @report
-      @report.meter = params[:meter]
-      @report.mileage = params[:mileage]
-      @report.riding_mileage = params[:riding_mileage]
-      @report.riding_count = params[:riding_count]
-      @report.meter_fare_count = params[:meter_fare_count]
-
       passengers = 0
       sales = 0
       begin
@@ -46,8 +54,17 @@ class ReportsController < InheritedResources::Base
         end
       rescue
       end
-      @report.passengers = passengers
-      @report.sales = sales
+
+      @report.update_attributes({ :meter => params[:meter],
+                                  :mileage => params[:mileage],
+                                  :riding_mileage => params[:riding_mileage],
+                                  :riding_count => params[:riding_count],
+                                  :meter_fare_count => params[:meter_fare_count],
+                                  :passengers => passengers,
+                                  :sales => sales,
+                                  :finished_at => DateTime.now
+                                })
+
 
       respond_to do |format|
         if @report.save
@@ -63,6 +80,23 @@ class ReportsController < InheritedResources::Base
     end
   end
 
+  # GET /reports
+  # GET /reports.json
+  def index
+    if params[:year] && params[:month] && params[:day]
+      @reports = Report.where(["date = ?", Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)]).order("car_id").all
+    elsif params[:year] && params[:month]
+      @reports = Report.where(["date BETWEEN ? AND ?", Date.new(params[:year].to_i, params[:month].to_i, 1), (Date.new(params[:year].to_i, params[:month].to_i, 1) >> 1) - 1]).order(["date", "car_id"]).page params[:page]
+    else
+      @reports = Report.where(["date BETWEEN ? AND ?", Date.new(Date.today.year.to_i, Date.today.month.to_i, 1), (Date.new(Date.today.year.to_i, Date.today.month.to_i, 1) >> 1) - 1]).all
+    end
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @report }
+    end
+  end
+
   # GET /reports/1
   # GET /reports/1.json
   def show
@@ -74,7 +108,7 @@ class ReportsController < InheritedResources::Base
     end
     hours = @estimated_rest.divmod(60*60) #=> [12.0, 1800.0]
     mins = hours[1].divmod(60) #=> [30.0, 0.0]
-    @estimated_time = "#{hours[0].to_i}時間#{mins[0].to_i}分"
+    @estimated_rest = [hours[0], mins[0]]
 
     respond_to do |format|
       format.html # show.html.erb

@@ -12,6 +12,24 @@ class CarsController < InheritedResources::Base
     end
   end
 
+  # GET /cars/1
+  # GET /cars/1.json
+  def show
+    @car = Car.find(params[:id])
+    if params[:year] && params[:month] && params[:day]
+      @reports = Report.where(["car_id = ? AND date = ?", params[:id], Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)]).all
+    elsif params[:year] && params[:month]
+      @reports = Report.where(["car_id = ? AND date BETWEEN ? AND ?", params[:id], Date.new(params[:year].to_i, params[:month].to_i, 1), (Date.new(params[:year].to_i, params[:month].to_i, 1) >> 1) - 1]).all
+    else
+      @reports = Report.where(["car_id = ? AND date BETWEEN ? AND ?", params[:id], Date.new(Date.today.year.to_i, Date.today.month.to_i, 1), (Date.new(Date.today.year.to_i, Date.today.month.to_i, 1) >> 1) - 1]).all
+    end
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @car }
+    end
+  end
+
   # POST /cars
   # POST /cars.json
   def create

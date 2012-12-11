@@ -20,6 +20,7 @@ TaxiDriver::Application.routes.draw do
 
   resources :reports do
     collection do
+      post "api_show"
       post "api_create"
       put "api_update"
     end
@@ -70,6 +71,12 @@ TaxiDriver::Application.routes.draw do
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
   match '/:id' => 'contents#show'
+  match 'cars/:id/:year/:month' => 'cars#show'
+  match 'cars/:id/:year/:month/:day' => 'cars#show'
+  match 'drivers/:id/:year/:month' => 'drivers#show'
+  match 'drivers/:id/:year/:month/:day' => 'drivers#show'
+  match 'reports/:year/:month' => 'reports#index'
+  match 'reports/:year/:month/:day' => 'reports#index'
 
   # Sample resource route with options:
   #   resources :products do

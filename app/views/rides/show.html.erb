@@ -1,0 +1,28 @@
+<p>
+  <b><%=t "activerecord.attributes.driver.name" %></b>
+  <%= @ride.report.driver.name %>
+</p>
+
+<p>
+  <b><%=t "activerecord.attributes.ride.ride_address" %></b>
+  <%= @ride.ride_address %>
+</p>
+
+<p>
+  <b><%=t "activerecord.attributes.ride.leave_address" %></b>
+  <%= @ride.leave_address %>
+</p>
+
+<p>
+  <b><%=t "activerecord.attributes.ride.passengers" %></b>
+  <%= @ride.passengers %>
+</p>
+
+<p>
+  <b><%=t "activerecord.attributes.ride.fare" %></b>
+  <%= @ride.fare %>
+</p>
+
+
+<%= link_to t("link.edit"), edit_ride_path(@ride) %> |
+<%= link_to t("link.back"), rides_path %>

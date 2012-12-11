@@ -12,6 +12,22 @@ class DriversController < InheritedResources::Base
     end
   end
 
+  # GET /drivers/1
+  # GET /drivers/1.json
+  def show
+    @driver = Driver.find(params[:id])
+    if params[:year] && params[:month] && params[:day]
+      @reports = Report.where(["driver_id = ? AND date = ?", params[:id], Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)]).all
+    elsif params[:year] && params[:month]
+      @reports = Report.where(["driver_id = ? AND date BETWEEN ? AND ?", params[:id], Date.new(params[:year].to_i, params[:month].to_i, 1), (Date.new(params[:year].to_i, params[:month].to_i, 1) >> 1) - 1]).order("date").all
+    end
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @driver }
+    end
+  end
+
   # POST /drivers
   # POST /drivers.json
   def create

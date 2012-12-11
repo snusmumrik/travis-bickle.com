@@ -57,4 +57,16 @@ class RestsController < InheritedResources::Base
       end
     end
   end
+
+  # DELETE /rests/1
+  # DELETE /rests/1.json
+  def destroy
+    @rest = Rest.find(params[:id])
+    @rest.destroy
+
+    respond_to do |format|
+      format.html { redirect_to report_path(@rest.report) }
+      format.json { head :ok }
+    end
+  end
 end

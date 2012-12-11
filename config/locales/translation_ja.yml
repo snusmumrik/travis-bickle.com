@@ -78,9 +78,10 @@ ja:
       report:
         car_id: 車両
         driver_id: 運転手
+        date: 日付
         mileage: 走行距離
         riding_mileage: 乗車距離
-        riding_rate: 実車率
+        riding_rate: 乗車率
         riding_count: 乗車回数
         meter_fare_count: 爾後回数
         passengers: 乗車人数
@@ -93,7 +94,11 @@ ja:
         surplus_funds: 過剰金
         deficiency_account: 不足金
         advance: 前渡金
-        driver: 運転手
+        started_at: 出庫時刻
+        finished_at: 入庫時刻
+        working_hours: 拘束時間
+        real_working_hours: 実作業時間
+        rest_hours: 休憩時間
 
       rest:
         location: 場所
@@ -101,7 +106,7 @@ ja:
         longitude: 軽度
         started_at: 開始時間
         ended_at: 終了時間
-        estimated_time: 合計時間
+        estimated_rest: 合計時間
 
       image:
         image_file_name: image_file_name  #g
@@ -130,20 +135,30 @@ ja:
         car: car  #g
 
       ride:
-        ride_longitude: ride_longitude  #g
-        leave_latitude: leave_latitude  #g
-        leave_longitude: leave_longitude  #g
-        passengers: passengers  #g
-        fare: fare  #g
+        ride_latitude: 乗車緯度
+        ride_longitude: 乗車経度
+        ride_address: 乗車地
+        leave_latitude: 降車緯度
+        leave_longitude: 降車軽度
+        leave_address: 降車地
+        passengers: 乗客数
+        fare: 料金
         deleted_at: deleted_at  #g
         report: report  #g
+
+  views:
+    pagination:
+      first: "&laquo; 最初"
+      last: "最後 &raquo;"
+      previous: "&lsaquo; 前"
+      next: "次 &rsaquo;"
 
   label:
     error: エラー
 
   link:
     index: 一覧
-    new: 新規作成
+    new: 新規
     show: 詳細
     edit: 編集
     destroy: 削除

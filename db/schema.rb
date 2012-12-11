@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121124063856) do
+ActiveRecord::Schema.define(:version => 20121205085018) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(:version => 20121124063856) do
 
   create_table "meters", :force => true do |t|
     t.integer  "car_id"
+    t.date     "date"
     t.integer  "meter"
     t.integer  "mileage"
     t.integer  "riding_mileage"
@@ -127,6 +128,7 @@ ActiveRecord::Schema.define(:version => 20121124063856) do
   create_table "reports", :force => true do |t|
     t.integer  "driver_id"
     t.integer  "car_id"
+    t.date     "date"
     t.integer  "meter"
     t.integer  "mileage"
     t.integer  "riding_mileage"
@@ -141,6 +143,8 @@ ActiveRecord::Schema.define(:version => 20121124063856) do
     t.integer  "surplus_funds"
     t.integer  "deficiency_account"
     t.integer  "advance"
+    t.datetime "started_at"
+    t.datetime "finished_at"
     t.datetime "deleted_at"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
@@ -166,8 +170,10 @@ ActiveRecord::Schema.define(:version => 20121124063856) do
     t.integer  "report_id"
     t.float    "ride_latitude"
     t.float    "ride_longitude"
+    t.string   "ride_address"
     t.float    "leave_latitude"
     t.float    "leave_longitude"
+    t.string   "leave_address"
     t.integer  "passengers"
     t.integer  "fare"
     t.datetime "deleted_at"

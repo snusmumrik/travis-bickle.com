@@ -9,3 +9,11 @@
 .padding-top {
     padding-top: 60px;
 }
+
+.red {
+    color: red !important;
+}
+
+.blue {
+    color: blue !important;
+}
