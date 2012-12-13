@@ -38,7 +38,7 @@ class CarsController < InheritedResources::Base
 
     respond_to do |format|
       if @car.save
-        format.html { redirect_to @car, notice: t("activerecord.models.car") + t("message.created") }
+        format.html { redirect_to cars_path, notice: t("activerecord.models.car") + t("message.created") }
         format.json { render json: @car, status: :created, location: @car }
       else
         format.html { render action: "new" }

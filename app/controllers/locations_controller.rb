@@ -26,13 +26,13 @@ class LocationsController < InheritedResources::Base
     @locations = Location.includes(:car => :user).where(["users.id = ?", current_user.id]).order("car_id").all
     @json = Location.all.to_gmaps4rails do |location, marker|
       marker.picture({
-                  :picture => "http://chart.apis.google.com/chart?chst=d_map_spin&chld=1.1|0|FFB573|12|_|#{location.car.name}",
+                  :picture => "http://chart.apis.google.com/chart?chst=d_map_spin&chld=1.1|0|FFB573|12|_|#{location.car.try(:name) }",
                   :width   => 100,
                   :height  => 100
                  })
-      marker.infowindow "<img src=\"http://maruchiku.jp/images/img_cars02.jpg\"><br />#{location.car.name}"
-      marker.title location.car.name
-      marker.json({:car_id => location.car.id, :foo => "bar" })
+      marker.infowindow "<img src=\"http://maruchiku.jp/images/img_cars02.jpg\"><br />#{location.car.try(:name)}"
+      marker.title location.car.try(:name)
+      marker.json({:car_id => location.car.try(:id)})
     end
 
     respond_to do |format|

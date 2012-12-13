@@ -36,7 +36,7 @@ class DriversController < InheritedResources::Base
 
     respond_to do |format|
       if @driver.save
-        format.html { redirect_to @driver, notice: t("activerecord.models.driver") + t("message.created") }
+        format.html { redirect_to drivers_path, notice: t("activerecord.models.driver") + t("message.created") }
         format.json { render json: @driver, status: :created, location: @driver }
       else
         format.html { render action: "new" }
