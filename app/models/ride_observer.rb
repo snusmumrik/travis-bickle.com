@@ -9,7 +9,7 @@ class RideObserver < ActiveRecord::Observer
       sales += ride.fare
     end
 
-    riding_count = rides.size
+    riding_count = rides.size || 0
     meter_fare_count = (sales-@report.car.base_fare*riding_count)/@report.car.meter_fare
 
     @report.update_attributes({ :riding_count => riding_count,
