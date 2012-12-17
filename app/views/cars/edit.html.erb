@@ -2,5 +2,5 @@
 
 <%= render 'form' %>
 
-<%= link_to t("link.show"), @car %> |
-<%= link_to t("link.back"), cars_path %>
+<%= link_to t("link.show"), "#{car_path(@car)}/#{Date.today.year}/#{Date.today.month}", :class => "btn" %>
+<%= link_to t("link.back"), cars_path, :class => "btn" %>

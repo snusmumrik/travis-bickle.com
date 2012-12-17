@@ -35,15 +35,15 @@
     <td><%= number_with_delimiter @report.riding_count %><% if @report.riding_count %>回<% end %></td>
     <td><%= number_with_delimiter @report.meter_fare_count %><% if @report.meter_fare_count %>回<% end %></td>
     <td><%= number_with_delimiter @report.passengers %><% if @report.passengers %>人<% end %></td>
-    <td><%= number_to_currency @report.sales %></td>
-    <td><%= number_to_currency(@report.sales/@report.mileage, :precision => 0) rescue "" %></td>
-    <td><%= number_to_currency @report.fuel_cost %></td>
-    <td><%= number_to_currency @report.ticket %></td>
-    <td><%= number_to_currency @report.account_receivable %></td>
-    <td><%= number_to_currency @report.cash %></td>
-    <td><%= number_to_currency @report.surplus_funds %></td>
-    <td><%= number_to_currency @report.deficiency_account %></td>
-    <td><%= number_to_currency @report.advance %></td>
+    <td><%= number_to_currency @report.sales, :unit => "円" %></td>
+    <td><%= number_to_currency(@report.sales/@report.mileage, :precision => 0, :unit => "円") rescue "" %></td>
+    <td><%= number_to_currency @report.fuel_cost, :unit => "円" %></td>
+    <td><%= number_to_currency @report.ticket, :unit => "円" %></td>
+    <td><%= number_to_currency @report.account_receivable, :unit => "円" %></td>
+    <td><%= number_to_currency @report.cash, :unit => "円" %></td>
+    <td><%= number_to_currency @report.surplus_funds, :unit => "円" %></td>
+    <td><%= number_to_currency @report.deficiency_account, :unit => "円" %></td>
+    <td><%= number_to_currency @report.advance, :unit => "円" %></td>
     <td><%= @report.started_at.strftime("%H時%M分") %></td>
     <td><%= @report.finished_at.strftime("%H時%M分") rescue nil %></td>
     <td>
