@@ -28,4 +28,19 @@ class CheckPointsController < InheritedResources::Base
       end
     end
   end
+
+  # PUT /check_points/1
+  # PUT /check_points/1.json
+  def update
+    @check_point = CheckPoint.find(params[:id])
+    respond_to do |format|
+      if @check_point.update_attributes(params[:check_point])
+        format.html { redirect_to check_points_path, notice: 'Check Point was successfully updated.' }
+        format.json { head :ok }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @check_point.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 end

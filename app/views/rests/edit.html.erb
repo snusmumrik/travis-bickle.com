@@ -2,5 +2,5 @@
 
 <%= render 'form' %>
 
-<%= link_to t("link.show"), @rest %> |
-<%= link_to t("link.back"), report_path(@rest.report) %>
+<%= link_to t("link.show"), @rest, :class => "btn" %>
+<%= link_to t("link.back"), report_path(@rest.report), :class => "btn" %>

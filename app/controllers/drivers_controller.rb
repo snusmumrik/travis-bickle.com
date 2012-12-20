@@ -20,6 +20,10 @@ class DriversController < InheritedResources::Base
       @reports = Report.where(["driver_id = ? AND date = ?", params[:id], Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)]).all
     elsif params[:year] && params[:month]
       @reports = Report.where(["driver_id = ? AND date BETWEEN ? AND ?", params[:id], Date.new(params[:year].to_i, params[:month].to_i, 1), (Date.new(params[:year].to_i, params[:month].to_i, 1) >> 1) - 1]).order("date").all
+    else
+      params[:year] = Date.today.year
+      params[:month] = Date.today.month
+      @reports = Report.where(["driver_id = ? AND date BETWEEN ? AND ?", params[:id], Date.new(Date.today.year.to_i, Date.today.month.to_i, 1), (Date.new(Date.today.year.to_i, Date.today.month.to_i, 1) >> 1) - 1]).all
     end
 
     respond_to do |format|

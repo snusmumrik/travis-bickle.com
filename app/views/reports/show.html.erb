@@ -35,15 +35,15 @@
     <td><%= number_with_delimiter @report.riding_count %><% if @report.riding_count %>回<% end %></td>
     <td><%= number_with_delimiter @report.meter_fare_count %><% if @report.meter_fare_count %>回<% end %></td>
     <td><%= number_with_delimiter @report.passengers %><% if @report.passengers %>人<% end %></td>
-    <td><%= number_to_currency @report.sales, :unit => "円" %></td>
-    <td><%= number_to_currency(@report.sales/@report.mileage, :precision => 0, :unit => "円") rescue "" %></td>
-    <td><%= number_to_currency @report.fuel_cost, :unit => "円" %></td>
-    <td><%= number_to_currency @report.ticket, :unit => "円" %></td>
-    <td><%= number_to_currency @report.account_receivable, :unit => "円" %></td>
-    <td><%= number_to_currency @report.cash, :unit => "円" %></td>
-    <td><%= number_to_currency @report.surplus_funds, :unit => "円" %></td>
-    <td><%= number_to_currency @report.deficiency_account, :unit => "円" %></td>
-    <td><%= number_to_currency @report.advance, :unit => "円" %></td>
+    <td><%= number_to_currency @report.sales, :locale => "ja" %></td>
+    <td><%= number_to_currency(@report.sales/@report.mileage, :precision => 0, :locale => "ja") rescue "" %></td>
+    <td><%= number_to_currency @report.fuel_cost, :locale => "ja" %></td>
+    <td><%= number_to_currency @report.ticket, :locale => "ja" %></td>
+    <td><%= number_to_currency @report.account_receivable, :locale => "ja" %></td>
+    <td><%= number_to_currency @report.cash, :locale => "ja" %></td>
+    <td><%= number_to_currency @report.surplus_funds, :locale => "ja" %></td>
+    <td><%= number_to_currency @report.deficiency_account, :locale => "ja" %></td>
+    <td><%= number_to_currency @report.advance, :locale => "ja" %></td>
     <td><%= @report.started_at.strftime("%H時%M分") %></td>
     <td><%= @report.finished_at.strftime("%H時%M分") rescue nil %></td>
     <td>
@@ -115,6 +115,6 @@
   </table>
 <% end %>
 
-<%= link_to t("link.new") + t("activerecord.models.report"), new_report_path %> |
-<%= link_to t("link.edit"), edit_report_path(@report) %> |
-<%= link_to t("link.back"), reports_path %>
+<%= link_to t("link.new") + t("activerecord.models.report"), new_report_path, :class => "btn" %>
+<%= link_to t("link.edit"), edit_report_path(@report), :class => "btn" %>
+<%= link_to t("link.back"), reports_path, :class => "btn" %>
