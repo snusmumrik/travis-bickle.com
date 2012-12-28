@@ -1,5 +1,6 @@
 class CheckPointsController < InheritedResources::Base
   before_filter :authenticate_user!, :except => :api
+  before_filter :authenticate_owner, :except => [:api, :index]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
   # GET /check_points
@@ -9,6 +10,19 @@ class CheckPointsController < InheritedResources::Base
     @check_points = CheckPoint.where(["user_id = ? AND deleted_at IS NULL", car.user.id]).all
     respond_to do |format|
       format.json { render json: @check_points }
+    end
+  end
+
+  # GET /check_points
+  # GET /check_points.json
+  def index
+    @check_points = CheckPoint.where(["user_id = ? AND deleted_at IS NULL", current_user.id])
+    if params[:check_point]
+      @check_points = @check_points.name_matches params[:check_point][:name]
+    end
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @check_point }
     end
   end
 
@@ -42,5 +56,11 @@ class CheckPointsController < InheritedResources::Base
         format.json { render json: @check_point.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  private
+  def authenticate_owner
+    @check_point = CheckPoint.find(params[:id])
+    redirect_to check_points_path if @check_point.user_id != current_user.id
   end
 end

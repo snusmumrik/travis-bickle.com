@@ -1,5 +1,6 @@
 class CarsController < InheritedResources::Base
   before_filter :authenticate_user!, :except => :api
+  before_filter :authenticate_owner, :except => [:api, :index]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
   # GET /cars
@@ -32,6 +33,19 @@ class CarsController < InheritedResources::Base
     end
   end
 
+  # GET /cars
+  # GET /cars.json
+  def index
+    @cars = Car.where(["user_id = ? AND deleted_at IS NULL", current_user.id])
+    if params[:car]
+      @cars = @cars.name_matches params[:car][:name]
+    end
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @car }
+    end
+  end
+
   # POST /cars
   # POST /cars.json
   def create
@@ -47,5 +61,11 @@ class CarsController < InheritedResources::Base
         format.json { render json: @car.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  private
+  def authenticate_owner
+    @car = Car.find(params[:id])
+    redirect_to cars_path if @car.user_id != current_user.id
   end
 end

@@ -1,5 +1,6 @@
 class ReportsController < InheritedResources::Base
   before_filter :authenticate_user!, :except => [:api_show, :api_create, :api_update]
+  before_filter :authenticate_owner, :except => [:api_show, :api_create, :api_update, :index]
   before_filter :get_drivers_option, :except => [:index, :show]
   before_filter :get_cars_option, :except => [:index, :show]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
@@ -85,11 +86,11 @@ class ReportsController < InheritedResources::Base
   # GET /reports.json
   def index
     if params[:year] && params[:month] && params[:day]
-      @reports = Report.where(["date = ?", Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)]).order("car_id").all
+      @reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date = ?", current_user.id, Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)]).order("car_id").all
     elsif params[:year] && params[:month]
-      @reports = Report.where(["date BETWEEN ? AND ?", Date.new(params[:year].to_i, params[:month].to_i, 1), (Date.new(params[:year].to_i, params[:month].to_i, 1) >> 1) - 1]).order(["date", "car_id"]).page params[:page]
+      @reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date BETWEEN ? AND ?", current_user.id, Date.new(params[:year].to_i, params[:month].to_i, 1), (Date.new(params[:year].to_i, params[:month].to_i, 1) >> 1) - 1]).order(["date", "car_id"]).page params[:page]
     else
-      @reports = Report.where(["date BETWEEN ? AND ?", Date.new(Date.today.year.to_i, Date.today.month.to_i, 1), (Date.new(Date.today.year.to_i, Date.today.month.to_i, 1) >> 1) - 1]).all
+      @reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date BETWEEN ? AND ?", current_user.id, Date.new(Date.today.year.to_i, Date.today.month.to_i, 1), (Date.new(Date.today.year.to_i, Date.today.month.to_i, 1) >> 1) - 1]).all
     end
 
     respond_to do |format|
@@ -101,7 +102,7 @@ class ReportsController < InheritedResources::Base
   # GET /reports/1
   # GET /reports/1.json
   def show
-    @report = Report.find(params[:id])
+    @report = Report.includes(:car => :user).find(params[:id])
     @estimated_rest = 0
 
     @report.rests.each do |rest|
@@ -145,6 +146,11 @@ class ReportsController < InheritedResources::Base
   end
 
   private
+  def authenticate_owner
+    @report = Report.find(params[:id])
+    redirect_to reports_path if @report.car.user_id != current_user.id
+  end
+
   def get_drivers_option
     @drivers_option = [[]]
     drivers = Driver.where("deleted_at is NULL").all

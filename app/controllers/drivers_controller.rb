@@ -1,5 +1,6 @@
 class DriversController < InheritedResources::Base
   before_filter :authenticate_user!, :except => :api
+  before_filter :authenticate_owner, :except => [:api, :index]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
   # GET /drivers
@@ -9,6 +10,19 @@ class DriversController < InheritedResources::Base
     @drivers = Driver.where(["user_id = ? AND deleted_at IS NULL", car.user.id]).all
     respond_to do |format|
       format.json { render json: @drivers }
+    end
+  end
+
+  # GET /drivers
+  # GET /drivers.json
+  def index
+    @drivers = Driver.where(["user_id = ? AND deleted_at IS NULL", current_user.id])
+    if params[:driver]
+      @drivers = @drivers.name_matches params[:driver][:name]
+    end
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @driver }
     end
   end
 
@@ -47,5 +61,11 @@ class DriversController < InheritedResources::Base
         format.json { render json: @driver.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  private
+  def authenticate_owner
+    @driver = Driver.find(params[:id])
+    redirect_to drivers_path if @driver.user_id != current_user.id
   end
 end
