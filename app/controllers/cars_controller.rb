@@ -42,6 +42,7 @@ class CarsController < InheritedResources::Base
     end
     respond_to do |format|
       format.html # index.html.erb
+      format.js # index.js.erb
       format.json { render json: @car }
     end
   end

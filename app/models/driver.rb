@@ -5,4 +5,8 @@ class Driver < ActiveRecord::Base
   attr_accessible :user_id, :birthday, :blood_type, :deleted_at, :licence_number, :name, :start_working_at
 
   validates :name, :presence => true
+
+  scope :name_matches, lambda {|q|
+    where "name like :q", :q => "%#{q}%"
+  }
 end

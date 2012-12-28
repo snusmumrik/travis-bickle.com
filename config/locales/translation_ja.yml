@@ -163,6 +163,7 @@ ja:
     edit: 編集
     destroy: 削除
     back: 戻る
+    search: 検索
     contact: お問合せ
 
     user:
@@ -173,15 +174,6 @@ ja:
       reset_password: パスワードの再設定
       forgot_password: パスワードをお忘れですか？
       resend_confirmation: 登録メールの再送
-
-  resource_type: resource_type  #g
-  email: email  #g
-  name: name  #g
-  mileage: mileage  #g
-  latitude: latitude  #g
-  parent_type: parent_type  #g
-  meter: meter  #g
-  ride_latitude: ride_latitude  #g
 
   message:
     created: を登録しました。
