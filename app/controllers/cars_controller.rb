@@ -7,7 +7,7 @@ class CarsController < InheritedResources::Base
   # GET /cars.json
   def api
     car = Car.includes(:user).where(["twitter_id = ?", params[:id]]).first
-    @cars = Car.where(["user_id = ? AND deleted_at IS NULL", car.user.id]).all
+    @cars = Car.where(["user_id = ? AND deleted_at IS NULL", car.user.id]).all if car
     respond_to do |format|
       format.json { render json: @cars }
     end

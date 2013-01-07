@@ -24,7 +24,7 @@ class LocationsController < InheritedResources::Base
   # GET /locations.json
   def index
     @locations = Location.includes(:car => :user).where(["users.id = ?", current_user.id]).order("car_id").all
-    @json = Location.all.to_gmaps4rails do |location, marker|
+    @json = @locations.to_gmaps4rails do |location, marker|
       marker.picture({
                   :picture => "http://chart.apis.google.com/chart?chst=d_map_spin&chld=1.1|0|FFB573|12|_|#{location.car.try(:name) }",
                   :width   => 100,
@@ -37,7 +37,7 @@ class LocationsController < InheritedResources::Base
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @location }
+      format.json { render json: @locations }
     end
   end
 end
