@@ -1,11 +1,21 @@
 class DriversController < InheritedResources::Base
-  before_filter :authenticate_user!, :except => :api
+  before_filter :authenticate_user!, :except => :api_index
   before_filter :authenticate_owner, :only => [:show, :edit, :update]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
   # GET /drivers
   # GET /drivers.json
-  def api
+  def api_index
+    car = Car.includes(:user).where(["twitter_id = ?", params[:id]]).first
+    @drivers = Driver.where(["user_id = ? AND deleted_at IS NULL", car.user.id]).all
+    respond_to do |format|
+      format.json { render json: @drivers }
+    end
+  end
+
+  # GET /drivers
+  # GET /drivers.json
+  def api_show
     car = Car.includes(:user).where(["twitter_id = ?", params[:id]]).first
     @drivers = Driver.where(["user_id = ? AND deleted_at IS NULL", car.user.id]).all
     respond_to do |format|

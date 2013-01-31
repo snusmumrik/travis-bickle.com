@@ -34,13 +34,13 @@ TaxiDriver::Application.routes.draw do
 
   resources :drivers do
     collection do
-      get "api"
+      get "api_index"
     end
   end
 
   resources :cars do
     collection do
-      get "api"
+      get "api_index"
     end
   end
 

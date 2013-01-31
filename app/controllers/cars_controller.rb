@@ -1,11 +1,11 @@
 class CarsController < InheritedResources::Base
-  before_filter :authenticate_user!, :except => :api
+  before_filter :authenticate_user!, :except => :api_index
   before_filter :authenticate_owner, :only => [:show, :edit, :update]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
   # GET /cars
   # GET /cars.json
-  def api
+  def api_index
     car = Car.includes(:user).where(["twitter_id = ?", params[:id]]).first
     @cars = Car.where(["user_id = ? AND deleted_at IS NULL", car.user.id]).all if car
     respond_to do |format|
