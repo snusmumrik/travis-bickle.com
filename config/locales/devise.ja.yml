@@ -19,6 +19,9 @@ ja:
       user:
         signed_in: 'サインインしました。'
         signed_out: 'サインアウトしました。'
+      admin_user:
+        signed_in: 'サインインしました。'
+        signed_out: 'サインアウトしました。'
     passwords:
       send_instructions: 'パスワードのリセット方法を数分以内にメールでご連絡します。'
       updated: 'パスワードを変更しました。'
