@@ -1,9 +1,5 @@
 <tr>
   <td><%= driver.name %></td>
-  <td><%= driver.birthday.strftime("%Y年%m月%d日") rescue nil %></td>
-  <td><%= driver.blood_type %></td>
-  <td><%= driver.licence_number %></td>
-  <td><%= driver.start_working_at.strftime("%Y年%m月%d日") rescue nil %></td>
   <td><%= link_to t("link.show"), "#{driver_path(driver)}/#{Date.today.year}/#{Date.today.month}" %></td>
   <td><%= link_to t("link.edit"), edit_driver_path(driver) %></td>
   <td><%= link_to t("link.destroy"), driver, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -70,10 +70,6 @@ ja:
 
       driver:
         name: 氏名
-        birthday: 生年月日
-        blood_type: 血液型
-        licence_number: 免許書番号
-        start_working_at: 入社日
 
       report:
         car_id: 車両
