@@ -1,13 +1,13 @@
 class CheckPointsController < InheritedResources::Base
-  before_filter :authenticate_user!, :except => :api
+  before_filter :authenticate_user!, :except => :api_index
   before_filter :authenticate_owner, :only => [:show, :edit, :update]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
   # GET /check_points
   # GET /check_points.json
-  def api
-    car = Car.includes(:user).where(["twitter_id = ?", params[:id]]).first
-    @check_points = CheckPoint.where(["user_id = ? AND deleted_at IS NULL", car.user.id]).all
+  def api_index
+    driver = Driver.where(["id = ? AND tc_user_id = ?", params[:driver_id], params[:tc_user_id]]).first
+    @check_points = CheckPoint.where(["user_id = ? AND deleted_at IS NULL", driver.user_id]).all
     respond_to do |format|
       format.json { render json: @check_points }
     end

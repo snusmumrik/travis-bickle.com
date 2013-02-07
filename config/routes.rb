@@ -28,13 +28,13 @@ TaxiDriver::Application.routes.draw do
 
   resources :check_points do
     collection do
-      get "api"
+      get "api_index"
     end
   end
 
   resources :drivers do
     collection do
-      get "api_index"
+      post "api_signin"
     end
   end
 
@@ -48,7 +48,8 @@ TaxiDriver::Application.routes.draw do
 
   devise_for :admin_users, ActiveAdmin::Devise.config
 
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" } do
+  devise_for :users do
+    # :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
     get "sign_in", :to => "devise/sessions#new"
     get "sign_up", :to => "devise/registrations#new"
     get "sign_out", :to => "devise/sessions#destroy"

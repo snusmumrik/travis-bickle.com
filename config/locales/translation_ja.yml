@@ -70,6 +70,9 @@ ja:
 
       driver:
         name: 氏名
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワードの確認
 
       report:
         car_id: 車両
