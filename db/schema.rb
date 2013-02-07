@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130201061721) do
+ActiveRecord::Schema.define(:version => 20130207025936) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -49,12 +49,8 @@ ActiveRecord::Schema.define(:version => 20130201061721) do
   create_table "cars", :force => true do |t|
     t.integer  "user_id"
     t.string   "name"
-    t.string   "car_type"
-    t.string   "car_model"
     t.integer  "base_fare"
     t.integer  "meter_fare"
-    t.integer  "twitter_id"
-    t.string   "twitter_name"
     t.string   "access_token"
     t.datetime "deleted_at"
     t.datetime "created_at",   :null => false
@@ -75,6 +71,7 @@ ActiveRecord::Schema.define(:version => 20130201061721) do
 
   create_table "drivers", :force => true do |t|
     t.integer  "user_id"
+    t.string   "tc_user_id"
     t.string   "name"
     t.string   "email"
     t.string   "password_digest"

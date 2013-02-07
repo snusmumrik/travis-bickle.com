@@ -2,9 +2,9 @@ class Car < ActiveRecord::Base
   belongs_to :user
   has_many :reports
   has_many :drivers, :through => :reports
-  attr_accessible :user_id, :base_fare, :deleted_at, :meter_fare, :car_model, :name, :car_type, :twitter_id, :twitter_name
+  attr_accessible :user_id, :name, :base_fare, :meter_fare, :deleted_at
 
-  validates :name, :base_fare, :meter_fare, :twitter_id, :presence => true
+  validates :name, :base_fare, :meter_fare, :presence => true
 
   scope :name_matches, lambda {|q|
     where "name like :q", :q => "%#{q}%"
