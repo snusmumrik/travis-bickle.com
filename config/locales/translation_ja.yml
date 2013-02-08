@@ -71,6 +71,7 @@ ja:
       driver:
         name: 氏名
         email: メールアドレス
+        tc_user_id: Titanium Cloud User Id
         password: パスワード
         password_confirmation: パスワードの確認
 
