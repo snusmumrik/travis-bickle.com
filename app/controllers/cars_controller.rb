@@ -13,6 +13,31 @@ class CarsController < InheritedResources::Base
     end
   end
 
+  # PUT /cars/api_update
+  # PUT /cars/api_update.json
+  def api_update
+    @car = Car.where(["car_id = ?", params[:car_id]]).first
+    if @@app_key != params[:key]
+      format.json { render json:{ :error => "authentication error" } }
+    else
+      if @car
+        @car.update_attributes({:device_token => params[:device_token]})
+
+        respond_to do |format|
+          if @car.save
+            format.json { render json: @car }
+          else
+            format.json { render json: @car.errors }
+          end
+        end
+      else
+        respond_to do |format|
+          format.json { render json:{:error => "not found" } }
+        end
+      end
+    end
+  end
+
   # GET /cars/1
   # GET /cars/1.json
   def show

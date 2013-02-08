@@ -41,6 +41,7 @@ TaxiDriver::Application.routes.draw do
   resources :cars do
     collection do
       get "api_index"
+      put "api_update"
     end
   end
 
