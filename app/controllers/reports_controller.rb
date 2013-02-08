@@ -6,7 +6,7 @@ class ReportsController < InheritedResources::Base
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
   def api_show
-    @report = Report.where(["car_id = ? AND driver_id = ? AND mileage IS NULL", params[:car_id], params[:driver_id]]).first
+    @report = Report.where(["car_id = ? AND driver_id = ? AND finished_at IS NULL", params[:car_id], params[:driver_id]]).first
     respond_to do |format|
       if @report
         format.json { render json: @report, status: :created, location: @report }
@@ -19,7 +19,7 @@ class ReportsController < InheritedResources::Base
   # POST /reports/api_create
   # POST /reports/api_create.jsonb
   def api_create
-    @report = Report.where(["car_id = ? AND driver_id = ? AND mileage IS NULL", params[:car_id], params[:driver_id]]).first
+    @report = Report.where(["car_id = ? AND driver_id = ? AND finished_at IS NULL", params[:car_id], params[:driver_id]]).first
     if @report
       @report.update_attribute(:updated_at, Time.now())
       respond_to do |format|
