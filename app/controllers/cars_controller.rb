@@ -1,5 +1,5 @@
 class CarsController < InheritedResources::Base
-  before_filter :authenticate_user!, :except => :api_index
+  before_filter :authenticate_user!, :except => [:api_index, :api_update]
   before_filter :authenticate_owner, :only => [:show, :edit, :update]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
