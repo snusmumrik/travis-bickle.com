@@ -16,7 +16,7 @@ class CarsController < InheritedResources::Base
   # PUT /cars/api_update
   # PUT /cars/api_update.json
   def api_update
-    @car = Car.where(["car_id = ?", params[:car_id]]).first
+    @car = Car.where(["id = ?", params[:car_id]]).first
     if @@app_key != params[:key]
       format.json { render json:{ :error => "authentication error" } }
     else
