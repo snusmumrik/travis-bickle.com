@@ -5,51 +5,49 @@ class RidesController < InheritedResources::Base
   # POST /rides/api_create
   # POST /rides/api_create.jsonb
   def api_create
-    if @ride = Ride.where(["report_id = ? AND fare IS NULL", params[:report_id]]).first
-      respond_to do |format|
+    @ride = Ride.new(:report_id => params[:report_id],
+                     :ride_latitude => params[:ride_latitude],
+                     :ride_longitude => params[:ride_longitude],
+                     :ride_address => params[:ride_address],
+                     :leave_latitude => params[:leave_latitude],
+                     :leave_longitude => params[:leave_longitude],
+                     :leave_address => params[:leave_address],
+                     :passengers => params[:passengers],
+                     :fare => params[:fare])
+    respond_to do |format|
+      if @ride.save(:validate => false)
         format.json { render json: @ride, status: :created, location: @ride }
-        # format.json { render json:{:error => "duplicate ride" } }
-      end
-    else
-      @ride = Ride.new(:report_id => params[:report_id],
-                       :ride_latitude => params[:ride_latitude],
-                       :ride_longitude => params[:ride_longitude],
-                       :ride_address => params[:ride_address])
-      respond_to do |format|
-        if @ride.save(:validate => false)
-          format.json { render json: @ride, status: :created, location: @ride }
-        else
-          format.json { render json: @ride.errors, status: :unprocessable_entity }
-        end
+      else
+        format.json { render json: @ride.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # PUT /rides/api_update
-  # PUT /rides/api_update.json
-  def api_update
-    @ride = Ride.where(["report_id = ? AND fare IS NULL", params[:report_id]]).first
-    if @ride
-      @ride.update_attributes({ :leave_latitude => params[:leave_latitude],
-                                :leave_longitude => params[:leave_longitude],
-                                :leave_address => params[:leave_address],
-                                :passengers => params[:passengers],
-                                :fare => params[:fare]
-                              })
+  # # PUT /rides/api_update
+  # # PUT /rides/api_update.json
+  # def api_update
+  #   @ride = Ride.where(["report_id = ? AND fare IS NULL", params[:report_id]]).first
+  #   if @ride
+  #     @ride.update_attributes({ :leave_latitude => params[:leave_latitude],
+  #                               :leave_longitude => params[:leave_longitude],
+  #                               :leave_address => params[:leave_address],
+  #                               :passengers => params[:passengers],
+  #                               :fare => params[:fare]
+  #                             })
 
-      respond_to do |format|
-        if @ride.save
-          format.json { render json: @ride.report }
-        else
-          format.json { render json: @ride.errors, status: :unprocessable_entity }
-        end
-      end
-    else
-      respond_to do |format|
-        format.json { render json:{:error => "not found" } }
-      end
-    end
-  end
+  #     respond_to do |format|
+  #       if @ride.save
+  #         format.json { render json: @ride.report }
+  #       else
+  #         format.json { render json: @ride.errors, status: :unprocessable_entity }
+  #       end
+  #     end
+  #   else
+  #     respond_to do |format|
+  #       format.json { render json:{:error => "not found" } }
+  #     end
+  #   end
+  # end
 
 
   # GET /rides/new

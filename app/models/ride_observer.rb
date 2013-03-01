@@ -1,5 +1,5 @@
 class RideObserver < ActiveRecord::Observer
-  def after_update(ride)
+  def after_create(ride)
     @report = ride.report
     passengers = 0
     sales = 0

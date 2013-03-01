@@ -5,7 +5,7 @@ class RestsController < InheritedResources::Base
   # POST /rests/api_create
   # POST /rests/api_create.jsonb
   def api_create
-    @rest = Rest.new(:report_id => params[:report_id], :location => params[:location], :latitude => params[:latitude], :longitude => params[:longitude], :started_at => params[:started_at], :ended_at => Time.now())
+    @rest = Rest.new(:report_id => params[:report_id], :location => params[:location], :latitude => params[:latitude], :longitude => params[:longitude], :address => params[:address], :started_at => params[:started_at], :ended_at => Time.now())
     respond_to do |format|
       if @rest.save
         format.json { render json: @rest, status: :created, location: @rest }
