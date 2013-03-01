@@ -19,6 +19,11 @@ class ReportsController < InheritedResources::Base
   # POST /reports/api_create
   # POST /reports/api_create.jsonb
   def api_create
+    if params[:device_token]
+      car = Car.find(params[:car_id])
+      car.update_attribute(:device_token, params[:device_token])
+    end
+
     @report = Report.where(["car_id = ? AND driver_id = ? AND finished_at IS NULL", params[:car_id], params[:driver_id]]).first
     if @report
       @report.update_attribute(:updated_at, Time.now())

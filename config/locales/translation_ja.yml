@@ -62,8 +62,8 @@ ja:
         car_model: 年式
         base_fare: 初乗料金
         meter_fare: メーター料金
-        twitter_id: Twitter ID
-        twitter_name: Twitter Name
+        access_token: アクセストークン
+        device_token: デバイストークン
 
       check_point:
         name: "点検項目"

@@ -2,6 +2,7 @@
   <td><%= car.name %></td>
   <td><%= car.base_fare %></td>
   <td><%= car.meter_fare %></td>
+    <td><%= car.device_token %></td>
   <td><%= link_to t("link.show"), "#{car_path(car)}/#{Date.today.year}/#{Date.today.month}" %></td>
   <td><%= link_to t("link.edit"), edit_car_path(car) %></td>
   <td><%= link_to t("link.destroy"), car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
