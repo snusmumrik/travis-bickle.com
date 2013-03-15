@@ -1,5 +1,6 @@
 class LocationsController < InheritedResources::Base
   before_filter :authenticate_user!, :except => :api_update
+  before_filter :authenticate_owner, :only => [:show, :edit, :update, :delete]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
   # PUT /locations/api_update
@@ -52,23 +53,8 @@ class LocationsController < InheritedResources::Base
   end
 
   private
-  def push_notification(device_token, message)
-    pusher = Grocer.pusher(certificate: "#{Rails.root}/doc/apns-dev.pem",      # required
-                           # passphrase:  "",                       # optional
-                           # gateway:     localhost, # test
-                           gateway:     "gateway.sandbox.push.apple.com", # develpment
-                           # gateway:     "gateway.push.apple.com", # production
-                           port:        2195,                     # optional
-                           retries:     3                         # optional
-                           )
-    notification = Grocer::Notification.new(device_token: device_token,
-                                            alert:        message,
-                                            badge:        0,
-                                            sound:        "siren.aiff",         # optional
-                                            expiry:       Time.now + 60*60,     # optional; 0 is default, meaning the message is not stored
-                                            identifier:   1234                  # optional
-                                            )
-
-    pusher.push(notification)
+  def authenticate_owner
+    @locatio = Location.find(params[:id])
+    redirect_to locations_path if @location.car.user_id != current_user.id
   end
 end

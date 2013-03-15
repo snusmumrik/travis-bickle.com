@@ -19,14 +19,14 @@ require 'spec_helper'
 # that an instance is receiving a specific message.
 
 describe CarsController do
-
   # This should return the minimal set of attributes required to create a valid
   # Car. As you add validations to Car, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {}
+    FactoryGirl.attributes_for(:car, :user_id => 1)
+    # FactoryGirl.build(:car).attributes.symbolize_keys
   end
-  
+
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # CarsController. Be sure to keep this updated too.
@@ -34,131 +34,226 @@ describe CarsController do
     {}
   end
 
-  describe "GET index" do
-    it "assigns all cars as @cars" do
-      car = Car.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:cars).should eq([car])
-    end
-  end
+  context "authenticated user" do
+    signin_user
 
-  describe "GET show" do
-    it "assigns the requested car as @car" do
-      car = Car.create! valid_attributes
-      get :show, {:id => car.to_param}, valid_session
-      assigns(:car).should eq(car)
-    end
-  end
-
-  describe "GET new" do
-    it "assigns a new car as @car" do
-      get :new, {}, valid_session
-      assigns(:car).should be_a_new(Car)
-    end
-  end
-
-  describe "GET edit" do
-    it "assigns the requested car as @car" do
-      car = Car.create! valid_attributes
-      get :edit, {:id => car.to_param}, valid_session
-      assigns(:car).should eq(car)
-    end
-  end
-
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new Car" do
-        expect {
-          post :create, {:car => valid_attributes}, valid_session
-        }.to change(Car, :count).by(1)
-      end
-
-      it "assigns a newly created car as @car" do
-        post :create, {:car => valid_attributes}, valid_session
-        assigns(:car).should be_a(Car)
-        assigns(:car).should be_persisted
-      end
-
-      it "redirects to the created car" do
-        post :create, {:car => valid_attributes}, valid_session
-        response.should redirect_to(Car.last)
-      end
-    end
-
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved car as @car" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Car.any_instance.stub(:save).and_return(false)
-        post :create, {:car => {}}, valid_session
-        assigns(:car).should be_a_new(Car)
-      end
-
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Car.any_instance.stub(:save).and_return(false)
-        post :create, {:car => {}}, valid_session
-        response.should render_template("new")
-      end
-    end
-  end
-
-  describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested car" do
+    describe "GET index" do
+      it "assigns all cars as @cars" do
         car = Car.create! valid_attributes
-        # Assuming there are no other cars in the database, this
-        # specifies that the Car created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        Car.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {:id => car.to_param, :car => {'these' => 'params'}}, valid_session
+        get :index, {}
+        assigns(:cars).should eq([car])
       end
 
+      it "do not assigns other's cars" do
+        car = FactoryGirl.create(:car, :user_id => 2)
+        assigns(:cars).should_not eq([car])
+      end
+    end
+
+    describe "GET show" do
       it "assigns the requested car as @car" do
         car = Car.create! valid_attributes
-        put :update, {:id => car.to_param, :car => valid_attributes}, valid_session
+        get :show, {:id => car.to_param}
         assigns(:car).should eq(car)
-      end
+      ende
 
-      it "redirects to the car" do
-        car = Car.create! valid_attributes
-        put :update, {:id => car.to_param, :car => valid_attributes}, valid_session
-        response.should redirect_to(car)
+      it "redirects to index in case of unauthorized car as @car" do
+        car = FactoryGirl.create(:car, :user_id => 2)
+        get :show, {:id => car.to_param}
+        response.should redirect_to cars_path
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the car as @car" do
+    describe "GET new" do
+      it "assigns a new car as @car" do
+        get :new, {}
+        assigns(:car).should be_a_new(Car)
+      end
+    end
+
+    describe "GET edit" do
+      it "assigns the requested car as @car" do
         car = Car.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Car.any_instance.stub(:save).and_return(false)
-        put :update, {:id => car.to_param, :car => {}}, valid_session
+        get :edit, {:id => car.to_param}
         assigns(:car).should eq(car)
       end
 
-      it "re-renders the 'edit' template" do
+      it "do not assigns the requested other's car as @car" do
+        car = FactoryGirl.create(:car, :user_id => 2)
+        get :edit, {:id => car.to_param}
+        response.should redirect_to cars_path
+      end
+    end
+
+    describe "POST create" do
+      describe "with valid params" do
+        it "creates a new Car" do
+          expect {
+            post :create, {:car => valid_attributes}
+          }.to change(Car, :count).by(1)
+        end
+
+        it "assigns a newly created car as @car" do
+          post :create, {:car => valid_attributes}
+          assigns(:car).should be_a(Car)
+          assigns(:car).should be_persisted
+        end
+
+        it "redirects to cars index" do
+          post :create, {:car => valid_attributes}
+          response.should redirect_to(cars_path)
+        end
+      end
+
+      describe "with invalid params" do
+        it "assigns a newly created but unsaved car as @car" do
+          # Trigger the behavior that occurs when invalid params are submitted
+          Car.any_instance.stub(:save).and_return(false)
+          post :create, {:car => {}}
+          assigns(:car).should be_a_new(Car)
+        end
+
+        it "re-renders the 'new' template" do
+          # Trigger the behavior that occurs when invalid params are submitted
+          Car.any_instance.stub(:save).and_return(false)
+          post :create, {:car => {}}
+          response.should render_template("new")
+        end
+      end
+    end
+
+    describe "PUT update" do
+      describe "for unauthorized car" do
+        it "redirects to index for unauthorized car as @car" do
+          car = FactoryGirl.create(:car, :user_id => 2)
+          put :update, {:id => car.to_param, :car => valid_attributes}
+          response.should redirect_to(cars_path)
+        end
+      end
+
+      describe "with valid params" do
+        it "updates the requested car" do
+          car = Car.create! valid_attributes
+          # Assuming there are no other cars in the database, this
+          # specifies that the Car created on the previous line
+          # receives the :update_attributes message with whatever params are
+          # submitted in the request.
+          Car.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
+          put :update, {:id => car.to_param, :car => {'these' => 'params'}}
+        end
+
+        it "assigns the requested car as @car" do
+          car = Car.create! valid_attributes
+          put :update, {:id => car.to_param, :car => valid_attributes}
+          assigns(:car).should eq(car)
+        end
+
+        it "redirects to the car" do
+          car = Car.create! valid_attributes
+          put :update, {:id => car.to_param, :car => valid_attributes}
+          response.should redirect_to(car)
+        end
+      end
+
+      describe "with invalid params" do
+        it "assigns the car as @car" do
+          car = Car.create! valid_attributes
+          # Trigger the behavior that occurs when invalid params are submitted
+          Car.any_instance.stub(:save).and_return(false)
+          put :update, {:id => car.to_param, :car => {}}
+          assigns(:car).should eq(car)
+        end
+
+        it "re-renders the 'edit' template" do
+          car = Car.create! valid_attributes
+          # Trigger the behavior that occurs when invalid params are submitted
+          Car.any_instance.stub(:save).and_return(false)
+          put :update, {:id => car.to_param, :car => {}}
+          response.should render_template("edit")
+        end
+      end
+    end
+
+    describe "DELETE destroy" do
+      it "destroys the requested car" do
         car = Car.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Car.any_instance.stub(:save).and_return(false)
-        put :update, {:id => car.to_param, :car => {}}, valid_session
-        response.should render_template("edit")
+        expect {
+          delete :destroy, {:id => car.to_param}
+        }.to change(Car, :count).by(-1)
+      end
+
+      it "does not destroy other's car" do
+        car = FactoryGirl.create(:car, :user_id => 2)
+        expect {
+          delete :destroy, {:id => car.to_param}
+        }.to change(Car, :count).by(0)
+        response.should redirect_to cars_path
+      end
+
+      it "redirects to the cars list" do
+        car = Car.create! valid_attributes
+        delete :destroy, {:id => car.to_param}
+        response.should redirect_to(cars_url)
       end
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested car" do
-      car = Car.create! valid_attributes
-      expect {
-        delete :destroy, {:id => car.to_param}, valid_session
-      }.to change(Car, :count).by(-1)
+  context "unauthenticated user" do
+    describe "GET index" do
+      it "redirects to signin" do
+        get :index, {}
+        response.should redirect_to new_user_session_path
+      end
     end
 
-    it "redirects to the cars list" do
-      car = Car.create! valid_attributes
-      delete :destroy, {:id => car.to_param}, valid_session
-      response.should redirect_to(cars_url)
+    describe "GET show" do
+      it "redirect to signin" do
+        car = Car.create! valid_attributes
+        get :show, {:id => car.to_param}
+        response.should redirect_to new_user_session_path
+      end
+    end
+
+    describe "GET new" do
+      it "redirect to signin" do
+        get :new, {}
+        response.should redirect_to new_user_session_path
+      end
+    end
+
+    describe "GET edit" do
+      it "redirect to signin" do
+        car = Car.create! valid_attributes
+        get :edit, {:id => car.to_param}
+        response.should redirect_to new_user_session_path
+      end
+    end
+
+    describe "POST create" do
+      it "redirect to signin" do
+        expect {
+          post :create, {:car => valid_attributes}
+        }.to change(Car, :count).by(0)
+        response.should redirect_to new_user_session_path
+      end
+    end
+
+    describe "PUT update" do
+      it "redirect to signin" do
+        # car = FactoryGirl.build(:car)
+        # put :update, {:id => car.to_param, :car => {'these' => 'params'}}
+        put :update, {:id => 1, :car => {'these' => 'params'}}
+        response.should redirect_to new_user_session_path
+      end
+    end
+
+    describe "DELETE destroy" do
+      it "redirects to signin" do
+        # car = FactoryGirl.build(:car)
+        # delete :destroy, {:id => car.to_param}
+        delete :destroy, {:id => 1}
+        response.should redirect_to new_user_session_path
+      end
     end
   end
-
 end

@@ -24,9 +24,12 @@ describe RestsController do
   # Rest. As you add validations to Rest, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {}
+    # report = FactoryGirl.build(:report, :id => 1, :driver_id => 1, :car_id => 1)
+    # FactoryGirl.attributes_for(:rest, :report_id => report.id)
+    # FactoryGirl.build(:rest).attributes.symbolize_keys
+    FactoryGirl.attributes_for(:rest)
   end
-  
+
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # RestsController. Be sure to keep this updated too.
@@ -34,131 +37,193 @@ describe RestsController do
     {}
   end
 
-  describe "GET index" do
-    it "assigns all rests as @rests" do
-      rest = Rest.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:rests).should eq([rest])
-    end
-  end
+  context "authenticated user" do
+    signin_user
 
-  describe "GET show" do
-    it "assigns the requested rest as @rest" do
-      rest = Rest.create! valid_attributes
-      get :show, {:id => rest.to_param}, valid_session
-      assigns(:rest).should eq(rest)
-    end
-  end
-
-  describe "GET new" do
-    it "assigns a new rest as @rest" do
-      get :new, {}, valid_session
-      assigns(:rest).should be_a_new(Rest)
-    end
-  end
-
-  describe "GET edit" do
-    it "assigns the requested rest as @rest" do
-      rest = Rest.create! valid_attributes
-      get :edit, {:id => rest.to_param}, valid_session
-      assigns(:rest).should eq(rest)
-    end
-  end
-
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new Rest" do
-        expect {
-          post :create, {:rest => valid_attributes}, valid_session
-        }.to change(Rest, :count).by(1)
-      end
-
-      it "assigns a newly created rest as @rest" do
-        post :create, {:rest => valid_attributes}, valid_session
-        assigns(:rest).should be_a(Rest)
-        assigns(:rest).should be_persisted
-      end
-
-      it "redirects to the created rest" do
-        post :create, {:rest => valid_attributes}, valid_session
-        response.should redirect_to(Rest.last)
-      end
-    end
-
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved rest as @rest" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Rest.any_instance.stub(:save).and_return(false)
-        post :create, {:rest => {}}, valid_session
-        assigns(:rest).should be_a_new(Rest)
-      end
-
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Rest.any_instance.stub(:save).and_return(false)
-        post :create, {:rest => {}}, valid_session
-        response.should render_template("new")
-      end
-    end
-  end
-
-  describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested rest" do
+    describe "GET index" do
+      it "assigns all rests as @rests" do
         rest = Rest.create! valid_attributes
-        # Assuming there are no other rests in the database, this
-        # specifies that the Rest created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        Rest.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {:id => rest.to_param, :rest => {'these' => 'params'}}, valid_session
+        get :index, {}
+        assigns(:rests).should eq([rest])
       end
+    end
 
+    describe "GET show" do
       it "assigns the requested rest as @rest" do
         rest = Rest.create! valid_attributes
-        put :update, {:id => rest.to_param, :rest => valid_attributes}, valid_session
+        get :show, {:id => rest.to_param}
         assigns(:rest).should eq(rest)
-      end
-
-      it "redirects to the rest" do
-        rest = Rest.create! valid_attributes
-        put :update, {:id => rest.to_param, :rest => valid_attributes}, valid_session
-        response.should redirect_to(rest)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the rest as @rest" do
+    describe "GET new" do
+      it "assigns a new rest as @rest" do
+        get :new, {:report_id => FactoryGirl.create(:report).id}
+        assigns(:rest).should be_a_new(Rest)
+      end
+    end
+
+    describe "GET edit" do
+      it "assigns the requested rest as @rest" do
         rest = Rest.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Rest.any_instance.stub(:save).and_return(false)
-        put :update, {:id => rest.to_param, :rest => {}}, valid_session
+        get :edit, {:id => rest.to_param}
         assigns(:rest).should eq(rest)
       end
+    end
 
-      it "re-renders the 'edit' template" do
+    describe "POST create" do
+      describe "with valid params" do
+        it "creates a new Rest" do
+          expect {
+            post :create, {:rest => valid_attributes}
+          }.to change(Rest, :count).by(1)
+        end
+
+        it "assigns a newly created rest as @rest" do
+          post :create, {:rest => valid_attributes}
+          assigns(:rest).should be_a(Rest)
+          assigns(:rest).should be_persisted
+        end
+
+        it "redirects to the created rest" do
+          post :create, {:rest => valid_attributes}
+          response.should redirect_to(Rest.last)
+        end
+      end
+
+      describe "with invalid params" do
+        it "assigns a newly created but unsaved rest as @rest" do
+          # Trigger the behavior that occurs when invalid params are submitted
+          Rest.any_instance.stub(:save).and_return(false)
+          post :create, {:rest => {}}
+          assigns(:rest).should be_a_new(Rest)
+        end
+
+        it "re-renders the 'new' template" do
+          # Trigger the behavior that occurs when invalid params are submitted
+          Rest.any_instance.stub(:save).and_return(false)
+          post :create, {:rest => {}}
+          response.should render_template("new")
+        end
+      end
+    end
+
+    describe "PUT update" do
+      describe "with valid params" do
+        it "updates the requested rest" do
+          rest = Rest.create! valid_attributes
+          # Assuming there are no other rests in the database, this
+          # specifies that the Rest created on the previous line
+          # receives the :update_attributes message with whatever params are
+          # submitted in the request.
+          Rest.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
+          put :update, {:id => rest.to_param, :rest => {'these' => 'params'}}
+        end
+
+        it "assigns the requested rest as @rest" do
+          rest = Rest.create! valid_attributes
+          put :update, {:id => rest.to_param, :rest => valid_attributes}
+          assigns(:rest).should eq(rest)
+        end
+
+        it "redirects to the rest" do
+          rest = Rest.create! valid_attributes
+          put :update, {:id => rest.to_param, :rest => valid_attributes}
+          response.should redirect_to(rest)
+        end
+      end
+
+      describe "with invalid params" do
+        it "assigns the rest as @rest" do
+          rest = Rest.create! valid_attributes
+          # Trigger the behavior that occurs when invalid params are submitted
+          Rest.any_instance.stub(:save).and_return(false)
+          put :update, {:id => rest.to_param, :rest => {}}
+          assigns(:rest).should eq(rest)
+        end
+
+        it "re-renders the 'edit' template" do
+          rest = Rest.create! valid_attributes
+          # Trigger the behavior that occurs when invalid params are submitted
+          Rest.any_instance.stub(:save).and_return(false)
+          put :update, {:id => rest.to_param, :rest => {}}
+          response.should render_template("edit")
+        end
+      end
+    end
+
+    describe "DELETE destroy" do
+      it "destroys the requested rest" do
         rest = Rest.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Rest.any_instance.stub(:save).and_return(false)
-        put :update, {:id => rest.to_param, :rest => {}}, valid_session
-        response.should render_template("edit")
+        expect {
+          delete :destroy, {:id => rest.to_param}
+        }.to change(Rest, :count).by(-1)
+      end
+
+      it "redirects to the rests list" do
+        rest = Rest.create! valid_attributes
+        delete :destroy, {:id => rest.to_param}
+        response.should redirect_to(rests_url)
       end
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested rest" do
-      rest = Rest.create! valid_attributes
-      expect {
-        delete :destroy, {:id => rest.to_param}, valid_session
-      }.to change(Rest, :count).by(-1)
+  context "unauthenticated usef" do
+    describe "GET index" do
+      it "redirects to signin" do
+        get :index, {}
+        response.should redirect_to "/users/sign_in"
+      end
     end
 
-    it "redirects to the rests list" do
-      rest = Rest.create! valid_attributes
-      delete :destroy, {:id => rest.to_param}, valid_session
-      response.should redirect_to(rests_url)
+    describe "GET show" do
+      it "redirect to signin" do
+        rest = Rest.create! valid_attributes
+        get :show, {:id => rest.to_param}
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+
+    describe "GET new" do
+      it "redirect to signin" do
+        get :new, {}
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+
+    describe "GET edit" do
+      it "redirect to signin" do
+        rest = Rest.create! valid_attributes
+        get :edit, {:id => rest.to_param}
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+
+    describe "POST create" do
+      it "redirect to signin" do
+        expect {
+          post :create, {:rest => valid_attributes}
+        }.to change(Rest, :count).by(0)
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+
+    describe "PUT update" do
+      it "redirect to signin" do
+        # rest = FactoryGirl.build(:rest)
+        # put :update, {:id => rest.to_param, :rest => {'these' => 'params'}}
+        put :update, {:id => 1, :rest => {'these' => 'params'}}
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+
+    describe "DELETE destroy" do
+      it "redirects to signin" do
+        # rest = FactoryGirl.build(:rest)
+        # delete :destroy, {:id => rest.to_param}
+        delete :destroy, {:id => 1}
+        response.should redirect_to "/users/sign_in"
+      end
     end
   end
-
 end

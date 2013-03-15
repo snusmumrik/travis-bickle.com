@@ -24,9 +24,10 @@ describe DriversController do
   # Driver. As you add validations to Driver, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {}
+    # FactoryGirl.build(:driver).attributes.symbolize_keys
+    FactoryGirl.attributes_for(:driver, :user_id => 1)
   end
-  
+
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # DriversController. Be sure to keep this updated too.
@@ -34,131 +35,226 @@ describe DriversController do
     {}
   end
 
-  describe "GET index" do
-    it "assigns all drivers as @drivers" do
-      driver = Driver.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:drivers).should eq([driver])
-    end
-  end
+  context "authenticated user" do
+    signin_user
 
-  describe "GET show" do
-    it "assigns the requested driver as @driver" do
-      driver = Driver.create! valid_attributes
-      get :show, {:id => driver.to_param}, valid_session
-      assigns(:driver).should eq(driver)
-    end
-  end
-
-  describe "GET new" do
-    it "assigns a new driver as @driver" do
-      get :new, {}, valid_session
-      assigns(:driver).should be_a_new(Driver)
-    end
-  end
-
-  describe "GET edit" do
-    it "assigns the requested driver as @driver" do
-      driver = Driver.create! valid_attributes
-      get :edit, {:id => driver.to_param}, valid_session
-      assigns(:driver).should eq(driver)
-    end
-  end
-
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new Driver" do
-        expect {
-          post :create, {:driver => valid_attributes}, valid_session
-        }.to change(Driver, :count).by(1)
-      end
-
-      it "assigns a newly created driver as @driver" do
-        post :create, {:driver => valid_attributes}, valid_session
-        assigns(:driver).should be_a(Driver)
-        assigns(:driver).should be_persisted
-      end
-
-      it "redirects to the created driver" do
-        post :create, {:driver => valid_attributes}, valid_session
-        response.should redirect_to(Driver.last)
-      end
-    end
-
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved driver as @driver" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Driver.any_instance.stub(:save).and_return(false)
-        post :create, {:driver => {}}, valid_session
-        assigns(:driver).should be_a_new(Driver)
-      end
-
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Driver.any_instance.stub(:save).and_return(false)
-        post :create, {:driver => {}}, valid_session
-        response.should render_template("new")
-      end
-    end
-  end
-
-  describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested driver" do
+    describe "GET index" do
+      it "assigns all drivers as @drivers" do
         driver = Driver.create! valid_attributes
-        # Assuming there are no other drivers in the database, this
-        # specifies that the Driver created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        Driver.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {:id => driver.to_param, :driver => {'these' => 'params'}}, valid_session
+        get :index, {}
+        assigns(:drivers).should eq([driver])
       end
 
+      it "do not assigns other's drivers" do
+        driver = FactoryGirl.create(:driver, :user_id => 2)
+        assigns(:drivers).should_not eq([driver])
+      end
+    end
+
+    describe "GET show" do
       it "assigns the requested driver as @driver" do
         driver = Driver.create! valid_attributes
-        put :update, {:id => driver.to_param, :driver => valid_attributes}, valid_session
+        get :show, {:id => driver.to_param}
         assigns(:driver).should eq(driver)
       end
 
-      it "redirects to the driver" do
-        driver = Driver.create! valid_attributes
-        put :update, {:id => driver.to_param, :driver => valid_attributes}, valid_session
-        response.should redirect_to(driver)
+      it "redirects to index in case of unauthorized driver as @driver" do
+        driver = FactoryGirl.create(:driver, :user_id => 2)
+        get :show, {:id => driver.to_param}
+        response.should redirect_to drivers_path
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the driver as @driver" do
+    describe "GET new" do
+      it "assigns a new driver as @driver" do
+        get :new, {}
+        assigns(:driver).should be_a_new(Driver)
+      end
+    end
+
+    describe "GET edit" do
+      it "assigns the requested driver as @driver" do
         driver = Driver.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Driver.any_instance.stub(:save).and_return(false)
-        put :update, {:id => driver.to_param, :driver => {}}, valid_session
+        get :edit, {:id => driver.to_param}
         assigns(:driver).should eq(driver)
       end
 
-      it "re-renders the 'edit' template" do
+      it "do not assigns the requested other's driver as @driver" do
+        driver = FactoryGirl.create(:driver, :user_id => 2)
+        get :edit, {:id => driver.to_param}
+        response.should redirect_to drivers_path
+      end
+    end
+
+    describe "POST create" do
+      describe "with valid params" do
+        it "creates a new Driver" do
+          expect {
+            post :create, {:driver => valid_attributes}
+          }.to change(Driver, :count).by(1)
+        end
+
+        it "assigns a newly created driver as @driver" do
+          post :create, {:driver => valid_attributes}
+          assigns(:driver).should be_a(Driver)
+          assigns(:driver).should be_persisted
+        end
+
+        it "redirects to the driver index" do
+          post :create, {:driver => valid_attributes}
+          response.should redirect_to(drivers_path)
+        end
+      end
+
+      describe "with invalid params" do
+        it "assigns a newly created but unsaved driver as @driver" do
+          # Trigger the behavior that occurs when invalid params are submitted
+          Driver.any_instance.stub(:save).and_return(false)
+          post :create, {:driver => {}}
+          assigns(:driver).should be_a_new(Driver)
+        end
+
+        it "re-renders the 'new' template" do
+          # Trigger the behavior that occurs when invalid params are submitted
+          Driver.any_instance.stub(:save).and_return(false)
+          post :create, {:driver => {}}
+          response.should render_template("new")
+        end
+      end
+    end
+
+    describe "PUT update" do
+      describe "for unauthorized driver" do
+        it "redirects to index for unauthorized driver as @driver" do
+          driver = FactoryGirl.create(:driver, :user_id => 2)
+          put :update, {:id => driver.to_param, :driver => valid_attributes}
+          response.should redirect_to(drivers_path)
+        end
+      end
+
+      describe "with valid params" do
+        it "updates the requested driver" do
+          driver = Driver.create! valid_attributes
+          # Assuming there are no other drivers in the database, this
+          # specifies that the Driver created on the previous line
+          # receives the :update_attributes message with whatever params are
+          # submitted in the request.
+          Driver.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
+          put :update, {:id => driver.to_param, :driver => {'these' => 'params'}}
+        end
+
+        it "assigns the requested driver as @driver" do
+          driver = Driver.create! valid_attributes
+          put :update, {:id => driver.to_param, :driver => valid_attributes}
+          assigns(:driver).should eq(driver)
+        end
+
+        it "redirects to the driver" do
+          driver = Driver.create! valid_attributes
+          put :update, {:id => driver.to_param, :driver => valid_attributes}
+          response.should redirect_to(driver)
+        end
+      end
+
+      describe "with invalid params" do
+        it "assigns the driver as @driver" do
+          driver = Driver.create! valid_attributes
+          # Trigger the behavior that occurs when invalid params are submitted
+          Driver.any_instance.stub(:save).and_return(false)
+          put :update, {:id => driver.to_param, :driver => {}}
+          assigns(:driver).should eq(driver)
+        end
+
+        it "re-renders the 'edit' template" do
+          driver = Driver.create! valid_attributes
+          # Trigger the behavior that occurs when invalid params are submitted
+          Driver.any_instance.stub(:save).and_return(false)
+          put :update, {:id => driver.to_param, :driver => {}}
+          response.should render_template("edit")
+        end
+      end
+    end
+
+    describe "DELETE destroy" do
+      it "destroys the requested driver" do
         driver = Driver.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Driver.any_instance.stub(:save).and_return(false)
-        put :update, {:id => driver.to_param, :driver => {}}, valid_session
-        response.should render_template("edit")
+        expect {
+          delete :destroy, {:id => driver.to_param}
+        }.to change(Driver, :count).by(-1)
+      end
+
+      it "does not destroy other's driver" do
+        driver = FactoryGirl.create(:driver, :user_id => 2)
+        expect {
+          delete :destroy, {:id => driver.to_param}
+        }.to change(Driver, :count).by(0)
+        response.should redirect_to drivers_path
+      end
+
+      it "redirects to the drivers list" do
+        driver = Driver.create! valid_attributes
+        delete :destroy, {:id => driver.to_param}
+        response.should redirect_to(drivers_url)
       end
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested driver" do
-      driver = Driver.create! valid_attributes
-      expect {
-        delete :destroy, {:id => driver.to_param}, valid_session
-      }.to change(Driver, :count).by(-1)
+  context "unauthenticated use" do
+    describe "GET index" do
+      it "redirects to signin" do
+        get :index, {}
+        response.should redirect_to "/users/sign_in"
+      end
     end
 
-    it "redirects to the drivers list" do
-      driver = Driver.create! valid_attributes
-      delete :destroy, {:id => driver.to_param}, valid_session
-      response.should redirect_to(drivers_url)
+    describe "GET show" do
+      it "redirect to signin" do
+        driver = Driver.create! valid_attributes
+        get :show, {:id => driver.to_param}
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+
+    describe "GET new" do
+      it "redirect to signin" do
+        get :new, {}
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+
+    describe "GET edit" do
+      it "redirect to signin" do
+        driver = Driver.create! valid_attributes
+        get :edit, {:id => driver.to_param}
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+
+    describe "POST create" do
+      it "redirect to signin" do
+        expect {
+          post :create, {:driver => valid_attributes}
+        }.to change(Driver, :count).by(0)
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+
+    describe "PUT update" do
+      it "redirect to signin" do
+        # driver = FactoryGirl.build(:driver)
+        # put :update, {:id => driver.to_param, :driver => {'these' => 'params'}}
+        put :update, {:id => 1, :driver => {'these' => 'params'}}
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+
+    describe "DELETE destroy" do
+      it "redirects to signin" do
+        # driver = FactoryGirl.build(:driver)
+        # delete :destroy, {:id => driver.to_param}
+        delete :destroy, {:id => 1}
+        response.should redirect_to "/users/sign_in"
+      end
     end
   end
-
 end

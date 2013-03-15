@@ -24,9 +24,10 @@ describe ReportsController do
   # Report. As you add validations to Report, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {}
+    FactoryGirl.attributes_for(:report, :driver_id => 1, :car_id => 1)
+    # FactoryGirl.build(:report).attributes.symbolize_keys
   end
-  
+
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # ReportsController. Be sure to keep this updated too.
@@ -34,25 +35,40 @@ describe ReportsController do
     {}
   end
 
-  describe "GET index" do
-    it "assigns all reports as @reports" do
-      report = Report.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:reports).should eq([report])
+  context "authenticated user" do
+    signin_user
+
+    describe "GET index" do
+      it "assigns all reports as @reports" do
+        report = Report.create! valid_attributes
+        get :index, {}
+        assigns(:reports).should eq([report])
+      end
+    end
+
+    it "do not assigns other's reports" do
+      report = FactoryGirl.create(:report, :user_id => 2)
+      assigns(:reports).should_not eq([report])
     end
   end
 
   describe "GET show" do
     it "assigns the requested report as @report" do
       report = Report.create! valid_attributes
-      get :show, {:id => report.to_param}, valid_session
+      get :show, {:id => report.to_param}
       assigns(:report).should eq(report)
+    end
+
+    it "redirects to index in case of unauthorized report as @report" do
+      report = FactoryGirl.create(:report, :user_id => 2)
+      get :show, {:id => report.to_param}
+      response.should redirect_to reports_path
     end
   end
 
   describe "GET new" do
     it "assigns a new report as @report" do
-      get :new, {}, valid_session
+      get :new, {}
       assigns(:report).should be_a_new(Report)
     end
   end
@@ -60,8 +76,14 @@ describe ReportsController do
   describe "GET edit" do
     it "assigns the requested report as @report" do
       report = Report.create! valid_attributes
-      get :edit, {:id => report.to_param}, valid_session
+      get :edit, {:id => report.to_param}
       assigns(:report).should eq(report)
+    end
+
+    it "do not assigns the requested other's report as @report" do
+      report = FactoryGirl.create(:report, :user_id => 2)
+      get :edit, {:id => report.to_param}
+      response.should redirect_to reports_path
     end
   end
 
@@ -69,18 +91,18 @@ describe ReportsController do
     describe "with valid params" do
       it "creates a new Report" do
         expect {
-          post :create, {:report => valid_attributes}, valid_session
+          post :create, {:report => valid_attributes}
         }.to change(Report, :count).by(1)
       end
 
       it "assigns a newly created report as @report" do
-        post :create, {:report => valid_attributes}, valid_session
+        post :create, {:report => valid_attributes}
         assigns(:report).should be_a(Report)
         assigns(:report).should be_persisted
       end
 
       it "redirects to the created report" do
-        post :create, {:report => valid_attributes}, valid_session
+        post :create, {:report => valid_attributes}
         response.should redirect_to(Report.last)
       end
     end
@@ -89,20 +111,28 @@ describe ReportsController do
       it "assigns a newly created but unsaved report as @report" do
         # Trigger the behavior that occurs when invalid params are submitted
         Report.any_instance.stub(:save).and_return(false)
-        post :create, {:report => {}}, valid_session
+        post :create, {:report => {}}
         assigns(:report).should be_a_new(Report)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Report.any_instance.stub(:save).and_return(false)
-        post :create, {:report => {}}, valid_session
+        post :create, {:report => {}}
         response.should render_template("new")
       end
     end
   end
 
   describe "PUT update" do
+    describe "for unauthorized report" do
+      it "redirects to index for unauthorized report as @report" do
+        report = FactoryGirl.create(:report, :user_id => 2)
+        put :update, {:id => report.to_param, :report => valid_attributes}
+        response.should redirect_to(cars_path)
+      end
+    end
+
     describe "with valid params" do
       it "updates the requested report" do
         report = Report.create! valid_attributes
@@ -111,18 +141,18 @@ describe ReportsController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Report.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {:id => report.to_param, :report => {'these' => 'params'}}, valid_session
+        put :update, {:id => report.to_param, :report => {'these' => 'params'}}
       end
 
       it "assigns the requested report as @report" do
         report = Report.create! valid_attributes
-        put :update, {:id => report.to_param, :report => valid_attributes}, valid_session
+        put :update, {:id => report.to_param, :report => valid_attributes}
         assigns(:report).should eq(report)
       end
 
       it "redirects to the report" do
         report = Report.create! valid_attributes
-        put :update, {:id => report.to_param, :report => valid_attributes}, valid_session
+        put :update, {:id => report.to_param, :report => valid_attributes}
         response.should redirect_to(report)
       end
     end
@@ -132,7 +162,7 @@ describe ReportsController do
         report = Report.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Report.any_instance.stub(:save).and_return(false)
-        put :update, {:id => report.to_param, :report => {}}, valid_session
+        put :update, {:id => report.to_param, :report => {}}
         assigns(:report).should eq(report)
       end
 
@@ -140,7 +170,7 @@ describe ReportsController do
         report = Report.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Report.any_instance.stub(:save).and_return(false)
-        put :update, {:id => report.to_param, :report => {}}, valid_session
+        put :update, {:id => report.to_param, :report => {}}
         response.should render_template("edit")
       end
     end
@@ -150,15 +180,81 @@ describe ReportsController do
     it "destroys the requested report" do
       report = Report.create! valid_attributes
       expect {
-        delete :destroy, {:id => report.to_param}, valid_session
+        delete :destroy, {:id => report.to_param}
       }.to change(Report, :count).by(-1)
+    end
+
+    it "does not destroy other's location" do
+      location = FactoryGirl.create(:location, :user_id => 2)
+      expect {
+        delete :destroy, {:id => location.to_param}
+      }.to change(Location, :count).by(0)
+      response.should redirect_to locations_path
     end
 
     it "redirects to the reports list" do
       report = Report.create! valid_attributes
-      delete :destroy, {:id => report.to_param}, valid_session
+      delete :destroy, {:id => report.to_param}
       response.should redirect_to(reports_url)
     end
   end
 
+  context "unauthenticated user" do
+    describe "GET index" do
+      it "redirects to signin" do
+        get :index, {}
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+
+    describe "GET show" do
+      it "redirect to signin" do
+        report = Report.create! valid_attributes
+        get :show, {:id => report.to_param}
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+
+    describe "GET new" do
+      it "redirect to signin" do
+        get :new, {}
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+
+    describe "GET edit" do
+      it "redirect to signin" do
+        report = Report.create! valid_attributes
+        get :edit, {:id => report.to_param}
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+
+    describe "POST create" do
+      it "redirect to signin" do
+        expect {
+          post :create, {:report => valid_attributes}
+        }.to change(Report, :count).by(0)
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+
+    describe "PUT update" do
+      it "redirect to signin" do
+        # report = FactoryGirl.build(:report)
+        # put :update, {:id => report.to_param, :report => {'these' => 'params'}}
+        put :update, {:id => 1, :report => {'these' => 'params'}}
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+
+    describe "DELETE destroy" do
+      it "redirects to signin" do
+        # report = FactoryGirl.build(:report)
+        # delete :destroy, {:id => report.to_param}
+        delete :destroy, {:id => 1}
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+  end
 end

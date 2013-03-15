@@ -15,9 +15,9 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :signin, :username, :email, :password, :password_confirmation, :remember_me
 
-  validates :username, :uniqueness => true
-
   has_many :images, :as => :parent, :dependent => :destroy
+  has_many :cars
+  has_many :drivers
 
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup

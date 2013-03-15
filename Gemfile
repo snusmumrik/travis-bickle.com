@@ -21,7 +21,7 @@ group :assets do
 end
 
 group :test do
-  gem 'cucumber-rails' # rails generate cucumber:install --capybara --rspec --spork
+  gem 'cucumber-rails', :require => false # rails generate cucumber:install --capybara --rspec --spork
   gem 'database_cleaner' # database_cleaner is not required, but highly recommended
 end
 
@@ -57,17 +57,17 @@ group :test do
   # Pretty printed test output
   gem 'turn', :require => false
   gem 'guard-rspec'
-  gem 'spork', '>=0.9.0.rc2'
+  gem 'spork'
   gem 'minitest'
   gem 'factory_girl_rails'
 end
 
 gem 'devise'
-gem 'rails3_acts_as_paranoid', '~>0.2.0'
+gem 'rails3_acts_as_paranoid'
 gem 'omniauth'
 gem 'oa-oauth', :require => 'omniauth/oauth'
 gem 'activeadmin'
-gem 'meta_search', '>= 1.1.0.pre'
+gem 'meta_search'
 gem 'kaminari'
 gem 'paperclip'
 gem 'gmaps4rails'

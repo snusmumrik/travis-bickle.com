@@ -1,6 +1,6 @@
 class CheckPointsController < InheritedResources::Base
   before_filter :authenticate_user!, :except => :api_index
-  before_filter :authenticate_owner, :only => [:show, :edit, :update]
+  before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
   # GET /check_points
@@ -50,7 +50,7 @@ class CheckPointsController < InheritedResources::Base
     @check_point = CheckPoint.find(params[:id])
     respond_to do |format|
       if @check_point.update_attributes(params[:check_point])
-        format.html { redirect_to check_points_path, notice: 'Check Point was successfully updated.' }
+        format.html { redirect_to @check_point, notice: 'Check Point was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

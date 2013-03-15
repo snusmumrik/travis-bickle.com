@@ -24,9 +24,10 @@ describe LocationsController do
   # Location. As you add validations to Location, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    {}
+    FactoryGirl.attributes_for(:location)
+    # FactoryGirl.build(:location).attributes.symbolize_keys
   end
-  
+
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # LocationsController. Be sure to keep this updated too.
@@ -34,131 +35,227 @@ describe LocationsController do
     {}
   end
 
-  describe "GET index" do
-    it "assigns all locations as @locations" do
-      location = Location.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:locations).should eq([location])
-    end
-  end
+  context "authenticated user" do
+    signin_user
 
-  describe "GET show" do
-    it "assigns the requested location as @location" do
-      location = Location.create! valid_attributes
-      get :show, {:id => location.to_param}, valid_session
-      assigns(:location).should eq(location)
-    end
-  end
-
-  describe "GET new" do
-    it "assigns a new location as @location" do
-      get :new, {}, valid_session
-      assigns(:location).should be_a_new(Location)
-    end
-  end
-
-  describe "GET edit" do
-    it "assigns the requested location as @location" do
-      location = Location.create! valid_attributes
-      get :edit, {:id => location.to_param}, valid_session
-      assigns(:location).should eq(location)
-    end
-  end
-
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new Location" do
-        expect {
-          post :create, {:location => valid_attributes}, valid_session
-        }.to change(Location, :count).by(1)
-      end
-
-      it "assigns a newly created location as @location" do
-        post :create, {:location => valid_attributes}, valid_session
-        assigns(:location).should be_a(Location)
-        assigns(:location).should be_persisted
-      end
-
-      it "redirects to the created location" do
-        post :create, {:location => valid_attributes}, valid_session
-        response.should redirect_to(Location.last)
-      end
-    end
-
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved location as @location" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Location.any_instance.stub(:save).and_return(false)
-        post :create, {:location => {}}, valid_session
-        assigns(:location).should be_a_new(Location)
-      end
-
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Location.any_instance.stub(:save).and_return(false)
-        post :create, {:location => {}}, valid_session
-        response.should render_template("new")
-      end
-    end
-  end
-
-  describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested location" do
+    describe "GET index" do
+      it "assigns all locations as @locations" do
+raise controller.current_user.cars.inspect
         location = Location.create! valid_attributes
-        # Assuming there are no other locations in the database, this
-        # specifies that the Location created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        Location.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {:id => location.to_param, :location => {'these' => 'params'}}, valid_session
+        get :index, {}
+        assigns(:locations).should eq([location])
       end
 
+      it "do not assigns other's locations" do
+        location = FactoryGirl.create(:location, :user_id => 2)
+        assigns(:locations).should_not eq([location])
+      end
+    end
+
+    describe "GET show" do
       it "assigns the requested location as @location" do
         location = Location.create! valid_attributes
-        put :update, {:id => location.to_param, :location => valid_attributes}, valid_session
+        get :show, {:id => location.to_param}
         assigns(:location).should eq(location)
       end
 
-      it "redirects to the location" do
-        location = Location.create! valid_attributes
-        put :update, {:id => location.to_param, :location => valid_attributes}, valid_session
-        response.should redirect_to(location)
+      it "redirects to index in case of unauthorized location as @location" do
+        location = FactoryGirl.create(:location, :user_id => 2)
+        get :show, {:id => location.to_param}
+        response.should redirect_to locations_path
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the location as @location" do
+    describe "GET new" do
+      it "assigns a new location as @location" do
+        get :new, {}
+        assigns(:location).should be_a_new(Location)
+      end
+    end
+
+    describe "GET edit" do
+      it "assigns the requested location as @location" do
         location = Location.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Location.any_instance.stub(:save).and_return(false)
-        put :update, {:id => location.to_param, :location => {}}, valid_session
+        get :edit, {:id => location.to_param}
         assigns(:location).should eq(location)
       end
 
-      it "re-renders the 'edit' template" do
-        location = Location.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Location.any_instance.stub(:save).and_return(false)
-        put :update, {:id => location.to_param, :location => {}}, valid_session
-        response.should render_template("edit")
+      it "do not assigns the requested other's location as @location" do
+        location = FactoryGirl.create(:location, :user_id => 2)
+        get :edit, {:id => location.to_param}
+        response.should redirect_to locations_path
       end
     end
-  end
 
-  describe "DELETE destroy" do
-    it "destroys the requested location" do
-      location = Location.create! valid_attributes
+    describe "POST create" do
+      describe "with valid params" do
+        it "creates a new Location" do
+          expect {
+            post :create, {:location => valid_attributes}
+          }.to change(Location, :count).by(1)
+        end
+
+        it "assigns a newly created location as @location" do
+          post :create, {:location => valid_attributes}
+          assigns(:location).should be_a(Location)
+          assigns(:location).should be_persisted
+        end
+
+        it "redirects to the created location" do
+          post :create, {:location => valid_attributes}
+          response.should redirect_to(Location.last)
+        end
+      end
+
+      describe "with invalid params" do
+        it "assigns a newly created but unsaved location as @location" do
+          # Trigger the behavior that occurs when invalid params are submitted
+          Location.any_instance.stub(:save).and_return(false)
+          post :create, {:location => {}}
+          assigns(:location).should be_a_new(Location)
+        end
+
+        it "re-renders the 'new' template" do
+          # Trigger the behavior that occurs when invalid params are submitted
+          Location.any_instance.stub(:save).and_return(false)
+          post :create, {:location => {}}
+          response.should render_template("new")
+        end
+      end
+    end
+
+    describe "PUT update" do
+      describe "for unauthorized location" do
+        it "redirects to index for unauthorized location as @location" do
+          location = FactoryGirl.create(:location, :car_id => 2)
+          put :update, {:id => location.to_param, :location => valid_attributes}
+          response.should redirect_to(locations_path)
+        end
+      end
+
+      describe "with valid params" do
+        it "updates the requested location" do
+          location = Location.create! valid_attributes
+          # Assuming there are no other locations in the database, this
+          # specifies that the Location created on the previous line
+          # receives the :update_attributes message with whatever params are
+          # submitted in the request.
+          Location.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
+          put :update, {:id => location.to_param, :location => {'these' => 'params'}}
+        end
+
+        it "assigns the requested location as @location" do
+          location = Location.create! valid_attributes
+          put :update, {:id => location.to_param, :location => valid_attributes}
+          assigns(:location).should eq(location)
+        end
+
+        it "redirects to the location" do
+          location = Location.create! valid_attributes
+          put :update, {:id => location.to_param, :location => valid_attributes}
+          response.should redirect_to(location)
+        end
+      end
+
+      describe "with invalid params" do
+        it "assigns the location as @location" do
+          location = Location.create! valid_attributes
+          # Trigger the behavior that occurs when invalid params are submitted
+          Location.any_instance.stub(:save).and_return(false)
+          put :update, {:id => location.to_param, :location => {}}
+          assigns(:location).should eq(location)
+        end
+
+        it "re-renders the 'edit' template" do
+          location = Location.create! valid_attributes
+          # Trigger the behavior that occurs when invalid params are submitted
+          Location.any_instance.stub(:save).and_return(false)
+          put :update, {:id => location.to_param, :location => {}}
+          response.should render_template("edit")
+        end
+      end
+    end
+
+    describe "DELETE destroy" do
+      it "destroys the requested location" do
+        location = Location.create! valid_attributes
+        expect {
+          delete :destroy, {:id => location.to_param}
+        }.to change(Location, :count).by(-1)
+      end
+
+    it "does not destroy other's location" do
+      location = FactoryGirl.create(:location, :car_id => 2)
       expect {
-        delete :destroy, {:id => location.to_param}, valid_session
-      }.to change(Location, :count).by(-1)
+        delete :destroy, {:id => location.to_param}
+      }.to change(Location, :count).by(0)
+      response.should redirect_to locations_path
     end
 
-    it "redirects to the locations list" do
-      location = Location.create! valid_attributes
-      delete :destroy, {:id => location.to_param}, valid_session
-      response.should redirect_to(locations_url)
+      it "redirects to the locations list" do
+        location = Location.create! valid_attributes
+        delete :destroy, {:id => location.to_param}
+        response.should redirect_to(locations_url)
+      end
     end
   end
 
+  context "unauthenticated user" do
+    describe "GET index" do
+      it "redirects to signin" do
+        get :index, {}
+        response.should redirect_to new_user_session_path
+      end
+    end
+
+    describe "GET show" do
+      it "redirect to signin" do
+        location = Location.create! valid_attributes
+        get :show, {:id => location.to_param}
+        response.should redirect_to new_user_session_path
+      end
+    end
+
+    describe "GET new" do
+      it "redirect to signin" do
+        get :new, {}
+        response.should redirect_to new_user_session_path
+      end
+    end
+
+    describe "GET edit" do
+      it "redirect to signin" do
+        location = Location.create! valid_attributes
+        get :edit, {:id => location.to_param}
+        response.should redirect_to new_user_session_path
+      end
+    end
+
+    describe "POST create" do
+      it "redirect to signin" do
+        expect {
+          post :create, {:location => valid_attributes}
+        }.to change(Location, :count).by(0)
+        response.should redirect_to new_user_session_path
+      end
+    end
+
+    describe "PUT update" do
+      it "redirect to signin" do
+        # location = FactoryGirl.build(:location)
+        # put :update, {:id => location.to_param, :location => {'these' => 'params'}}
+        put :update, {:id => 1, :location => {'these' => 'params'}}
+        response.should redirect_to new_user_session_path
+      end
+    end
+
+    describe "DELETE destroy" do
+      it "redirects to signin" do
+        # location = FactoryGirl.build(:location)
+        # delete :destroy, {:id => location.to_param}
+        delete :destroy, {:id => 1}
+        response.should redirect_to new_user_session_path
+      end
+    end
+  end
 end
