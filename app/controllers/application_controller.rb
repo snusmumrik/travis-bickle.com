@@ -4,8 +4,4 @@ class ApplicationController < ActionController::Base
   @@description = ""
   @@keywords = ""
   @@title = ""
-  # development
-  @@app_key = "MtvuO1goNecBIZk0xpP6FLZaZeTwUUQJ"
-  # production
-  # @@app_key = "CSNZp9p4iZRVxFklhloFxFEeKMRUrGZV"
 end

@@ -6,7 +6,7 @@ class CarsController < InheritedResources::Base
   # GET /cars
   # GET /cars.json
   def api_index
-    driver = Driver.where(["id = ? AND tc_user_id = ?", params[:driver_id], params[:tc_user_id]]).first
+    driver = Driver.find(params[:driver_id])
     @cars = Car.where(["user_id = ? AND deleted_at IS NULL", driver.user_id]).all if driver
     respond_to do |format|
       format.json { render json: @cars }
@@ -17,23 +17,19 @@ class CarsController < InheritedResources::Base
   # PUT /cars/api_update.json
   def api_update
     @car = Car.where(["id = ?", params[:car_id]]).first
-    if @@app_key != params[:key]
-      format.json { render json:{ :error => "authentication error" } }
-    else
-      if @car
-        @car.update_attributes({:device_token => params[:device_token]})
+    if @car
+      @car.update_attributes({:device_token => params[:device_token]})
 
-        respond_to do |format|
-          if @car.save
-            format.json { render json: @car }
-          else
-            format.json { render json: @car.errors }
-          end
+      respond_to do |format|
+        if @car.save
+          format.json { render json: @car }
+        else
+          format.json { render json: @car.errors }
         end
-      else
-        respond_to do |format|
-          format.json { render json:{:error => "not found" } }
-        end
+      end
+    else
+      respond_to do |format|
+        format.json { render json:{:error => "not found" } }
       end
     end
   end

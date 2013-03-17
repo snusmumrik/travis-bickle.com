@@ -6,7 +6,7 @@ class CheckPointsController < InheritedResources::Base
   # GET /check_points
   # GET /check_points.json
   def api_index
-    driver = Driver.where(["id = ? AND tc_user_id = ?", params[:driver_id], params[:tc_user_id]]).first
+    driver = Driver.find(params[:driver_id])
     @check_points = CheckPoint.where(["user_id = ? AND deleted_at IS NULL", driver.user_id]).all
     respond_to do |format|
       format.json { render json: @check_points }

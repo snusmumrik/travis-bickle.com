@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130227002803) do
+ActiveRecord::Schema.define(:version => 20130317045646) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -72,7 +72,6 @@ ActiveRecord::Schema.define(:version => 20130227002803) do
 
   create_table "drivers", :force => true do |t|
     t.integer  "user_id"
-    t.string   "tc_user_id"
     t.string   "name"
     t.string   "email"
     t.string   "password_digest"

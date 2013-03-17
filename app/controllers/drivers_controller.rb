@@ -7,15 +7,11 @@ class DriversController < InheritedResources::Base
   # GET /drivers.json
   def api_signin
     respond_to do |format|
-      if @@app_key != params[:key]
-        format.json { render json:{ :error => "authentication error" } }
+      @driver = Driver.where(["email = ?", params[:email]]).first
+      if @driver && @driver.authenticate(params[:password])
+        format.json { render json: @driver }
       else
-        @driver = Driver.where(["email = ?", params[:email]]).first
-        if @driver && @driver.authenticate(params[:password])
-          format.json { render json: @driver }
-        else
-          format.json { render json:{:error => "signin failed" } }
-        end
+        format.json { render json:{:error => "signin failed" } }
       end
     end
   end
