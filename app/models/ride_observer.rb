@@ -1,12 +1,14 @@
 class RideObserver < ActiveRecord::Observer
-  def after_create(ride)
+  def after_update(ride)
     @report = ride.report
     passengers = 0
     sales = 0
     rides = @report.rides
     rides.each do |ride|
-      passengers += ride.passengers
-      sales += ride.fare
+      if ride.passengers && ride.fare
+        passengers += ride.passengers
+        sales += ride.fare
+      end
     end
 
     riding_count = rides.size || 0
