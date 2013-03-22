@@ -34,6 +34,14 @@
     <%= f.label :fare %><br />
     <%= f.text_field :fare %>
   </div>
+    <div class="field">
+    <%= f.label :created_at %><br />
+    <%= f.datetime_select :created_at %>
+  </div>
+  <div class="field">
+      <%= f.label :ended_at %><br />
+      <%= f.datetime_select :ended_at %>
+    </div>
   <div class="actions">
     <%= f.submit %>
   </div>
