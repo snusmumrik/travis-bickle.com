@@ -24,8 +24,12 @@ describe LocationsController do
   # Location. As you add validations to Location, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    FactoryGirl.attributes_for(:location)
-    # FactoryGirl.build(:location).attributes.symbolize_keys
+    if controller.current_user
+      car = controller.current_user.cars.last
+      FactoryGirl.attributes_for(:location, :car_id => car.id)
+    else
+      FactoryGirl.attributes_for(:location, :car_id => 100)
+    end
   end
 
   # This should return the minimal set of values that should be in the session
@@ -40,14 +44,14 @@ describe LocationsController do
 
     describe "GET index" do
       it "assigns all locations as @locations" do
-raise controller.current_user.cars.inspect
-        location = Location.create! valid_attributes
+        locations = Location.includes(:car => :user).where(["users.id = ?", controller.current_user.id]).all
         get :index, {}
-        assigns(:locations).should eq([location])
+        assigns(:locations).should eq(locations)
       end
 
       it "do not assigns other's locations" do
-        location = FactoryGirl.create(:location, :user_id => 2)
+        car = FactoryGirl.create(:car_with_location, :user_id => controller.current_user.id + 1)
+        location = FactoryGirl.create(:location, :car_id => car.id)
         assigns(:locations).should_not eq([location])
       end
     end
@@ -60,7 +64,8 @@ raise controller.current_user.cars.inspect
       end
 
       it "redirects to index in case of unauthorized location as @location" do
-        location = FactoryGirl.create(:location, :user_id => 2)
+        car = FactoryGirl.create(:car_with_location, :user_id => controller.current_user.id + 1)
+        location = FactoryGirl.create(:location, :car_id => car.id)
         get :show, {:id => location.to_param}
         response.should redirect_to locations_path
       end
@@ -81,7 +86,8 @@ raise controller.current_user.cars.inspect
       end
 
       it "do not assigns the requested other's location as @location" do
-        location = FactoryGirl.create(:location, :user_id => 2)
+        car = FactoryGirl.create(:car_with_location, :user_id => controller.current_user.id + 1)
+        location = FactoryGirl.create(:location, :car_id => car.id)
         get :edit, {:id => location.to_param}
         response.should redirect_to locations_path
       end
@@ -127,7 +133,8 @@ raise controller.current_user.cars.inspect
     describe "PUT update" do
       describe "for unauthorized location" do
         it "redirects to index for unauthorized location as @location" do
-          location = FactoryGirl.create(:location, :car_id => 2)
+          car = FactoryGirl.create(:car_with_location, :user_id => controller.current_user.id + 1)
+          location = FactoryGirl.create(:location, :car_id => car.id)
           put :update, {:id => location.to_param, :location => valid_attributes}
           response.should redirect_to(locations_path)
         end
@@ -184,13 +191,14 @@ raise controller.current_user.cars.inspect
         }.to change(Location, :count).by(-1)
       end
 
-    it "does not destroy other's location" do
-      location = FactoryGirl.create(:location, :car_id => 2)
-      expect {
-        delete :destroy, {:id => location.to_param}
-      }.to change(Location, :count).by(0)
-      response.should redirect_to locations_path
-    end
+      it "does not destroy other's location" do
+        car = FactoryGirl.create(:car_with_location, :user_id => controller.current_user.id + 1)
+        location = FactoryGirl.create(:location, :car_id => car.id)
+        expect {
+          delete :destroy, {:id => location.to_param}
+        }.to change(Location, :count).by(0)
+        response.should redirect_to locations_path
+      end
 
       it "redirects to the locations list" do
         location = Location.create! valid_attributes

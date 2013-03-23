@@ -44,14 +44,14 @@
     <td><%= number_to_currency @report.surplus_funds, :locale => "ja" %></td>
     <td><%= number_to_currency @report.deficiency_account, :locale => "ja" %></td>
     <td><%= number_to_currency @report.advance, :locale => "ja" %></td>
-    <td><%= @report.started_at.strftime("%H時%M分") %></td>
-    <td><%= @report.finished_at.strftime("%H時%M分") rescue nil %></td>
+    <td><% if @report.started_at %><%= @report.started_at.strftime("%H時%M分") %><% end %></td>
+    <td><% if @report.finished_at %><%= @report.finished_at.strftime("%H時%M分") rescue nil %><% end %></td>
     <td>
       <% if @report.finished_at %>
         <%= (@report.finished_at - @report.started_at).divmod(60*60)[0] %>時間<%= (@report.finished_at - @report.started_at).divmod(60*60)[1].divmod(60)[0] %>分
       <% end %>
     </td>
-    <td><%= @estimated_rest[0] %>時間<%= @estimated_rest[1] %>分</td>
+    <td><% if @estimated_rest %><%= @estimated_rest[0] %>時間<%= @estimated_rest[1] %>分<% end %></td>
     <td>
       <% if @report.finished_at %>
         <%= ((@report.finished_at - @report.started_at).to_i - (@estimated_rest[0]*60*60 + @estimated_rest[1]*60)).divmod(60*60)[0] %>時間<%= ((@report.finished_at - @report.started_at).to_i - (@estimated_rest[0]*60*60 + @estimated_rest[1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
@@ -74,8 +74,8 @@
     <% @report.rests.each do |rest| %>
       <tr>
         <td><%= rest.location %></td>
-        <td><%= rest.started_at.strftime("%Y年%m月%d日 %H時%M分") %></td>
-        <td><%= rest.ended_at.strftime("%Y年%m月%d日 %H時%M分") %></td>
+        <td><% if rest.started_at %><%= rest.started_at.strftime("%Y年%m月%d日 %H時%M分") %><% end %></td>
+        <td><% if rest.ended_at %><%= rest.ended_at.strftime("%Y年%m月%d日 %H時%M分") %><% end %></td>
         <td><%= link_to t("link.edit"), edit_rest_path(rest) %></td>
         <td><%= link_to t("link.destroy"), rest, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
@@ -85,7 +85,7 @@
   <table class="table table-striped table-bordered table-hover table-narrow">
     <tr>
       <th><%=t "activerecord.attributes.rest.estimated_rest" %></th>
-      <td><%= @estimated_rest[0] %>時間<%= @estimated_rest[1] %>分</td>
+      <td><% if @estimated_rest %><%= @estimated_rest[0] %>時間<%= @estimated_rest[1] %>分<% end %></td>
     </tr>
   </table>
 <% end %>

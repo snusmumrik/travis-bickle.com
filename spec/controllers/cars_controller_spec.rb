@@ -23,8 +23,11 @@ describe CarsController do
   # Car. As you add validations to Car, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    FactoryGirl.attributes_for(:car, :user_id => 1)
-    # FactoryGirl.build(:car).attributes.symbolize_keys
+    if controller.current_user
+      FactoryGirl.attributes_for(:car, :user_id => controller.current_user.id)
+    else
+      FactoryGirl.attributes_for(:car, :user_id => 100)
+    end
   end
 
   # This should return the minimal set of values that should be in the session
@@ -39,13 +42,13 @@ describe CarsController do
 
     describe "GET index" do
       it "assigns all cars as @cars" do
-        car = Car.create! valid_attributes
+        cars = Car.includes(:user).where(["user_id = ?", controller.current_user.id]).all
         get :index, {}
-        assigns(:cars).should eq([car])
+        assigns(:cars).should eq(cars)
       end
 
       it "do not assigns other's cars" do
-        car = FactoryGirl.create(:car, :user_id => 2)
+        car = FactoryGirl.create(:car, :user_id => controller.current_user.id + 1)
         assigns(:cars).should_not eq([car])
       end
     end
@@ -55,10 +58,10 @@ describe CarsController do
         car = Car.create! valid_attributes
         get :show, {:id => car.to_param}
         assigns(:car).should eq(car)
-      ende
+      end
 
       it "redirects to index in case of unauthorized car as @car" do
-        car = FactoryGirl.create(:car, :user_id => 2)
+        car = FactoryGirl.create(:car, :user_id => controller.current_user.id + 1)
         get :show, {:id => car.to_param}
         response.should redirect_to cars_path
       end
@@ -79,7 +82,7 @@ describe CarsController do
       end
 
       it "do not assigns the requested other's car as @car" do
-        car = FactoryGirl.create(:car, :user_id => 2)
+        car = FactoryGirl.create(:car, :user_id => controller.current_user.id + 1)
         get :edit, {:id => car.to_param}
         response.should redirect_to cars_path
       end
@@ -125,7 +128,7 @@ describe CarsController do
     describe "PUT update" do
       describe "for unauthorized car" do
         it "redirects to index for unauthorized car as @car" do
-          car = FactoryGirl.create(:car, :user_id => 2)
+          car = FactoryGirl.create(:car, :user_id => controller.current_user.id + 1)
           put :update, {:id => car.to_param, :car => valid_attributes}
           response.should redirect_to(cars_path)
         end
@@ -183,7 +186,7 @@ describe CarsController do
       end
 
       it "does not destroy other's car" do
-        car = FactoryGirl.create(:car, :user_id => 2)
+        car = FactoryGirl.create(:car, :user_id => controller.current_user.id + 1)
         expect {
           delete :destroy, {:id => car.to_param}
         }.to change(Car, :count).by(0)

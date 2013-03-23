@@ -1,6 +1,6 @@
 class LocationsController < InheritedResources::Base
   before_filter :authenticate_user!, :except => :api_update
-  before_filter :authenticate_owner, :only => [:show, :edit, :update, :delete]
+  before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
   # PUT /locations/api_update
@@ -24,16 +24,17 @@ class LocationsController < InheritedResources::Base
   # GET /locations
   # GET /locations.json
   def index
-    @locations = Location.includes(:car => [:user, {:reports => :rides}]).where(["users.id = ? AND reports.finished_at IS NULL AND rides.leave_latitude IS NULL", current_user.id]).order("locations.car_id").all
+    @locations = Location.includes(:car => :user).where(["users.id = ?", current_user.id]).order("locations.car_id").all
     @json = @locations.to_gmaps4rails do |location, marker|
-      if location.car.reports[0].rides
-        # with passengers
-        marker.picture({
-                         :picture => "http://chart.apis.google.com/chart?chst=d_map_spin&chld=1.1|0|FF0000|12|_|#{location.car.try(:name) }",
-                         :width   => 100,
-                         :height  => 100
-                       })
-      else
+      begin
+        if location.car.reports.where(["finished_at IS NULL"]).first.rides.where("leave_latitude IS NULL").first
+          marker.picture({
+                           :picture => "http://chart.apis.google.com/chart?chst=d_map_spin&chld=1.1|0|FF0000|12|_|#{location.car.try(:name) }",
+                           :width   => 100,
+                           :height  => 100
+                         })
+        end
+      rescue Exception => e
         marker.picture({
                          :picture => "http://chart.apis.google.com/chart?chst=d_map_spin&chld=1.1|0|ADD8E6|12|_|#{location.car.try(:name) }",
                          :width   => 100,
@@ -54,7 +55,7 @@ class LocationsController < InheritedResources::Base
 
   private
   def authenticate_owner
-    @locatio = Location.find(params[:id])
+    @location = Location.find(params[:id])
     redirect_to locations_path if @location.car.user_id != current_user.id
   end
 end

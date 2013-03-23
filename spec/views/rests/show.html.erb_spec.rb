@@ -2,12 +2,13 @@ require 'spec_helper'
 
 describe "rests/show" do
   before(:each) do
-    @rest = assign(:rest, stub_model(Rest,
-      :report => nil,
-      :location => "Location",
-      :latitude => 1.5,
-      :longitude => 1.5
-    ))
+    # @rest = assign(:rest, stub_model(Rest,
+    #   :report => nil,
+    #   :location => "Location",
+    #   :latitude => 1.5,
+    #   :longitude => 1.5
+    # ))
+    @rest = FactoryGirl.create(:rest)
   end
 
   it "renders attributes in <p>" do

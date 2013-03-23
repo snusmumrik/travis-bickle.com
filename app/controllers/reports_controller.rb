@@ -1,6 +1,6 @@
 class ReportsController < InheritedResources::Base
   before_filter :authenticate_user!, :except => [:api_show, :api_create, :api_update]
-  before_filter :authenticate_owner, :only => [:show, :edit, :update]
+  before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
   before_filter :get_drivers_option, :except => [:index, :show]
   before_filter :get_cars_option, :except => [:index, :show]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
@@ -131,22 +131,6 @@ class ReportsController < InheritedResources::Base
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @report }
-    end
-  end
-
-  # POST /reports
-  # POST /reports.json
-  def create
-    @report = Report.new(params[:report])
-
-    respond_to do |format|
-      if @report.save
-        format.html { redirect_to @report, notice: t("activerecord.models.report") + t("message.created") }
-        format.json { render json: @report, status: :created, location: @report }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @report.errors, status: :unprocessable_entity }
-      end
     end
   end
 

@@ -4,7 +4,7 @@ FactoryGirl.define do
   factory :report do
     driver
     car
-    date "2013-03-12"
+    date Date.today
     sequence(:meter) {|n| n}
     sequence(:mileage) {|n| n}
     sequence(:riding_mileage) {|n| n}
@@ -19,8 +19,18 @@ FactoryGirl.define do
     sequence(:surplus_funds) {|n| n}
     sequence(:deficiency_account) {|n| n}
     sequence(:advance) {|n| n}
-    started_at "2013-03-12 11:24:52"
-    finished_at "2013-03-12 11:24:52"
+    started_at DateTime.now
+    finished_at nil
     deleted_at nil
+
+    factory :report_with_ride do
+      # the after(:create) yields two values; the user instance itself and the
+      # evaluator, which stores all values from the factory, including ignored
+      # attributes; `create_list`'s second argument is the number of records
+      # to create and we make sure the user is associated properly to them
+      after(:create) do |report|
+        create_list(:ride, 3, report: report)
+      end
+    end
   end
 end

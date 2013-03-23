@@ -24,10 +24,19 @@ describe RestsController do
   # Rest. As you add validations to Rest, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    # report = FactoryGirl.build(:report, :id => 1, :driver_id => 1, :car_id => 1)
-    # FactoryGirl.attributes_for(:rest, :report_id => report.id)
-    # FactoryGirl.build(:rest).attributes.symbolize_keys
-    FactoryGirl.attributes_for(:rest)
+    if controller.current_user
+      # car = controller.current_user.cars.last
+      # driver = controller.current_user.drivers.last
+      # report = FactoryGirl.create(:report, :car_id => car.id, :driver_id => driver.id)
+      drivers = Driver.where(["user_id = ?", controller.current_user.id]).all
+      driver = drivers[rand(drivers.size)]
+      FactoryGirl.attributes_for(:rest, :report_id => driver.reports.last.id)
+    else
+      car = FactoryGirl.create(:car, :user_id => 100)
+      driver = FactoryGirl.create(:driver, :user_id => 100)
+      report = FactoryGirl.create(:report, :car_id => car.id, :driver_id => driver.id)
+      FactoryGirl.attributes_for(:rest, :report_id => report.id)
+    end
   end
 
   # This should return the minimal set of values that should be in the session
@@ -126,10 +135,10 @@ describe RestsController do
           assigns(:rest).should eq(rest)
         end
 
-        it "redirects to the rest" do
+        it "redirects to the reports index" do
           rest = Rest.create! valid_attributes
           put :update, {:id => rest.to_param, :rest => valid_attributes}
-          response.should redirect_to(rest)
+          response.should redirect_to(report_path(rest.report))
         end
       end
 
@@ -163,7 +172,7 @@ describe RestsController do
       it "redirects to the rests list" do
         rest = Rest.create! valid_attributes
         delete :destroy, {:id => rest.to_param}
-        response.should redirect_to(rests_url)
+        response.should redirect_to(report_path(rest.report))
       end
     end
   end

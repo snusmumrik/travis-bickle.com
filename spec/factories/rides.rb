@@ -12,5 +12,7 @@ FactoryGirl.define do
     passengers 1
     fare 1
     deleted_at nil
+    ended_at nil
+    created_at DateTime.now
   end
 end

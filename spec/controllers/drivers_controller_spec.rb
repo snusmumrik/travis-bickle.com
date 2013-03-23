@@ -24,8 +24,11 @@ describe DriversController do
   # Driver. As you add validations to Driver, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    # FactoryGirl.build(:driver).attributes.symbolize_keys
-    FactoryGirl.attributes_for(:driver, :user_id => 1)
+    if controller.current_user
+      FactoryGirl.attributes_for(:driver, :user_id => controller.current_user.id)
+    else
+      FactoryGirl.attributes_for(:driver, :user_id => 100)
+    end
   end
 
   # This should return the minimal set of values that should be in the session
@@ -40,13 +43,13 @@ describe DriversController do
 
     describe "GET index" do
       it "assigns all drivers as @drivers" do
-        driver = Driver.create! valid_attributes
+        drivers = Driver.includes(:user).where(["user_id = ?", controller.current_user.id]).all
         get :index, {}
-        assigns(:drivers).should eq([driver])
+        assigns(:drivers).should eq(drivers)
       end
 
       it "do not assigns other's drivers" do
-        driver = FactoryGirl.create(:driver, :user_id => 2)
+        driver = FactoryGirl.create(:driver, :user_id => controller.current_user.id + 1)
         assigns(:drivers).should_not eq([driver])
       end
     end
@@ -59,7 +62,7 @@ describe DriversController do
       end
 
       it "redirects to index in case of unauthorized driver as @driver" do
-        driver = FactoryGirl.create(:driver, :user_id => 2)
+        driver = FactoryGirl.create(:driver, :user_id => controller.current_user.id + 1)
         get :show, {:id => driver.to_param}
         response.should redirect_to drivers_path
       end
@@ -80,7 +83,7 @@ describe DriversController do
       end
 
       it "do not assigns the requested other's driver as @driver" do
-        driver = FactoryGirl.create(:driver, :user_id => 2)
+        driver = FactoryGirl.create(:driver, :user_id => controller.current_user.id + 1)
         get :edit, {:id => driver.to_param}
         response.should redirect_to drivers_path
       end
@@ -126,7 +129,7 @@ describe DriversController do
     describe "PUT update" do
       describe "for unauthorized driver" do
         it "redirects to index for unauthorized driver as @driver" do
-          driver = FactoryGirl.create(:driver, :user_id => 2)
+          driver = FactoryGirl.create(:driver, :user_id => controller.current_user.id + 1)
           put :update, {:id => driver.to_param, :driver => valid_attributes}
           response.should redirect_to(drivers_path)
         end
@@ -184,7 +187,7 @@ describe DriversController do
       end
 
       it "does not destroy other's driver" do
-        driver = FactoryGirl.create(:driver, :user_id => 2)
+        driver = FactoryGirl.create(:driver, :user_id => controller.current_user.id + 1)
         expect {
           delete :destroy, {:id => driver.to_param}
         }.to change(Driver, :count).by(0)

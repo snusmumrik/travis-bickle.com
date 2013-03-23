@@ -24,10 +24,19 @@ describe RidesController do
   # Ride. As you add validations to Ride, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    # report = FactoryGirl.create(:report, :driver_id => 1, :car_id => 1)
-    # FactoryGirl.attributes_for(:ride, :report_id => report.id)
-    FactoryGirl.build(:ride).attributes.symbolize_keys
-    # FactoryGirl.attributes_for(:ride)
+    if controller.current_user
+      # user = controller.current_user.cars.last
+      # driver = controller.current_user.drivers.last
+      # report = FactoryGirl.create(:report, :car_id => car.id, :driver_id => driver.id)
+      drivers = Driver.where(["user_id = ?", controller.current_user.id]).all
+      driver = drivers[rand(drivers.size)]
+      FactoryGirl.attributes_for(:ride, :report_id => driver.reports.last.id)
+    else
+      car = FactoryGirl.create(:car, :user_id => 100)
+      driver = FactoryGirl.create(:driver, :user_id => 100)
+      report = FactoryGirl.create(:report, :car_id => car.id, :driver_id => driver.id)
+      FactoryGirl.attributes_for(:ride, :report_id => report.id)
+    end
   end
 
   # This should return the minimal set of values that should be in the session
@@ -42,9 +51,9 @@ describe RidesController do
 
     describe "GET index" do
       it "assigns all rides as @rides" do
-        ride = Ride.create! valid_attributes
+        rides = Ride.includes(:report => {:driver => :user}).where(["users.id = ?", controller.current_user.id]).all
         get :index, {}
-        assigns(:rides).should eq([ride])
+        assigns(:rides).should eq(rides)
       end
     end
 
@@ -58,7 +67,7 @@ describe RidesController do
 
     describe "GET new" do
       it "assigns a new ride as @ride" do
-        get :new, {}
+        get :new, {:report_id => 1}
         assigns(:ride).should be_a_new(Ride)
       end
     end
@@ -129,7 +138,7 @@ describe RidesController do
         it "redirects to the ride" do
           ride = Ride.create! valid_attributes
           put :update, {:id => ride.to_param, :ride => valid_attributes}
-          response.should redirect_to(ride)
+          response.should redirect_to(report_path(ride.report))
         end
       end
 
@@ -163,7 +172,7 @@ describe RidesController do
       it "redirects to the rides list" do
         ride = Ride.create! valid_attributes
         delete :destroy, {:id => ride.to_param}
-        response.should redirect_to(rides_url)
+        response.should redirect_to(report_path(ride.report))
       end
     end
   end

@@ -8,7 +8,7 @@ describe "rides/show" do
     #   :latitude => 1.5,
     #   :longitude => 1.5
     # ))
-    @ride = FactoryGirl.build(:ride)
+    @ride = FactoryGirl.create(:ride)
   end
 
   it "renders attributes in <p>" do

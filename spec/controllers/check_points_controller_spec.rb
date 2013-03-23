@@ -24,8 +24,11 @@ describe CheckPointsController do
   # CheckPoint. As you add validations to CheckPoint, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    # FactoryGirl.build(:check_point).attributes.symbolize_keys
-    FactoryGirl.attributes_for(:check_point, :user_id => 1)
+    if controller.current_user
+      FactoryGirl.attributes_for(:check_point, :user_id => controller.current_user.id)
+    else
+      FactoryGirl.attributes_for(:check_point, :user_id => 100)
+    end
   end
 
   # This should return the minimal set of values that should be in the session
@@ -40,13 +43,13 @@ describe CheckPointsController do
 
     describe "GET index" do
       it "assigns all check_points as @check_points" do
-        check_point = CheckPoint.create! valid_attributes
+        check_points = CheckPoint.includes(:user).where(["user_id = ?", controller.current_user.id]).all
         get :index, {}
-        assigns(:check_points).should eq([check_point])
+        assigns(:check_points).should eq(check_points)
       end
 
       it "do not assigns other user's check_points" do
-        check_point = FactoryGirl.create(:check_point, :user_id => 2)
+        check_point = FactoryGirl.create(:check_point, :user_id => controller.current_user.id + 1)
         assigns(:check_points).should_not eq([check_point])
       end
     end
@@ -59,7 +62,7 @@ describe CheckPointsController do
       end
 
       it "redirects to index in case of unauthorized check_point as @check_point" do
-        check_point = FactoryGirl.create(:check_point, :user_id => 2)
+        check_point = FactoryGirl.create(:check_point, :user_id => controller.current_user.id + 1)
         get :show, {:id => check_point.to_param}
         response.should redirect_to check_points_path
       end
@@ -80,7 +83,7 @@ describe CheckPointsController do
       end
 
       it "do not assigns the requested other's check_point as @check_point" do
-        check_point = FactoryGirl.create(:check_point, :user_id => 2)
+        check_point = FactoryGirl.create(:check_point, :user_id => controller.current_user.id + 1)
         get :edit, {:id => check_point.to_param}
         response.should redirect_to check_points_path
       end
@@ -126,7 +129,7 @@ describe CheckPointsController do
     describe "PUT update" do
       describe "for unauthorized check_point" do
         it "redirects to index for unauthorized check_point as @check_point" do
-          check_point = FactoryGirl.create(:check_point, :user_id => 2)
+          check_point = FactoryGirl.create(:check_point, :user_id => controller.current_user.id + 1)
           put :update, {:id => check_point.to_param, :check_point => valid_attributes}
           response.should redirect_to(check_points_path)
         end
@@ -184,7 +187,7 @@ describe CheckPointsController do
       end
 
       it "does not destroy other's check_point" do
-        check_point = FactoryGirl.create(:check_point, :user_id => 2)
+        check_point = FactoryGirl.create(:check_point, :user_id => controller.current_user.id + 1)
         expect {
           delete :destroy, {:id => check_point.to_param}
         }.to change(CheckPoint, :count).by(0)
