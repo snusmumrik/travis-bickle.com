@@ -33,7 +33,8 @@ class RidesController < InheritedResources::Base
                                 :leave_longitude => params[:leave_longitude],
                                 :leave_address => params[:leave_address],
                                 :passengers => params[:passengers],
-                                :fare => params[:fare]
+                                :fare => params[:fare],
+                                :ended_at => DateTime.now
                               })
 
       respond_to do |format|
