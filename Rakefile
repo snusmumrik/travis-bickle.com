@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-TaxiDriver::Application.load_tasks
+TravisBickle::Application.load_tasks

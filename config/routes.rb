@@ -1,4 +1,4 @@
-TaxiDriver::Application.routes.draw do
+TravisBickle::Application.routes.draw do
   resources :notifications
 
   resources :rests do
