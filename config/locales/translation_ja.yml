@@ -14,6 +14,7 @@ ja:
       location: 位置情報
       meter: メーター
       ride: 乗車記録
+      notification: 配車指示
 
     attributes:
       user:
@@ -43,8 +44,9 @@ ja:
         author_type: author_type  #g
         body: body  #g
         namespace: namespace  #g
-        resource: resource  #g
-        author: author  #g
+        resource: :activerecord.models.resource  #g
+        author: :activerecord.models.author  #g
+        resource_type: resource_type  #g
 
       admin_user:
         encrypted_password: encrypted_password  #g
@@ -55,6 +57,7 @@ ja:
         last_sign_in_at: last_sign_in_at  #g
         current_sign_in_ip: current_sign_in_ip  #g
         last_sign_in_ip: last_sign_in_ip  #g
+        email: email  #g
 
       car:
         name: 車両番号
@@ -64,9 +67,15 @@ ja:
         meter_fare: メーター料金
         access_token: アクセストークン
         device_token: デバイストークン
+        deleted_at: deleted_at  #g
+        drivers: drivers  #g
+        reports: reports  #g
+        user: :activerecord.models.user  #g
 
       check_point:
         name: "点検項目"
+        deleted_at: deleted_at  #g
+        user: :activerecord.models.user  #g
 
       driver:
         name: 氏名
@@ -74,6 +83,11 @@ ja:
         tc_user_id: Titanium Cloud User Id
         password: パスワード
         password_confirmation: パスワードの確認
+        cars: cars  #g
+        deleted_at: deleted_at  #g
+        password_digest: password_digest  #g
+        reports: reports  #g
+        user: :activerecord.models.user  #g
 
       report:
         car_id: 車両
@@ -99,6 +113,12 @@ ja:
         working_hours: 拘束時間
         real_working_hours: 実作業時間
         rest_hours: 休憩時間
+        car: :activerecord.models.car  #g
+        deleted_at: deleted_at  #g
+        driver: :activerecord.models.driver  #g
+        meter: meter  #g
+        rests: rests  #g
+        rides: rides  #g
 
       rest:
         location: 場所
@@ -107,20 +127,25 @@ ja:
         started_at: 開始時間
         ended_at: 終了時間
         estimated_rest: 合計時間
+        address: address  #g
+        deleted_at: deleted_at  #g
+        report: :activerecord.models.report  #g
 
       image:
         image_file_name: image_file_name  #g
         image_content_type: image_content_type  #g
         image_file_size: image_file_size  #g
         image_updated_at: image_updated_at  #g
-        parent: parent  #g
+        parent: :activerecord.models.parent  #g
+        parent_type: parent_type  #g
 
       image/user_image:
         image_file_name: image_file_name  #g
         image_content_type: image_content_type  #g
         image_file_size: image_file_size  #g
         image_updated_at: image_updated_at  #g
-        parent: parent  #g
+        parent: :activerecord.models.parent  #g
+        parent_type: parent_type  #g
 
       location:
         car: 車両
@@ -128,11 +153,14 @@ ja:
         latitude: 緯度
         longitude: 軽度
         updated_at: 更新時間
+        gmaps: gmaps  #g
 
       meter:
         mileage: mileage  #g
         riding_mileage: riding_mileage  #g
-        car: car  #g
+        car: :activerecord.models.car  #g
+        date: date  #g
+        meter: meter  #g
 
       ride:
         ride_latitude: 乗車緯度
@@ -146,7 +174,13 @@ ja:
         created_at: 乗車時刻
         ended_at: 降車時刻
         deleted_at: deleted_at  #g
-        report: report  #g
+        report: :activerecord.models.report  #g
+
+      notification:
+        car: 車両
+        deleted_at: deleted_at  #g
+        read: 既読  #g
+        text: メッセージ  #g
 
   views:
     pagination:

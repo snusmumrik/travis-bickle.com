@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class LocationsController < InheritedResources::Base
   before_filter :authenticate_user!, :except => :api_update
   before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
@@ -42,7 +43,7 @@ class LocationsController < InheritedResources::Base
                        })
       end
 
-      marker.infowindow "<img src=\"http://maruchiku.jp/images/img_cars02.jpg\"><br />#{location.car.try(:name)}"
+      marker.infowindow "<img src=\"http://miyakoshinpo.com/data/upfile/607-1.jpg\" width=200 height=200><br /><a href='/notifications/new?car_id=#{location.car_id}'>#{location.car.try(:name)}へ配車指示</a>"
       marker.title location.car.try(:name)
       marker.json({:car_id => location.car.try(:id)})
     end

@@ -120,6 +120,18 @@ ActiveRecord::Schema.define(:version => 20130322052759) do
 
   add_index "meters", ["car_id"], :name => "index_meters_on_car_id"
 
+  create_table "notifications", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "car_id"
+    t.string   "text"
+    t.boolean  "read"
+    t.datetime "deleted_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "notifications", ["car_id"], :name => "index_notifications_on_car_id"
+
   create_table "reports", :force => true do |t|
     t.integer  "driver_id"
     t.integer  "car_id"

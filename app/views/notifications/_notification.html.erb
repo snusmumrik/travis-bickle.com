@@ -1,0 +1,8 @@
+<tr>
+  <td><%= notification.car.try(:name) %></td>
+  <td><%= notification.text %></td>
+  <td><%= notification.read %></td>
+  <td><%= link_to t("link.show"), notification %></td>
+  <td><%= link_to t("link.edit"), edit_notification_path(notification) %></td>
+  <td><%= link_to t("link.destroy"), notification, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+</tr>

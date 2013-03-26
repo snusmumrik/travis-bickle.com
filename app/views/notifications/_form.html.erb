@@ -1,0 +1,26 @@
+<%= form_for(@notification) do |f| %>
+  <% if @notification.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@notification.errors.count, "error") %> prohibited this notification from being saved:</h2>
+
+      <ul>
+      <% @notification.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if params[:car_id] %>
+    <%= f.select :car_id, options_for_select(@car_options, params[:car_id]) %>
+  <% else %>
+    <%= f.select :car_id, options_for_select(@car_options, @notification.car_id) %>
+  <% end %>
+  <div class="field">
+    <%= f.label :text %><br />
+    <%= f.text_field :text %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

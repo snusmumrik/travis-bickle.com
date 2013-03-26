@@ -1,4 +1,6 @@
 TaxiDriver::Application.routes.draw do
+  resources :notifications
+
   resources :rests do
     collection do
       post "api_create"

@@ -1,9 +1,19 @@
-<%#= gmaps4rails(@json) %>
 <%= gmaps(:map_options => {:language => "ja"},
           :markers => {
             :data => @json,
             :options => {:raw => "{animation:google.maps.Animation.BOUNCE}"}
           }) %>
+
+<% content_for :scripts do %>
+  <script type="text/javascript" charset="utf-8">
+    Gmaps.map.callback = function() {
+      for (var i = 0; i < Gmaps.map.markers.length; ++i) {
+        google.maps.event.addListener(Gmaps.map.markers[i].serviceObject, 'click', function(object) {
+        });
+      }
+    }
+  </script>
+<% end %>
 
 <table class="table table-striped table-bordered table-hover">
   <tr>
