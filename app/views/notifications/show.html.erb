@@ -13,6 +13,10 @@
   <%= @notification.read %>
 </p>
 
+<p>
+  <b><%=t "activerecord.attributes.notification.cancel" %></b>
+  <%= @notification.cancel %>
+</p>
 
 <%= link_to t("link.edit"), edit_notification_path(@notification) %> |
 <%= link_to t("link.back"), notifications_path %>

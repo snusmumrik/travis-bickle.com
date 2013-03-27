@@ -4,6 +4,7 @@ FactoryGirl.define do
     car
     sequence(:text) {|n| "notification text#{n}"}
     read false
+    cancel false
     deleted_at nil
   end
 end

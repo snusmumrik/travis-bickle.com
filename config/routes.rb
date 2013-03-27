@@ -1,5 +1,9 @@
 TravisBickle::Application.routes.draw do
-  resources :notifications
+  resources :notifications do
+    collection do
+      put "api_update"
+    end
+  end
 
   resources :rests do
     collection do

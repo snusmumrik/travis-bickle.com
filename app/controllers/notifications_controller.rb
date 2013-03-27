@@ -1,7 +1,29 @@
 class NotificationsController < InheritedResources::Base
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :except => :api_update
   before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
   before_filter :prepare_options, :only => [:new, :edit, :create, :update]
+  skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
+
+  def api_update
+    @notification = Notification.find(params[:id])
+    if @notification
+      @notification.update_attribute(:cancel, true) if params[:cancel]
+      @notification.update_attribute(:read, true) if params[:read]
+
+      respond_to do |format|
+        if @notification.save
+          format.json { render json: @notification }
+        else
+          format.json { render json: @notification.errors }
+        end
+      end
+    else
+      respond_to do |format|
+        format.json { render json:{:error => "not found" } }
+      end
+    end
+
+  end
 
   # GET /notifications
   # GET /notifications.json
@@ -25,7 +47,7 @@ class NotificationsController < InheritedResources::Base
 
     respond_to do |format|
       if @notification.save
-        push_notification(@notification.car.device_token, @notification.text) if @notification.car.device_token
+        push_notification(@notification.id, @notification.car.device_token, @notification.text) if @notification.car.device_token
         format.html { redirect_to @notification, notice: 'Notification was successfully created.' }
         format.json { render json: @notification, status: :created, location: @notification }
       else
@@ -48,7 +70,7 @@ class NotificationsController < InheritedResources::Base
         format.json { render json: @notification.errors, status: :unprocessable_entity }
       end
     end
-    push_notification(@notification.car.device_token, @notification.text)
+    push_notification(@notification.id, @notification.car.device_token, @notification.text)
   end
 
   private
@@ -65,7 +87,7 @@ class NotificationsController < InheritedResources::Base
     end
   end
 
-  def push_notification(device_token, text)
+  def push_notification(id, device_token, text)
     pusher = Grocer.pusher(certificate: "#{Rails.root}/doc/apns-dev.pem",      # required
                            # passphrase:  "",                       # optional
                            # gateway:     localhost, # test
@@ -79,7 +101,10 @@ class NotificationsController < InheritedResources::Base
                                             badge:        0,
                                             sound:        "siren.aiff",         # optional
                                             expiry:       Time.now + 60*60,     # optional; 0 is default, meaning the message is not stored
-                                            identifier:   1234                  # optional
+                                            # identifier:   1234,                 # optional
+                                            custom: {
+                                              id: id
+                                            }
                                             )
 
     pusher.push(notification)

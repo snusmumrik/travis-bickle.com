@@ -180,7 +180,8 @@ ja:
         car: 車両
         deleted_at: deleted_at  #g
         read: 既読  #g
-        text: メッセージ  #g
+        cancel: キャンセル
+        text: メッセージ
 
   views:
     pagination:
