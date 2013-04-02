@@ -90,8 +90,8 @@ ja:
         user: :activerecord.models.user  #g
 
       report:
-        car_id: 車両
-        driver_id: 運転手
+        car: :activerecord.models.car
+        driver: :activerecord.models.driver
         date: 日付
         mileage: 走行距離
         riding_mileage: 乗車距離
@@ -113,12 +113,11 @@ ja:
         working_hours: 拘束時間
         real_working_hours: 実作業時間
         rest_hours: 休憩時間
-        car: :activerecord.models.car  #g
         deleted_at: deleted_at  #g
-        driver: :activerecord.models.driver  #g
         meter: meter  #g
         rests: rests  #g
         rides: rides  #g
+        sum: 合計
 
       rest:
         location: 場所
@@ -148,7 +147,7 @@ ja:
         parent_type: parent_type  #g
 
       location:
-        car: 車両
+        car: :activerecord.models.car
         address: 現在地
         latitude: 緯度
         longitude: 軽度
@@ -158,7 +157,7 @@ ja:
       meter:
         mileage: mileage  #g
         riding_mileage: riding_mileage  #g
-        car: :activerecord.models.car  #g
+        car: :activerecord.models.car
         date: date  #g
         meter: meter  #g
 
@@ -177,7 +176,7 @@ ja:
         report: :activerecord.models.report  #g
 
       notification:
-        car: 車両
+        car: :activerecord.models.car
         deleted_at: deleted_at  #g
         read: 既読  #g
         cancel: キャンセル
@@ -214,3 +213,4 @@ ja:
 
   message:
     created: を登録しました。
+    updated: を更新しました。

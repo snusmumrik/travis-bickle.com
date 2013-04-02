@@ -34,7 +34,7 @@ class RestsController < InheritedResources::Base
 
     respond_to do |format|
       if @rest.save
-        format.html { redirect_to report_path @rest.report, notice: t("activerecord.models.rest") + t("message.created") }
+        format.html { redirect_to @rest.report, notice: t("activerecord.models.rest") + t("message.created") }
         format.json { render json: @rest, status: :created, location: @rest }
       else
         format.html { render action: "new" }
@@ -49,7 +49,7 @@ class RestsController < InheritedResources::Base
     @rest = Rest.find(params[:id])
     respond_to do |format|
       if @rest.update_attributes(params[:rest])
-        format.html { redirect_to report_path(@rest.report), notice: 'Rest was successfully updated.' }
+        format.html { redirect_to @rest.report, notice: t("activerecord.models.rest") + t("message.updated") }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
@@ -65,7 +65,7 @@ class RestsController < InheritedResources::Base
     @rest.destroy
 
     respond_to do |format|
-      format.html { redirect_to report_path(@rest.report) }
+      format.html { redirect_to @rest.report }
       format.json { head :ok }
     end
   end
