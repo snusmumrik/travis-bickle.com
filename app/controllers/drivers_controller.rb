@@ -44,6 +44,21 @@ class DriversController < InheritedResources::Base
       @reports = Report.where(["driver_id = ? AND date BETWEEN ? AND ?", params[:id], Date.new(Date.today.year.to_i, Date.today.month.to_i, 1), (Date.new(Date.today.year.to_i, Date.today.month.to_i, 1) >> 1) - 1]).all
     end
 
+    @working_hours = 0
+    @rest_hours = 0
+    @rest_hash = {}
+    @reports.each do |report|
+      rest_time = 0
+      report.rests.each do |rest|
+        rest_time += rest.ended_at - rest.started_at
+      end
+      @working_hours += (report.finished_at - report.started_at).divmod(60*60)[0]*60 + (report.finished_at - report.started_at).divmod(60*60)[1]
+      @rest_hours += rest_time
+      hours = rest_time.divmod(60*60) #=> [12.0, 1800.0]
+      mins = hours[1].divmod(60) #=> [30.0, 0.0]
+      @rest_hash.store(report.id, [hours[0], mins[0]])
+    end
+
     unless params[:day]
       @mileage = 0
       @riding_mileage = 0

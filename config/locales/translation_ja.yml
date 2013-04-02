@@ -117,7 +117,7 @@ ja:
         meter: meter  #g
         rests: rests  #g
         rides: rides  #g
-        sum: 合計
+        sum: 合計/平均
 
       rest:
         location: 場所
