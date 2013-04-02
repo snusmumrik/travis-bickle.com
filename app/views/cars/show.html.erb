@@ -5,17 +5,15 @@
     <th><%=t("activerecord.attributes.car.name") %></th>
     <th><%=t("activerecord.attributes.car.base_fare") %></th>
     <th><%=t("activerecord.attributes.car.meter_fare") %></th>
-    <th><%=t("activerecord.attributes.car.device_token") %></th>
   </tr>
   <tr>
     <td><%= @car.name %></td>
     <td><%= @car.base_fare %></td>
     <td><%= @car.meter_fare %></td>
-    <td><%= @car.device_token %></td>
   </tr>
 </table>
 
-<%= render "reports/reports" %>
+<%= render "reports" %>
 
 <%= link_to t("link.new"), new_car_path, :class => "btn" %>
 <%= link_to t("link.edit"), edit_car_path(@car), :class => "btn" %>

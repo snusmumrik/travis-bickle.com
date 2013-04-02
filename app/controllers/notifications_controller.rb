@@ -63,7 +63,7 @@ class NotificationsController < InheritedResources::Base
     @notification = Notification.find(params[:id])
     respond_to do |format|
       if @notification.update_attributes(params[:notification])
-        format.html { redirect_to notification_path(@notification), notice: 'Notification was successfully updated.' }
+        format.html { redirect_to @notification, notice: 'Notification was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

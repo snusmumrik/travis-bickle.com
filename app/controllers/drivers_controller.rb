@@ -44,6 +44,38 @@ class DriversController < InheritedResources::Base
       @reports = Report.where(["driver_id = ? AND date BETWEEN ? AND ?", params[:id], Date.new(Date.today.year.to_i, Date.today.month.to_i, 1), (Date.new(Date.today.year.to_i, Date.today.month.to_i, 1) >> 1) - 1]).all
     end
 
+    unless params[:day]
+      @mileage = 0
+      @riding_mileage = 0
+      @riding_count = 0
+      @meter_fare_count = 0
+      @passengers = 0
+      @sales = 0
+      @fuel_cost = 0
+      @ticket = 0
+      @account_receivable = 0
+      @cash = 0
+      @surplus_funds = 0
+      @deficiency_account = 0
+      @advance = 0
+
+      @reports.each do |report|
+        @mileage += report.mileage if report.mileage
+        @riding_mileage += report.riding_mileage if report.riding_mileage
+        @riding_count += report.riding_count if report.riding_count
+        @meter_fare_count += report.meter_fare_count if report.meter_fare_count
+        @passengers += report.passengers if report.passengers
+        @sales += report.sales if report.sales
+        @fuel_cost += report.fuel_cost if report.fuel_cost
+        @ticket += report.ticket if report.ticket
+        @account_receivable += report.account_receivable if report.account_receivable
+        @cash += report.cash if report.cash
+        @surplus_funds += report.surplus_funds if report.surplus_funds
+        @deficiency_account += report.deficiency_account if report.deficiency_account
+        @advance += report.advance if report.advance
+      end
+    end
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @driver }

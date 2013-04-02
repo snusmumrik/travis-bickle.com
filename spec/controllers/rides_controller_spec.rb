@@ -94,9 +94,9 @@ describe RidesController do
           assigns(:ride).should be_persisted
         end
 
-        it "redirects to the created ride" do
+        it "redirects to the report" do
           post :create, {:ride => valid_attributes}
-          response.should redirect_to(Ride.last)
+          response.should redirect_to(Ride.last.report)
         end
       end
 

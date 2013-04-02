@@ -2,8 +2,8 @@
 
 <table class="table table-striped table-bordered table-hover table-narrow">
   <tr>
-    <th><%=t "activerecord.attributes.report.car_id" %></th>
-    <th><%=t "activerecord.attributes.report.driver_id" %></th>
+    <th><%=t "activerecord.attributes.report.car" %></th>
+    <th><%=t "activerecord.attributes.report.driver" %></th>
     <th><%=t "activerecord.attributes.report.mileage" %></th>
     <th><%=t "activerecord.attributes.report.riding_mileage" %></th>
     <th><%=t "activerecord.attributes.report.riding_rate" %></th>
@@ -27,8 +27,8 @@
   </tr>
 
   <tr>
-    <td><%= @report.car.name %></td>
-    <td><%= @report.driver.name %></td>
+    <td><%= link_to @report.car.name, "#{car_path(@report.car)}/#{@report.date.year}/#{@report.date.month}" %></td>
+    <td><%= link_to @report.driver.name, "#{driver_path(@report.driver)}/#{@report.date.year}/#{@report.date.month}" %></td>
     <td><%= number_with_delimiter @report.mileage %><% if @report.mileage %>Km<% end %></td>
     <td><%= number_with_delimiter @report.riding_mileage %><% if @report.riding_mileage %>Km<% end %></td>
     <td><%= number_to_percentage(@report.riding_mileage/@report.mileage, :precision => 0) rescue "" %></td>
@@ -117,4 +117,4 @@
 
 <%= link_to t("link.new") + t("activerecord.models.report"), new_report_path, :class => "btn" %>
 <%= link_to t("link.edit"), edit_report_path(@report), :class => "btn" %>
-<%= link_to t("link.back"), reports_path, :class => "btn" %>
+<%= link_to t("link.back"), :back, :class => "btn" %>

@@ -94,9 +94,9 @@ describe RestsController do
           assigns(:rest).should be_persisted
         end
 
-        it "redirects to the created rest" do
+        it "redirects to the report" do
           post :create, {:rest => valid_attributes}
-          response.should redirect_to(Rest.last)
+          response.should redirect_to(Rest.last.report)
         end
       end
 

@@ -1,6 +1,6 @@
-<%= link_to "#{(Date.new(params[:year].to_i, params[:month].to_i) << 1).year}年#{(Date.new(params[:year].to_i, params[:month].to_i) << 1).month}月", "#{reports_path}/#{(Date.new(params[:year].to_i, params[:month].to_i) << 1).year}/#{(Date.new(params[:year].to_i, params[:month].to_i) << 1).month}" %> <
-<%= link_to "#{(Date.new(params[:year].to_i, params[:month].to_i)).year}年#{(Date.new(params[:year].to_i, params[:month].to_i)).month}月", "#{reports_path}/#{(Date.new(params[:year].to_i, params[:month].to_i)).year}/#{(Date.new(params[:year].to_i, params[:month].to_i)).month}" %> >
-<%= link_to "#{(Date.new(params[:year].to_i, params[:month].to_i) >> 1).year}年#{(Date.new(params[:year].to_i, params[:month].to_i) >> 1).month}月", "#{reports_path}/#{(Date.new(params[:year].to_i, params[:month].to_i) >> 1).year}/#{(Date.new(params[:year].to_i, params[:month].to_i) >> 1).month}" %>
+<%= link_to "#{(Date.new(params[:year].to_i, params[:month].to_i) << 1).year}年#{(Date.new(params[:year].to_i, params[:month].to_i) << 1).month}月", "#{car_path(@car)}/#{(Date.new(params[:year].to_i, params[:month].to_i) << 1).year}/#{(Date.new(params[:year].to_i, params[:month].to_i) << 1).month}" %> <
+<%= link_to "#{(Date.new(params[:year].to_i, params[:month].to_i)).year}年#{(Date.new(params[:year].to_i, params[:month].to_i)).month}月", "#{car_path(@car)}/#{(Date.new(params[:year].to_i, params[:month].to_i)).year}/#{(Date.new(params[:year].to_i, params[:month].to_i)).month}" %> >
+<%= link_to "#{(Date.new(params[:year].to_i, params[:month].to_i) >> 1).year}年#{(Date.new(params[:year].to_i, params[:month].to_i) >> 1).month}月", "#{car_path(@car)}/#{(Date.new(params[:year].to_i, params[:month].to_i) >> 1).year}/#{(Date.new(params[:year].to_i, params[:month].to_i) >> 1).month}" %>
 
 <h2>
   <% if params[:day] %>
@@ -35,7 +35,6 @@
     <% unless params[:day] %>
       <th><%=t "activerecord.attributes.report.date" %></th>
     <% end %>
-    <th><%=t "activerecord.attributes.report.car" %></th>
     <th><%=t "activerecord.attributes.report.driver" %></th>
     <th><%=t "activerecord.attributes.report.mileage" %></th>
     <th><%=t "activerecord.attributes.report.riding_mileage" %></th>
@@ -63,15 +62,14 @@
       <% unless params[:day] %>
       <td>
         <% if report.date.strftime("%w") == "0" %>
-        <%= link_to report.date.strftime("%d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), "/#{controller.controller_path}/#{params[:id]}/#{report.date.year}/#{report.date.month}/#{report.date.day}", :class => "red" %>
+        <%= link_to report.date.strftime("%d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), report_path(report), :class => "red" %>
         <% elsif report.date.strftime("%w") == "6" %>
-        <%= link_to report.date.strftime("%d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), "/#{controller.controller_path}/#{params[:id]}/#{report.date.year}/#{report.date.month}/#{report.date.day}", :class => "blue" %>
+        <%= link_to report.date.strftime("%d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), report_path(report), :class => "blue" %>
         <% else %>
-        <%= link_to report.date.strftime("%d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), "/#{controller.controller_path}/#{params[:id]}/#{report.date.year}/#{report.date.month}/#{report.date.day}" %>
+        <%= link_to report.date.strftime("%d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), report_path(report) %>
         <% end %>
       </td>
       <% end %>
-      <td><%= link_to report.car.name, "#{car_path(report.car)}/#{report.date.year}/#{report.date.month}" %></td>
       <td><%= link_to report.driver.name, "#{driver_path(report.driver)}/#{report.date.year}/#{report.date.month}" %></td>
       <td><%= number_with_delimiter report.mileage %><% if report.mileage %>Km<% end %></td>
       <td><%= number_with_delimiter report.riding_mileage %><% if report.riding_mileage %>Km<% end %></td>
@@ -94,6 +92,7 @@
     </tr>
   <% end %>
 
+  <% unless params[:day] %>
   <tr>
     <td><%=t "activerecord.attributes.report.sum" %></td>
     <td></td>
@@ -116,6 +115,7 @@
     <td></td>
     <td></td>
   </tr>
+  <% end %>
 </table>
 
 <br />
