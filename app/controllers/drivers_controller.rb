@@ -52,7 +52,7 @@ class DriversController < InheritedResources::Base
       report.rests.each do |rest|
         rest_time += rest.ended_at - rest.started_at
       end
-      @working_hours += (report.finished_at - report.started_at).divmod(60*60)[0]*60 + (report.finished_at - report.started_at).divmod(60*60)[1]
+      @working_hours += (report.finished_at - report.started_at).divmod(60*60)[0]*60 + (report.finished_at - report.started_at).divmod(60*60)[1] if report.finished_at
       @rest_hours += rest_time
       hours = rest_time.divmod(60*60) #=> [12.0, 1800.0]
       mins = hours[1].divmod(60) #=> [30.0, 0.0]
