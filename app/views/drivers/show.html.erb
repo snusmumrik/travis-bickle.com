@@ -1,15 +1,4 @@
-<h1><%= t("activerecord.models.driver") %><%=  t("link.show") %></h1>
-
-<table class="table table-striped table-bordered table-hover table-narrow">
-  <tr>
-    <th><%=t "activerecord.attributes.driver.name" %></th>
-    <th><%=t "activerecord.attributes.driver.email" %></th>
-  </tr>
-  <tr>
-    <td><%= @driver.name %></td>
-    <td><%= @driver.email %></td>
-  </tr>
-</table>
+<h1><%= render "reports/date" %><%= t("activerecord.models.driver") %><%=  t("link.driver.show") %>（<%= @driver.name %>）</h1>
 
 <%= render "reports" %>
 

@@ -202,6 +202,13 @@ ja:
     search: 検索
     contact: お問合せ
 
+    car:
+      show: 個別集計
+    driver:
+      show: 月次成績
+    report:
+      index: 月次集計
+
     user:
       signin: サインイン
       signout: サインアウト

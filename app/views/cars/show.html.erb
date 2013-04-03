@@ -1,17 +1,4 @@
-<h1><%= t("activerecord.models.car") %><%=  t("link.show") %></h1>
-
-<table class="table table-striped table-bordered table-hover table-narrow">
-  <tr>
-    <th><%=t("activerecord.attributes.car.name") %></th>
-    <th><%=t("activerecord.attributes.car.base_fare") %></th>
-    <th><%=t("activerecord.attributes.car.meter_fare") %></th>
-  </tr>
-  <tr>
-    <td><%= @car.name %></td>
-    <td><%= @car.base_fare %></td>
-    <td><%= @car.meter_fare %></td>
-  </tr>
-</table>
+<h1><%= render "reports/date" %><%= t("activerecord.models.car") %><%=  t("link.car.show") %>（<%= @car.name %>）</h1>
 
 <%= render "reports" %>
 
