@@ -43,7 +43,7 @@
           <a class="brand" href="/">TravisBickle</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <% if params[:id] == "cars" %><li class="active"><% else %><li><% end %><%= link_to t("activerecord.models.car"), cars_path %></li>
+              <% if params[:id] == "cars" %><li class="active"><% else %><li><% end %><%= link_to t("activerecord.models.car"), locations_path %></li>
               <% if params[:id] == "drivers" %><li class="active"><% else %><li><% end %><%= link_to t("activerecord.models.driver"), drivers_path %></li>
               <% if params[:id] == "check_points" %><li class="active"><% else %><li><% end %><%= link_to t("activerecord.models.check_point"), check_points_path %></li>
               <% if params[:id] == "reports" %><li class="active"><% else %><li><% end %><%= link_to t("activerecord.models.report"), "#{reports_path}/#{Date.today.year}/#{Date.today.month}/#{Date.today.day}" %></li>
