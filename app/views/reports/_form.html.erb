@@ -12,12 +12,12 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :driver_id %><br />
+    <%= f.label :driver %><br />
     <%= f.select :driver_id, options_for_select(@drivers_option, @report.driver_id) %>
     <%#= f.select :driver_id, options_from_collection_for_select(Driver.all, :id, :name) %>
   </div>
   <div class="field">
-    <%= f.label :car_id %><br />
+    <%= f.label :car %><br />
     <%= f.select :car_id, options_for_select(@cars_option, @report.car_id) %>
     <%#= f.select :car_id, options_from_collection_for_select(Car.all, :id, :name) %>
   </div>
@@ -72,6 +72,14 @@
   <div class="field">
     <%= f.label :advance %><br />
     <%= f.number_field :advance %>
+  </div>
+  <div class="field">
+    <%= f.label :started_at %><br />
+    <%= f.datetime_select :started_at %>
+  </div>
+  <div class="field">
+    <%= f.label :finished_at %><br />
+    <%= f.datetime_select :finished_at %>
   </div>
   <div class="actions">
     <%= f.submit %>

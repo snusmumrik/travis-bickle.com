@@ -207,6 +207,8 @@ ja:
     driver:
       show: 月次成績
     report:
+      index: 日次集計
+    sale:
       index: 月次集計
 
     user:

@@ -62,7 +62,7 @@
 
 <% if @report.rests %>
   <h2><%=t "activerecord.models.rest" %></h2>
-  <p><%= link_to t("link.new") + t("activerecord.models.rest"), "#{new_rest_path}?report_id=#{@report.id}" %></p>
+  <p><%= link_to t("link.new") + t("activerecord.models.rest"), "#{new_rest_path}?report_id=#{@report.id}", :class => "btn" %></p>
   <table class="table table-striped table-bordered table-hover table-narrow">
     <tr>
       <th><%=t "activerecord.attributes.rest.location" %></th>
@@ -92,7 +92,7 @@
 
 <% if @report.rides %>
   <h2><%=t "activerecord.models.ride" %></h2>
-  <p><%= link_to t("link.new") + t("activerecord.models.ride"), "#{new_ride_path}?report_id=#{@report.id}" %></p>
+  <p><%= link_to t("link.new") + t("activerecord.models.ride"), "#{new_ride_path}?report_id=#{@report.id}", :class => "btn" %></p>
   <table class="table table-striped table-bordered table-hover table-narrow">
     <tr>
       <th><%=t "activerecord.attributes.ride.ride_address" %></th>

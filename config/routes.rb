@@ -1,4 +1,6 @@
 TravisBickle::Application.routes.draw do
+  resource :sales
+
   resources :notifications do
     collection do
       put "api_update"
@@ -83,7 +85,7 @@ TravisBickle::Application.routes.draw do
   match 'cars/:id/:year/:month/:day' => 'cars#show'
   match 'drivers/:id/:year/:month' => 'drivers#show'
   match 'drivers/:id/:year/:month/:day' => 'drivers#show'
-  match 'reports/:year/:month' => 'reports#index'
+  match 'sales/:year/:month' => 'sales#index'
   match 'reports/:year/:month/:day' => 'reports#index'
 
   # Sample resource route with options:
