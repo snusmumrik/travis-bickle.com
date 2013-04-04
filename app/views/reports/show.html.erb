@@ -29,12 +29,21 @@
   <tr>
     <td><%= link_to @report.car.name, "#{car_path(@report.car)}/#{@report.date.year}/#{@report.date.month}" %></td>
     <td><%= link_to @report.driver.name, "#{driver_path(@report.driver)}/#{@report.date.year}/#{@report.date.month}" %></td>
-    <td><%= number_with_delimiter @report.mileage %><% if @report.mileage %>Km<% end %></td>
-    <td><%= number_with_delimiter @report.riding_mileage %><% if @report.riding_mileage %>Km<% end %></td>
+    <td><%= number_with_delimiter @report.mileage %>
+      <% if @report.mileage %>Km<% end %></td>
+    <td><%= number_with_delimiter @report.riding_mileage %>
+      <% if @report.riding_mileage %>Km<% end %></td>
     <td><%= number_to_percentage(@report.riding_mileage/@report.mileage, :precision => 0) rescue "" %></td>
-    <td><%= number_with_delimiter @report.riding_count %><% if @report.riding_count %>回<% end %></td>
-    <td><%= number_with_delimiter @report.meter_fare_count %><% if @report.meter_fare_count %>回<% end %></td>
-    <td><%= number_with_delimiter @report.passengers %><% if @report.passengers %>人<% end %></td>
+    <td>
+      <%= number_with_delimiter @report.riding_count %>
+      <% if @report.riding_count %>回<% end %>
+    </td>
+    <td>
+      <%= number_with_delimiter @report.meter_fare_count %>
+      <% if @report.meter_fare_count %>回<% end %>
+    </td>
+    <td><%= number_with_delimiter @report.passengers %>
+      <% if @report.passengers %>人<% end %></td>
     <td><%= number_to_currency @report.sales, :locale => "ja" %></td>
     <td><%= number_to_currency(@report.sales/@report.mileage, :precision => 0, :locale => "ja") rescue "" %></td>
     <td><%= number_to_currency @report.fuel_cost, :locale => "ja" %></td>
@@ -44,17 +53,32 @@
     <td><%= number_to_currency @report.surplus_funds, :locale => "ja" %></td>
     <td><%= number_to_currency @report.deficiency_account, :locale => "ja" %></td>
     <td><%= number_to_currency @report.advance, :locale => "ja" %></td>
-    <td><% if @report.started_at %><%= @report.started_at.strftime("%H時%M分") %><% end %></td>
-    <td><% if @report.finished_at %><%= @report.finished_at.strftime("%H時%M分") rescue nil %><% end %></td>
     <td>
-      <% if @report.finished_at %>
-        <%= (@report.finished_at - @report.started_at).divmod(60*60)[0] %>時間<%= (@report.finished_at - @report.started_at).divmod(60*60)[1].divmod(60)[0] %>分
+      <% if @report.started_at %>
+        <%= @report.started_at.strftime("%H時%M分") %>
       <% end %>
     </td>
-    <td><% if @estimated_rest %><%= @estimated_rest[0] %>時間<%= @estimated_rest[1] %>分<% end %></td>
     <td>
       <% if @report.finished_at %>
-        <%= ((@report.finished_at - @report.started_at).to_i - (@estimated_rest[0]*60*60 + @estimated_rest[1]*60)).divmod(60*60)[0] %>時間<%= ((@report.finished_at - @report.started_at).to_i - (@estimated_rest[0]*60*60 + @estimated_rest[1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
+        <%= @report.finished_at.strftime("%H時%M分") %>
+        <% end %>
+    </td>
+    <td>
+      <% if @report.finished_at %>
+        <%= (@report.finished_at - @report.started_at).divmod(60*60)[0] %>時間
+        <%= (@report.finished_at - @report.started_at).divmod(60*60)[1].divmod(60)[0] %>分
+      <% end %>
+    </td>
+    <td>
+      <% if @estimated_rest %>
+        <%= @estimated_rest[0] %>時間
+        <%= @estimated_rest[1] %>分
+      <% end %>
+    </td>
+    <td>
+      <% if @report.finished_at %>
+        <%= ((@report.finished_at - @report.started_at).to_i - (@estimated_rest[0]*60*60 + @estimated_rest[1]*60)).divmod(60*60)[0] %>時間
+        <%= ((@report.finished_at - @report.started_at).to_i - (@estimated_rest[0]*60*60 + @estimated_rest[1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
       <% end %>
     </td>
   </tr>

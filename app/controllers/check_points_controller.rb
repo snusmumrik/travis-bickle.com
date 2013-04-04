@@ -7,7 +7,7 @@ class CheckPointsController < InheritedResources::Base
   # GET /check_points.json
   def api_index
     driver = Driver.find(params[:driver_id])
-    @check_points = CheckPoint.where(["user_id = ? AND deleted_at IS NULL", driver.user_id]).all
+    @check_points = CheckPoint.where(["user_id = ?", driver.user_id]).all
     respond_to do |format|
       format.json { render json: @check_points }
     end
@@ -16,7 +16,7 @@ class CheckPointsController < InheritedResources::Base
   # GET /check_points
   # GET /check_points.json
   def index
-    @check_points = CheckPoint.where(["user_id = ? AND deleted_at IS NULL", current_user.id])
+    @check_points = CheckPoint.where(["user_id = ?", current_user.id])
     if params[:check_point]
       @check_points = @check_points.name_matches params[:check_point][:name]
     end

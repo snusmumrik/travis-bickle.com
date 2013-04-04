@@ -99,7 +99,7 @@ class RidesController < InheritedResources::Base
   # DELETE /rides/1.json
   def destroy
     @ride = Ride.find(params[:id])
-    @ride.destroy
+    @ride.update_attribute("deleted_at", DateTime.now)
 
     respond_to do |format|
       format.html { redirect_to @ride.report }
@@ -107,3 +107,6 @@ class RidesController < InheritedResources::Base
     end
   end
 end
+
+
+

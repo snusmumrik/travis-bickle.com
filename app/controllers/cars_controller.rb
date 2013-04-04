@@ -117,6 +117,17 @@ class CarsController < InheritedResources::Base
     end
   end
 
+  # DELETE /cars/1
+  # DELETE /cars/1.json
+  def destroy
+    @car.update_attribute("deleted_at", DateTime.now)
+
+    respond_to do |format|
+      format.html { redirect_to cars_path }
+      format.json { head :ok }
+    end
+  end
+
   private
   def authenticate_owner
     @car = Car.find(params[:id])

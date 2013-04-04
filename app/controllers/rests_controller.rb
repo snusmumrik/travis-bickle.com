@@ -62,7 +62,7 @@ class RestsController < InheritedResources::Base
   # DELETE /rests/1.json
   def destroy
     @rest = Rest.find(params[:id])
-    @rest.destroy
+    @rest.update_attribute("deleted_at", DateTime.now)
 
     respond_to do |format|
       format.html { redirect_to @rest.report }

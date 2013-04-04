@@ -7,7 +7,7 @@ class DriversController < InheritedResources::Base
   # GET /drivers.json
   def api_signin
     respond_to do |format|
-      @driver = Driver.where(["email = ?", params[:email]]).first
+      @driver = Driver.where(["email = ? AND deleted_at IS NULL", params[:email]]).first
       if @driver && @driver.authenticate(params[:password])
         format.json { render json: @driver }
       else
@@ -111,6 +111,17 @@ class DriversController < InheritedResources::Base
         format.html { render action: "new" }
         format.json { render json: @driver.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  # DELETE /drivers/1
+  # DELETE /drivers/1.json
+  def destroy
+    @driver.update_attribute("deleted_at", DateTime.now)
+
+    respond_to do |format|
+      format.html { redirect_to drivers_path }
+      format.json { head :ok }
     end
   end
 

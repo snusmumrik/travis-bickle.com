@@ -63,7 +63,11 @@ class SalesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # index.html.erb
+      if params[:year] && params[:month]
+        format.html # index.html.erb
+      else
+        format.html {redirect_to "#{sales_path}/#{Date.today.year}/#{Date.today.month}"}
+      end
       format.json { render json: @sales }
     end
   end

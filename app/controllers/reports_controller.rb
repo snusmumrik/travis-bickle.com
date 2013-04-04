@@ -49,7 +49,7 @@ class ReportsController < InheritedResources::Base
   # PUT /reports/api_update
   # PUT /reports/api_update.json
   def api_update
-    @report = Report.where(["car_id = ? AND driver_id = ? AND mileage IS NULL", params[:car_id], params[:driver_id]]).first
+    @report = Report.where(["car_id = ? AND driver_id = ? AND finished_at IS NULL", params[:car_id], params[:driver_id]]).first
     if @report
       passengers = 0
       sales = 0
@@ -129,7 +129,11 @@ class ReportsController < InheritedResources::Base
     end
 
     respond_to do |format|
-      format.html # index.html.erb
+      if params[:year] && params[:month] && params[:day]
+        format.html # index.html.erb
+      else
+        format.html {redirect_to "#{reports_path}/#{Date.today.year}/#{Date.today.month}/#{Date.today.day}"}
+      end
       format.json { render json: @report }
     end
   end
@@ -161,6 +165,17 @@ class ReportsController < InheritedResources::Base
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @report }
+    end
+  end
+
+  # DELETE /reports/1
+  # DELETE /reports/1.json
+  def destroy
+    @report.update_attribute("deleted_at", DateTime.now)
+
+    respond_to do |format|
+      format.html { redirect_to "#{reports_path}/#{@report.date.year}/#{@report.date.month}/#{@report.date.day}" }
+      format.json { head :ok }
     end
   end
 
