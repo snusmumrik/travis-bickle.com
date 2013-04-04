@@ -25,12 +25,11 @@
     <th><%=t "activerecord.attributes.report.surplus_funds" %></th>
     <th><%=t "activerecord.attributes.report.deficiency_account" %></th>
     <th><%=t "activerecord.attributes.report.advance" %></th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th colspan="3"></th>
+    <!-- <th></th>
+     !-- <th></th> -->
   </tr>
 
-  <%= paginate @reports rescue nil %>
   <% @reports.each do |report| %>
     <tr>
       <td><%= link_to report.car.name, "#{car_path(report.car)}/#{report.date.year}/#{report.date.month}" %></td>
@@ -57,31 +56,8 @@
   <% end %>
 
   <tr>
-    <td><%=t "activerecord.attributes.report.sum" %></td>
-    <td></td>
-    <td><%= number_with_delimiter @mileage %><% if @mileage %>Km<% end %></td>
-    <td><%= number_with_delimiter @riding_mileage %><% if @riding_mileage %>Km<% end %></td>
-    <td><%= number_to_percentage(@riding_mileage*100/@mileage, :precision => 0) rescue "" %></td>
-    <td><%= number_with_delimiter @riding_count %><% if @riding_count %>回<% end %></td>
-    <td><%= number_with_delimiter @meter_fare_count %><% if @meter_fare_count %>回<% end %></td>
-    <td><%= number_with_delimiter @passengers %><% if @passengers %>人<% end %></td>
-    <td><%= number_to_currency @sales, :locale => "ja" %></td>
-    <td><%= number_to_currency(@sales/@mileage, :precision => 0, :locale => "ja") rescue "" %></td>
-    <td><%= number_to_currency @fuel_cost, :locale => "ja" %></td>
-    <td><%= number_to_currency @ticket, :locale => "ja" %></td>
-    <td><%= number_to_currency @account_receivable, :locale => "ja" %></td>
-    <td><%= number_to_currency @cash, :locale => "ja" %></td>
-    <td><%= number_to_currency @surplus_funds, :locale => "ja" %></td>
-    <td><%= number_to_currency @deficiency_account, :locale => "ja" %></td>
-    <td><%= number_to_currency @advance, :locale => "ja" %></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-
-  <tr>
-    <th></th>
-    <th></th>
+    <th colspan="2" rowspan="2" class="middle"><%=t "activerecord.attributes.report.sum" %></th>
+    <!-- <th></th> -->
     <th><%=t "activerecord.attributes.report.mileage" %></th>
     <th><%=t "activerecord.attributes.report.riding_mileage" %></th>
     <th><%=t "activerecord.attributes.report.riding_rate" %></th>
@@ -97,11 +73,30 @@
     <th><%=t "activerecord.attributes.report.surplus_funds" %></th>
     <th><%=t "activerecord.attributes.report.deficiency_account" %></th>
     <th><%=t "activerecord.attributes.report.advance" %></th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th colspan="3"></th>
+    <!-- <th></th>
+     !-- <th></th> -->
+  </tr>
+  <tr class="info">
+    <!-- <td></td>
+     !-- <td></td> -->
+    <td><%= number_with_delimiter @mileage %><% if @mileage %>Km<% end %></td>
+    <td><%= number_with_delimiter @riding_mileage %><% if @riding_mileage %>Km<% end %></td>
+    <td><%= number_to_percentage(@riding_mileage*100/@mileage, :precision => 0) rescue "" %></td>
+    <td><%= number_with_delimiter @riding_count %><% if @riding_count %>回<% end %></td>
+    <td><%= number_with_delimiter @meter_fare_count %><% if @meter_fare_count %>回<% end %></td>
+    <td><%= number_with_delimiter @passengers %><% if @passengers %>人<% end %></td>
+    <td><%= number_to_currency @sales, :locale => "ja" %></td>
+    <td><%= number_to_currency(@sales/@mileage, :precision => 0, :locale => "ja") rescue "" %></td>
+    <td><%= number_to_currency @fuel_cost, :locale => "ja" %></td>
+    <td><%= number_to_currency @ticket, :locale => "ja" %></td>
+    <td><%= number_to_currency @account_receivable, :locale => "ja" %></td>
+    <td><%= number_to_currency @cash, :locale => "ja" %></td>
+    <td><%= number_to_currency @surplus_funds, :locale => "ja" %></td>
+    <td><%= number_to_currency @deficiency_account, :locale => "ja" %></td>
+    <td><%= number_to_currency @advance, :locale => "ja" %></td>
+    <!-- <td></td>
+     !-- <td></td>
+     !-- <td></td> -->
   </tr>
 </table>
-
-<br />
-<%= paginate @reports rescue nil %>

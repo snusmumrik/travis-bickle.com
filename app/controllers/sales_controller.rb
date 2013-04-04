@@ -18,6 +18,12 @@ class SalesController < ApplicationController
       end
     end
 
+    @drivers_hash = Hash.new do |hash, key|
+      hash[key] = Hash.new do |hash, key|
+        hash[key] = 0
+      end
+    end
+
     @mileage = 0
     @riding_mileage = 0
     @riding_count = 0
@@ -31,6 +37,8 @@ class SalesController < ApplicationController
     @surplus_funds = 0
     @deficiency_account = 0
     @advance = 0
+
+    @drivers = Driver.includes(:reports).where(["user_id = ? AND reports.date BETWEEN ? AND ?", current_user.id, Date.new(year, month, 1), (Date.new(year, month, 1) >> 1) - 1]).all
 
     reports.each do |report|
       @sales_hash[report.date.day][:mileage] += report.mileage if report.mileage
@@ -60,6 +68,20 @@ class SalesController < ApplicationController
       @surplus_funds += report.surplus_funds if report.surplus_funds
       @deficiency_account += report.deficiency_account if report.deficiency_account
       @advance += report.advance if report.advance
+
+      @drivers_hash[report.driver_id][:mileage] += report.mileage if report.mileage
+      @drivers_hash[report.driver_id][:riding_mileage] += report.riding_mileage if report.riding_mileage
+      @drivers_hash[report.driver_id][:riding_count] += report.riding_count if report.riding_count
+      @drivers_hash[report.driver_id][:meter_fare_count] += report.meter_fare_count if report.meter_fare_count
+      @drivers_hash[report.driver_id][:passengers] += report.passengers if report.passengers
+      @drivers_hash[report.driver_id][:sales] += report.sales if report.sales
+      @drivers_hash[report.driver_id][:fuel_cost] += report.fuel_cost if report.fuel_cost
+      @drivers_hash[report.driver_id][:ticket] += report.ticket if report.ticket
+      @drivers_hash[report.driver_id][:account_receivable] += report.account_receivable if report.account_receivable
+      @drivers_hash[report.driver_id][:cash] += report.cash if report.cash
+      @drivers_hash[report.driver_id][:surplus_funds] += report.surplus_funds if report.surplus_funds
+      @drivers_hash[report.driver_id][:deficiency_account] += report.deficiency_account if report.deficiency_account
+      @drivers_hash[report.driver_id][:advance] += report.advance if report.advance
     end
 
     respond_to do |format|
