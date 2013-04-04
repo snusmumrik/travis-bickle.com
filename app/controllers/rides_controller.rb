@@ -68,6 +68,7 @@ class RidesController < InheritedResources::Base
   # POST /rides.json
   def create
     @ride = Ride.new(params[:ride])
+    @report = Report.find(params[:ride][:report_id])
 
     respond_to do |format|
       if @ride.save
@@ -86,7 +87,7 @@ class RidesController < InheritedResources::Base
     @ride = Ride.find(params[:id])
     respond_to do |format|
       if @ride.update_attributes(params[:ride])
-        format.html { redirect_to @ride.report, notice: 'Ride was successfully updated.' }
+        format.html { redirect_to @ride.report, notice: t("activerecord.models.ride") + t("message.updated") }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
