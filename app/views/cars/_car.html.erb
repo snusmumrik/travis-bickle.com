@@ -4,5 +4,5 @@
   <td><%= car.meter_fare %></td>
   <td><%= link_to t("link.show"), "#{car_path(car)}/#{Date.today.year}/#{Date.today.month}" %></td>
   <td><%= link_to t("link.edit"), edit_car_path(car) %></td>
-  <td><%= link_to t("link.destroy"), car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  <td><%= link_to t("link.destroy"), car, method: :delete, data: { confirm: t("message.destroy_confirmation") } %></td>
 </tr>

@@ -120,7 +120,7 @@ class DriversController < InheritedResources::Base
     @driver.update_attribute("deleted_at", DateTime.now)
 
     respond_to do |format|
-      format.html { redirect_to drivers_path }
+      format.html { redirect_to drivers_path, notice: t("activerecord.models.driver") + t("message.destroy") }
       format.json { head :ok }
     end
   end

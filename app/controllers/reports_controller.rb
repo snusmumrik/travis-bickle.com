@@ -168,13 +168,28 @@ class ReportsController < InheritedResources::Base
     end
   end
 
+  # PUT /reports/1
+  # PUT /reports/1.json
+  def update
+    @report = Report.find(params[:id])
+    respond_to do |format|
+      if @report.update_attributes(params[:report])
+        format.html { redirect_to @report, notice: t("activerecord.models.report") + t("message.updated") }
+        format.json { head :ok }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @report.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # DELETE /reports/1
   # DELETE /reports/1.json
   def destroy
     @report.update_attribute("deleted_at", DateTime.now)
 
     respond_to do |format|
-      format.html { redirect_to "#{reports_path}/#{@report.date.year}/#{@report.date.month}/#{@report.date.day}" }
+      format.html { redirect_to "#{reports_path}/#{@report.date.year}/#{@report.date.month}/#{@report.date.day}", notice: t("activerecord.models.report") + t("message.destroy") }
       format.json { head :ok }
     end
   end

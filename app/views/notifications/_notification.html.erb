@@ -5,5 +5,5 @@
   <td><%= notification.cancel %></td>
   <td><%= link_to t("link.show"), notification %></td>
   <td><%= link_to t("link.edit"), edit_notification_path(notification) %></td>
-  <td><%= link_to t("link.destroy"), notification, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  <td><%= link_to t("link.destroy"), notification, method: :delete, data: { confirm: t("message.destroy_confirmation") } %></td>
 </tr>

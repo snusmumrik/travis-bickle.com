@@ -123,7 +123,7 @@ class CarsController < InheritedResources::Base
     @car.update_attribute("deleted_at", DateTime.now)
 
     respond_to do |format|
-      format.html { redirect_to cars_path }
+      format.html { redirect_to cars_path, notice: t("activerecord.models.car") + t("message.destroy") }
       format.json { head :ok }
     end
   end

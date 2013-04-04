@@ -50,7 +50,7 @@ class CheckPointsController < InheritedResources::Base
     @check_point = CheckPoint.find(params[:id])
     respond_to do |format|
       if @check_point.update_attributes(params[:check_point])
-        format.html { redirect_to @check_point, notice: 'Check Point was successfully updated.' }
+        format.html { redirect_to @check_point, notice: t("activerecord.models.check_point") + t("message.updated") }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

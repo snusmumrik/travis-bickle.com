@@ -48,7 +48,7 @@ class NotificationsController < InheritedResources::Base
     respond_to do |format|
       if @notification.save
         push_notification(@notification.id, @notification.car.device_token, @notification.text) if @notification.car.device_token
-        format.html { redirect_to @notification, notice: 'Notification was successfully created.' }
+        format.html { redirect_to @notification, notice: t("activerecord.models.notification") + t("message.created") }
         format.json { render json: @notification, status: :created, location: @notification }
       else
         format.html { render action: "new" }
@@ -63,7 +63,7 @@ class NotificationsController < InheritedResources::Base
     @notification = Notification.find(params[:id])
     respond_to do |format|
       if @notification.update_attributes(params[:notification])
-        format.html { redirect_to @notification, notice: 'Notification was successfully updated.' }
+        format.html { redirect_to @notification, notice: t("activerecord.models.notification") + t("message.updated") }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

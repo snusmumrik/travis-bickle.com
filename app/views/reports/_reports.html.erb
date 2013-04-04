@@ -52,7 +52,7 @@
       <td><%= number_to_currency report.advance, :locale => "ja" %></td>
       <td><%= link_to t("link.show"), report %></td>
       <td><%= link_to t("link.edit"), edit_report_path(report) %></td>
-      <td><%= link_to t("link.destroy"), report, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <td><%= link_to t("link.destroy"), report, method: :delete, data: { confirm: t("message.destroy_confirmation") } %></td>
     </tr>
   <% end %>
 

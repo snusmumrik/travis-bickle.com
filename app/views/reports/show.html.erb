@@ -101,7 +101,7 @@
         <td><% if rest.started_at %><%= rest.started_at.strftime("%Y年%m月%d日 %H時%M分") %><% end %></td>
         <td><% if rest.ended_at %><%= rest.ended_at.strftime("%Y年%m月%d日 %H時%M分") %><% end %></td>
         <td><%= link_to t("link.edit"), edit_rest_path(rest) %></td>
-        <td><%= link_to t("link.destroy"), rest, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to t("link.destroy"), rest, method: :delete, data: { confirm: t("message.destroy_confirmation") } %></td>
       </tr>
     <% end %>
   </table>
@@ -133,12 +133,12 @@
         <td><%= ride.passengers %></td>
         <td><%= ride.fare %></td>
         <td><%= link_to t("link.edit"), edit_ride_path(ride) %></td>
-        <td><%= link_to t("link.destroy"), ride, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to t("link.destroy"), ride, method: :delete, data: { confirm: t("message.destroy_confirmation") } %></td>
       </tr>
     <% end %>
   </table>
 <% end %>
 
-<%= link_to t("link.new") + t("activerecord.models.report"), new_report_path, :class => "btn" %>
 <%= link_to t("link.edit"), edit_report_path(@report), :class => "btn" %>
+<%= link_to t("link.destroy"), @report, method: :delete, data: { confirm: t("message.destroy_confirmation") }, :class => "btn" %>
 <%= link_to t("link.back"), :back, :class => "btn" %>

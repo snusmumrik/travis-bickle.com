@@ -223,3 +223,5 @@ ja:
   message:
     created: を登録しました。
     updated: を更新しました。
+    destroy: を削除しました。
+    destroy_confirmation: 本当に削除してもよろしいですか？
