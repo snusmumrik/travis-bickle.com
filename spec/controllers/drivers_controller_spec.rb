@@ -183,7 +183,8 @@ describe DriversController do
         driver = Driver.create! valid_attributes
         expect {
           delete :destroy, {:id => driver.to_param}
-        }.to change(Driver, :count).by(-1)
+        }.to change(Driver, :count).by(0)
+        Driver.last.deleted_at.should_not nil
       end
 
       it "does not destroy other's driver" do

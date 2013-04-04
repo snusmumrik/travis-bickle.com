@@ -104,14 +104,14 @@ describe RidesController do
         it "assigns a newly created but unsaved ride as @ride" do
           # Trigger the behavior that occurs when invalid params are submitted
           Ride.any_instance.stub(:save).and_return(false)
-          post :create, {:ride => {}}
+          post :create, {:ride => {:report_id => FactoryGirl.create(:report).id}}
           assigns(:ride).should be_a_new(Ride)
         end
 
         it "re-renders the 'new' template" do
           # Trigger the behavior that occurs when invalid params are submitted
           Ride.any_instance.stub(:save).and_return(false)
-          post :create, {:ride => {}}
+          post :create, {:ride => {:report_id => FactoryGirl.create(:report).id}}
           response.should render_template("new")
         end
       end
@@ -166,7 +166,8 @@ describe RidesController do
         ride = Ride.create! valid_attributes
         expect {
           delete :destroy, {:id => ride.to_param}
-        }.to change(Ride, :count).by(-1)
+        }.to change(Ride, :count).by(0)
+        Ride.last.deleted_at.should_not nil
       end
 
       it "redirects to the rides list" do

@@ -182,7 +182,8 @@ describe CarsController do
         car = Car.create! valid_attributes
         expect {
           delete :destroy, {:id => car.to_param}
-        }.to change(Car, :count).by(-1)
+        }.to change(Car, :count).by(0)
+        Car.last.deleted_at.should_not nil
       end
 
       it "does not destroy other's car" do

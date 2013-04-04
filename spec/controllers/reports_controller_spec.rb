@@ -193,7 +193,8 @@ describe ReportsController do
         report = Report.create! valid_attributes
         expect {
           delete :destroy, {:id => report.to_param}
-        }.to change(Report, :count).by(-1)
+        }.to change(Report, :count).by(0)
+        Report.last.deleted_at.should_not nil
       end
 
       it "does not destroy other's report" do
@@ -209,7 +210,7 @@ describe ReportsController do
       it "redirects to the reports list" do
         report = Report.create! valid_attributes
         delete :destroy, {:id => report.to_param}
-        response.should redirect_to(reports_url)
+        response.should redirect_to(reports_url + "/#{Date.today.year}/#{Date.today.month}/#{Date.today.day}")
       end
     end
   end
