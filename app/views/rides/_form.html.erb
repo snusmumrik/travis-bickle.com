@@ -12,7 +12,12 @@
   <% end %>
 
   <div class="field">
-    <%= f.hidden_field :report_id, :value => @report.id %>
+    <% if @ride.report %>
+      <%= @ride.report.driver.name %>
+    <% else %>
+      <%= f.hidden_field :report_id, :value => @report.id %>
+      <%= @report.driver.name %>
+    <% end %>
   </div>
   <div class="field">
     <%= f.label :ride_address %><br />
