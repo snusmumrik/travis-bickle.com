@@ -4,7 +4,7 @@
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *= require_self
  *= require_tree . 
-*/
+ */
 
 .padding-top {
     padding-top: 60px;
@@ -24,4 +24,16 @@
 
 .middle {
     vertical-align:middle !important;
+}
+
+.pagination {
+    margin-bottom: 10px !important;
+}
+
+.calender {
+    margin-top: 0px !important;
+}
+
+.calender ul > li > a {
+    padding: 4px 5px !important;
 }

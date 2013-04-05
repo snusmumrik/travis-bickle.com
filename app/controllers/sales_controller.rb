@@ -10,7 +10,10 @@ class SalesController < ApplicationController
       month = Date.today.month.to_i
     end
 
-    reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date BETWEEN ? AND ?", current_user.id, Date.new(year, month, 1), (Date.new(year, month, 1) >> 1) - 1]).all
+    reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date BETWEEN ? AND ?",
+                                                    current_user.id,
+                                                    Date.new(year, month, 1),
+                                                    Date.new(year, month, -1)]).all
 
     @sales_hash = Hash.new do |hash, key|
       hash[key] = Hash.new do |hash, key|
@@ -38,7 +41,10 @@ class SalesController < ApplicationController
     @deficiency_account = 0
     @advance = 0
 
-    @drivers = Driver.includes(:reports).where(["user_id = ? AND reports.date BETWEEN ? AND ?", current_user.id, Date.new(year, month, 1), (Date.new(year, month, 1) >> 1) - 1]).all
+    @drivers = Driver.includes(:reports).where(["user_id = ? AND reports.date BETWEEN ? AND ?",
+                                                current_user.id,
+                                                Date.new(year, month, 1),
+                                                Date.new(year, month, -1)]).all
 
     reports.each do |report|
       @sales_hash[report.date.day][:mileage] += report.mileage if report.mileage

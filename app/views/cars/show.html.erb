@@ -1,4 +1,4 @@
-<h1><%= render "reports/date" %><%= t("activerecord.models.car") %><%=  t("link.car.show") %>（<%= @car.name %>）</h1>
+<h1><%= render "reports/date" %><%= t("activerecord.models.car") %><%=  t("link.car.show") %>（<%= link_to @car.name, car_path(@car) %>）</h1>
 
 <%= render "reports" %>
 

@@ -1,10 +1,20 @@
-<p>
-  <%= link_to "#{(Date.new(params[:year].to_i, params[:month].to_i) << 1).year}年#{(Date.new(params[:year].to_i, params[:month].to_i) << 1).month}月", "#{driver_path(@driver)}/#{(Date.new(params[:year].to_i, params[:month].to_i) << 1).year}/#{(Date.new(params[:year].to_i, params[:month].to_i) << 1).month}" %> ＜
-  <%= link_to "#{(Date.new(params[:year].to_i, params[:month].to_i)).year}年#{(Date.new(params[:year].to_i, params[:month].to_i)).month}月", "#{driver_path(@driver)}/#{(Date.new(params[:year].to_i, params[:month].to_i)).year}/#{(Date.new(params[:year].to_i, params[:month].to_i)).month}" %> ＞
-  <%= link_to "#{(Date.new(params[:year].to_i, params[:month].to_i) >> 1).year}年#{(Date.new(params[:year].to_i, params[:month].to_i) >> 1).month}月", "#{driver_path(@driver)}/#{(Date.new(params[:year].to_i, params[:month].to_i) >> 1).year}/#{(Date.new(params[:year].to_i, params[:month].to_i) >> 1).month}" %>
-</p>
+<div class="pagination">
+  <ul>
+    <li><%= link_to "#{params[:year].to_i - 1}年 «", "#{driver_path(@driver)}/#{params[:year].to_i - 1}/12" %></li>
+    <% if params[:year].to_i < Date.today.year %>
+      <% for i in 1..12 %>
+      <li><%= link_to "#{i}月", "#{driver_path(@driver)}/#{params[:year]}/#{i}" %></li>
+      <% end %>
+      <li><%= link_to "» #{params[:year].to_i + 1}年", "#{driver_path(@driver)}/#{params[:year].to_i + 1}/1" %></li>
+    <% else %>
+      <% for i in 1..Date.today.month %>
+      <li><%= link_to "#{i}月", "#{driver_path(@driver)}/#{params[:year]}/#{i}" %></li>
+      <% end %>
+    <% end %>
+  </ul>
+</div>
 
-<%= render "reports/calender" %>
+<%= render "cars/days" %>
 
 <table class="table table-striped table-bordered table-hover">
   <tr>
@@ -39,11 +49,11 @@
     <tr>
       <td>
         <% if report.date.strftime("%w") == "0" %>
-        <%= link_to report.date.strftime("%d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), report_path(report), :class => "red" %>
+        <%= link_to report.date.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), report_path(report), :class => "red" %>
         <% elsif report.date.strftime("%w") == "6" %>
-        <%= link_to report.date.strftime("%d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), report_path(report), :class => "blue" %>
+        <%= link_to report.date.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), report_path(report), :class => "blue" %>
         <% else %>
-        <%= link_to report.date.strftime("%d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), report_path(report) %>
+        <%= link_to report.date.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), report_path(report) %>
         <% end %>
       </td>
       <td><%= link_to report.car.name, "#{car_path(report.car)}/#{report.date.year}/#{report.date.month}" %></td>

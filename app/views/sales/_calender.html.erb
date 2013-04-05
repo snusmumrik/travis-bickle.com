@@ -1,9 +1,0 @@
-<% for i in 1..Date.new(params[:year].to_i, params[:month].to_i, -1).day %>
-  <% if Date.new(params[:year].to_i, params[:month].to_i, i).strftime("%w") == "0" %>
-    <%= link_to "#{i}日", "#{reports_path}/#{Date.new(params[:year].to_i, params[:month].to_i, 9).year}/#{Date.new(params[:year].to_i, params[:month].to_i, 9).month}/#{i}", :class => "red" %>
-  <% elsif Date.new(params[:year].to_i, params[:month].to_i, i).strftime("%w") == "6" %>
-    <%= link_to "#{i}日", "#{reports_path}/#{Date.new(params[:year].to_i, params[:month].to_i, 9).year}/#{Date.new(params[:year].to_i, params[:month].to_i, 9).month}/#{i}", :class => "blue" %>
-  <% else %>
-    <%= link_to "#{i}日", "#{reports_path}/#{Date.new(params[:year].to_i, params[:month].to_i, 9).year}/#{Date.new(params[:year].to_i, params[:month].to_i, 9).month}/#{i}" %>
-  <% end %>
-<% end %>

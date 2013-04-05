@@ -1,10 +1,5 @@
-<p>
-  <%= link_to "#{(Date.new(params[:year].to_i, params[:month].to_i) << 1).year}年#{(Date.new(params[:year].to_i, params[:month].to_i) << 1).month}月", "#{sales_path}/#{(Date.new(params[:year].to_i, params[:month].to_i) << 1).year}/#{(Date.new(params[:year].to_i, params[:month].to_i) << 1).month}" %> ＜
-  <%= link_to "#{(Date.new(params[:year].to_i, params[:month].to_i)).year}年#{(Date.new(params[:year].to_i, params[:month].to_i)).month}月", "#{sales_path}/#{(Date.new(params[:year].to_i, params[:month].to_i)).year}/#{(Date.new(params[:year].to_i, params[:month].to_i)).month}" %> ＞
-  <%= link_to "#{(Date.new(params[:year].to_i, params[:month].to_i) >> 1).year}年#{(Date.new(params[:year].to_i, params[:month].to_i) >> 1).month}月", "#{sales_path}/#{(Date.new(params[:year].to_i, params[:month].to_i) >> 1).year}/#{(Date.new(params[:year].to_i, params[:month].to_i) >> 1).month}" %>
-</p>
-
-<%= render "calender" %>
+<%= render "months" %>
+<%= render "days" %>
 
 <table class="table table-striped table-bordered table-hover">
   <tr>

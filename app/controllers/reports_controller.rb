@@ -69,8 +69,7 @@ class ReportsController < InheritedResources::Base
                                   :meter_fare_count => params[:meter_fare_count],
                                   :passengers => passengers,
                                   :sales => sales,
-                                  :finished_at => DateTime.now
-                                })
+                                  :finished_at => DateTime.now})
 
 
       respond_to do |format|
@@ -91,11 +90,21 @@ class ReportsController < InheritedResources::Base
   # GET /reports.json
   def index
     if params[:year] && params[:month] && params[:day]
-      @reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date = ?", current_user.id, Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)]).order("car_id").all
+      @reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date = ?",
+                                                       current_user.id,
+                                                       Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
+                                                      ]).order("car_id").all
     elsif params[:year] && params[:month]
-      @reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date BETWEEN ? AND ?", current_user.id, Date.new(params[:year].to_i, params[:month].to_i, 1), (Date.new(params[:year].to_i, params[:month].to_i, 1) >> 1) - 1]).order(["date", "car_id"]).page params[:page]
+      @reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date BETWEEN ? AND ?",
+                                                       current_user.id,
+                                                       Date.new(params[:year].to_i, params[:month].to_i, 1),
+                                                       Date.new(params[:year].to_i, params[:month].to_i, -1)
+                                                      ]).order(["date", "car_id"]).page params[:page]
     else
-      @reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date BETWEEN ? AND ?", current_user.id, Date.new(Date.today.year.to_i, Date.today.month.to_i, 1), (Date.new(Date.today.year.to_i, Date.today.month.to_i, 1) >> 1) - 1]).all
+      @reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date BETWEEN ? AND ?",
+                                                       current_user.id,
+                                                       Date.new(Date.today.year.to_i, Date.today.month.to_i, 1),
+                                                       Date.new(Date.today.year.to_i, Date.today.month.to_i, -1)]).all
     end
 
     @mileage = 0

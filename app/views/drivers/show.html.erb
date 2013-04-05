@@ -1,4 +1,4 @@
-<h1><%= render "reports/date" %><%= t("activerecord.models.driver") %><%=  t("link.driver.show") %>（<%= @driver.name %>）</h1>
+<h1><%= render "reports/date" %><%= t("activerecord.models.driver") %><%=  t("link.driver.show") %>（<%= link_to @driver.name, driver_path(@driver) %>）</h1>
 
 <%= render "reports" %>
 
