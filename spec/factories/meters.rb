@@ -2,13 +2,11 @@
 
 FactoryGirl.define do
   factory :meter do
-    # car_id 1
-    association :car, factory: :car
-    date "2013-03-12"
-    meter 1
-    mileage 1
-    riding_mileage 1
-    riding_count 1
-    meter_fare_count 1
+    association :report, factory: :report
+    sequence(:meter) {|n| n}
+    sequence(:mileage) {|n| n}
+    sequence(:riding_mileage) {|n| n}
+    sequence(:riding_count) {|n| n}
+    sequence(:meter_fare_count) {|n| n}
   end
 end

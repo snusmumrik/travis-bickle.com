@@ -13,7 +13,7 @@
 
   <div class="field">
     <% if @rest.report %>
-      <%= @rest.report.driver.name%>
+      <%= @rest.report.driver.name %>
     <% else %>
       <%= f.hidden_field :report_id, :value => @report.id %>
       <%= @report.driver.name %>

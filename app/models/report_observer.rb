@@ -1,6 +1,6 @@
 class ReportObserver < ActiveRecord::Observer
   def after_update(report)
-    @meter = Meter.where(["car_id = ? AND date = ?", report.car_id, report.date]).first
+    @meter = Meter.where(["report_id = ?", report.id]).first
     if @meter
       @meter.update_attributes({ :meter => report.meter,
                                  :mileage => report.mileage,
@@ -9,8 +9,7 @@ class ReportObserver < ActiveRecord::Observer
                                  :meter_fare_count => report.meter_fare_count
                                })
     else
-      Meter.create( :car_id => report.car_id,
-                    :date => report.date,
+      Meter.create( :report_id => report.id,
                     :meter => report.meter,
                     :mileage => report.mileage,
                     :riding_mileage => report.mileage,

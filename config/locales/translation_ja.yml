@@ -93,9 +93,9 @@ ja:
         car: :activerecord.models.car
         driver: :activerecord.models.driver
         date: 日付
-        mileage: 走行距離
-        riding_mileage: 乗車距離
-        riding_rate: 乗車率
+        mileage: 走行粁
+        riding_mileage: 乗車粁
+        riding_rate: 実車率
         riding_count: 乗車回数
         meter_fare_count: 爾後回数
         passengers: 乗車人数
@@ -114,7 +114,7 @@ ja:
         real_working_hours: 実作業時間
         rest_hours: 休憩時間
         deleted_at: deleted_at  #g
-        meter: meter  #g
+        meter: スピードメーター
         rests: rests  #g
         rides: rides  #g
         sum: 合計/平均
@@ -155,11 +155,9 @@ ja:
         gmaps: gmaps  #g
 
       meter:
-        mileage: mileage  #g
-        riding_mileage: riding_mileage  #g
-        car: :activerecord.models.car
-        date: date  #g
-        meter: meter  #g
+        meter: スピードメーター
+        mileage: 走行距離
+        riding_mileage: 乗車距離
 
       ride:
         ride_latitude: 乗車緯度
@@ -192,6 +190,20 @@ ja:
   label:
     error: エラー
 
+    ride:
+      index: 回数
+
+    rest:
+      time: 休憩時間
+
+    meter:
+      start: 出庫時
+      finish: 入庫時
+      balance: 差引
+      riding_count_sales: 乗車回数売上
+      meter_fare_count_sales: 爾後回数売上
+      non_meter_sales: メーター外収入
+
   link:
     index: 一覧
     new: 新規
@@ -219,6 +231,9 @@ ja:
       reset_password: パスワードの再設定
       forgot_password: パスワードをお忘れですか？
       resend_confirmation: 登録メールの再送
+
+    document:
+      index: 印刷
 
   message:
     created: を登録しました。

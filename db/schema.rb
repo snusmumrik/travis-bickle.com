@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130326080306) do
+ActiveRecord::Schema.define(:version => 20130405230312) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -107,8 +107,7 @@ ActiveRecord::Schema.define(:version => 20130326080306) do
   add_index "locations", ["car_id"], :name => "index_locations_on_car_id"
 
   create_table "meters", :force => true do |t|
-    t.integer  "car_id"
-    t.date     "date"
+    t.integer  "report_id"
     t.integer  "meter"
     t.integer  "mileage"
     t.integer  "riding_mileage"
@@ -118,7 +117,7 @@ ActiveRecord::Schema.define(:version => 20130326080306) do
     t.datetime "updated_at",       :null => false
   end
 
-  add_index "meters", ["car_id"], :name => "index_meters_on_car_id"
+  add_index "meters", ["report_id"], :name => "index_meters_on_report_id"
 
   create_table "notifications", :force => true do |t|
     t.integer  "user_id"

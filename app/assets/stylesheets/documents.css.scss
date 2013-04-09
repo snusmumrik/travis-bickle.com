@@ -1,0 +1,108 @@
+// Place all the styles related to the documents controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+/*!
+ * print.css v1.0.0
+ * http://printstylesheet.com/
+ *
+ * Copyright (c) 2011 David Bushell
+ * Dual licensed under the BSD or MIT licenses: http://printstylesheet.com/license.txt
+ 
+ * Author: David Bushell
+ * http://dbushell.com/
+ */
+
+/* use a media query to limit the CSS to only print devices, like a printer */
+@media only print
+{
+	  /* hide every element within the body */
+	  /* body * { display: none !important; } */
+    body {
+        /* width:172mm !important;
+         * height:251mm !important; */
+        padding-top: 0px;
+        color: #000000;
+	      background-color: #FFFFFF;
+        font-size: 12px;
+    }
+
+    div.navbar { display: none; }
+    body hr { display: none; }
+    footer { display: none; }
+
+    table {
+        margin-bottom: 1em;
+        border-collapse: collapse;
+        /* width: 100%; */
+    }
+
+    th, td {
+        border: 1px solid #473533;
+        padding: 5px;
+        vertical-align: top;
+    }
+
+/* add a friendy reminder not to waste paper after the body */
+/* body:after { content: "Don't waste paper!"; } */
+}
+
+.right {
+    float: right;
+}
+
+.left {
+    float: left;
+}
+
+.clear {
+    clear: both;
+}
+
+div.meter {
+    float: left;
+    width: 55%;
+    padding-right: 5%;
+}
+
+div.report {
+    float: right;
+    width: 40%;
+}
+
+div.meter td, div.report td {
+    text-align: right;
+}
+
+div.right {
+    float: right;
+    width: 49%;
+    padding-left: 1%;
+}
+
+div.left {
+    float: left;
+    width: 49%;
+    padding-right: 1%;
+}
+
+table.square {
+    margin-bottom: 20px;
+}
+
+.square th {
+    width: 70px;
+    padding: 8px;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: top;
+}
+
+.square td {
+    height: 70px;
+    width: 70px;
+}
+
+table.minimize {
+    width: 200px;
+}

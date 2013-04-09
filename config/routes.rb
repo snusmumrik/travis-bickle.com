@@ -1,4 +1,6 @@
 TravisBickle::Application.routes.draw do
+  resources :documents
+
   resources :sales
 
   resources :notifications do
