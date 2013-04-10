@@ -29,7 +29,7 @@
   <tr>
     <td><%= link_to location.car.name, "#{car_path(location.car)}/#{Date.today.year}/#{Date.today.month}/#{Date.today.day}" %></td>
     <td><%= location.address %></td>
-    <td><%= location.updated_at.strftime("%Y/%m/%d %H:%M:%S") %></td>
+    <td><%= location.updated_at.strftime("%Y/%m/%d %H:%M:%S") rescue nil %></td>
     <td><%= link_to t("link.show"), location.car %></td>
     <td><%= link_to t("link.edit"), edit_car_path(location.car) %></td>
     <td><%= link_to t("link.destroy"), location.car, method: :delete, data: { confirm: t("message.destroy_confirmation") } %></td>

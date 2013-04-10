@@ -14,7 +14,7 @@ Gmaps.load_map = ->
   # Gmaps.map.callback()
 
 (->
-  t = setInterval(->
+  setInterval(->
     Gmaps.loadMaps()
   , 10000)
 )()

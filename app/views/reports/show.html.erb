@@ -16,15 +16,20 @@
   </ul>
 </div>
 
-<% for i in 1..Date.new(@report.date.year, @report.date.month, -1).day %>
-  <% if Date.new(@report.date.year, @report.date.month, i).strftime("%w") == "0" %>
-    <%= link_to "#{i}日", "#{reports_path}/#{Date.new(@report.date.year, @report.date.month, 9).year}/#{Date.new(@report.date.year, @report.date.month, 9).month}/#{i}", :class => "red" %>
-  <% elsif Date.new(@report.date.year, @report.date.month, i).strftime("%w") == "6" %>
-    <%= link_to "#{i}日", "#{reports_path}/#{Date.new(@report.date.year, @report.date.month, 9).year}/#{Date.new(@report.date.year, @report.date.month, 9).month}/#{i}", :class => "blue" %>
-  <% else %>
-    <%= link_to "#{i}日", "#{reports_path}/#{Date.new(@report.date.year, @report.date.month, 9).year}/#{Date.new(@report.date.year, @report.date.month, 9).month}/#{i}" %>
-  <% end %>
-<% end %>
+<div class="pagination calender">
+  <ul>
+    <% Date.today.year == @report.date.year && Date.today.month == @report.date.month ? last_day = Date.today.day : last_day = Date.new(@report.date.year.to_i, @report.date.month.to_i, -1).day %>
+    <% for i in 1..last_day %>
+      <% if Date.new(@report.date.year, @report.date.month, i).strftime("%w") == "0" %>
+        <li><%= link_to "#{i}日", "#{reports_path}/#{Date.new(@report.date.year, @report.date.month, 9).year}/#{Date.new(@report.date.year, @report.date.month, 9).month}/#{i}", :class => "red" %></li>
+      <% elsif Date.new(@report.date.year, @report.date.month, i).strftime("%w") == "6" %>
+        <li><%= link_to "#{i}日", "#{reports_path}/#{Date.new(@report.date.year, @report.date.month, 9).year}/#{Date.new(@report.date.year, @report.date.month, 9).month}/#{i}", :class => "blue" %></li>
+      <% else %>
+        <li><%= link_to "#{i}日", "#{reports_path}/#{Date.new(@report.date.year, @report.date.month, 9).year}/#{Date.new(@report.date.year, @report.date.month, 9).month}/#{i}" %></li>
+      <% end %>
+    <% end %>
+  </ul>
+</div>
 
 <table class="table table-striped table-bordered table-hover table-narrow">
   <tr>
