@@ -34,6 +34,12 @@ class LocationsController < InheritedResources::Base
                            :width   => 100,
                            :height  => 100
                          })
+        else
+          marker.picture({
+                           :picture => "http://chart.apis.google.com/chart?chst=d_map_spin&chld=1.1|0|ADD8E6|12|_|#{location.car.try(:name) }",
+                           :width   => 100,
+                           :height  => 100
+                         })
         end
       rescue Exception => e
         marker.picture({
