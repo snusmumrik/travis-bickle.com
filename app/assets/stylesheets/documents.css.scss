@@ -66,12 +66,7 @@ div.meter {
 }
 
 div.report {
-    float: right;
-    width: 40%;
-}
-
-div.meter td, div.report td {
-    text-align: right;
+    width: 70%;
 }
 
 div.right {
@@ -86,7 +81,25 @@ div.left {
     padding-right: 1%;
 }
 
-table.square {
+div.right40 {
+    float: right;
+    width: 40%;
+}
+
+th {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+td {
+    text-align: right !important;
+}
+
+table.minimize {
+    width: 250px;
+}
+
+.square {
     margin-bottom: 20px;
 }
 
@@ -94,7 +107,6 @@ table.square {
     width: 70px;
     padding: 8px;
     line-height: 20px;
-    text-align: center;
     vertical-align: top;
 }
 
@@ -103,6 +115,7 @@ table.square {
     width: 70px;
 }
 
-table.minimize {
-    width: 200px;
+.mark td {
+    width: 50p;
+    height: 50px;
 }

@@ -190,6 +190,9 @@ ja:
   label:
     error: エラー
 
+    check_point:
+      mark: 検印
+
     ride:
       index: 回数
 

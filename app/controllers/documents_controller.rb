@@ -16,6 +16,7 @@ class DocumentsController < ApplicationController
     @estimated_rest = [hours[0], mins[0]]
 
     @meter = Meter.includes(:report).where(["reports.car_id = ?", @report.car_id]).order("meters.created_at DESC").first
+    @check_points = CheckPoint.where(["user_id = ? AND deleted_at IS NULL", current_user.id]).all
 
     respond_to do |format|
       format.html # index.html.erb
