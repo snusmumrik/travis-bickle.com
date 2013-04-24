@@ -89,6 +89,8 @@ TravisBickle::Application.routes.draw do
   match 'drivers/:id/:year/:month/:day' => 'drivers#show'
   match 'sales/:year/:month' => 'sales#index'
   match 'reports/:year/:month/:day' => 'reports#index'
+  match 'documents/drivers/:driver_id/:year/:month' => 'documents#index'
+  match 'documents/reports/:report_id' => 'documents#show'
 
   # Sample resource route with options:
   #   resources :products do

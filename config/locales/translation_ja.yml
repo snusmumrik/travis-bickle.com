@@ -207,6 +207,16 @@ ja:
       meter_fare_count_sales: 爾後回数売上
       non_meter_sales: メーター外収入
 
+    document:
+      company: 会社名
+      overtime: 時間外
+      late_night: 深夜
+      day_off: 休日
+      sales: 賃金
+      note: 備考
+      sum: 合計
+      work_days: 勤務日数
+
   link:
     index: 一覧
     new: 新規
@@ -236,7 +246,8 @@ ja:
       resend_confirmation: 登録メールの再送
 
     document:
-      index: 印刷
+      index: 労務時間報告書
+      show: 乗務記録
 
   message:
     created: を登録しました。

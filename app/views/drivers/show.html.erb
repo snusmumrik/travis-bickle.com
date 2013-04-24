@@ -3,4 +3,5 @@
 <%= render "reports" %>
 
 <%= link_to t("link.edit"), edit_driver_path(@driver), :class => "btn" %>
+<%= link_to t("link.document.index"), "#{documents_path}/drivers/#{@driver.id}/#{params[:year]}/#{params[:month]}", :class => "btn", :target => "_blank" %>
 <%= link_to t("link.back"), drivers_path, :class => "btn" %>

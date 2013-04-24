@@ -163,5 +163,5 @@
 
 <%= link_to t("link.edit"), edit_report_path(@report), :class => "btn" %>
 <%= link_to t("link.destroy"), @report, method: :delete, data: { confirm: t("message.destroy_confirmation") }, :class => "btn" %>
-<%= link_to t("link.document.index"), "#{documents_path}?report_id=#{@report.id}", :class => "btn", :target => "_blank" %>
+<%= link_to t("link.document.show"), "#{documents_path}/reports/#{@report.id}", :class => "btn", :target => "_blank" %>
 <%= link_to t("link.back"), :back, :class => "btn" %>

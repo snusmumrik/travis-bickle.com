@@ -41,6 +41,7 @@
         border: 1px solid #473533;
         padding: 5px;
         vertical-align: top;
+        /* text-align: right !important; */
     }
 
 /* add a friendy reminder not to waste paper after the body */
@@ -89,10 +90,6 @@ div.right40 {
 th {
     text-align: center !important;
     vertical-align: middle !important;
-}
-
-td {
-    text-align: right !important;
 }
 
 table.minimize {
