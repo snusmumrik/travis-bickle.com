@@ -120,6 +120,7 @@ class ReportsController < InheritedResources::Base
     @surplus_funds = 0
     @deficiency_account = 0
     @advance = 0
+    @rest_hash = {}
 
     @reports.each do |report|
       @mileage += report.mileage if report.mileage
@@ -135,6 +136,14 @@ class ReportsController < InheritedResources::Base
       @surplus_funds += report.surplus_funds if report.surplus_funds
       @deficiency_account += report.deficiency_account if report.deficiency_account
       @advance += report.advance if report.advance
+
+      rest_sum = 0
+      report.rests.each do |rest|
+        rest_sum += rest.ended_at - rest.started_at
+      end
+      hours = rest_sum.divmod(60*60) #=> [12.0, 1800.0]
+      mins = hours[1].divmod(60) #=> [30.0, 0.0]
+      @rest_hash.store(report.id, [hours[0], mins[0]])
     end
 
     respond_to do |format|
@@ -151,14 +160,14 @@ class ReportsController < InheritedResources::Base
   # GET /reports/1.json
   def show
     @report = Report.includes(:car => :user).find(params[:id])
-    @estimated_rest = 0
+    rest_sum = 0
 
     @report.rests.each do |rest|
-      @estimated_rest += rest.ended_at - rest.started_at
+      rest_sum += rest.ended_at - rest.started_at
     end
-    hours = @estimated_rest.divmod(60*60) #=> [12.0, 1800.0]
+    hours = rest_sum.divmod(60*60) #=> [12.0, 1800.0]
     mins = hours[1].divmod(60) #=> [30.0, 0.0]
-    @estimated_rest = [hours[0], mins[0]]
+    @rest_array = [hours[0], mins[0]]
 
     respond_to do |format|
       format.html # show.html.erb
