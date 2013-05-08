@@ -88,11 +88,12 @@ class NotificationsController < InheritedResources::Base
   end
 
   def push_notification(id, device_token, text)
-    pusher = Grocer.pusher(certificate: "#{Rails.root}/doc/apns-dev.pem",      # required
+    pusher = Grocer.pusher(certificate: "#{Rails.root}/doc/apns-pro.pem",      # production
+                           # "#{Rails.root}/doc/apns-dev.pem",      # development
                            # passphrase:  "",                       # optional
                            # gateway:     localhost, # test
-                           gateway:     "gateway.sandbox.push.apple.com", # develpment
-                           # gateway:     "gateway.push.apple.com", # production
+                           # gateway:     "gateway.sandbox.push.apple.com", # develpment
+                           gateway:     "gateway.push.apple.com", # production
                            port:        2195,                     # optional
                            retries:     3                         # optional
                            )
