@@ -34,7 +34,9 @@ class DocumentsController < ApplicationController
 
       @sales += report.sales if report.sales
 
-      if report.finished_at.hour == 22 || report.finished_at.hour == 23
+      if report.finished_at.nil?
+        return
+      elsif report.finished_at.hour == 22 || report.finished_at.hour == 23
         @late_night_hash.store(report.id, 1)
         @late_night += 1
       elsif report.finished_at.hour == 0 || report.finished_at.hour == 1
