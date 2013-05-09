@@ -88,15 +88,15 @@
       <% end %>
     </td>
     <td>
-      <% if @estimated_rest %>
-        <%= @estimated_rest[0] %>時間
-        <%= @estimated_rest[1] %>分
+      <% if @rest_array %>
+        <%= @rest_array[0] %>時間
+        <%= @rest_array[1] %>分
       <% end %>
     </td>
     <td>
       <% if @report.finished_at %>
-        <%= ((@report.finished_at - @report.started_at).to_i - (@estimated_rest[0]*60*60 + @estimated_rest[1]*60)).divmod(60*60)[0] %>時間
-        <%= ((@report.finished_at - @report.started_at).to_i - (@estimated_rest[0]*60*60 + @estimated_rest[1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
+        <%= ((@report.finished_at - @report.started_at).to_i - (@rest_array[0]*60*60 + @rest_array[1]*60)).divmod(60*60)[0] %>時間
+        <%= ((@report.finished_at - @report.started_at).to_i - (@rest_array[0]*60*60 + @rest_array[1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
       <% end %>
     </td>
   </tr>
@@ -129,7 +129,7 @@
     <% end %>
     <tr>
       <th colspan="3" class="center"><%=t "activerecord.attributes.rest.estimated_rest" %></th>
-      <td><% if @estimated_rest %><%= @estimated_rest[0] %>時間<%= @estimated_rest[1] %>分<% end %></td>
+      <td><% if @rest_array %><%= @rest_array[0] %>時間<%= @rest_array[1] %>分<% end %></td>
       <td></td>
       <td></td>
     </tr>
