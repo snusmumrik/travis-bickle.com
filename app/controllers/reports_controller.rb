@@ -69,6 +69,12 @@ class ReportsController < InheritedResources::Base
                                   :meter_fare_count => params[:meter_fare_count],
                                   :passengers => passengers,
                                   :sales => sales,
+                                  :fuel_cost => params[:fuel_cost],
+                                  :ticket => params[:ticket],
+                                  :account_receivable => params[:account_receivable],
+                                  :cash => params[:cash],
+                                  :surplus_funds => params[:surplus_funds],
+                                  :deficiency_account => params[:deficiency_account],
                                   :finished_at => DateTime.now})
 
 
