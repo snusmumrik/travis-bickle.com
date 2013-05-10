@@ -56,7 +56,7 @@ class LocationsController < InheritedResources::Base
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @locations }
+      format.json { render json: @json }
     end
   end
 
