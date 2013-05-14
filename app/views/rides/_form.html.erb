@@ -12,6 +12,7 @@
   <% end %>
 
   <div class="field">
+    <%= t("activerecord.models.driver") %>
     <% if @ride.report %>
       <%= @ride.report.driver.name %>
     <% else %>

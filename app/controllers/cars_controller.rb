@@ -53,9 +53,9 @@ class CarsController < InheritedResources::Base
   def show
     @car = Car.find(params[:id])
     if params[:year] && params[:month] && params[:day]
-      @reports = Report.where(["car_id = ? AND date = ?", params[:id], Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)]).all
+      @reports = Report.includes(:driver).where(["car_id = ? AND date = ?", params[:id], Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)]).all
     elsif params[:year] && params[:month]
-      @reports = Report.where(["car_id = ? AND date BETWEEN ? AND ?", params[:id], Date.new(params[:year].to_i, params[:month].to_i, 1), (Date.new(params[:year].to_i, params[:month].to_i, 1) >> 1) - 1]).all
+      @reports = Report.includes(:driver).where(["car_id = ? AND date BETWEEN ? AND ?", params[:id], Date.new(params[:year].to_i, params[:month].to_i, 1), (Date.new(params[:year].to_i, params[:month].to_i, 1) >> 1) - 1]).all
     else
       params[:year] = Date.today.year
       params[:month] = Date.today.month
@@ -76,6 +76,12 @@ class CarsController < InheritedResources::Base
     @deficiency_account = 0
     @advance = 0
 
+    sales_hash = Hash.new do |hash, key|
+      hash[key] = Hash.new do |hash, key|
+        hash[key] = 0
+      end
+    end
+
     @reports.each do |report|
       @mileage += report.mileage if report.mileage
       @riding_mileage += report.riding_mileage if report.riding_mileage
@@ -90,6 +96,34 @@ class CarsController < InheritedResources::Base
       @surplus_funds += report.surplus_funds if report.surplus_funds
       @deficiency_account += report.deficiency_account if report.deficiency_account
       @advance += report.advance if report.advance
+
+      sales_hash[report.driver][report.date.day] += report.sales
+    end
+
+    data_hash = Hash.new do |hash, key|
+      hash[key] = Array.new
+    end
+
+    sales_hash.each do |sale|
+      # sale[0] => driver
+      # sale[1] => sales hash
+      for i in 1..Date.new(params[:year].to_i, params[:month].to_i, -1).day
+        data_hash[sale[0]] << sale[1][i]
+      end
+    end
+
+    @bar = LazyHighCharts::HighChart.new('column') do |f|
+      data_hash.each do |data|
+        f.series(:name => data[0].name, :data => data[1])
+      end
+
+      f.title(:text => t("activerecord.attributes.report.sales"))
+      f.options[:xAxis][:categories] = (1..Date.new(params[:year].to_i, params[:month].to_i, -1).day).to_a
+
+      ## or options for column
+      f.options[:chart][:defaultSeriesType] = "column"
+      f.plot_options({:column=>{:stacking=>"normal"}})
+      # f.labels(:items => [:html => "", :style => {:left => "40px", :top => "8px", :color => "black"} ])
     end
 
     respond_to do |format|

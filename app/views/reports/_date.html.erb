@@ -8,8 +8,8 @@
   <% end %>
 
   <% date = Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i) %>
-  <%= date.strftime("%Y年%-m月%-d日(#{%w(日 月 火 水 木 金 土)[date.wday]})") %>
+  <%= link_to date.strftime("%Y年%-m月%-d日(#{%w(日 月 火 水 木 金 土)[date.wday]})"), "#{reports_path}/#{params[:year]}/#{params[:month]}/#{params[:day]}" %>
   </span>
 <% else %>
-  <%= Date.new(params[:year].to_i, params[:month].to_i).strftime("%Y年%-m月") %>
+  <%= link_to Date.new(params[:year].to_i, params[:month].to_i).strftime("%Y年%-m月"), "#{sales_path}/#{params[:year]}/#{params[:month]}" %>
 <% end %>

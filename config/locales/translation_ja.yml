@@ -217,6 +217,13 @@ ja:
       sum: 合計
       work_days: 勤務日数
 
+    report:
+      total: 合計
+      sales: 売上
+      daily_individual: 車両毎売上
+      daily_total: 日次売上
+      monthly_total: 月次売上
+
   link:
     index: 一覧
     new: 新規

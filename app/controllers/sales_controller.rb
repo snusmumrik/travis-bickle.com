@@ -90,6 +90,36 @@ class SalesController < ApplicationController
       @drivers_hash[report.driver_id][:advance] += report.advance if report.advance
     end
 
+    @sales_array = Array.new
+    for i in 1..Date.new(params[:year].to_i, params[:month].to_i, -1).day
+      if @sales_hash[i]
+        @sales_array << @sales_hash[i][:sales]
+      else
+        @sales_array << 0
+      end
+    end
+
+    @driver_sales = Array.new
+    @drivers.each do |driver|
+      @driver_sales << @drivers_hash[driver.id][:sales]
+    end
+
+    @daily_chart = LazyHighCharts::HighChart.new('graph') do |f|
+      f.title({ :text => t("label.report.daily_total") })
+      f.options[:xAxis][:categories] =  (1..Date.new(params[:year].to_i, params[:month].to_i, -1).day).to_a
+      f.labels(:items => [:html => "", :style => {:left => "40px", :top => "8px", :color => "black"} ])
+      f.series(:type => 'column', :name => t("activerecord.attributes.report.sales"), :data => @sales_array)
+    end
+
+    @driver_chart = LazyHighCharts::HighChart.new('column') do |f|
+      f.labels(:items => [:html => "", :style => {:left => "40px", :top => "8px", :color => "black"} ])
+      f.series(:name => t("activerecord.attributes.report.sales"), :data => @driver_sales)
+      f.title({ :text => t("label.report.monthly_total") })
+      f.options[:xAxis][:categories] = @drivers.collect(&:name)
+      f.options[:chart][:defaultSeriesType] = "column"
+      f.plot_options({:column=>{:stacking=>"normal"}})
+    end
+
     respond_to do |format|
       if params[:year] && params[:month]
         format.html # index.html.erb

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130405230312) do
+ActiveRecord::Schema.define(:version => 20130512032841) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -136,25 +136,25 @@ ActiveRecord::Schema.define(:version => 20130405230312) do
     t.integer  "driver_id"
     t.integer  "car_id"
     t.date     "date"
-    t.integer  "meter"
-    t.integer  "mileage"
-    t.integer  "riding_mileage"
-    t.integer  "riding_count"
-    t.integer  "meter_fare_count"
-    t.integer  "passengers"
-    t.integer  "sales"
-    t.integer  "fuel_cost"
-    t.integer  "ticket"
-    t.integer  "account_receivable"
-    t.integer  "cash"
-    t.integer  "surplus_funds"
-    t.integer  "deficiency_account"
-    t.integer  "advance"
+    t.integer  "meter",              :default => 0
+    t.integer  "mileage",            :default => 0
+    t.integer  "riding_mileage",     :default => 0
+    t.integer  "riding_count",       :default => 0
+    t.integer  "meter_fare_count",   :default => 0
+    t.integer  "passengers",         :default => 0
+    t.integer  "sales",              :default => 0
+    t.integer  "fuel_cost",          :default => 0
+    t.integer  "ticket",             :default => 0
+    t.integer  "account_receivable", :default => 0
+    t.integer  "cash",               :default => 0
+    t.integer  "surplus_funds",      :default => 0
+    t.integer  "deficiency_account", :default => 0
+    t.integer  "advance",            :default => 0
     t.datetime "started_at"
     t.datetime "finished_at"
     t.datetime "deleted_at"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
   end
 
   add_index "reports", ["driver_id"], :name => "index_reports_on_driver_id"

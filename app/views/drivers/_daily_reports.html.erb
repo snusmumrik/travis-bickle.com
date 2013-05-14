@@ -1,0 +1,137 @@
+<div class="pagination">
+  <ul>
+    <li><%= link_to "#{params[:year].to_i - 1}年 «", "#{driver_path(@driver)}/#{params[:year].to_i - 1}/12" %></li>
+    <% if params[:year].to_i < Date.today.year %>
+      <% for i in 1..12 %>
+      <li><%= link_to "#{i}月", "#{driver_path(@driver)}/#{params[:year]}/#{i}" %></li>
+      <% end %>
+      <li><%= link_to "» #{params[:year].to_i + 1}年", "#{driver_path(@driver)}/#{params[:year].to_i + 1}/1" %></li>
+    <% else %>
+      <% for i in 1..Date.today.month %>
+      <li><%= link_to "#{i}月", "#{driver_path(@driver)}/#{params[:year]}/#{i}" %></li>
+      <% end %>
+    <% end %>
+  </ul>
+</div>
+
+<%= render "cars/days" %>
+
+<table class="table table-striped table-bordered table-hover">
+  <tr>
+    <th><%=t "activerecord.attributes.report.date" %></th>
+    <th><%=t "activerecord.attributes.report.car" %></th>
+    <th><%=t "activerecord.attributes.report.mileage" %></th>
+    <th><%=t "activerecord.attributes.report.riding_mileage" %></th>
+    <th><%=t "activerecord.attributes.report.riding_rate" %></th>
+    <th><%=t "activerecord.attributes.report.riding_count" %></th>
+    <th><%=t "activerecord.attributes.report.meter_fare_count" %></th>
+    <th><%=t "activerecord.attributes.report.passengers" %></th>
+    <th><%=t "activerecord.attributes.report.sales" %></th>
+    <th><%=t "activerecord.attributes.report.sales_per_kilometer" %></th>
+    <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
+    <th><%=t "activerecord.attributes.report.ticket" %></th>
+    <th><%=t "activerecord.attributes.report.account_receivable" %></th>
+    <th><%=t "activerecord.attributes.report.cash" %></th>
+    <th><%=t "activerecord.attributes.report.surplus_funds" %></th>
+    <th><%=t "activerecord.attributes.report.deficiency_account" %></th>
+    <th><%=t "activerecord.attributes.report.advance" %></th>
+    <th><%=t "activerecord.attributes.report.started_at" %></th>
+    <th><%=t "activerecord.attributes.report.finished_at" %></th>
+    <th><%=t "activerecord.attributes.report.working_hours" %></th>
+    <th><%=t "activerecord.attributes.report.rest_hours" %></th>
+    <th><%=t "activerecord.attributes.report.real_working_hours" %></th>
+    <th colspan="3"></th>
+    <!-- <th></th>
+     !-- <th></th> -->
+  </tr>
+
+  <% @reports.each do |report| %>
+    <tr>
+      <td>
+        <% if Date.new(params[:year].to_i, params[:month].to_i, report.date.day).strftime("%w") == "0" %>
+        <%= link_to Date.new(params[:year].to_i, params[:month].to_i, report.date.day).strftime("%-d日(#{%w(日 月 火 水 木 金 土)[Date.new(params[:year].to_i, params[:month].to_i, report.date.day).wday]})"), "#{drivers_path}/#{@driver.id}/#{params[:year]}/#{params[:month]}/#{i}", :class => "red" %>
+        <% elsif Date.new(params[:year].to_i, params[:month].to_i, report.date.day).strftime("%w") == "6" %>
+        <%= link_to Date.new(params[:year].to_i, params[:month].to_i, report.date.day).strftime("%-d日(#{%w(日 月 火 水 木 金 土)[Date.new(params[:year].to_i, params[:month].to_i, report.date.day).wday]})"), "#{drivers_path}/#{@driver.id}/#{params[:year]}/#{params[:month]}/#{i}", :class => "blue" %>
+        <% else %>
+        <%= link_to Date.new(params[:year].to_i, params[:month].to_i, report.date.day).strftime("%-d日(#{%w(日 月 火 水 木 金 土)[Date.new(params[:year].to_i, params[:month].to_i, report.date.day).wday]})"), "#{drivers_path}/#{@driver.id}/#{params[:year]}/#{params[:month]}/#{i}" %>
+        <% end %>
+      </td>
+      <td><%= link_to @sales_hash[i][:car].name, "#{car_path(@sales_hash[i][:car])}/#{params[:year]}/#{params[:month]}/#{params[:day]}" rescue nil %></td>
+      <td><%= number_with_delimiter @sales_hash[i][:mileage] %><% if @sales_hash[i][:mileage] %>Km<% end %></td>
+      <td><%= number_with_delimiter @sales_hash[i][:riding_mileage] %><% if @sales_hash[i][:riding_mileage] %>Km<% end %></td>
+      <td><%= number_to_percentage(@sales_hash[i][:riding_mileage]*100/@sales_hash[i][:mileage], :precision => 0) rescue "" %></td>
+      <td><%= number_with_delimiter @sales_hash[i][:riding_count] %><% if @sales_hash[i][:riding_count] %>回<% end %></td>
+      <td><%= number_with_delimiter @sales_hash[i][:meter_fare_count] %><% if @sales_hash[i][:meter_fare_count] %>回<% end %></td>
+      <td><%= number_with_delimiter @sales_hash[i][:passengers] %><% if @sales_hash[i][:passengers] %>人<% end %></td>
+      <td><%= number_to_currency @sales_hash[i][:sales], :locale => "ja" %></td>
+      <td><%= number_to_currency(@sales_hash[i][:sales]/@sales_hash[i][:mileage], :precision => 0, :locale => "ja") rescue "" %></td>
+      <td><%= number_to_currency @sales_hash[i][:fuel_cost], :locale => "ja" %></td>
+      <td><%= number_to_currency @sales_hash[i][:ticket], :locale => "ja" %></td>
+      <td><%= number_to_currency @sales_hash[i][:account_receivable], :locale => "ja" %></td>
+      <td><%= number_to_currency @sales_hash[i][:cash], :locale => "ja" %></td>
+      <td><%= number_to_currency @sales_hash[i][:surplus_funds], :locale => "ja" %></td>
+      <td><%= number_to_currency @sales_hash[i][:deficiency_account], :locale => "ja" %></td>
+      <td><%= number_to_currency @sales_hash[i][:advance], :locale => "ja" %></td>
+      <td><% if @sales_hash[i][:started_at] %><%= @sales_hash[i][:started_at].strftime("%H時%M分") rescue nil %><% end %></td>
+      <td><% if @sales_hash[i][:finished_at] %><%= @sales_hash[i][:finished_at].strftime("%H時%M分") rescue nil %><% end %></td>
+      <td>
+        <% if @sales_hash[i][:finished_at] != 0 %>
+        <%= "#{(@sales_hash[i][:finished_at] - @sales_hash[i][:started_at]).divmod(60*60)[0]}時間" rescue nil %>
+        <%= "#{(@sales_hash[i][:finished_at] - @sales_hash[i][:started_at]).divmod(60*60)[1].divmod(60)[0]}分" rescue nil %>
+        <% end %>
+      </td>
+      <td>
+        <% if @rest_hash[i] != 0 %>
+        <%= "#{@rest_hash[i][0]}時間" rescue nil %>
+        <%= "#{@rest_hash[i][1]}分" rescue nil %>
+        <% end %>
+      </td>
+      <td>
+        <% if @sales_hash[i][:finished_at] != 0 %>
+        <%#= "#{((@sales_hash[i][:finished_at] - @sales_hash[i][:started_at]).to_i - (@rest_hash[i][0]*60*60 + @rest_hash[i][1]*60)).divmod(60*60)[0]}時間" rescue nil %>
+        <%#= "#{((@sales_hash[i][:finished_at] - @sales_hash[i][:started_at]).to_i - (@rest_hash[i][0]*60*60 + @rest_hash[i][1]*60)).divmod(60*60)[1].divmod(60)[0]}分" rescue nil %>
+        <% end %>
+      </td>
+      <td><%= link_to t("link.show"), report_path(@sales_hash[i][:id]) %></td>
+      <td><%= link_to t("link.edit"), edit_report_path(@sales_hash[i][:id]) %></td>
+      <td><%= link_to t("link.destroy"), report_path(@sales_hash[i][:id]), method: :delete, data: { confirm: t("message.destroy_confirmation") } %></td>
+    </tr>
+  <% end %>
+
+  <tr class="info">
+    <th colspan="2" rowspan="2" class="center middle"><%=t "activerecord.attributes.report.sum" %></th>
+    <!-- <td></td> -->
+    <td><%= number_with_delimiter @mileage %><% if @mileage %>Km<% end %></td>
+    <td><%= number_with_delimiter @riding_mileage %><% if @riding_mileage %>Km<% end %></td>
+    <td><%= number_to_percentage(@riding_mileage*100/@mileage, :precision => 0) rescue "" %></td>
+    <td><%= number_with_delimiter @riding_count %><% if @riding_count %>回<% end %></td>
+    <td><%= number_with_delimiter @meter_fare_count %><% if @meter_fare_count %>回<% end %></td>
+    <td><%= number_with_delimiter @passengers %><% if @passengers %>人<% end %></td>
+    <td><%= number_to_currency @sales, :locale => "ja" %></td>
+    <td><%= number_to_currency(@sales/@mileage, :precision => 0, :locale => "ja") rescue "" %></td>
+    <td><%= number_to_currency @fuel_cost, :locale => "ja" %></td>
+    <td><%= number_to_currency @ticket, :locale => "ja" %></td>
+    <td><%= number_to_currency @account_receivable, :locale => "ja" %></td>
+    <td><%= number_to_currency @cash, :locale => "ja" %></td>
+    <td><%= number_to_currency @surplus_funds, :locale => "ja" %></td>
+    <td><%= number_to_currency @deficiency_account, :locale => "ja" %></td>
+    <td><%= number_to_currency @advance, :locale => "ja" %></td>
+    <td>-</td>
+    <td>-</td>
+    <td>
+      <%= @working_hours.divmod(60*60)[0] %>時間
+      <%= @working_hours.divmod(60*60)[1].divmod(60)[0] %>分
+    </td>
+    <td>
+      <%= @rest_hours.divmod(60*60)[0] %>時間
+      <%= @rest_hours.divmod(60*60)[1].divmod(60)[0] %>分
+    </td>
+    <td>
+      <%= (@working_hours - @rest_hours).divmod(60*60)[0] %>時間
+      <%= (@working_hours - @rest_hours).divmod(60*60)[1].divmod(60)[0] %>分
+    </td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>

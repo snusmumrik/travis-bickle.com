@@ -22,7 +22,7 @@
     <th></th>
   </tr>
 
-  <% for i in 1..Date.new(params[:year].to_i, params[:month].to_i, ((Date.new(params[:year].to_i, params[:month].to_i, 1) >> 1) - 1).day).day  %>
+  <% for i in 1..Date.new(params[:year].to_i, params[:month].to_i, - 1).day %>
     <tr>
       <td>
         <% if Date.new(params[:year].to_i, params[:month].to_i, i).strftime("%w") == "0" %>
@@ -91,49 +91,4 @@
     <td><%= number_to_currency @advance, :locale => "ja" %></td>
     <!-- <td></td> -->
   </tr>
-
 </table>
-
-<table class="table table-striped table-bordered table-hover">
-  <tr>
-    <th><%=t "activerecord.attributes.report.driver" %></th>
-    <th><%=t "activerecord.attributes.report.mileage" %></th>
-    <th><%=t "activerecord.attributes.report.riding_mileage" %></th>
-    <th><%=t "activerecord.attributes.report.riding_rate" %></th>
-    <th><%=t "activerecord.attributes.report.riding_count" %></th>
-    <th><%=t "activerecord.attributes.report.meter_fare_count" %></th>
-    <th><%=t "activerecord.attributes.report.passengers" %></th>
-    <th><%=t "activerecord.attributes.report.sales" %></th>
-    <th><%=t "activerecord.attributes.report.sales_per_kilometer" %></th>
-    <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
-    <th><%=t "activerecord.attributes.report.ticket" %></th>
-    <th><%=t "activerecord.attributes.report.account_receivable" %></th>
-    <th><%=t "activerecord.attributes.report.cash" %></th>
-    <th><%=t "activerecord.attributes.report.surplus_funds" %></th>
-    <th><%=t "activerecord.attributes.report.deficiency_account" %></th>
-    <th><%=t "activerecord.attributes.report.advance" %></th>
-    <th></th>
-  </tr>
-  <% @drivers.each do |driver| %>
-  <tr>
-    <td><%= link_to driver.name, "#{driver_path driver}/#{params[:year]}/#{params[:month]}" %></td>
-    <td><%= number_with_delimiter @drivers_hash[driver.id][:mileage] %><% if @drivers_hash[driver.id][:mileage] %>Km<% end %></td>
-    <td><%= number_with_delimiter @drivers_hash[driver.id][:riding_mileage] %><% if @drivers_hash[driver.id][:riding_mileage] %>Km<% end %></td>
-    <td><%= number_to_percentage(@drivers_hash[driver.id][:riding_mileage]*100/@drivers_hash[driver.id][:mileage], :precision => 0) rescue "" %></td>
-    <td><%= number_with_delimiter @drivers_hash[driver.id][:riding_count] %><% if @drivers_hash[driver.id][:riding_count] %>回<% end %></td>
-    <td><%= number_with_delimiter @drivers_hash[driver.id][:meter_fare_count] %><% if @drivers_hash[driver.id][:meter_fare_count] %>回<% end %></td>
-    <td><%= number_with_delimiter @drivers_hash[driver.id][:passengers] %><% if @drivers_hash[driver.id][:passengers] %>人<% end %></td>
-    <td><%= number_to_currency @drivers_hash[driver.id][:sales], :locale => "ja" %></td>
-    <td><%= number_to_currency(@drivers_hash[driver.id][:sales]/@drivers_hash[driver.id][:mileage], :precision => 0, :locale => "ja") rescue "" %></td>
-    <td><%= number_to_currency @drivers_hash[driver.id][:fuel_cost], :locale => "ja" %></td>
-    <td><%= number_to_currency @drivers_hash[driver.id][:ticket], :locale => "ja" %></td>
-    <td><%= number_to_currency @drivers_hash[driver.id][:account_receivable], :locale => "ja" %></td>
-    <td><%= number_to_currency @drivers_hash[driver.id][:cash], :locale => "ja" %></td>
-    <td><%= number_to_currency @drivers_hash[driver.id][:surplus_funds], :locale => "ja" %></td>
-    <td><%= number_to_currency @drivers_hash[driver.id][:deficiency_account], :locale => "ja" %></td>
-    <td><%= number_to_currency @drivers_hash[driver.id][:advance], :locale => "ja" %></td>
-    <td><%= link_to t("link.show"), "#{driver_path driver}/#{params[:year]}/#{params[:month]}" %></td>
-  </tr>
-  <% end %>
-</table>
-<br />

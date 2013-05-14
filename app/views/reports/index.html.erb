@@ -5,4 +5,6 @@
 
 <%= render "reports" %>
 
+<%= high_chart("chart", @chart) %>
+
 <%= link_to t("link.new") + t("activerecord.models.report"), new_report_path, :class => "btn" %>

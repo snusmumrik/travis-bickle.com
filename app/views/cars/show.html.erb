@@ -2,5 +2,9 @@
 
 <%= render "reports" %>
 
+<% unless params[:day] %>
+  <%= high_chart("bar", @bar) %>
+<% end %>
+
 <%= link_to t("link.edit"), edit_car_path(@car), :class => "btn" %>
 <%= link_to t("link.back"), cars_path, :class => "btn" %>

@@ -149,6 +149,7 @@ GEM
       guard (>= 1.1)
       rspec (~> 2.11)
     has_scope (0.5.1)
+    hash-deep-merge (0.1.1)
     hashie (2.0.3)
     hike (1.2.2)
     hirb (0.7.1)
@@ -166,6 +167,9 @@ GEM
     kaminari (0.14.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
+    lazy_high_charts (1.4.2)
+      bundler (>= 1.0)
+      hash-deep-merge
     listen (0.7.3)
     lumberjack (1.0.3)
     mail (2.5.3)
@@ -371,6 +375,7 @@ DEPENDENCIES
   i18n_generators!
   jquery-rails
   kaminari
+  lazy_high_charts
   meta_search
   metric_fu
   minitest

@@ -44,14 +44,14 @@
     <tr>
       <td>
         <% if report.date.strftime("%w") == "0" %>
-        <%= link_to report.date.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), report_path(report), :class => "red" %>
+        <%= link_to report.date.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), "#{car_path(report.car)}/#{report.date.year}/#{report.date.month}/#{report.date.day}", :class => "red" %>
         <% elsif report.date.strftime("%w") == "6" %>
-        <%= link_to report.date.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), report_path(report), :class => "blue" %>
+        <%= link_to report.date.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), "#{car_path(report.car)}/#{report.date.year}/#{report.date.month}/#{report.date.day}", :class => "blue" %>
         <% else %>
-        <%= link_to report.date.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), report_path(report) %>
+        <%= link_to report.date.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), "#{car_path(report.car)}/#{report.date.year}/#{report.date.month}/#{report.date.day}" %>
         <% end %>
       </td>
-      <td><%= link_to report.driver.name, "#{driver_path(report.driver)}/#{report.date.year}/#{report.date.month}" %></td>
+      <td><%= link_to report.driver.name, "#{driver_path(report.driver)}/#{report.date.year}/#{report.date.month}/#{report.date.day}" %></td>
       <td><%= number_with_delimiter report.mileage %><% if report.mileage %>Km<% end %></td>
       <td><%= number_with_delimiter report.riding_mileage %><% if report.riding_mileage %>Km<% end %></td>
       <td><%= number_to_percentage(report.riding_mileage*100/report.mileage, :precision => 0) rescue "" %></td>

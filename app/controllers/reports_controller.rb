@@ -96,21 +96,15 @@ class ReportsController < InheritedResources::Base
   # GET /reports.json
   def index
     if params[:year] && params[:month] && params[:day]
-      @reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date = ?",
+      @reports = Report.includes(:car, :driver, :rests).where(["cars.user_id = ? AND date = ?",
                                                        current_user.id,
                                                        Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
-                                                      ]).order("car_id").all
-    elsif params[:year] && params[:month]
-      @reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date BETWEEN ? AND ?",
-                                                       current_user.id,
-                                                       Date.new(params[:year].to_i, params[:month].to_i, 1),
-                                                       Date.new(params[:year].to_i, params[:month].to_i, -1)
-                                                      ]).order(["date", "car_id"]).page params[:page]
+                                                      ]).order("cars.name").all
     else
-      @reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date BETWEEN ? AND ?",
+      @reports = Report.includes(:car, :driver, :rests).where(["cars.user_id = ? AND date BETWEEN ? AND ?",
                                                        current_user.id,
                                                        Date.new(Date.today.year.to_i, Date.today.month.to_i, 1),
-                                                       Date.new(Date.today.year.to_i, Date.today.month.to_i, -1)]).all
+                                                       Date.new(Date.today.year.to_i, Date.today.month.to_i, -1)]).order("cars.name").all
     end
 
     @mileage = 0
@@ -150,6 +144,13 @@ class ReportsController < InheritedResources::Base
       hours = rest_sum.divmod(60*60) #=> [12.0, 1800.0]
       mins = hours[1].divmod(60) #=> [30.0, 0.0]
       @rest_hash.store(report.id, [hours[0], mins[0]])
+    end
+
+    @chart = LazyHighCharts::HighChart.new('graph') do |f|
+      f.title(:text => t("activerecord.attributes.report.sales"))
+      f.options[:xAxis][:categories] = @reports.collect { |item| item.car.name }
+      f.labels(:items => [:html => "", :style => {:left => "40px", :top => "8px", :color => "black"} ])
+      f.series(:type => 'column', :name => t("activerecord.attributes.report.sales"), :data => @reports.collect(&:sales))
     end
 
     respond_to do |format|

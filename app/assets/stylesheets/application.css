@@ -6,6 +6,18 @@
  *= require_tree . 
  */
 
+.right {
+    float: right;
+}
+
+.left {
+    float: left;
+}
+
+.clear {
+    clear: both;
+}
+
 .padding-top {
     padding-top: 60px;
 }
