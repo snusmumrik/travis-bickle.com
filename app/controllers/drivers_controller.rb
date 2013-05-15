@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class DriversController < InheritedResources::Base
   before_filter :authenticate_user!, :except => :api_signin
   before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
@@ -19,6 +20,7 @@ class DriversController < InheritedResources::Base
   # GET /drivers
   # GET /drivers.json
   def index
+    @title += " | #{t('activerecord.models.driver')}#{t('link.index')}"
     @drivers = Driver.where(["user_id = ? AND deleted_at IS NULL", current_user.id])
     if params[:driver]
       @drivers = @drivers.name_matches params[:driver][:name]
@@ -36,12 +38,15 @@ class DriversController < InheritedResources::Base
     @driver = Driver.find(params[:id])
     if params[:year] && params[:month] && params[:day]
       @reports = Report.includes(:car, :rests).where(["driver_id = ? AND date = ?", params[:id], Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)]).all
+      @title += " | #{@reports.first.date.strftime("%Y年%-m月%-d日")} 日次成績 #{@driver.name}" rescue "#{params[:year]}年#{params[:month]}月#{params[:day]} 日次成績 #{@driver.name}"
     elsif params[:year] && params[:month]
       @reports = Report.includes(:car, :rests).where(["driver_id = ? AND date BETWEEN ? AND ? AND deleted_at IS NULL", params[:id], Date.new(params[:year].to_i, params[:month].to_i, 1), (Date.new(params[:year].to_i, params[:month].to_i, 1) >> 1) - 1]).order("date").all
+      @title += " | #{@reports.first.date.strftime("%Y年%-m月")} 月次成績 #{@driver.name}" rescue "#{params[:year]}年#{params[:month]}月 月次成績 #{@driver.name}"
     else
       params[:year] = Date.today.year
       params[:month] = Date.today.month
       @reports = Report.includes(:car, :rests).where(["driver_id = ? AND date BETWEEN ? AND ?", params[:id], Date.new(Date.today.year.to_i, Date.today.month.to_i, 1), (Date.new(Date.today.year.to_i, Date.today.month.to_i, 1) >> 1) - 1]).all
+      @title += " | #{params[:year]}年#{params[:month]}月 月次成績 #{@driver.name}"
     end
 
     @working_hours = 0

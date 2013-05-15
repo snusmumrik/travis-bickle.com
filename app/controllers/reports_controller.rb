@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class ReportsController < InheritedResources::Base
   before_filter :authenticate_user!, :except => [:api_show, :api_create, :api_update]
   before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
@@ -102,11 +103,13 @@ class ReportsController < InheritedResources::Base
                                                        current_user.id,
                                                        Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
                                                       ]).order("cars.name").all
+      @title += " | #{@reports.first.date.strftime("%Y年%-m月%-d日")} 日次成績" rescue "#{params[:year]}年#{params[:month]}月#{params[:day]} 日次成績"
     else
       @reports = Report.includes(:car, :driver, :rests).where(["cars.user_id = ? AND date BETWEEN ? AND ?",
                                                        current_user.id,
                                                        Date.new(Date.today.year.to_i, Date.today.month.to_i, 1),
                                                        Date.new(Date.today.year.to_i, Date.today.month.to_i, -1)]).order("cars.name").all
+      @title += " | #{@reports.first.date.strftime("%Y年%-m月")} 月次成績" rescue "#{params[:year]}年#{params[:month]}月 月次成績"
     end
 
     @mileage = 0
@@ -169,6 +172,7 @@ class ReportsController < InheritedResources::Base
   # GET /reports/1.json
   def show
     @report = Report.includes(:car => :user).find(params[:id])
+    @title += " | #{@report.date.strftime("%Y年%-m月%-d日")} 日次成績 #{@report.car.name} #{@report.driver.name}"
     rest_sum = 0
 
     @report.rests.each do |rest|

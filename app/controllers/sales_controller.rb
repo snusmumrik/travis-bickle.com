@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class SalesController < ApplicationController
   # GET /sales
   # GET /sales.json
@@ -9,6 +10,8 @@ class SalesController < ApplicationController
       year = Date.today.year.to_i
       month = Date.today.month.to_i
     end
+
+    @title += " | #{year}年#{month}月 月次成績"
 
     reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date BETWEEN ? AND ?",
                                                     current_user.id,

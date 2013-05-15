@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class CarsController < InheritedResources::Base
   before_filter :authenticate_user!, :except => [:api_index, :api_update]
   before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
@@ -54,12 +55,15 @@ class CarsController < InheritedResources::Base
     @car = Car.find(params[:id])
     if params[:year] && params[:month] && params[:day]
       @reports = Report.includes(:driver).where(["car_id = ? AND date = ?", params[:id], Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)]).all
+      @title += " | #{@reports.first.date.strftime("%Y年%-m月%-d日")} 日次成績 #{@car.name}" rescue "#{params[:year]}年#{params[:month]}月#{params[:day]} 日次成績 #{@car.name}"
     elsif params[:year] && params[:month]
       @reports = Report.includes(:driver).where(["car_id = ? AND date BETWEEN ? AND ?", params[:id], Date.new(params[:year].to_i, params[:month].to_i, 1), (Date.new(params[:year].to_i, params[:month].to_i, 1) >> 1) - 1]).all
+      @title += " | #{@reports.first.date.strftime("%Y年%-m月")} 月次成績 #{@car.name}" rescue "#{params[:year]}年#{params[:month]}月} 月次成績 #{@car.name}"
     else
       params[:year] = Date.today.year
       params[:month] = Date.today.month
       @reports = Report.where(["car_id = ? AND date BETWEEN ? AND ?", params[:id], Date.new(Date.today.year.to_i, Date.today.month.to_i, 1), (Date.new(Date.today.year.to_i, Date.today.month.to_i, 1) >> 1) - 1]).all
+      @title += " | #{@reports.first.date.strftime("%Y年%-m月")} 月次成績 #{@car.name}" rescue "#{params[:year]}年#{params[:month]}月} 月次成績 #{@car.name}"
     end
 
     @mileage = 0

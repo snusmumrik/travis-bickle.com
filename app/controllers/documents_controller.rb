@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class DocumentsController < ApplicationController
   before_filter :authenticate_user!
   before_filter :authenticate_owner, :only => :show
@@ -60,6 +61,7 @@ class DocumentsController < ApplicationController
   # GET /documents/reports/1
   # GET /documents/reports/1.json
   def show
+    @title = "乗務記録簿 #{@report.date.strftime("%Y%m%d")} #{@report.driver.name}"
     @report = Report.find(params[:report_id])
     @estimated_rest = 0
 

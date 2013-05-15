@@ -16,6 +16,7 @@ class CheckPointsController < InheritedResources::Base
   # GET /check_points
   # GET /check_points.json
   def index
+    @title += " | #{t('activerecord.models.check_point')}"
     @check_points = CheckPoint.where(["user_id = ?", current_user.id])
     if params[:check_point]
       @check_points = @check_points.name_matches params[:check_point][:name]
