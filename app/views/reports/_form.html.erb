@@ -22,6 +22,10 @@
     <%#= f.select :car_id, options_from_collection_for_select(Car.all, :id, :name) %>
   </div>
   <div class="field">
+    <%= f.label :meter %><br />
+    <%= f.number_field :meter %>
+  </div>
+  <div class="field">
     <%= f.label :mileage %><br />
     <%= f.number_field :mileage %>
   </div>

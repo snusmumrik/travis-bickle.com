@@ -22,189 +22,165 @@
 
 <div class="clear"></div>
 
-<div class="report">
-  <!-- <h3><%=t "activerecord.models.car" %></h3> -->
-  <table class="table table-striped table-bordered table-hover table-narrow">
-    <tr>
-      <th><%=t "activerecord.attributes.report.car" %></th>
-      <th><%=t "activerecord.attributes.report.driver" %></th>
-      <th><%=t "activerecord.attributes.report.started_at" %></th>
-      <th><%=t "activerecord.attributes.report.finished_at" %></th>
-      <th><%=t "activerecord.attributes.report.working_hours" %></th>
-      <th><%=t "activerecord.attributes.report.rest_hours" %></th>
-      <th><%=t "activerecord.attributes.report.real_working_hours" %></th>
-    </tr>
-    <tr>
-      <td><%= @report.car.name %></td>
-      <td><%= @report.driver.name %></td>
-      <td>
-        <% if @report.started_at %>
-        <%= @report.started_at.strftime("%H時%M分") %>
-        <% end %>
-      </td>
-      <td>
-        <% if @report.finished_at %>
-        <%= @report.finished_at.strftime("%H時%M分") %>
-        <% end %>
-      </td>
-      <td>
-        <% if @report.finished_at %>
-        <%= (@report.finished_at - @report.started_at).divmod(60*60)[0] %>時間
-        <%= (@report.finished_at - @report.started_at).divmod(60*60)[1].divmod(60)[0] %>分
-        <% end %>
-      </td>
-      <td>
-        <% if @estimated_rest %>
-        <%= @estimated_rest[0] %>時間
-        <%= @estimated_rest[1] %>分
-        <% end %>
-      </td>
-      <td>
-        <% if @report.finished_at %>
-        <%= ((@report.finished_at - @report.started_at).to_i - (@estimated_rest[0]*60*60 + @estimated_rest[1]*60)).divmod(60*60)[0] %>時間
-        <%= ((@report.finished_at - @report.started_at).to_i - (@estimated_rest[0]*60*60 + @estimated_rest[1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
-        <% end %>
-      </td>
-    </tr>
-  </table>
+<div class="left">
+  <div class="report">
+    <h3><%=t "label.car" %></h3>
+    <table class="table table-striped table-bordered table-hoverw">
+      <tr>
+        <th><%=t "activerecord.attributes.report.car" %></th>
+        <th><%=t "activerecord.attributes.report.driver" %></th>
+        <th><%=t "activerecord.attributes.report.started_at" %></th>
+        <th><%=t "activerecord.attributes.report.finished_at" %></th>
+        <th><%=t "activerecord.attributes.report.working_hours" %></th>
+        <th><%=t "activerecord.attributes.report.rest_hours" %></th>
+        <th><%=t "activerecord.attributes.report.real_working_hours" %></th>
+      </tr>
+      <tr>
+        <td><%= @report.car.name %></td>
+        <td><%= @report.driver.name %></td>
+        <td>
+          <% if @report.started_at %>
+          <%= @report.started_at.strftime("%H時%M分") %>
+          <% end %>
+        </td>
+        <td>
+          <% if @report.finished_at %>
+          <%= @report.finished_at.strftime("%H時%M分") %>
+          <% end %>
+        </td>
+        <td>
+          <% if @report.finished_at %>
+          <%= (@report.finished_at - @report.started_at).divmod(60*60)[0] %>時間
+          <%= (@report.finished_at - @report.started_at).divmod(60*60)[1].divmod(60)[0] %>分
+          <% end %>
+        </td>
+        <td>
+          <% if @estimated_rest %>
+          <%= @estimated_rest[0] %>時間
+          <%= @estimated_rest[1] %>分
+          <% end %>
+        </td>
+        <td>
+          <% if @report.finished_at %>
+          <%= ((@report.finished_at - @report.started_at).to_i - (@estimated_rest[0]*60*60 + @estimated_rest[1]*60)).divmod(60*60)[0] %>時間
+          <%= ((@report.finished_at - @report.started_at).to_i - (@estimated_rest[0]*60*60 + @estimated_rest[1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
+          <% end %>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="meter">
+    <table class="table table-striped table-bordered table-hoverw">
+      <tr>
+        <th></th>
+        <th><%=t "activerecord.attributes.report.meter" %></th>
+        <th><%=t "activerecord.attributes.report.mileage" %></th>
+        <th><%=t "activerecord.attributes.report.riding_mileage" %></th>
+        <th><%=t "activerecord.attributes.report.riding_count" %></th>
+        <th><%=t "activerecord.attributes.report.meter_fare_count" %></th>
+      </tr>
+      <tr>
+        <th><%=t "label.meter.finish" %></th>
+        <td><%= number_with_delimiter @report.meter %><% if @report.meter %>Km<% end %></td>
+        <td><%= number_with_delimiter @report.mileage %><% if @report.mileage %>Km<% end %></td>
+        <td><%= number_with_delimiter @report.riding_mileage %><% if @report.riding_mileage %>Km<% end %></td>
+        <td><%= number_with_delimiter @report.riding_count %><% if @report.riding_count %>回<% end %></td>
+        <td><%= number_with_delimiter @report.meter_fare_count %><% if @report.meter_fare_count %>回<% end %></td>
+      </tr>
+      <tr>
+        <th><%=t "label.meter.start" %></th>
+        <td><%= number_with_delimiter @meter.try(:meter) %><% if @meter.try(:meter) %>Km<% end %></td>
+        <td><%= number_with_delimiter @meter.try(:mileage) %><% if @meter.try(:mileage) %>Km<% end %></td>
+        <td><%= number_with_delimiter @meter.try(:riding_mileage) %><% if @meter.try(:riding_mileage) %>Km<% end %></td>
+        <td><%= number_with_delimiter @meter.try(:riding_count) %><% if @meter.try(:riding_count) %>回<% end %></td>
+        <td><%= number_with_delimiter @meter.try(:meter_fare_count) %><% if @meter.try(:meter_fare_count) %>回<% end %></td>
+      </tr>
+      <tr>
+        <th><%=t "label.meter.balance" %></th>
+        <td><% if @report.try(:meter) && @meter.try(:meter) %><%= number_with_delimiter @report.meter - @meter.meter %>Km<% end %></td>
+        <td><% if @report.try(:mileage) && @meter.try(:mileage) %><%= number_with_delimiter @report.mileage - @meter.mileage %>Km<% end %></td>
+        <td><% if @report.try(:riding_mileage) && @meter.riding_mileage %><%= number_with_delimiter @report.riding_mileage - @meter.riding_mileage %>Km<% end %></td>
+        <td><% if @report.try(:riding_count) && @meter.try(:riding_count) %><%= number_with_delimiter @report.riding_count - @meter.riding_count %>回<% end %></td>
+        <td><% if @report.try(:meter_fare_count) && @meter.try(:meter_fare_count) %><%= number_with_delimiter @report.meter_fare_count - @meter.meter_fare_count %>回<% end %></td>
+      </tr>
+    </table>
+
+    <table class="table table-striped table-bordered table-hoverw">
+      <tr>
+        <th><%=t "activerecord.attributes.report.passengers" %></th>
+        <th><%=t "activerecord.attributes.report.riding_rate" %></th>
+        <th><%=t "activerecord.attributes.report.sales_per_kilometer" %></th>
+      </tr>
+      <tr>
+        <td><%= number_with_delimiter @report.passengers %><% if @report.passengers %>人<% end %></td>
+        <td><%= number_to_percentage(@report.riding_mileage/@report.mileage, :precision => 0) rescue "" %></td>
+        <td><%= number_to_currency(@report.sales/@report.mileage, :precision => 0, :locale => "ja") rescue "" %></td>
+      </tr>
+    </table>
+  </div>
 </div>
 
-<div class="meter">
-  <h3><%=t "activerecord.models.meter" %></h3>
-  <table class="table table-striped table-bordered table-hover table-narrow">
-    <tr>
-      <th></th>
-      <th><%=t "activerecord.attributes.report.meter" %></th>
-      <th><%=t "activerecord.attributes.report.mileage" %></th>
-      <th><%=t "activerecord.attributes.report.riding_mileage" %></th>
-      <th><%=t "activerecord.attributes.report.riding_count" %></th>
-      <th><%=t "activerecord.attributes.report.meter_fare_count" %></th>
-    </tr>
-    <tr>
-      <th><%=t "label.meter.finish" %></th>
-      <td><%= number_with_delimiter @report.meter %><% if @report.meter %>Km<% end %></td>
-      <td><%= number_with_delimiter @report.mileage %><% if @report.mileage %>Km<% end %></td>
-      <td><%= number_with_delimiter @report.riding_mileage %><% if @report.riding_mileage %>Km<% end %></td>
-      <td><%= number_with_delimiter @report.riding_count %><% if @report.riding_count %>回<% end %></td>
-      <td><%= number_with_delimiter @report.meter_fare_count %><% if @report.meter_fare_count %>回<% end %></td>
-    </tr>
-    <tr>
-      <th><%=t "label.meter.start" %></th>
-      <td><%= number_with_delimiter @meter.try(:meter) %><% if @meter.try(:meter) %>Km<% end %></td>
-      <td><%= number_with_delimiter @meter.try(:mileage) %><% if @meter.try(:mileage) %>Km<% end %></td>
-      <td><%= number_with_delimiter @meter.try(:riding_mileage) %><% if @meter.try(:riding_mileage) %>Km<% end %></td>
-      <td><%= number_with_delimiter @meter.try(:riding_count) %><% if @meter.try(:riding_count) %>回<% end %></td>
-      <td><%= number_with_delimiter @meter.try(:meter_fare_count) %><% if @meter.try(:meter_fare_count) %>回<% end %></td>
-    </tr>
-    <tr>
-      <th><%=t "label.meter.balance" %></th>
-      <td><% if @report.try(:meter) && @meter.try(:meter) %><%= number_with_delimiter @report.meter - @meter.meter %>Km<% end %></td>
-      <td><% if @report.try(:mileage) && @meter.try(:mileage) %><%= number_with_delimiter @report.mileage - @meter.mileage %>Km<% end %></td>
-      <td><% if @report.try(:riding_mileage) && @meter.riding_mileage %><%= number_with_delimiter @report.riding_mileage - @meter.riding_mileage %>Km<% end %></td>
-      <td><% if @report.try(:riding_count) && @meter.try(:riding_count) %><%= number_with_delimiter @report.riding_count - @meter.riding_count %>回<% end %></td>
-      <td><% if @report.try(:meter_fare_count) && @meter.try(:meter_fare_count) %><%= number_with_delimiter @report.meter_fare_count - @meter.meter_fare_count %>回<% end %></td>
-    </tr>
-  </table>
-
-  <% if @report.rests %>
-  <h3><%=t "activerecord.models.rest" %></h3>
-  <table class="table table-striped table-bordered table-hover table-narrow">
-    <tr>
-      <th><%=t "activerecord.attributes.rest.location" %></th>
-      <th><%=t "activerecord.attributes.rest.started_at" %></th>
-      <th><%=t "activerecord.attributes.rest.ended_at" %></th>
-      <th><%=t "label.rest.time" %></th>
-    </tr>
-    <% @report.rests.each do |rest| %>
-    <tr>
-      <td><%= rest.location %></td>
-      <td><%= rest.started_at.strftime("%-m月%-d日 %H時%M分") %></td>
-      <td><%= rest.ended_at.strftime("%-m月%-d日 %H時%M分") %></td>
-      <td>
-        <%= (rest.ended_at - rest.started_at).divmod(60*60)[0] %>時間
-        <%= (rest.ended_at - rest.started_at).divmod(60*60)[1].divmod(60)[0]%>分
-      </td>
-    </tr>
-    <% end %>
-    <tr>
-      <th colspan="3"><%=t "activerecord.attributes.rest.estimated_rest" %></th>
-      <td><% if @estimated_rest %><%= @estimated_rest[0] %>時間<%= @estimated_rest[1] %>分<% end %></td>
-    </tr>
-  </table>
-  <% end %>
-</div>
-
-<div class="right40">
-  <h3><%=t "activerecord.models.report" %></h3>
-  <table class="table table-striped table-bordered table-hover table-narrow minimize">
-    <tr>
-      <th><%=t "label.meter.riding_count_sales" %></th>
-      <td><%= number_to_currency @report.car.base_fare*@report.riding_count %></td>
-    </tr>
-    <tr>
-      <th><%=t "label.meter.meter_fare_count_sales" %></th>
-      <td><%= number_to_currency @report.car.meter_fare*@report.meter_fare_count %></td>
-    </tr>
-    <tr>
-      <th><%=t "activerecord.attributes.report.sales" %></th>
-      <td><%= number_to_currency @report.sales, :locale => "ja" %></td>
-    </tr>
-    <tr>
-      <th><%=t "label.meter.non_meter_sales" %></th>
-      <td></td>
-    </tr>
-    <tr>
-      <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
-      <td><%= number_to_currency @report.fuel_cost, :locale => "ja" %></td>
-    </tr>
-    <tr>
-      <th><%=t "activerecord.attributes.report.ticket" %></th>
-      <td><%= number_to_currency @report.ticket, :locale => "ja" %></td>    
-    </tr>
-    <tr>
-      <th><%=t "activerecord.attributes.report.account_receivable" %></th>
-      <td><%= number_to_currency @report.account_receivable, :locale => "ja" %></td>
-    </tr>
-    <tr>
-      <th><%=t "activerecord.attributes.report.surplus_funds" %></th>
-      <td><%= number_to_currency @report.surplus_funds, :locale => "ja" %></td>
-    </tr>
-    <tr>
-      <th><%=t "activerecord.attributes.report.deficiency_account" %></th>
-      <td><%= number_to_currency @report.deficiency_account, :locale => "ja" %></td>
-    </tr>
-    <tr>
-      <th><%=t "activerecord.attributes.report.advance" %></th>
-      <td><%= number_to_currency @report.advance, :locale => "ja" %></td>
-    </tr>
-    <tr>
-      <th><%=t "activerecord.attributes.report.cash" %></th>
-      <td><%= number_to_currency @report.cash, :locale => "ja" %></td>
-    </tr>
-  </table>
-
-  <table class="table table-striped table-bordered table-hover table-narrow minimize">
-    <tr>
-      <th><%=t "activerecord.attributes.report.passengers" %></th>
-      <th><%=t "activerecord.attributes.report.riding_rate" %></th>
-      <th><%=t "activerecord.attributes.report.sales_per_kilometer" %></th>
-    </tr>
-    <tr>
-      <td><%= number_with_delimiter @report.passengers %><% if @report.passengers %>人<% end %></td>
-      <td><%= number_to_percentage(@report.riding_mileage/@report.mileage, :precision => 0) rescue "" %></td>
-      <td><%= number_to_currency(@report.sales/@report.mileage, :precision => 0, :locale => "ja") rescue "" %></td>
-    </tr>
-  </table>
+<div class="right">
+  <div class="sales">
+    <h3><%=t "activerecord.models.report" %></h3>
+    <table class="table table-striped table-bordered table-hoverw minimize">
+      <tr>
+        <th><%=t "label.meter.riding_count_sales" %></th>
+        <td><%= number_to_currency @report.car.base_fare*@report.riding_count %></td>
+      </tr>
+      <tr>
+        <th><%=t "label.meter.meter_fare_count_sales" %></th>
+        <td><%= number_to_currency @report.car.meter_fare*@report.meter_fare_count %></td>
+      </tr>
+      <tr>
+        <th><%=t "activerecord.attributes.report.sales" %></th>
+        <td><%= number_to_currency @report.sales, :locale => "ja" %></td>
+      </tr>
+      <tr>
+        <th><%=t "label.meter.non_meter_sales" %></th>
+        <td></td>
+      </tr>
+      <tr>
+        <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
+        <td><%= number_to_currency @report.fuel_cost, :locale => "ja" %></td>
+      </tr>
+      <tr>
+        <th><%=t "activerecord.attributes.report.ticket" %></th>
+        <td><%= number_to_currency @report.ticket, :locale => "ja" %></td>
+      </tr>
+      <tr>
+        <th><%=t "activerecord.attributes.report.account_receivable" %></th>
+        <td><%= number_to_currency @report.account_receivable, :locale => "ja" %></td>
+      </tr>
+      <tr>
+        <th><%=t "activerecord.attributes.report.surplus_funds" %></th>
+        <td><%= number_to_currency @report.surplus_funds, :locale => "ja" %></td>
+      </tr>
+      <tr>
+        <th><%=t "activerecord.attributes.report.deficiency_account" %></th>
+        <td><%= number_to_currency @report.deficiency_account, :locale => "ja" %></td>
+      </tr>
+      <tr>
+        <th><%=t "activerecord.attributes.report.advance" %></th>
+        <td><%= number_to_currency @report.advance, :locale => "ja" %></td>
+      </tr>
+      <tr>
+        <th><%=t "activerecord.attributes.report.cash" %></th>
+        <td><%= number_to_currency @report.cash, :locale => "ja" %></td>
+      </tr>
+    </table>
+  </div>
 </div>
 
 <div class="clear"></div>
 
 <h3><%=t "activerecord.models.check_point" %></h3>
-<table class="table table-striped table-bordered table-hover table-narrow mark">
+<table class="table table-striped table-bordered table-hoverw square">
   <tr>
     <th><%=t "label.check_point.mark" %></th>
     <% @check_points.each do |check_point| %>
-      <th><%= check_point.name %></th>
+    <th><%= check_point.name %></th>
     <% end %>
   </tr>
   <tr>
@@ -214,52 +190,117 @@
   </tr>
 </table>
 
-<% if @report.rides %>
-<h3><%=t "activerecord.models.ride" %></h3>
-<div class="left">
-  <table class="table table-striped table-bordered table-hover table-narrow">
-    <tr>
-      <th><%=t "label.ride.index" %></th>
-      <th><%=t "activerecord.attributes.ride.ride_address" %></th>
-      <th><%=t "activerecord.attributes.ride.leave_address" %></th>
-      <th><%=t "activerecord.attributes.ride.passengers" %></th>
-      <th><%=t "activerecord.attributes.ride.fare" %></th>
-    </tr>
-    <% @report.rides.each_with_index do |ride, i| %>
-      <% if i <= @report.rides.size/2 %>
-        <tr>
-          <td class="center"><%= i + 1 %></td>
-          <td><%= ride.ride_address %></td>
-          <td><%= ride.leave_address %></td>
-          <td><%= ride.passengers %></td>
-          <td><%= number_with_delimiter ride.fare %></td>
-        </tr>
-      <% end %>
-    <% end %>
-  </table>
-</div>
+<div class="clear"></div>
 
-<div class="right">
-  <table class="table table-striped table-bordered table-hover table-narrow">
-    <tr>
-      <th><%=t "label.ride.index" %></th>
-      <th><%=t "activerecord.attributes.ride.ride_address" %></th>
-      <th><%=t "activerecord.attributes.ride.leave_address" %></th>
-      <th><%=t "activerecord.attributes.ride.passengers" %></th>
-      <th><%=t "activerecord.attributes.ride.fare" %></th>
-    </tr>
-    <% @report.rides.each_with_index do |ride, i| %>
-      <% if i > @report.rides.size/2 %>
-        <tr>
-          <td class="center"><%= i + 1 %></td>
-          <td><%= ride.ride_address %></td>
-          <td><%= ride.leave_address %></td>
-          <td><%= ride.passengers %></td>
-          <td><%= number_with_delimiter ride.fare %></td>
-        </tr>
+<% if @report.rests %>
+<div class="rest">
+  <h3><%=t "activerecord.models.rest" %></h3>
+  <div class="left">
+    <table class="table table-striped table-bordered table-hoverw">
+      <tr>
+        <th><%=t "activerecord.attributes.rest.location" %></th>
+        <th><%=t "activerecord.attributes.rest.started_at" %></th>
+        <th><%=t "activerecord.attributes.rest.ended_at" %></th>
+        <th><%=t "label.rest.time" %></th>
+      </tr>
+      <% @report.rests.each_with_index do |rest, i| %>
+      <% if i <= @report.rests.size/2 %>
+         <tr>
+           <td><%= i + 1 %></td>
+           <td><%= rest.location %></td>
+           <td><%= rest.started_at.strftime("%-m月%-d日 %H時%M分") %></td>
+           <td><%= rest.ended_at.strftime("%-m月%-d日 %H時%M分") %></td>
+           <td>
+             <%= (rest.ended_at - rest.started_at).divmod(60*60)[0] %>時間
+             <%= (rest.ended_at - rest.started_at).divmod(60*60)[1].divmod(60)[0]%>分
+           </td>
+         </tr>
+         <% end %>
+         <% end %>
+    </table>
+  </div>
+
+  <div class="right">
+    <table class="table table-striped table-bordered table-hoverw">
+      <tr>
+        <th><%=t "activerecord.attributes.rest.location" %></th>
+        <th><%=t "activerecord.attributes.rest.started_at" %></th>
+        <th><%=t "activerecord.attributes.rest.ended_at" %></th>
+        <th><%=t "label.rest.time" %></th>
+      </tr>
+      <% @report.rests.each_with_index do |rest, i| %>
+      <% if i > @report.rests.size/2 %>
+      <tr>
+        <td><%= i + 1 %></td>
+        <td><%= rest.location %></td>
+        <td><%= rest.started_at.strftime("%-m月%-d日 %H時%M分") %></td>
+        <td><%= rest.ended_at.strftime("%-m月%-d日 %H時%M分") %></td>
+        <td>
+          <%= (rest.ended_at - rest.started_at).divmod(60*60)[0] %>時間
+          <%= (rest.ended_at - rest.started_at).divmod(60*60)[1].divmod(60)[0]%>分
+        </td>
+      </tr>
       <% end %>
-    <% end %>
-    <% if  @report.rides.size % 2 == 1 %>
+      <% end %>
+      <tr>
+        <th colspan="3"><%=t "activerecord.attributes.rest.estimated_rest" %></th>
+        <td><% if @estimated_rest %><%= @estimated_rest[0] %>時間<%= @estimated_rest[1] %>分<% end %></td>
+      </tr>
+    </table>
+  </div>
+</div>
+<% end %>
+
+
+<div class="clear"></div>
+
+<% if @report.rides %>
+<div class="ride">
+  <h3><%=t "activerecord.models.ride" %></h3>
+  <div class="left">
+    <table class="table table-striped table-bordered table-hoverw">
+      <tr>
+        <th><%=t "label.ride.index" %></th>
+        <th><%=t "activerecord.attributes.ride.ride_address" %></th>
+        <th><%=t "activerecord.attributes.ride.leave_address" %></th>
+        <th><%=t "activerecord.attributes.ride.passengers" %></th>
+        <th><%=t "activerecord.attributes.ride.fare" %></th>
+      </tr>
+      <% @report.rides.each_with_index do |ride, i| %>
+      <% if i <= @report.rides.size/2 %>
+         <tr>
+           <td><%= i + 1 %></td>
+           <td><%= ride.ride_address %></td>
+           <td><%= ride.leave_address %></td>
+           <td><%= ride.passengers %></td>
+           <td><%= number_with_delimiter ride.fare %></td>
+         </tr>
+         <% end %>
+         <% end %>
+    </table>
+  </div>
+
+  <div class="right">
+    <table class="table table-striped table-bordered table-hoverw">
+      <tr>
+        <th><%=t "label.ride.index" %></th>
+        <th><%=t "activerecord.attributes.ride.ride_address" %></th>
+        <th><%=t "activerecord.attributes.ride.leave_address" %></th>
+        <th><%=t "activerecord.attributes.ride.passengers" %></th>
+        <th><%=t "activerecord.attributes.ride.fare" %></th>
+      </tr>
+      <% @report.rides.each_with_index do |ride, i| %>
+      <% if i > @report.rides.size/2 %>
+      <tr>
+        <td><%= i + 1 %></td>
+        <td><%= ride.ride_address %></td>
+        <td><%= ride.leave_address %></td>
+        <td><%= ride.passengers %></td>
+        <td><%= number_with_delimiter ride.fare %></td>
+      </tr>
+      <% end %>
+      <% end %>
+      <% if  @report.rides.size % 2 == 1 %>
       <tr>
         <th>　</th>
         <td></td>
@@ -267,8 +308,9 @@
         <td></td>
         <td></td>
       </tr>
-    <% end %>
-  </table>
+      <% end %>
+    </table>
+  </div>
 </div>
 <% end %>
 

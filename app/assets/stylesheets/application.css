@@ -8,10 +8,14 @@
 
 .right {
     float: right;
+    width: 49%;
+    padding-left: 1%;
 }
 
 .left {
     float: left;
+   width: 49%;
+    padding-right: 1%;
 }
 
 .clear {
@@ -48,4 +52,9 @@
 
 .calender ul > li > a {
     padding: 4px 5px !important;
+}
+
+th {
+    text-align: center !important;
+    vertical-align: middle !important;
 }

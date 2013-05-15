@@ -31,6 +31,13 @@
     body hr { display: none; }
     footer { display: none; }
 
+    .left,.right {
+        display: table-cell;
+        float: none;
+        width: 550px;
+        padding-right: 50px;
+    }
+
     table {
         margin-bottom: 1em;
         border-collapse: collapse;
@@ -44,44 +51,14 @@
         /* text-align: right !important; */
     }
 
+    td {
+        text-align: right !important;
+        font-size: 120% !important;
+
+    }
+
 /* add a friendy reminder not to waste paper after the body */
 /* body:after { content: "Don't waste paper!"; } */
-}
-
-div.meter {
-    float: left;
-    width: 55%;
-    padding-right: 5%;
-}
-
-div.report {
-    width: 70%;
-}
-
-div.right {
-    float: right;
-    width: 49%;
-    padding-left: 1%;
-}
-
-div.left {
-    float: left;
-    width: 49%;
-    padding-right: 1%;
-}
-
-div.right40 {
-    float: right;
-    width: 40%;
-}
-
-th {
-    text-align: center !important;
-    vertical-align: middle !important;
-}
-
-table.minimize {
-    width: 250px;
 }
 
 .square {
@@ -98,9 +75,4 @@ table.minimize {
 .square td {
     height: 70px;
     width: 70px;
-}
-
-.mark td {
-    width: 50p;
-    height: 50px;
 }

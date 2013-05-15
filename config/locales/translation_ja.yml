@@ -190,6 +190,8 @@ ja:
   label:
     error: エラー
 
+    car: 車両情報
+
     check_point:
       mark: 検印
 

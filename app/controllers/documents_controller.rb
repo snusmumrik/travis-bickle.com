@@ -57,8 +57,8 @@ class DocumentsController < ApplicationController
     end
   end
 
-  # GET /documents/1
-  # GET /documents/1.json
+  # GET /documents/reports/1
+  # GET /documents/reports/1.json
   def show
     @report = Report.find(params[:report_id])
     @estimated_rest = 0
@@ -70,7 +70,7 @@ class DocumentsController < ApplicationController
     mins = hours[1].divmod(60) #=> [30.0, 0.0]
     @estimated_rest = [hours[0], mins[0]]
 
-    @meter = Meter.includes(:report).where(["reports.car_id = ?", @report.car_id]).order("meters.created_at DESC").first
+    @meter = Meter.includes(:report).where(["reports.car_id = ?", @report.car_id]).order("meters.created_at DESC").offset(1).first
     @check_points = CheckPoint.where(["user_id = ? AND deleted_at IS NULL", current_user.id]).all
 
     respond_to do |format|
