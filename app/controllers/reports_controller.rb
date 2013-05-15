@@ -3,6 +3,7 @@ class ReportsController < InheritedResources::Base
   before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
   before_filter :get_drivers_option, :except => [:index, :show]
   before_filter :get_cars_option, :except => [:index, :show]
+  before_filter :check_balance, :only => [:create, :update]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
   def api_show
@@ -75,6 +76,7 @@ class ReportsController < InheritedResources::Base
                                   :cash => params[:cash],
                                   :surplus_funds => params[:surplus_funds],
                                   :deficiency_account => params[:deficiency_account],
+                                  :advance => params[:advance],
                                   :finished_at => DateTime.now})
 
 
@@ -193,10 +195,28 @@ class ReportsController < InheritedResources::Base
     end
   end
 
+  # POST /reports
+  # POST /reports.json
+  def create
+    @report = Report.new(params[:report])
+    @report.date = Date.today
+
+    respond_to do |format|
+      if @report.save
+        format.html { redirect_to @report, notice: t("activerecord.models.report") + t("message.created") }
+        format.json { render json: @report, status: :created, location: @report }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @report.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # PUT /reports/1
   # PUT /reports/1.json
   def update
     @report = Report.find(params[:id])
+
     respond_to do |format|
       if @report.update_attributes(params[:report])
         format.html { redirect_to @report, notice: t("activerecord.models.report") + t("message.updated") }
@@ -238,6 +258,18 @@ class ReportsController < InheritedResources::Base
     cars = Car.where("deleted_at is NULL").all
     cars.each do |car|
       @cars_option << [car.name, car.id]
+    end
+  end
+
+  def check_balance
+    credit = params[:report][:cash].to_i + params[:report][:ticket].to_i + params[:report][:account_receivable].to_i + params[:report][:fuel_cost].to_i + params[:report][:advance].to_i
+    debit = params[:report][:sales].to_i
+    if debit - credit > 0
+      params[:report][:deficiency_account] = debit - credit
+      params[:report][:surplus_funds] = 0
+    elsif credit - debit > 0
+      params[:report][:surplus_funds] = credit - debit
+      params[:report][:deficiency_account] = 0
     end
   end
 end
