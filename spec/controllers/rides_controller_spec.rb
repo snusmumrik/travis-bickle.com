@@ -137,7 +137,7 @@ describe RidesController do
 
         it "redirects to the ride" do
           ride = Ride.create! valid_attributes
-          put :update, {:id => ride.to_param, :ride => valid_attributes}
+          put :update, {:id => ride.to_param, :ride => {:leave_address => "another address"}}
           response.should redirect_to(report_path(ride.report))
         end
       end

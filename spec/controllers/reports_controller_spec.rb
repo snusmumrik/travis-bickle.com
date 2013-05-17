@@ -44,9 +44,24 @@ describe ReportsController do
     signin_user
 
     describe "GET index" do
-      it "assigns all reports as @reports" do
-        reports = Report.includes(:car => :user).where(["users.id = ?", controller.current_user.id]).all
+      it "assigns all reports as @reports without params" do
+        reports = Report.includes(:car, :driver, :rests).where(["cars.user_id = ? AND date BETWEEN ? AND ?",
+                                                                controller.current_user.id,
+                                                                Date.new(Date.today.year.to_i, Date.today.month.to_i, 1),
+                                                                Date.new(Date.today.year.to_i, Date.today.month.to_i, -1)]).order("cars.name").all
         get :index, {}
+        assigns(:reports).should eq(reports)
+      end
+
+      it "assigns all reports as @reports with params" do
+        year = Date.today.year
+        month = Date.today.month
+        day = Date.today.day
+        reports = Report.includes(:car, :driver, :rests).where(["cars.user_id = ? AND date BETWEEN ? AND ?",
+                                                                controller.current_user.id,
+                                                                Date.new(year, month, 1),
+                                                                Date.new(year, month, -1)]).order("cars.name").all
+        get :index, {:year => year, :month => month, :day => day}
         assigns(:reports).should eq(reports)
       end
 

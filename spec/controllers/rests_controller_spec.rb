@@ -137,7 +137,7 @@ describe RestsController do
 
         it "redirects to the reports index" do
           rest = Rest.create! valid_attributes
-          put :update, {:id => rest.to_param, :rest => valid_attributes}
+          put :update, {:id => rest.to_param, :rest => {:address => "another address"}}
           response.should redirect_to(report_path(rest.report))
         end
       end

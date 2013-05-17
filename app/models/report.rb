@@ -1,6 +1,7 @@
 class Report < ActiveRecord::Base
   belongs_to :driver
   belongs_to :car
+  has_one :meter
   has_many :rides
   has_many :rests
 

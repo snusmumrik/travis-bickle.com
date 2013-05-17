@@ -5,7 +5,6 @@ FactoryGirl.define do
     driver
     car
     date Date.today
-    sequence(:meter) {|n| n}
     sequence(:mileage) {|n| n}
     sequence(:riding_mileage) {|n| n}
     sequence(:riding_count) {|n| n}

@@ -10,8 +10,8 @@
         url: "/locations.json",
         success: (@json)->
           Gmaps.map.replaceMarkers(@json)
-        error: (error)->
-          alert(error)
+        error: (XMLHttpRequest, textStatus, errorThrown)->
+          alert(errorThrown)
       })
   , 10000)
 )()

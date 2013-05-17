@@ -44,9 +44,25 @@ describe SalesController do
     signin_user
 
     describe "GET index" do
-      it "assigns all reports as @reports" do
-        reports = Report.includes(:car => :user).where(["users.id = ?", controller.current_user.id]).all
+      it "assigns all reports as @reports without params" do
+        year = Date.today.year
+        month = Date.today.month
+        reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date BETWEEN ? AND ?",
+                                                        controller.current_user.id,
+                                                        Date.new(year, month, 1),
+                                                        Date.new(year, month, -1)]).all
         get :index, {}
+        assigns(:reports).should eq(reports)
+      end
+
+      it "assigns all reports as @reports with params" do
+        year = Date.today.year
+        month = Date.today.month
+        reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date BETWEEN ? AND ?",
+                                                        controller.current_user.id,
+                                                        Date.new(year, month, 1),
+                                                        Date.new(year, month, -1)]).all
+        get :index, {:year => year, :month => month}
         assigns(:reports).should eq(reports)
       end
 

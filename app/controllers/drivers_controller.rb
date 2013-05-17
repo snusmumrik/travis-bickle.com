@@ -42,6 +42,11 @@ class DriversController < InheritedResources::Base
     elsif params[:year] && params[:month]
       @reports = Report.includes(:car, :rests).where(["driver_id = ? AND date BETWEEN ? AND ? AND deleted_at IS NULL", params[:id], Date.new(params[:year].to_i, params[:month].to_i, 1), (Date.new(params[:year].to_i, params[:month].to_i, 1) >> 1) - 1]).order("date").all
       @title += " | #{@reports.first.date.strftime("%Y年%-m月")} 月次成績 #{@driver.name}" rescue "#{params[:year]}年#{params[:month]}月 月次成績 #{@driver.name}"
+      @sales_hash = Hash.new do |hash, key|
+        hash[key] = Hash.new do |hash, key|
+          hash[key] = 0
+        end
+      end
     else
       params[:year] = Date.today.year
       params[:month] = Date.today.month
@@ -52,12 +57,6 @@ class DriversController < InheritedResources::Base
     @working_hours = 0
     @rest_hours = 0
     @rest_hash = {}
-
-    @sales_hash = Hash.new do |hash, key|
-      hash[key] = Hash.new do |hash, key|
-        hash[key] = 0
-      end
-    end
 
     @mileage = 0
     @riding_mileage = 0
@@ -74,23 +73,25 @@ class DriversController < InheritedResources::Base
     @advance = 0
 
     @reports.each do |report|
-      @sales_hash[report.date.day][:id] = report.id
-      @sales_hash[report.date.day][:car] = report.car
-      @sales_hash[report.date.day][:mileage] += report.mileage if report.mileage
-      @sales_hash[report.date.day][:riding_mileage] += report.riding_mileage if report.riding_mileage
-      @sales_hash[report.date.day][:riding_count] += report.riding_count if report.riding_count
-      @sales_hash[report.date.day][:meter_fare_count] += report.meter_fare_count if report.meter_fare_count
-      @sales_hash[report.date.day][:passengers] += report.passengers if report.passengers
-      @sales_hash[report.date.day][:sales] += report.sales if report.sales
-      @sales_hash[report.date.day][:fuel_cost] += report.fuel_cost if report.fuel_cost
-      @sales_hash[report.date.day][:ticket] += report.ticket if report.ticket
-      @sales_hash[report.date.day][:account_receivable] += report.account_receivable if report.account_receivable
-      @sales_hash[report.date.day][:cash] += report.cash if report.cash
-      @sales_hash[report.date.day][:surplus_funds] += report.surplus_funds if report.surplus_funds
-      @sales_hash[report.date.day][:deficiency_account] += report.deficiency_account if report.deficiency_account
-      @sales_hash[report.date.day][:advance] += report.advance if report.advance
-      @sales_hash[report.date.day][:started_at] = report.started_at
-      @sales_hash[report.date.day][:finished_at] = report.finished_at
+      if @sales_hash
+        @sales_hash[report.date.day][:id] = report.id
+        @sales_hash[report.date.day][:car] = report.car
+        @sales_hash[report.date.day][:mileage] += report.mileage if report.mileage
+        @sales_hash[report.date.day][:riding_mileage] += report.riding_mileage if report.riding_mileage
+        @sales_hash[report.date.day][:riding_count] += report.riding_count if report.riding_count
+        @sales_hash[report.date.day][:meter_fare_count] += report.meter_fare_count if report.meter_fare_count
+        @sales_hash[report.date.day][:passengers] += report.passengers if report.passengers
+        @sales_hash[report.date.day][:sales] += report.sales if report.sales
+        @sales_hash[report.date.day][:fuel_cost] += report.fuel_cost if report.fuel_cost
+        @sales_hash[report.date.day][:ticket] += report.ticket if report.ticket
+        @sales_hash[report.date.day][:account_receivable] += report.account_receivable if report.account_receivable
+        @sales_hash[report.date.day][:cash] += report.cash if report.cash
+        @sales_hash[report.date.day][:surplus_funds] += report.surplus_funds if report.surplus_funds
+        @sales_hash[report.date.day][:deficiency_account] += report.deficiency_account if report.deficiency_account
+        @sales_hash[report.date.day][:advance] += report.advance if report.advance
+        @sales_hash[report.date.day][:started_at] = report.started_at
+        @sales_hash[report.date.day][:finished_at] = report.finished_at
+      end
 
       @mileage += report.mileage if report.mileage
       @riding_mileage += report.riding_mileage if report.riding_mileage
@@ -117,12 +118,14 @@ class DriversController < InheritedResources::Base
       @rest_hash.store(report.date.day, [hours[0], mins[0]])
     end
 
-    sales_array = Array.new
-    for i in 1..Date.new(params[:year].to_i, params[:month].to_i, -1).day
-      if @sales_hash[i]
-        sales_array << @sales_hash[i][:sales]
-      else
-        sales_array << 0
+    if @sales_hash
+      sales_array = Array.new
+      for i in 1..Date.new(params[:year].to_i, params[:month].to_i, -1).day
+        if @sales_hash[i]
+          sales_array << @sales_hash[i][:sales]
+        else
+          sales_array << 0
+        end
       end
     end
 

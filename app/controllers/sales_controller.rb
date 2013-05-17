@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 class SalesController < ApplicationController
+  before_filter :authenticate_user!
+
   # GET /sales
   # GET /sales.json
   def index
@@ -13,7 +15,7 @@ class SalesController < ApplicationController
 
     @title += " | #{year}年#{month}月 月次成績"
 
-    reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date BETWEEN ? AND ?",
+    @reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date BETWEEN ? AND ?",
                                                     current_user.id,
                                                     Date.new(year, month, 1),
                                                     Date.new(year, month, -1)]).all
@@ -49,7 +51,7 @@ class SalesController < ApplicationController
                                                 Date.new(year, month, 1),
                                                 Date.new(year, month, -1)]).all
 
-    reports.each do |report|
+    @reports.each do |report|
       @sales_hash[report.date.day][:mileage] += report.mileage if report.mileage
       @sales_hash[report.date.day][:riding_mileage] += report.riding_mileage if report.riding_mileage
       @sales_hash[report.date.day][:riding_count] += report.riding_count if report.riding_count
@@ -94,7 +96,7 @@ class SalesController < ApplicationController
     end
 
     @sales_array = Array.new
-    for i in 1..Date.new(params[:year].to_i, params[:month].to_i, -1).day
+    for i in 1..Date.new(year, month, -1).day
       if @sales_hash[i]
         @sales_array << @sales_hash[i][:sales]
       else
@@ -109,7 +111,7 @@ class SalesController < ApplicationController
 
     @daily_chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.title({ :text => t("label.report.daily_total") })
-      f.options[:xAxis][:categories] =  (1..Date.new(params[:year].to_i, params[:month].to_i, -1).day).to_a
+      f.options[:xAxis][:categories] =  (1..Date.new(year, month, -1).day).to_a
       f.labels(:items => [:html => "", :style => {:left => "40px", :top => "8px", :color => "black"} ])
       f.series(:type => 'column', :name => t("activerecord.attributes.report.sales"), :data => @sales_array)
     end

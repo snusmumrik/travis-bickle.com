@@ -108,6 +108,3 @@ class RidesController < InheritedResources::Base
     end
   end
 end
-
-
-

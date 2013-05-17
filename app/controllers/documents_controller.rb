@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 class DocumentsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :authenticate_owner, :only => :show
+  before_filter :authenticate_driver_owner, :only => :index
+  before_filter :authenticate_report_owner, :only => :show
 
   # GET /documents
   # GET /documents.json
@@ -72,7 +73,7 @@ class DocumentsController < ApplicationController
     mins = hours[1].divmod(60) #=> [30.0, 0.0]
     @estimated_rest = [hours[0], mins[0]]
 
-    @meter = Meter.includes(:report).where(["reports.car_id = ?", @report.car_id]).order("meters.created_at DESC").offset(1).first
+    @last_meter = Meter.includes(:report).where(["reports.car_id = ? AND meters.id < ?", @report.car_id, @report.meter.id]).last
     @check_points = CheckPoint.where(["user_id = ? AND deleted_at IS NULL", current_user.id]).all
 
     respond_to do |format|
@@ -82,7 +83,12 @@ class DocumentsController < ApplicationController
   end
 
   private
-  def authenticate_owner
+  def authenticate_driver_owner
+    @driver = Driver.find(params[:driver_id])
+    redirect_to reports_path if @driver.user_id != current_user.id
+  end
+
+  def authenticate_report_owner
     @report = Report.find(params[:report_id])
     redirect_to reports_path if @report.car.user_id != current_user.id
   end

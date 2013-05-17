@@ -44,17 +44,32 @@ describe DocumentsController do
     signin_user
 
     describe "GET index" do
-      it "assigns the requested report as @report" do
-        report = Report.create! valid_attributes
-        get :index, {:report_id => report.id}
-        assigns(:report).should eq(report)
+      it "assigns the requested report as @report without params" do
+        driver = FactoryGirl.create(:driver_with_report)
+        year = Date.today.year
+        month = Date.today.month
+        raise driver.reports.inspect
+
+        get :index, {:driver_id => driver.id}
+        reports = Report.where(["driver_id = ? AND date BETWEEN ? AND ?", driver.id, Date.new(year, month, 1), Date.new(year, month, -1)]).order("date").all
+        assigns(:reports).should eq(reports)
+      end
+
+      it "assigns the requested report as @report with params" do
+        driver = FactoryGirl.create(:driver_with_report)
+        year = Date.today.year
+        month = Date.today.month
+
+        get :index, {:driver_id => driver.id}
+        reports = Report.where(["driver_id = ? AND date BETWEEN ? AND ?", driver.id, Date.new(year, month, 1), Date.new(year, month, -1)]).all
+        assigns(:reports).should eq(reports)
       end
 
       it "redirects to index in case of unauthorized report as @report" do
         car = FactoryGirl.create(:car, :user_id => controller.current_user.id + 1)
         driver = FactoryGirl.create(:driver, :user_id => controller.current_user.id + 1)
         report = FactoryGirl.create(:report, :car_id => car.id, :driver_id => driver.id)
-        get :index, {:report_id => report.to_param}
+        get :index, {:report_id => report.to_param, :driver_id => driver.id}
         response.should redirect_to reports_path
       end
     end
