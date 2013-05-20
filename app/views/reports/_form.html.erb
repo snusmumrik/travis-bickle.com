@@ -23,7 +23,7 @@
   </div>
   <div class="field">
     <%= f.label :meter %><br />
-    <%= f.number_field :meter %>
+    <%= f.number_field :meter, :value => @report.meter.try(:meter) %>
   </div>
   <div class="field">
     <%= f.label :mileage %><br />

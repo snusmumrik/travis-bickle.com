@@ -5,8 +5,12 @@ class Report < ActiveRecord::Base
   has_many :rides
   has_many :rests
 
-  attr_accessible :driver_id, :car_id, :date, :account_receivable, :advance, :cash, :deficiency_account, :deleted_at, :fuel_cost, :meter_fare_count, :mileage, :passengers, :riding_count, :riding_mileage, :riding_rate, :sales, :sales_par_kilometer, :surplus_funds, :ticket, :meter, :started_at, :finished_at
+  attr_accessible :driver_id, :car_id, :date, :account_receivable, :advance, :cash, :deficiency_account, :deleted_at, :fuel_cost, :meter_fare_count, :mileage, :passengers, :riding_count, :riding_mileage, :sales, :surplus_funds, :ticket, :started_at, :finished_at
   acts_as_paranoid
 
   validates :car_id, :driver_id, :presence => true
+
+  def last_meter
+    Meter.includes(:report).where(["reports.car_id = ? AND reports.id < ?", self.car_id, self.id]).last || Meter.new(:meter => 0, :mileage => 0, :riding_mileage => 0, :riding_count => 0, :meter_fare_count => 0)
+  end
 end

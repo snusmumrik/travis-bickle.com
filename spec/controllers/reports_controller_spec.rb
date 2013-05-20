@@ -172,14 +172,14 @@ describe ReportsController do
         end
 
         it "assigns the requested report as @report" do
-          report = Report.create! valid_attributes
-          put :update, {:id => report.to_param, :report => valid_attributes}
+          report = FactoryGirl.create(:report_with_ride_and_meter)
+          put :update, {:id => report.to_param, :report => {:mileage => report.mileage + 1}}
           assigns(:report).should eq(report)
         end
 
         it "redirects to the report" do
-          report = Report.create! valid_attributes
-          put :update, {:id => report.to_param, :report => valid_attributes}
+          report = FactoryGirl.create(:report_with_ride_and_meter)
+          put :update, {:id => report.to_param, :report => {:mileage => report.mileage + 1}}
           response.should redirect_to(report)
         end
       end

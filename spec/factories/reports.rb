@@ -30,6 +30,12 @@ FactoryGirl.define do
       after(:create) do |report|
         create_list(:ride, 3, report: report)
       end
+
+      factory :report_with_ride_and_meter do
+        after(:create) do |report|
+          create(:meter, report: report)
+        end
+      end
     end
   end
 end

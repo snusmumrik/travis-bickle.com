@@ -73,7 +73,7 @@ class DocumentsController < ApplicationController
     mins = hours[1].divmod(60) #=> [30.0, 0.0]
     @estimated_rest = [hours[0], mins[0]]
 
-    @last_meter = Meter.includes(:report).where(["reports.car_id = ? AND meters.id < ?", @report.car_id, @report.meter.id]).last
+    @last_meter = @report.last_meter
     @check_points = CheckPoint.where(["user_id = ? AND deleted_at IS NULL", current_user.id]).all
 
     respond_to do |format|

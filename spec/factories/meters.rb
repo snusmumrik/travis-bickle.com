@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :meter do
-    association :report, factory: :report
+    report
     sequence(:meter) {|n| n}
     sequence(:mileage) {|n| n}
     sequence(:riding_mileage) {|n| n}

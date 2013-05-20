@@ -9,6 +9,9 @@ class ReportsController < InheritedResources::Base
 
   def api_show
     @report = Report.where(["car_id = ? AND driver_id = ? AND finished_at IS NULL", params[:car_id], params[:driver_id]]).first
+    last_meter = @report.last_meter
+    @report.riding_count += last_meter.riding_count
+    @report.meter_fare_count += last_meter.meter_fare_count
     respond_to do |format|
       if @report
         format.json { render json: @report, status: :created, location: @report }
@@ -53,27 +56,27 @@ class ReportsController < InheritedResources::Base
   def api_update
     @report = Report.find(params[:report_id])
     if @report
-      last_meter = Meter.includes(:report).where(["reports.car_id = ?", @report.car_id]).last
-      if last_meter
-        meter = Meter.create( :report_id => @report.id,
-                            :meter => last_meter.meter + params[:meter].to_i,
-                            :mileage => last_meter.mileage + params[:mileage].to_i,
-                            :riding_mileage => last_meter.riding_mileage + params[:riding_mileage].to_i,
-                            :riding_count => last_meter.riding_count + params[:riding_count].to_i,
-                            :meter_fare_count => last_meter.meter_fare_count + params[:meter_fare_count].to_i
-                            )
+      @last_meter = @report.last_meter
+
+      if meter = Meter.where(["report_id = ?", @report.id]).first
+        meter.update_attributes({ :report_id => @report.id,
+                                  :meter => params[:meter],
+                                  :mileage => params[:mileage],
+                                  :riding_mileage => params[:riding_mileage],
+                                  :riding_count => params[:riding_count],
+                                  :meter_fare_count => params[:meter_fare_count] })
       else
-        meter = Meter.create( :report_id => @report.id,
-                            :meter => params[:meter],
-                            :mileage => params[:mileage],
-                            :riding_mileage => params[:riding_mileage],
-                            :riding_count => params[:riding_count],
-                            :meter_fare_count => params[:meter_fare_count]
-                            )
+        Meter.create( :report_id => @report.id,
+                      :meter => params[:meter],
+                      :mileage => params[:mileage],
+                      :riding_mileage => params[:riding_mileage],
+                      :riding_count => params[:riding_count],
+                      :meter_fare_count => params[:meter_fare_count]
+                      )
       end
 
-      @report.update_attributes({ :mileage => params[:meter].to_i - last_meter.meter,
-                                  :riding_mileage => params[:riding_mileage],
+      @report.update_attributes({ :mileage => params[:mileage].to_i - @last_meter.mileage,
+                                  :riding_mileage => params[:riding_mileage].to_i - @last_meter.riding_mileage,
                                   :fuel_cost => params[:fuel_cost].presence || 0,
                                   :ticket => params[:ticket].presence || 0,
                                   :account_receivable => params[:account_receivable].presence || 0,
@@ -177,11 +180,7 @@ class ReportsController < InheritedResources::Base
     @report = Report.includes(:car => :user).find(params[:id])
     @title += " | #{@report.date.strftime("%Y年%-m月%-d日")} 日次成績 #{@report.car.name} #{@report.driver.name}"
     rest_sum = 0
-    if @report.meter
-      @last_meter = Meter.includes(:report).where(["reports.car_id = ? AND meters.id < ?", @report.car_id, @report.meter.id]).last
-    else
-      @last_meter = Meter.includes(:report).where(["reports.car_id = ?", @report.car_id]).last
-    end
+    @last_meter = @report.last_meter
 
     @report.rests.each do |rest|
       rest_sum += rest.ended_at - rest.started_at
@@ -231,6 +230,11 @@ class ReportsController < InheritedResources::Base
 
     respond_to do |format|
       if @report.update_attributes(params[:report])
+        last_meter = @report.last_meter
+        @report.meter.update_attributes({ :meter => params[:report][:meter],
+                                  :mileage => last_meter.mileage + params[:report][:mileage].to_i,
+                                  :riding_mileage => last_meter.riding_mileage + params[:report][:riding_mileage].to_i
+                                })
         format.html { redirect_to @report, notice: t("activerecord.models.report") + t("message.updated") }
         format.json { head :ok }
       else

@@ -4,11 +4,11 @@
 @car_count = 20
 
 for i in 1..@driver_count
-  Driver.new(:user_id => 1, :name => "driver#{i}", :email => "driver#{i}@example.com", :password => "password").save
+  Driver.new(:user_id => 1, :name => "driver#{format('%02d', i)}", :email => "driver#{i}@example.com", :password => "password").save
 end
 
 for i in 1..@car_count
-  Car.new(:user_id => 1, :name => "car#{i}", :base_fare => 430, :meter_fare => 60).save
+  Car.new(:user_id => 1, :name => "car#{format('%02d', i)}", :base_fare => 430, :meter_fare => 60).save
 end
 
 def create_records(year, month, day)

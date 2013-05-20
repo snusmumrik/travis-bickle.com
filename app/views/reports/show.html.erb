@@ -187,21 +187,23 @@
           <th><%=t "activerecord.attributes.rest.started_at" %></th>
           <th><%=t "activerecord.attributes.rest.ended_at" %></th>
           <th><%=t "label.rest.time" %></th>
+          <th></th>
         </tr>
         <% @report.rests.each_with_index do |rest, i| %>
-        <% if i <= (@report.rests.size + 1)/2 - 1 %>
-           <tr>
-             <td><%= i + 1 %></td>
-             <td><%= rest.location %></td>
-             <td><%= rest.started_at.strftime("%-m月%-d日 %H時%M分") %></td>
-             <td><%= rest.ended_at.strftime("%-m月%-d日 %H時%M分") %></td>
-             <td>
-               <%= (rest.ended_at - rest.started_at).divmod(60*60)[0] %>時間
-               <%= (rest.ended_at - rest.started_at).divmod(60*60)[1].divmod(60)[0]%>分
-             </td>
-           </tr>
-           <% end %>
-           <% end %>
+          <% if i <= (@report.rests.size + 1)/2 - 1 %>
+          <tr>
+            <td><%= i + 1 %></td>
+            <td><%= rest.location %></td>
+            <td><%= rest.started_at.strftime("%-m月%-d日 %H時%M分") %></td>
+            <td><%= rest.ended_at.strftime("%-m月%-d日 %H時%M分") %></td>
+            <td>
+              <%= (rest.ended_at - rest.started_at).divmod(60*60)[0] %>時間
+              <%= (rest.ended_at - rest.started_at).divmod(60*60)[1].divmod(60)[0]%>分
+            </td>
+            <td><%= link_to t("link.edit"), edit_rest_path(rest) %></td>
+          </tr>
+          <% end %>
+        <% end %>
       </table>
     </div>
 
@@ -212,6 +214,7 @@
           <th><%=t "activerecord.attributes.rest.started_at" %></th>
           <th><%=t "activerecord.attributes.rest.ended_at" %></th>
           <th><%=t "label.rest.time" %></th>
+          <th></th>
         </tr>
         <% @report.rests.each_with_index do |rest, i| %>
           <% if i > (@report.rests.size + 1)/2 - 1 %>
@@ -224,6 +227,7 @@
               <%= (rest.ended_at - rest.started_at).divmod(60*60)[0] %>時間
               <%= (rest.ended_at - rest.started_at).divmod(60*60)[1].divmod(60)[0]%>分
             </td>
+            <td><%= link_to t("link.edit"), edit_rest_path(rest) %></td>
           </tr>
           <% end %>
         <% end %>
@@ -250,6 +254,7 @@
       <th><%=t "activerecord.attributes.ride.leave_address" %></th>
       <th><%=t "activerecord.attributes.ride.passengers" %></th>
       <th><%=t "activerecord.attributes.ride.fare" %></th>
+      <th></th>
     </tr>
     <% @report.rides.each_with_index do |ride, i| %>
     <% if i <= (@report.rides.size + 1)/2 - 1%>
@@ -259,6 +264,7 @@
          <td><%= ride.leave_address %></td>
          <td><%= ride.passengers %></td>
          <td><%= number_with_delimiter ride.fare %></td>
+         <td><%= link_to t("link.edit"), edit_ride_path(ride) %></td>
        </tr>
        <% end %>
        <% end %>
@@ -273,18 +279,20 @@
       <th><%=t "activerecord.attributes.ride.leave_address" %></th>
       <th><%=t "activerecord.attributes.ride.passengers" %></th>
       <th><%=t "activerecord.attributes.ride.fare" %></th>
+      <th></th>
     </tr>
     <% @report.rides.each_with_index do |ride, i| %>
-    <% if i > (@report.rides.size + 1)/2 - 1 %>
-    <tr>
-      <td class="center"><%= i + 1 %></td>
-      <td><%= ride.ride_address %></td>
-      <td><%= ride.leave_address %></td>
-      <td><%= ride.passengers %></td>
-      <td><%= number_with_delimiter ride.fare %></td>
-    </tr>
-    <% end %>
-    <% end %>
+      <% if i > (@report.rides.size + 1)/2 - 1 %>
+        <tr>
+          <td class="center"><%= i + 1 %></td>
+          <td><%= ride.ride_address %></td>
+          <td><%= ride.leave_address %></td>
+          <td><%= ride.passengers %></td>
+          <td><%= number_with_delimiter ride.fare %></td>
+          <td><%= link_to t("link.edit"), edit_ride_path(ride) %></td>
+        </tr>
+        <% end %>
+      <% end %>
     <% if  @report.rides.size % 2 == 1 %>
     <tr>
       <th>　</th>
