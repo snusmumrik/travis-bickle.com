@@ -15,6 +15,7 @@ ja:
       meter: メーター
       ride: 乗車記録
       notification: 配車指示
+      advertisement: 広告
 
     attributes:
       user:
@@ -39,6 +40,8 @@ ja:
         confirmation_sent_at: confirmation_sent_at  #g
         deleted_at: deleted_at  #g
         images: images  #g
+        cars: cars  #g
+        drivers: drivers  #g
 
       active_admin/comment:
         author_type: author_type  #g
@@ -71,6 +74,7 @@ ja:
         drivers: drivers  #g
         reports: reports  #g
         user: :activerecord.models.user  #g
+        location: :activerecord.models.location  #g
 
       check_point:
         name: "点検項目"
@@ -158,6 +162,7 @@ ja:
         meter: スピードメーター
         mileage: 走行距離
         riding_mileage: 乗車距離
+        report: :activerecord.models.report  #g
 
       ride:
         ride_latitude: 乗車緯度
@@ -179,6 +184,11 @@ ja:
         read: 既読  #g
         cancel: キャンセル
         text: メッセージ
+        user: :activerecord.models.user  #g
+
+      advertisement:
+        name: 広告名
+        youtube_videoid: Youtube Video Id
 
   views:
     pagination:
@@ -238,10 +248,13 @@ ja:
 
     car:
       show: 個別集計
+
     driver:
       show: 月次成績
+
     report:
       index: 日次集計
+
     sale:
       index: 月次集計
 
@@ -263,3 +276,5 @@ ja:
     updated: を更新しました。
     destroy: を削除しました。
     destroy_confirmation: 本当に削除してもよろしいですか？
+
+  deleted_at: deleted_at  #g

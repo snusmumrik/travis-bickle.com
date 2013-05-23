@@ -15,9 +15,14 @@ class RidesController < InheritedResources::Base
                      # :passengers => params[:passengers],
                      # :fare => params[:fare]
                      )
+
     respond_to do |format|
       if @ride.save(:validate => false)
-        format.json { render json: @ride, status: :created, location: @ride }
+        advertisements = Advertisement.select("youtube_videoid").where("deleted_at IS NULL").collect(&:youtube_videoid).sort_by{rand}
+        @json = Hash[:ride => {:id => @ride.id, :report_id => @ride.report_id, :ride_latitude => @ride.ride_latitude, :ride_longitude => @ride.ride_longitude, :ride_address => @ride.ride_address},
+                     :advertisements => advertisements
+                    ]
+        format.json { render json: @json, status: :created, location: @ride }
       else
         format.json { render json: @ride.errors, status: :unprocessable_entity }
       end
