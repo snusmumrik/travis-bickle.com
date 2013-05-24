@@ -27,19 +27,19 @@
   </div>
   <div class="field">
     <%= f.label :mileage %><br />
-    <%= f.number_field :mileage %>
+    <%= f.number_field :mileage, :value => @report.meter.try(:mileage) %>
   </div>
   <div class="field">
     <%= f.label :riding_mileage %><br />
-    <%= f.number_field :riding_mileage %>
+    <%= f.number_field :riding_mileage, :value => @report.meter.try(:riding_mileage) %>
   </div>
   <div class="field">
     <%= f.label :riding_count %><br />
-    <%= f.number_field :riding_count %>
+    <%= f.number_field :riding_count, :value => @report.meter.try(:riding_count) %>
   </div>
   <div class="field">
     <%= f.label :meter_fare_count %><br />
-    <%= f.number_field :meter_fare_count %>
+    <%= f.number_field :meter_fare_count, :value => @report.meter.try(:meter_fare_count) %>
   </div>
   <div class="field">
     <%= f.label :passengers %><br />

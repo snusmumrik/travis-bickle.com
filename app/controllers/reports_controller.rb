@@ -229,11 +229,18 @@ class ReportsController < InheritedResources::Base
     @report = Report.find(params[:id])
 
     respond_to do |format|
-      if @report.update_attributes(params[:report])
-        last_meter = @report.last_meter
+      last_meter = @report.last_meter
+      if @report.update_attributes({ :meter => params[:report][:meter].to_i - last_meter.meter,
+                                     :mileage => params[:report][:mileage].to_i - last_meter.mileage,
+                                     :riding_mileage => params[:report][:riding_mileage].to_i - last_meter.riding_mileage,
+                                     :riding_count => params[:report][:riding_count].to_i - last_meter.riding_count,
+                                     :meter_fare_count => params[:report][:meter_fare_count].to_i - last_meter.meter_fare_count
+                                   })
         @report.meter.update_attributes({ :meter => params[:report][:meter],
-                                  :mileage => last_meter.mileage + params[:report][:mileage].to_i,
-                                  :riding_mileage => last_meter.riding_mileage + params[:report][:riding_mileage].to_i
+                                          :mileage => params[:report][:mileage].to_i,
+                                          :riding_mileage => params[:report][:riding_mileage].to_i,
+                                          :riding_count => params[:report][:riding_count].to_i,
+                                          :meter_fare_count => params[:report][:meter_fare_count].to_i
                                 })
         format.html { redirect_to @report, notice: t("activerecord.models.report") + t("message.updated") }
         format.json { head :ok }
