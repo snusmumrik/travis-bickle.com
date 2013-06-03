@@ -230,11 +230,19 @@ class ReportsController < InheritedResources::Base
 
     respond_to do |format|
       last_meter = @report.last_meter
-      if @report.update_attributes({ :meter => params[:report][:meter].to_i - last_meter.meter,
-                                     :mileage => params[:report][:mileage].to_i - last_meter.mileage,
+      if @report.update_attributes({ :mileage => params[:report][:mileage].to_i - last_meter.mileage,
                                      :riding_mileage => params[:report][:riding_mileage].to_i - last_meter.riding_mileage,
                                      :riding_count => params[:report][:riding_count].to_i - last_meter.riding_count,
-                                     :meter_fare_count => params[:report][:meter_fare_count].to_i - last_meter.meter_fare_count
+                                     :meter_fare_count => params[:report][:meter_fare_count].to_i - last_meter.meter_fare_count,
+                                     :passengers => params[:report][:passengers],
+                                     :sales => params[:report][:sales],
+                                     :fuel_cost => params[:report][:fuel_cost],
+                                     :ticket => params[:report][:ticket],
+                                     :account_receivable => params[:report][:account_receivable],
+                                     :cash => params[:report][:cash],
+                                     :surplus_funds => params[:report][:surplus_funds],
+                                     :deficiency_account => params[:report][:deficiency_account],
+                                     :advance => params[:report][:advance]
                                    })
         @report.meter.update_attributes({ :meter => params[:report][:meter],
                                           :mileage => params[:report][:mileage].to_i,
