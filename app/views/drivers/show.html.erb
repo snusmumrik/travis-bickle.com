@@ -2,7 +2,7 @@
 
 <% if params[:day] %>
   <%= render "daily_reports" %>
-<% else %>
+<% elsif params[:month] %>
   <%= render "monthly_reports" %>
 <% end %>
 
