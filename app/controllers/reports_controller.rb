@@ -9,9 +9,6 @@ class ReportsController < InheritedResources::Base
 
   def api_show
     @report = Report.where(["car_id = ? AND driver_id = ? AND finished_at IS NULL", params[:car_id], params[:driver_id]]).first
-    last_meter = @report.last_meter
-    @report.riding_count += last_meter.riding_count
-    @report.meter_fare_count += last_meter.meter_fare_count
     respond_to do |format|
       if @report
         format.json { render json: @report, status: :created, location: @report }
@@ -59,12 +56,21 @@ class ReportsController < InheritedResources::Base
       @last_meter = @report.last_meter
 
       if meter = Meter.where(["report_id = ?", @report.id]).first
-        meter.update_attributes({ :report_id => @report.id,
-                                  :meter => params[:meter],
-                                  :mileage => params[:mileage],
-                                  :riding_mileage => params[:riding_mileage],
-                                  :riding_count => params[:riding_count],
-                                  :meter_fare_count => params[:meter_fare_count] })
+        if @last_meter
+          meter.update_attributes({ :report_id => @report.id,
+                                    :meter => @last_meter.meter + params[:meter].to_i,
+                                    :mileage => @last_meter.mileage + params[:mileage].to_i,
+                                    :riding_mileage => @last_meter.riding_mileage + params[:riding_mileage].to_i,
+                                    :riding_count => @last_meter.riding_count + params[:riding_count].to_i,
+                                    :meter_fare_count => @last_meter.meter_fare_count + params[:meter_fare_count].to_i })
+        else
+          meter.update_attributes({ :report_id => @report.id,
+                                    :meter => params[:meter],
+                                    :mileage => params[:mileage],
+                                    :riding_mileage => params[:riding_mileage],
+                                    :riding_count => params[:riding_count],
+                                    :meter_fare_count => params[:meter_fare_count] })
+        end
       else
         Meter.create( :report_id => @report.id,
                       :meter => params[:meter],
@@ -73,6 +79,16 @@ class ReportsController < InheritedResources::Base
                       :riding_count => params[:riding_count],
                       :meter_fare_count => params[:meter_fare_count]
                       )
+      end
+
+      credit = params[:cash].to_i + params[:ticket].to_i + params[:account_receivable].to_i + params[:fuel_cost].to_i + params[:advance].to_i
+      debit = params[:sales].to_i
+      if debit - credit > 0
+        params[:deficiency_account] = debit - credit
+        params[:surplus_funds] = 0
+      elsif credit - debit > 0
+        params[:surplus_funds] = credit - debit
+        params[:deficiency_account] = 0
       end
 
       @report.update_attributes({ :mileage => params[:mileage].to_i - @last_meter.mileage,
