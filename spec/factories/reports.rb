@@ -11,6 +11,7 @@ FactoryGirl.define do
     sequence(:meter_fare_count) {|n| n}
     sequence(:passengers) {|n| n}
     sequence(:sales) {|n| n}
+    sequence(:extra_sales) {|n| n}
     sequence(:fuel_cost) {|n| n}
     sequence(:ticket) {|n| n}
     sequence(:account_receivable) {|n| n}

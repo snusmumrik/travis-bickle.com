@@ -52,10 +52,10 @@ Spork.prefork do
     end
   end
 
-   if Spork.using_spork?
-     ActiveSupport::Dependencies.clear
-     ActiveRecord::Base.instantiate_observers
-   end
+  if Spork.using_spork?
+    ActiveSupport::Dependencies.clear
+    ActiveRecord::Base.instantiate_observers
+  end
 end
 
 Spork.each_run do
