@@ -173,11 +173,28 @@ class ReportsController < InheritedResources::Base
       @rest_hash.store(report.id, [hours[0], mins[0]])
     end
 
+    fuel_cost_rates = Array.new
+    sales_array = @reports.collect(&:sales)
+    @reports.collect(&:fuel_cost).each_with_index do |fuel_cost, i|
+      if sales_array[i] != 0
+        fuel_cost_rates << (fuel_cost.to_f / sales_array[i] * 100).ceil
+      else
+        fuel_cost_rates << 0
+      end
+    end
+
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.title(:text => t("activerecord.attributes.report.sales"))
       f.options[:xAxis][:categories] = @reports.collect { |item| item.car.name }
       f.labels(:items => [:html => "", :style => {:left => "40px", :top => "8px", :color => "black"} ])
-      f.series(:type => 'column', :name => t("activerecord.attributes.report.sales"), :data => @reports.collect(&:sales))
+      f.series(:type => "column", :name => t("activerecord.attributes.report.sales"), :yAxis => 0, :data => @reports.collect(&:sales), :tooltip => {:valueSuffix => "円"})
+      f.series(:type => "column", :name => t("activerecord.attributes.report.fuel_cost"), :yAxis => 0, :data => @reports.collect(&:fuel_cost), :tooltip => {:valueSuffix => "円"})
+      f.series(:type => "spline", :name => t("views.report.fuel_cost_rate"), :yAxis => 1, :data => fuel_cost_rates, :tooltip => {:valueSuffix => "%"})
+
+      f.yAxis [
+               {:title => {:text => t("activerecord.attributes.report.sales") + "・" + t("activerecord.attributes.report.fuel_cost"), :margin => 70} },
+               {:title => {:text => t("views.report.fuel_cost_rate")}, :opposite => true},
+              ]
     end
 
     respond_to do |format|

@@ -197,6 +197,8 @@ ja:
       previous: "&lsaquo; 前"
       next: "次 &rsaquo;"
 
+    report:
+      fuel_cost_rate: 燃料費率
   label:
     error: エラー
 

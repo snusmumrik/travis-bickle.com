@@ -51,7 +51,7 @@ def create_records(year, month, day)
     report.riding_mileage = (mileage * 0.95).ceil
     report.account_receivable += 1/(rand(1000)+1)*100
     report.ticket = 1/(rand(1000)+1)*500
-    report.fuel_cost = (report.sales*0.3).ceil
+    report.fuel_cost = (report.sales*rand(5)/10.0).ceil
     report.cash = report.sales - report.fuel_cost - report.ticket - report.account_receivable
     report.finished_at = report.started_at + rand(60) + 60*rand(60) + 60*60*rand(12)
     report.save

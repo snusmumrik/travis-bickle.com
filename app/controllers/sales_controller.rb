@@ -104,21 +104,46 @@ class SalesController < ApplicationController
       end
     end
 
+    @fuel_cost_array = Array.new
+    for i in 1..Date.new(year, month, -1).day
+      if @sales_hash[i]
+        @fuel_cost_array << @sales_hash[i][:fuel_cost]
+      else
+        @fuel_cost_array << 0
+      end
+    end
+
     @driver_sales = Array.new
     @drivers.each do |driver|
       @driver_sales << @drivers_hash[driver.id][:sales]
+    end
+
+    fuel_cost_rates = Array.new
+    @sales_hash.each do |sales|
+      if sales[1][:sales].to_i != 0
+        fuel_cost_rates << (sales[1][:fuel_cost].to_f / sales[1][:sales].to_i * 100).ceil
+      else
+        fuel_cost_rates << 0
+      end
     end
 
     @daily_chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.title({ :text => t("label.report.daily_total") })
       f.options[:xAxis][:categories] =  (1..Date.new(year, month, -1).day).to_a
       f.labels(:items => [:html => "", :style => {:left => "40px", :top => "8px", :color => "black"} ])
-      f.series(:type => 'column', :name => t("activerecord.attributes.report.sales"), :data => @sales_array)
+      f.series(:type => 'column', :name => t("activerecord.attributes.report.sales"), :yAxis => 0, :data => @sales_array, :tooltip => {:valueSuffix => "円"})
+      f.series(:type => "column", :name => t("activerecord.attributes.report.fuel_cost"), :yAxis => 0, :data => @fuel_cost_array, :tooltip => {:valueSuffix => "円"})
+      f.series(:type => "spline", :name => t("views.report.fuel_cost_rate"), :yAxis => 1, :data => fuel_cost_rates, :tooltip => {:valueSuffix => "%"})
+
+      f.yAxis [
+               {:title => {:text => t("activerecord.attributes.report.sales") + "・" + t("activerecord.attributes.report.fuel_cost"), :margin => 70} },
+               {:title => {:text => t("views.report.fuel_cost_rate")}, :opposite => true},
+              ]
     end
 
     @driver_chart = LazyHighCharts::HighChart.new('column') do |f|
       f.labels(:items => [:html => "", :style => {:left => "40px", :top => "8px", :color => "black"} ])
-      f.series(:name => t("activerecord.attributes.report.sales"), :data => @driver_sales)
+      f.series(:name => t("activerecord.attributes.report.sales"), :data => @driver_sales, :tooltip => {:valueSuffix => "円"})
       f.title({ :text => t("label.report.monthly_total") })
       f.options[:xAxis][:categories] = @drivers.collect(&:name)
       f.options[:chart][:defaultSeriesType] = "column"
