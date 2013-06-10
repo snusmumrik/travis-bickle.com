@@ -38,6 +38,7 @@ class CarsController < InheritedResources::Base
   # GET /cars
   # GET /cars.json
   def index
+    @title += "#{t('activerecord.models.car')}#{t('link.index')}"
     @cars = Car.where(["user_id = ? AND deleted_at IS NULL", current_user.id])
     if params[:car]
       @cars = @cars.name_matches params[:car][:name]
