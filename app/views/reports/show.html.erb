@@ -254,6 +254,8 @@
       <th><%=t "activerecord.attributes.ride.leave_address" %></th>
       <th><%=t "activerecord.attributes.ride.passengers" %></th>
       <th><%=t "activerecord.attributes.ride.fare" %></th>
+      <th><%=t "activerecord.attributes.ride.created_at" %></th>
+      <th><%=t "activerecord.attributes.ride.ended_at" %></th>
       <th></th>
     </tr>
     <% @report.rides.each_with_index do |ride, i| %>
@@ -264,10 +266,12 @@
          <td><%= ride.leave_address %></td>
          <td><%= ride.passengers %></td>
          <td><%= number_with_delimiter ride.fare %></td>
+         <td><%= ride.created_at.strftime("%H時%M分") %></td>
+         <td><%= ride.ended_at.strftime("%H時%M分") %></td>
          <td><%= link_to t("link.edit"), edit_ride_path(ride) %></td>
        </tr>
        <% end %>
-       <% end %>
+     <% end %>
   </table>
 </div>
 
@@ -279,6 +283,8 @@
       <th><%=t "activerecord.attributes.ride.leave_address" %></th>
       <th><%=t "activerecord.attributes.ride.passengers" %></th>
       <th><%=t "activerecord.attributes.ride.fare" %></th>
+      <th><%=t "activerecord.attributes.ride.created_at" %></th>
+      <th><%=t "activerecord.attributes.ride.ended_at" %></th>
       <th></th>
     </tr>
     <% @report.rides.each_with_index do |ride, i| %>
@@ -289,6 +295,8 @@
           <td><%= ride.leave_address %></td>
           <td><%= ride.passengers %></td>
           <td><%= number_with_delimiter ride.fare %></td>
+          <td><%= ride.created_at.strftime("%H時%M分") %></td>
+          <td><%= ride.ended_at.strftime("%H時%M分") %></td>
           <td><%= link_to t("link.edit"), edit_ride_path(ride) %></td>
         </tr>
         <% end %>
