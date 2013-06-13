@@ -13,5 +13,5 @@
         error: (XMLHttpRequest, textStatus, errorThrown)->
           alert(errorThrown)
       })
-  , 10000)
+  , 5000)
 )()
