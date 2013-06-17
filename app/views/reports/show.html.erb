@@ -266,8 +266,8 @@
          <td><%= ride.leave_address %></td>
          <td><%= ride.passengers %></td>
          <td><%= number_with_delimiter ride.fare %></td>
-         <td><%= ride.created_at.strftime("%H時%M分") %></td>
-         <td><%= ride.ended_at.strftime("%H時%M分") %></td>
+         <td><%= ride.created_at.strftime("%H時%M分") rescue nil %></td>
+         <td><%= ride.ended_at.strftime("%H時%M分") rescue nil %></td>
          <td><%= link_to t("link.edit"), edit_ride_path(ride) %></td>
        </tr>
        <% end %>
@@ -295,8 +295,8 @@
           <td><%= ride.leave_address %></td>
           <td><%= ride.passengers %></td>
           <td><%= number_with_delimiter ride.fare %></td>
-          <td><%= ride.created_at.strftime("%H時%M分") %></td>
-          <td><%= ride.ended_at.strftime("%H時%M分") %></td>
+          <td><%= ride.created_at.strftime("%H時%M分") rescue nil %></td>
+          <td><%= ride.ended_at.strftime("%H時%M分") rescue nil %></td>
           <td><%= link_to t("link.edit"), edit_ride_path(ride) %></td>
         </tr>
         <% end %>
