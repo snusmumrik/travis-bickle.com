@@ -1,5 +1,5 @@
 <tr>
-  <td><%= link_to car.name, car_path(car) %></td>
+  <td><%= link_to car.name, "#{car_path(car)}/#{Date.today.year}/#{Date.today.month}" %></td>
   <td><%= car.base_fare %></td>
   <td><%= car.meter_fare %></td>
   <td><%= link_to t("link.show"), "#{car_path(car)}/#{Date.today.year}/#{Date.today.month}" %></td>

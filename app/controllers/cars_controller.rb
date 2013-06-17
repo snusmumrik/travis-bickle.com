@@ -53,6 +53,14 @@ class CarsController < InheritedResources::Base
   # GET /cars/1
   # GET /cars/1.json
   def show
+    if params[:year] && params[:month]
+      year = params[:year].to_i
+      month = params[:month].to_i
+    else
+      year = Date.today.year.to_i
+      month = Date.today.month.to_i
+    end
+
     @car = Car.find(params[:id])
     if params[:year] && params[:month] && params[:day]
       @reports = Report.includes(:driver).where(["car_id = ? AND date = ?", params[:id], Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)]).all
@@ -81,13 +89,35 @@ class CarsController < InheritedResources::Base
     @deficiency_account = 0
     @advance = 0
 
-    sales_hash = Hash.new do |hash, key|
+    @sales_hash = Hash.new do |hash, key|
       hash[key] = Hash.new do |hash, key|
         hash[key] = 0
       end
     end
 
+    daily_sales_hash = Hash.new do |hash, key|
+      hash[key] = 0
+    end
+
+    fuel_cost_hash = Hash.new do |hash, key|
+      hash[key] = 0
+    end
+
     @reports.each do |report|
+      @sales_hash[report.date.day][:mileage] += report.mileage if report.mileage
+      @sales_hash[report.date.day][:riding_mileage] += report.riding_mileage if report.riding_mileage
+      @sales_hash[report.date.day][:riding_count] += report.riding_count if report.riding_count
+      @sales_hash[report.date.day][:meter_fare_count] += report.meter_fare_count if report.meter_fare_count
+      @sales_hash[report.date.day][:passengers] += report.passengers if report.passengers
+      @sales_hash[report.date.day][:sales] += report.sales if report.sales
+      @sales_hash[report.date.day][:fuel_cost] += report.fuel_cost if report.fuel_cost
+      @sales_hash[report.date.day][:ticket] += report.ticket if report.ticket
+      @sales_hash[report.date.day][:account_receivable] += report.account_receivable if report.account_receivable
+      @sales_hash[report.date.day][:cash] += report.cash if report.cash
+      @sales_hash[report.date.day][:surplus_funds] += report.surplus_funds if report.surplus_funds
+      @sales_hash[report.date.day][:deficiency_account] += report.deficiency_account if report.deficiency_account
+      @sales_hash[report.date.day][:advance] += report.advance if report.advance
+
       @mileage += report.mileage if report.mileage
       @riding_mileage += report.riding_mileage if report.riding_mileage
       @riding_count += report.riding_count if report.riding_count
@@ -102,34 +132,106 @@ class CarsController < InheritedResources::Base
       @deficiency_account += report.deficiency_account if report.deficiency_account
       @advance += report.advance if report.advance
 
-      sales_hash[report.driver][report.date.day] += report.sales
+      # @sales_hash[report.driver][report.date.day] += report.sales
+      # daily_@sales_hash[report.date.day] += report.sales
+      # fuel_cost_hash[report.date.day] += report.fuel_cost
     end
 
-    data_hash = Hash.new do |hash, key|
-      hash[key] = Array.new
+    sales_data_hash = Hash.new do |hash, key|
+      hash[key] = 0
     end
 
-    sales_hash.each do |sale|
-      # sale[0] => driver
-      # sale[1] => sales hash
-      for i in 1..Date.new(params[:year].to_i, params[:month].to_i, -1).day
-        data_hash[sale[0]] << sale[1][i]
+    fuel_cost_data_hash = Hash.new do |hash, key|
+      hash[key] = 0
+    end
+
+    @reports.each do |report|
+      sales_data_hash[report.date.day] += report.sales if report.sales
+      fuel_cost_data_hash[report.date.day] += report.fuel_cost if report.fuel_cost
+    end
+
+    sales_array = Array.new
+    for i in 1..Date.new(params[:year].to_i, params[:month].to_i, -1).day
+      if sales_data_hash[i] != 0
+        sales_array << sales_data_hash[i]
+      else
+        sales_array << 0
       end
     end
 
-    @bar = LazyHighCharts::HighChart.new('column') do |f|
-      data_hash.each do |data|
-        f.series(:name => data[0].name, :data => data[1])
+    fuel_cost_array = Array.new
+    for i in 1..Date.new(year, month, -1).day
+      if @sales_hash[i]
+        fuel_cost_array << @sales_hash[i][:fuel_cost]
+      else
+        fuel_cost_array << 0
       end
+    end
 
+    fuel_cost_rates = Array.new
+    for i in 1..Date.new(params[:year].to_i, params[:month].to_i, -1).day
+      if sales_data_hash[i] != 0
+        fuel_cost_rates << (fuel_cost_data_hash[i].to_f / sales_data_hash[i] * 100).ceil
+      else
+        fuel_cost_rates << 0
+      end
+    end
+
+    @chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.title(:text => t("activerecord.attributes.report.sales"))
-      f.options[:xAxis][:categories] = (1..Date.new(params[:year].to_i, params[:month].to_i, -1).day).to_a
+      f.options[:xAxis][:categories] = (1..Date.new(year, month, -1).day).to_a
+      f.labels(:items => [:html => "", :style => {:left => "40px", :top => "8px", :color => "black"} ])
+      f.series(:type => "column", :name => t("activerecord.attributes.report.sales"), :yAxis => 0, :data => sales_array, :tooltip => {:valueSuffix => "円"})
+      f.series(:type => "column", :name => t("activerecord.attributes.report.fuel_cost"), :yAxis => 0, :data => fuel_cost_array, :tooltip => {:valueSuffix => "円"})
+      f.series(:type => "spline", :name => t("views.report.fuel_cost_rate"), :yAxis => 1, :data => fuel_cost_rates, :tooltip => {:valueSuffix => "%"})
 
-      ## or options for column
-      f.options[:chart][:defaultSeriesType] = "column"
-      f.plot_options({:column=>{:stacking=>"normal"}})
-      # f.labels(:items => [:html => "", :style => {:left => "40px", :top => "8px", :color => "black"} ])
+      f.yAxis [
+               {:title => {:text => t("activerecord.attributes.report.sales") + "・" + t("activerecord.attributes.report.fuel_cost"), :margin => 70} },
+               {:title => {:text => t("views.report.fuel_cost_rate")}, :opposite => true},
+              ]
     end
+
+    # sales_data_hash = Hash.new do |hash, key|
+    #   hash[key] = Array.new
+    # end
+
+    # sales_hash.each do |sale|
+    #   # sale[0] => driver
+    #   # sale[1] => sales hash
+    #   for i in 1..Date.new(params[:year].to_i, params[:month].to_i, -1).day
+    #     sales_data_hash[sale[0]] << sale[1][i]
+    #   end
+    # end
+
+    # fuel_cost_rates = Array.new
+    # for i in 1..Date.new(params[:year].to_i, params[:month].to_i, -1).day
+    #   if !fuel_cost_hash[i].blank? && daily_sales_hash[i] != 0
+    #     fuel_cost_rates << (fuel_cost_hash[i].to_f / daily_sales_hash[i] * 100).ceil
+    #   else
+    #     fuel_cost_rates << 0
+    #   end
+    # end
+
+    # @bar = LazyHighCharts::HighChart.new('column') do |f|
+    #   sales_data_hash.each do |data|
+    #     f.series(:name => data[0].name, :yAxis => 0, :data => data[1], :tooltip => {:valueSuffix => "円"})
+    #     # f.series(:type => "column", :name => t("activerecord.attributes.report.fuel_cost"), :yAxis => 0, :data => @reports.collect(&:fuel_cost), :tooltip => {:valueSuffix => "円"})
+    #     # f.series(:type => "spline", :name => t("views.report.fuel_cost_rate"), :yAxis => 1, :data => fuel_cost_rates, :tooltip => {:valueSuffix => "%"})
+    #   end
+
+    #   f.title(:text => t("activerecord.attributes.report.sales"))
+    #   f.options[:xAxis][:categories] = (1..Date.new(params[:year].to_i, params[:month].to_i, -1).day).to_a
+
+    #   ## or options for column
+    #   f.options[:chart][:defaultSeriesType] = "column"
+    #   f.plot_options({:column=>{:stacking=>"normal"}})
+    #   # f.labels(:items => [:html => "", :style => {:left => "40px", :top => "8px", :color => "black"} ])
+
+    #   f.yAxis [
+    #            {:title => {:text => t("activerecord.attributes.report.sales") + "・" + t("activerecord.attributes.report.fuel_cost"), :margin => 70} },
+    #            {:title => {:text => t("views.report.fuel_cost_rate")}, :opposite => true},
+    #           ]
+    # end
 
     respond_to do |format|
       format.html # show.html.erb

@@ -176,7 +176,7 @@ class ReportsController < InheritedResources::Base
     fuel_cost_rates = Array.new
     sales_array = @reports.collect(&:sales)
     @reports.collect(&:fuel_cost).each_with_index do |fuel_cost, i|
-      if sales_array[i] != 0
+      if !sales_array[i].blank?
         fuel_cost_rates << (fuel_cost.to_f / sales_array[i] * 100).ceil
       else
         fuel_cost_rates << 0
