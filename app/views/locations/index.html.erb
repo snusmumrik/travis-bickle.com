@@ -1,4 +1,4 @@
-<%= gmaps(:map_options => {:language => "ja"},
+<%= gmaps(:map_options => {:language => "ja", :detect_location => true, :center_on_user => true, :zoom => 15, :auto_adjust => false},
           :markers => {
             :data => @json,
             :options => {:raw => "{animation:google.maps.Animation.BOUNCE}"}

@@ -26,7 +26,7 @@ class LocationsController < InheritedResources::Base
   # GET /locations.json
   def index
     @title += "#{t('activerecord.models.location')}#{t('link.index')}"
-    @locations = Location.includes(:car => :user).where(["users.id = ?", current_user.id]).order("locations.car_id").all
+    @locations = Location.includes(:car => [:user, :reports]).where(["users.id = ? AND reports.finished_at IS NULL", current_user.id]).order("locations.car_id").all
     @json = @locations.to_gmaps4rails do |location, marker|
       begin
         if location.car.reports.where(["finished_at IS NULL"]).first.rides.where("leave_latitude IS NULL").first
