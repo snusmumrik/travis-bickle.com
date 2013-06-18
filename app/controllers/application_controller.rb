@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_filter :prepare_meta
 
   protect_from_forgery
-  @@title = "Travis Bickle (トラビス ビックル)"
+  @@title = "Travis Bickle (トラヴィス ビックル)"
   @@description = ""
   @@keywords = ""
 
