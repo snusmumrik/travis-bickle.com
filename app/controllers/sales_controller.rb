@@ -120,7 +120,7 @@ class SalesController < ApplicationController
 
     fuel_cost_rates = Array.new
     @sales_hash.each do |sales|
-      if sales[1][:sales].to_i != 0
+      if !sales[1][:sales].blank? && sales[1][:sales].to_i != 0
         fuel_cost_rates << (sales[1][:fuel_cost].to_f / sales[1][:sales].to_i * 100).ceil
       else
         fuel_cost_rates << 0

@@ -166,7 +166,7 @@ class ReportsController < InheritedResources::Base
 
       rest_sum = 0
       report.rests.each do |rest|
-        rest_sum += rest.ended_at - rest.started_at
+        rest_sum += rest.ended_at - rest.started_at if rest.ended_at && rest.started_at
       end
       hours = rest_sum.divmod(60*60) #=> [12.0, 1800.0]
       mins = hours[1].divmod(60) #=> [30.0, 0.0]
@@ -176,7 +176,7 @@ class ReportsController < InheritedResources::Base
     fuel_cost_rates = Array.new
     sales_array = @reports.collect(&:sales)
     @reports.collect(&:fuel_cost).each_with_index do |fuel_cost, i|
-      if !sales_array[i].blank?
+      if !sales_array[i].blank? && sales_array[i] != 0
         fuel_cost_rates << (fuel_cost.to_f / sales_array[i] * 100).ceil
       else
         fuel_cost_rates << 0
@@ -216,7 +216,7 @@ class ReportsController < InheritedResources::Base
     @last_meter = @report.last_meter
 
     @report.rests.each do |rest|
-      rest_sum += rest.ended_at - rest.started_at
+      rest_sum += rest.ended_at - rest.started_at if rest.ended_at && rest.started_at
     end
     hours = rest_sum.divmod(60*60) #=> [12.0, 1800.0]
     mins = hours[1].divmod(60) #=> [30.0, 0.0]
