@@ -1,16 +1,44 @@
 class RestsController < InheritedResources::Base
-  before_filter :authenticate_user!, :except => [:api_create]
+  before_filter :authenticate_user!, :except => [:api_create, :api_update]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
   # POST /rests/api_create
   # POST /rests/api_create.jsonb
   def api_create
-    @rest = Rest.new(:report_id => params[:report_id], :location => params[:location], :latitude => params[:latitude], :longitude => params[:longitude], :address => params[:address], :started_at => params[:started_at], :ended_at => Time.now())
+    @rest = Rest.new(:report_id => params[:report_id],
+                     :latitude => params[:latitude],
+                     :longitude => params[:longitude],
+                     :address => params[:address],
+                     :started_at => Time.now()
+                     )
+
     respond_to do |format|
       if @rest.save
         format.json { render json: @rest, status: :created, location: @rest }
       else
         format.json { render json: @rest.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /rests/api_update
+  # PUT /rests/api_update.json
+  def api_update
+    @rest = Rest.find(params[:rest_id])
+    if @rest
+      @rest.update_attributes({ :location => params[:location],
+                                :ended_at => DateTime.now })
+
+      respond_to do |format|
+        if @rest.save
+          format.json { render json: @rest }
+        else
+          format.json { render json: @rest.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      respond_to do |format|
+        format.json { render json:{:error => "not found" } }
       end
     end
   end

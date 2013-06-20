@@ -29,9 +29,15 @@ class LocationsController < InheritedResources::Base
     @locations = Location.includes(:car => [:user, :reports]).where(["users.id = ? AND reports.finished_at IS NULL", current_user.id]).order("locations.car_id").all
     @json = @locations.to_gmaps4rails do |location, marker|
       begin
-        if location.car.reports.where(["finished_at IS NULL"]).first.rides.where("leave_latitude IS NULL").first
+        if location.car.reports.where("finished_at IS NULL").first.rides.last.leave_latitude.nil?
           marker.picture({
                            :picture => "http://chart.apis.google.com/chart?chst=d_map_spin&chld=1.1|0|FF0000|12|_|#{location.car.try(:name) }",
+                           :width   => 100,
+                           :height  => 100
+                         })
+        elsif location.car.reports.where("finished_at IS NULL").first.rests.last.ended_at.nil?
+          marker.picture({
+                           :picture => "http://chart.apis.google.com/chart?chst=d_map_spin&chld=1.1|0|90ee90|12|_|#{location.car.try(:name) }",
                            :width   => 100,
                            :height  => 100
                          })
@@ -44,7 +50,7 @@ class LocationsController < InheritedResources::Base
         end
       rescue Exception => e
         marker.picture({
-                         :picture => "http://chart.apis.google.com/chart?chst=d_map_spin&chld=1.1|0|ADD8E6|12|_|#{location.car.try(:name) }",
+                         :picture => "http://chart.apis.google.com/chart?chst=d_map_spin&chld=1.1|0|FFFFFF|12|_|#{location.car.try(:name) }",
                          :width   => 100,
                          :height  => 100
                        })

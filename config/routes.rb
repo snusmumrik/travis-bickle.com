@@ -14,6 +14,7 @@ TravisBickle::Application.routes.draw do
   resources :rests do
     collection do
       post "api_create"
+      put "api_update"
     end
   end
 
