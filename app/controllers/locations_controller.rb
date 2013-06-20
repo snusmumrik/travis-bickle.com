@@ -56,7 +56,7 @@ class LocationsController < InheritedResources::Base
                        })
       end
 
-      marker.infowindow "<img src=\"http://miyakoshinpo.com/data/upfile/607-1.jpg\" width=200 height=200><br /><a href='/notifications/new?car_id=#{location.car_id}'>#{location.car.try(:name)}へ配車指示</a>"
+      marker.infowindow "<img src=\"http://static.tumblr.com/gw0wbvo/y2Emn54fm/cars_photo02.png\" width=200 height=200><br /><a href='/notifications/new?car_id=#{location.car_id}'>#{location.car.try(:name)}へ配車指示</a><br /><a href=\"/reports/#{location.car.reports.last.id}\">乗務記録</a>"
       marker.title location.car.try(:name)
       marker.json({:car_id => location.car.try(:id)})
     end
