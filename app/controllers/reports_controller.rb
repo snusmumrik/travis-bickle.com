@@ -56,28 +56,19 @@ class ReportsController < InheritedResources::Base
       @last_meter = @report.last_meter
 
       if meter = Meter.where(["report_id = ?", @report.id]).first
-        if @last_meter
-          meter.update_attributes({ :report_id => @report.id,
-                                    :meter => @last_meter.meter + params[:meter].to_i,
-                                    :mileage => @last_meter.mileage + params[:mileage].to_i,
-                                    :riding_mileage => @last_meter.riding_mileage + params[:riding_mileage].to_i,
-                                    :riding_count => @last_meter.riding_count + params[:riding_count].to_i,
-                                    :meter_fare_count => @last_meter.meter_fare_count + params[:meter_fare_count].to_i })
-        else
-          meter.update_attributes({ :report_id => @report.id,
-                                    :meter => params[:meter],
-                                    :mileage => params[:mileage],
-                                    :riding_mileage => params[:riding_mileage],
-                                    :riding_count => params[:riding_count],
-                                    :meter_fare_count => params[:meter_fare_count] })
-        end
+        meter.update_attributes({ :report_id => @report.id,
+                                  :meter => params[:meter].to_i,
+                                  :mileage => params[:mileage].to_i,
+                                  :riding_mileage => params[:riding_mileage].to_i,
+                                  :riding_count => @last_meter.riding_count + params[:riding_count].to_i,
+                                  :meter_fare_count => @last_meter.meter_fare_count + params[:meter_fare_count].to_i })
       else
         Meter.create( :report_id => @report.id,
                       :meter => params[:meter],
                       :mileage => params[:mileage],
                       :riding_mileage => params[:riding_mileage],
-                      :riding_count => params[:riding_count],
-                      :meter_fare_count => params[:meter_fare_count]
+                      :riding_count => @last_meter.riding_count + params[:riding_count].to_i,
+                      :meter_fare_count => @last_meter.meter_fare_count + params[:meter_fare_count].to_i
                       )
       end
 
@@ -124,7 +115,7 @@ class ReportsController < InheritedResources::Base
       @reports = Report.includes(:car, :driver, :rests).where(["cars.user_id = ? AND date = ?",
                                                        current_user.id,
                                                        Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
-                                                      ]).order("cars.name").all
+                                                      ]).order("cars.name, reports.started_at").all
       @title += " | #{@reports.first.date.strftime("%Y年%-m月%-d日")} 日次成績" rescue "#{params[:year]}年#{params[:month]}月#{params[:day]} 日次成績"
     else
       @reports = Report.includes(:car, :driver, :rests).where(["cars.user_id = ? AND date BETWEEN ? AND ?",
