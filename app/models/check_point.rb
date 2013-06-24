@@ -3,6 +3,8 @@ class CheckPoint < ActiveRecord::Base
   attr_accessible :user_id, :name, :deleted_at
   acts_as_paranoid
 
+  validates :user_id, :name, :presence => true
+
   scope :name_matches, lambda {|q|
     where "name like :q", :q => "%#{q}%"
   }
