@@ -1,4 +1,4 @@
-<%= gmaps(:map_options => {:language => "ja", :center_latitude => controller.current_user.latitude, :center_longitude => controller.current_user.longitude, :zoom => 15, :auto_adjust => false},
+<%= gmaps(:map_options => {:language => "ja", :center_latitude => controller.current_user.latitude, :center_longitude => controller.current_user.longitude, :maxZoom => 17, :auto_adjust => true},
           :markers => {:data => @json}) %>
 
 <% content_for :scripts do %>
