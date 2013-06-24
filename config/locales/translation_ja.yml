@@ -38,6 +38,7 @@ ja:
         confirmation_token: confirmation_token  #g
         confirmed_at: confirmed_at  #g
         confirmation_sent_at: confirmation_sent_at  #g
+        address: 営業所住所
         deleted_at: deleted_at  #g
         images: images  #g
         cars: cars  #g

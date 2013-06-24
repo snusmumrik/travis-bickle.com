@@ -1,8 +1,5 @@
-<%= gmaps(:map_options => {:language => "ja", :detect_location => true, :center_on_user => true, :zoom => 15, :auto_adjust => false},
-          :markers => {
-            :data => @json#,
-            # :options => {:raw => "{animation:google.maps.Animation.BOUNCE}"}
-          }) %>
+<%= gmaps(:map_options => {:language => "ja", :center_latitude => controller.current_user.latitude, :center_longitude => controller.current_user.longitude, :zoom => 15, :auto_adjust => false},
+          :markers => {:data => @json}) %>
 
 <% content_for :scripts do %>
   <script type="text/javascript" charset="utf-8">

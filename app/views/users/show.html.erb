@@ -17,7 +17,12 @@
   <%= @user.email %>
 </p>
 
+<p>
+  <b><%=t "activerecord.attributes.user.address" %></b>
+  <%= @user.address %>
+</p>
+
 
 <% if user_signed_in? && @user.id == current_user.id %>
-  <%= link_to t("link.edit"), edit_user_path(@user.username) %>
+  <%= link_to t("link.edit"), edit_user_path(@user.username), :class => "btn" %>
 <% end %>

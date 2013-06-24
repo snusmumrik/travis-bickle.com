@@ -13,11 +13,14 @@ class User < ActiveRecord::Base
   attr_accessor :signin
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :signin, :username, :email, :password, :password_confirmation, :remember_me
+  attr_accessible :signin, :username, :email, :password, :password_confirmation, :remember_me, :address, :latitude, :longitude
 
   has_many :images, :as => :parent, :dependent => :destroy
   has_many :cars
   has_many :drivers
+
+  geocoded_by :address
+  after_validation :geocode
 
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
