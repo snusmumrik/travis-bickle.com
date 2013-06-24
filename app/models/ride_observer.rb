@@ -3,12 +3,14 @@ class RideObserver < ActiveRecord::Observer
     @report = ride.report
     rides = @report.rides
 
-    passengers = rides.collect(&:passengers).inject do |sum, n|
-      sum + n unless sum.blank? || n.blank?
+    passengers = rides.collect(&:passengers).inject(0) do |sum, n|
+      sum + n
     end
-    sales = rides.collect(&:fare).inject do |sum, n|
-      sum + n unless sum.blank? || n.blank?
+
+    sales = rides.collect(&:fare).inject(0) do |sum, n|
+      sum + n
     end
+
     riding_count = rides.size || 0
     meter_fare_count = (sales - @report.car.base_fare * riding_count) / @report.car.meter_fare unless sales.blank?
 
