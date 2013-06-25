@@ -256,7 +256,9 @@ class ReportsController < InheritedResources::Base
 
     respond_to do |format|
       last_meter = @report.last_meter
-      if @report.update_attributes({ :mileage => params[:report][:mileage].to_i - last_meter.mileage,
+      if @report.update_attributes({ :driver_id => params[:report][:driver_id],
+                                     :car_id => params[:report][:car_id],
+                                     :mileage => params[:report][:mileage].to_i - last_meter.mileage,
                                      :riding_mileage => params[:report][:riding_mileage].to_i - last_meter.riding_mileage,
                                      :riding_count => params[:report][:riding_count].to_i - last_meter.riding_count,
                                      :meter_fare_count => params[:report][:meter_fare_count].to_i - last_meter.meter_fare_count,
