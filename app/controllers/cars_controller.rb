@@ -221,6 +221,22 @@ class CarsController < InheritedResources::Base
     end
   end
 
+  # PUT /cars/1
+  # PUT /cars/1.json
+  def update
+    @car = Car.find(params[:id])
+
+    respond_to do |format|
+      if @car.update_attributes(params[:car])
+      format.html { redirect_to cars_path, notice: t("activerecord.models.car") + t("message.updated") }
+        format.json { head :ok }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @car.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # DELETE /cars/1
   # DELETE /cars/1.json
   def destroy

@@ -173,6 +173,22 @@ class DriversController < InheritedResources::Base
     end
   end
 
+  # PUT /drivers/1
+  # PUT /drivers/1.json
+  def update
+    @driver = Driver.find(params[:id])
+
+    respond_to do |format|
+      if @driver.update_attributes(params[:driver])
+      format.html { redirect_to drivers_path, notice: t("activerecord.models.driver") + t("message.updated") }
+        format.json { head :ok }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @driver.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # DELETE /drivers/1
   # DELETE /drivers/1.json
   def destroy
