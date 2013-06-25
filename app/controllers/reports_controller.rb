@@ -131,6 +131,7 @@ class ReportsController < InheritedResources::Base
     @meter_fare_count = 0
     @passengers = 0
     @sales = 0
+    @extra_sales = 0
     @fuel_cost = 0
     @ticket = 0
     @account_receivable = 0
@@ -147,6 +148,7 @@ class ReportsController < InheritedResources::Base
       @meter_fare_count += report.meter_fare_count if report.meter_fare_count
       @passengers += report.passengers if report.passengers
       @sales += report.sales if report.sales
+      @extra_sales += report.extra_sales if report.extra_sales
       @fuel_cost += report.fuel_cost if report.fuel_cost
       @ticket += report.ticket if report.ticket
       @account_receivable += report.account_receivable if report.account_receivable
@@ -260,6 +262,7 @@ class ReportsController < InheritedResources::Base
                                      :meter_fare_count => params[:report][:meter_fare_count].to_i - last_meter.meter_fare_count,
                                      :passengers => params[:report][:passengers],
                                      :sales => params[:report][:sales],
+                                     :extra_sales => params[:report][:extra_sales],
                                      :fuel_cost => params[:report][:fuel_cost],
                                      :ticket => params[:report][:ticket],
                                      :account_receivable => params[:report][:account_receivable],
@@ -268,12 +271,24 @@ class ReportsController < InheritedResources::Base
                                      :deficiency_account => params[:report][:deficiency_account],
                                      :advance => params[:report][:advance]
                                    })
+
+        if @report.meter
         @report.meter.update_attributes({ :meter => params[:report][:meter],
                                           :mileage => params[:report][:mileage].to_i,
                                           :riding_mileage => params[:report][:riding_mileage].to_i,
                                           :riding_count => params[:report][:riding_count].to_i,
                                           :meter_fare_count => params[:report][:meter_fare_count].to_i
-                                })
+                                        })
+        else
+          Meter.create( :report_id => @report.id,
+                        :meter => params[:report][:meter],
+                        :mileage => params[:report][:mileage].to_i,
+                        :riding_mileage => params[:report][:riding_mileage].to_i,
+                        :riding_count => params[:report][:riding_count].to_i,
+                        :meter_fare_count => params[:report][:meter_fare_count].to_i
+                        )
+        end
+
         format.html { redirect_to @report, notice: t("activerecord.models.report") + t("message.updated") }
         format.json { head :ok }
       else
@@ -318,7 +333,7 @@ class ReportsController < InheritedResources::Base
 
   def check_balance
     credit = params[:report][:cash].to_i + params[:report][:ticket].to_i + params[:report][:account_receivable].to_i + params[:report][:fuel_cost].to_i + params[:report][:advance].to_i
-    debit = params[:report][:sales].to_i
+    debit = params[:report][:sales].to_i + params[:report][:extra_sales].to_i
     if debit - credit > 0
       params[:report][:deficiency_account] = debit - credit
       params[:report][:surplus_funds] = 0

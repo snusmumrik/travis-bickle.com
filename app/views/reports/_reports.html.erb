@@ -12,6 +12,7 @@
     <th><%=t "activerecord.attributes.report.meter_fare_count" %></th>
     <th><%=t "activerecord.attributes.report.passengers" %></th>
     <th><%=t "activerecord.attributes.report.sales" %></th>
+    <th><%=t "activerecord.attributes.report.extra_sales" %></th>
     <th><%=t "activerecord.attributes.report.sales_per_kilometer" %></th>
     <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
     <th><%=t "activerecord.attributes.report.ticket" %></th>
@@ -41,6 +42,7 @@
       <td><%= number_with_delimiter report.meter_fare_count %><% if report.meter_fare_count %>回<% end %></td>
       <td><%= number_with_delimiter report.passengers %><% if report.passengers %>人<% end %></td>
       <td><%= number_to_currency report.sales, :locale => "ja" %></td>
+      <td><%= number_to_currency report.extra_sales, :locale => "ja" %></td>
       <td><%= number_to_currency(report.sales/report.mileage, :precision => 0, :locale => "ja") rescue "" %></td>
       <td><%= number_to_currency report.fuel_cost, :locale => "ja" %></td>
       <td><%= number_to_currency report.ticket, :locale => "ja" %></td>
@@ -93,6 +95,7 @@
     <th><%=t "activerecord.attributes.report.meter_fare_count" %></th>
     <th><%=t "activerecord.attributes.report.passengers" %></th>
     <th><%=t "activerecord.attributes.report.sales" %></th>
+    <th><%=t "activerecord.attributes.report.extra_sales" %></th>
     <th><%=t "activerecord.attributes.report.sales_per_kilometer" %></th>
     <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
     <th><%=t "activerecord.attributes.report.ticket" %></th>
@@ -120,6 +123,7 @@
     <td><%= number_with_delimiter @meter_fare_count %><% if @meter_fare_count %>回<% end %></td>
     <td><%= number_with_delimiter @passengers %><% if @passengers %>人<% end %></td>
     <td><%= number_to_currency @sales, :locale => "ja" %></td>
+    <td><%= number_to_currency @extra_sales, :locale => "ja" %></td>
     <td><%= number_to_currency(@sales/@mileage, :precision => 0, :locale => "ja") rescue "" %></td>
     <td><%= number_to_currency @fuel_cost, :locale => "ja" %></td>
     <td><%= number_to_currency @ticket, :locale => "ja" %></td>

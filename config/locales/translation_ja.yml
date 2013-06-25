@@ -7,7 +7,7 @@ ja:
       car: 車両
       check_point: 点検項目
       driver: 運転手
-      report: 乗務記録
+      report: 日次乗務記録
       rest: 休憩
       image: image  #g
       image/user_image: image/user_image  #g
@@ -105,6 +105,7 @@ ja:
         meter_fare_count: 爾後回数
         passengers: 乗車人数
         sales: 運送収入
+        extra_sales: メーター外収入
         sales_per_kilometer: 収入/Km
         fuel_cost: 燃料費
         ticket: チケット
