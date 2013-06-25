@@ -334,7 +334,7 @@ class ReportsController < InheritedResources::Base
   def check_balance
     credit = params[:report][:cash].to_i + params[:report][:ticket].to_i + params[:report][:account_receivable].to_i + params[:report][:fuel_cost].to_i + params[:report][:advance].to_i
     debit = params[:report][:sales].to_i + params[:report][:extra_sales].to_i
-    if debit - credit > 0
+    if debit - credit >= 0
       params[:report][:deficiency_account] = debit - credit
       params[:report][:surplus_funds] = 0
     elsif credit - debit > 0
