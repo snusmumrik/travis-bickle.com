@@ -109,7 +109,7 @@ class DriversController < InheritedResources::Base
 
       rest_time = 0
       report.rests.each do |rest|
-        rest_time += rest.ended_at - rest.started_at
+        rest_time += rest.ended_at - rest.started_at if rest.ended_at && rest.started_at
       end
       @working_hours += report.finished_at - report.started_at if report.finished_at
       @rest_hours += rest_time
