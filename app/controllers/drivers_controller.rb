@@ -36,22 +36,29 @@ class DriversController < InheritedResources::Base
   # GET /drivers/1.json
   def show
     @driver = Driver.find(params[:id])
+
     if params[:year] && params[:month] && params[:day]
-      @reports = Report.includes(:car, :rests).where(["driver_id = ? AND date = ?", params[:id], Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)]).all
-      @title += " | #{@reports.first.date.strftime("%Y年%-m月%-d日")} 日次成績 #{@driver.name}" rescue "#{params[:year]}年#{params[:month]}月#{params[:day]} 日次成績 #{@driver.name}"
-    elsif params[:year] && params[:month]
-      @reports = Report.includes(:car, :rests).where(["driver_id = ? AND date BETWEEN ? AND ? AND deleted_at IS NULL", params[:id], Date.new(params[:year].to_i, params[:month].to_i, 1), (Date.new(params[:year].to_i, params[:month].to_i, 1) >> 1) - 1]).order("date").all
-      @title += " | #{@reports.first.date.strftime("%Y年%-m月")} 月次成績 #{@driver.name}" rescue "#{params[:year]}年#{params[:month]}月 月次成績 #{@driver.name}"
-      @sales_hash = Hash.new do |hash, key|
-        hash[key] = Hash.new do |hash, key|
-          hash[key] = 0
-        end
-      end
+      @year = params[:year].to_i
+      @month = params[:month].to_i
+      @day = params[:day].to_i
+
+      @reports = Report.includes(:car, :rests).where(["driver_id = ? AND date = ?", params[:id], Date.new(@year, @month, @day)]).all
+      @title += " | #{@reports.first.date.strftime("%Y年%-m月%-d日")} 日次成績 #{@driver.name}" rescue "#{@year}年#{@month}月#{@day} 日次成績 #{@driver.name}"
+    elsif @year && @month
+      @reports = Report.includes(:car, :rests).where(["driver_id = ? AND date BETWEEN ? AND ? AND deleted_at IS NULL", params[:id], Date.new(@year, @month, 1), Date.new(@year, @month, -1)]).order("date").all
+      @title += " | #{@reports.first.date.strftime("%Y年%-m月")} 月次成績 #{@driver.name}" rescue "#{@year}年#{@month}月 月次成績 #{@driver.name}"
     else
-      params[:year] = Date.today.year
-      params[:month] = Date.today.month
-      @reports = Report.includes(:car, :rests).where(["driver_id = ? AND date BETWEEN ? AND ?", params[:id], Date.new(Date.today.year.to_i, Date.today.month.to_i, 1), (Date.new(Date.today.year.to_i, Date.today.month.to_i, 1) >> 1) - 1]).all
-      @title += " | #{params[:year]}年#{params[:month]}月 月次成績 #{@driver.name}"
+      @year = Date.today.year
+      @month = Date.today.month
+
+      @reports = Report.includes(:car, :rests).where(["driver_id = ? AND date BETWEEN ? AND ?", params[:id], Date.new(@year, @month, 1), Date.new(@year, @month, -1)]).all
+      @title += " | #{@year}年#{@month}月 月次成績 #{@driver.name}"
+    end
+
+    @sales_hash = Hash.new do |hash, key|
+      hash[key] = Hash.new do |hash, key|
+        hash[key] = 0
+      end
     end
 
     @working_hours = 0
@@ -120,7 +127,7 @@ class DriversController < InheritedResources::Base
 
     if @sales_hash
       sales_array = Array.new
-      for i in 1..Date.new(params[:year].to_i, params[:month].to_i, -1).day
+      for i in 1..Date.new(@year, @month, -1).day
         if @sales_hash[i]
           sales_array << @sales_hash[i][:sales]
         else
@@ -131,13 +138,17 @@ class DriversController < InheritedResources::Base
 
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.title(:text => t("activerecord.attributes.report.sales"))
-      f.options[:xAxis][:categories] = (1..Date.new(params[:year].to_i, params[:month].to_i, -1).day).to_a
+      f.options[:xAxis][:categories] = (1..Date.new(@year, @month, -1).day).to_a
       # f.labels(:items => [:html => "", :style => {:left => "40px", :top => "8px", :color => "black"} ])
       f.series(:type => 'column', :name => t("activerecord.attributes.report.sales"), :data => sales_array)
     end
 
     respond_to do |format|
-      format.html # show.html.erb
+      if params[:year] && params[:month]
+        format.html # show.html.erb
+      else
+        format.html {redirect_to "#{driver_path(@driver)}/#{@year}/#{@month}"}
+      end
       format.json { render json: @driver }
     end
   end
