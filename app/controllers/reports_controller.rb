@@ -317,7 +317,7 @@ class ReportsController < InheritedResources::Base
 
   def get_drivers_option
     @drivers_option = [[]]
-    drivers = Driver.where("deleted_at is NULL").all
+    drivers = current_user.drivers.where("deleted_at is NULL").all
     drivers.each do |driver|
       @drivers_option << [driver.name, driver.id]
     end
@@ -325,7 +325,7 @@ class ReportsController < InheritedResources::Base
 
   def get_cars_option
     @cars_option = [[]]
-    cars = Car.where("deleted_at is NULL").all
+    cars = current_user.cars.where("deleted_at is NULL").all
     cars.each do |car|
       @cars_option << [car.name, car.id]
     end
