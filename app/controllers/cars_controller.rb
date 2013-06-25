@@ -81,6 +81,7 @@ class CarsController < InheritedResources::Base
     @meter_fare_count = 0
     @passengers = 0
     @sales = 0
+    @extra_sales = 0
     @fuel_cost = 0
     @ticket = 0
     @account_receivable = 0
@@ -110,6 +111,7 @@ class CarsController < InheritedResources::Base
       @sales_hash[report.date.day][:meter_fare_count] += report.meter_fare_count if report.meter_fare_count
       @sales_hash[report.date.day][:passengers] += report.passengers if report.passengers
       @sales_hash[report.date.day][:sales] += report.sales if report.sales
+      @sales_hash[report.date.day][:extra_sales] += report.extra_sales if report.extra_sales
       @sales_hash[report.date.day][:fuel_cost] += report.fuel_cost if report.fuel_cost
       @sales_hash[report.date.day][:ticket] += report.ticket if report.ticket
       @sales_hash[report.date.day][:account_receivable] += report.account_receivable if report.account_receivable
@@ -124,6 +126,7 @@ class CarsController < InheritedResources::Base
       @meter_fare_count += report.meter_fare_count if report.meter_fare_count
       @passengers += report.passengers if report.passengers
       @sales += report.sales if report.sales
+      @extra_sales += report.extra_sales if report.extra_sales
       @fuel_cost += report.fuel_cost if report.fuel_cost
       @ticket += report.ticket if report.ticket
       @account_receivable += report.account_receivable if report.account_receivable
@@ -146,7 +149,7 @@ class CarsController < InheritedResources::Base
     end
 
     @reports.each do |report|
-      sales_data_hash[report.date.day] += report.sales if report.sales
+      sales_data_hash[report.date.day] += report.sales + report.extra_sales if report.sales && report.extra_sales
       fuel_cost_data_hash[report.date.day] += report.fuel_cost if report.fuel_cost
     end
 
@@ -181,7 +184,7 @@ class CarsController < InheritedResources::Base
       f.title(:text => t("activerecord.attributes.report.sales"))
       f.options[:xAxis][:categories] = (1..Date.new(@year, @month, -1).day).to_a
       f.labels(:items => [:html => "", :style => {:left => "40px", :top => "8px", :color => "black"} ])
-      f.series(:type => "column", :name => t("activerecord.attributes.report.sales"), :yAxis => 0, :data => sales_array, :tooltip => {:valueSuffix => "円"})
+      f.series(:type => "column", :name => t("activerecord.attributes.report.sales") + "+" + t("activerecord.attributes.report.extra_sales"), :yAxis => 0, :data => sales_array, :tooltip => {:valueSuffix => "円"})
       f.series(:type => "column", :name => t("activerecord.attributes.report.fuel_cost"), :yAxis => 0, :data => fuel_cost_array, :tooltip => {:valueSuffix => "円"})
       f.series(:type => "spline", :name => t("views.report.fuel_cost_rate"), :yAxis => 1, :data => fuel_cost_rates, :tooltip => {:valueSuffix => "%"})
 

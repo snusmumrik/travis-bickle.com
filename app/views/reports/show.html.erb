@@ -119,7 +119,7 @@
       <tr>
         <td><%= number_with_delimiter @report.passengers %><% if @report.passengers %>人<% end %></td>
         <td><%= number_to_percentage(@report.riding_mileage*100/@report.mileage, :precision => 0) rescue "" %></td>
-        <td><%= number_to_currency(@report.sales/@report.mileage, :precision => 0, :locale => "ja") rescue "" %></td>
+        <td><%= number_to_currency((@report.sales + @report.extra_sales)/@report.mileage, :precision => 0, :locale => "ja") rescue "" %></td>
       </tr>
     </table>
   </div>

@@ -181,11 +181,12 @@ class ReportsController < InheritedResources::Base
       f.options[:xAxis][:categories] = @reports.collect { |item| item.car.name }
       f.labels(:items => [:html => "", :style => {:left => "40px", :top => "8px", :color => "black"} ])
       f.series(:type => "column", :name => t("activerecord.attributes.report.sales"), :yAxis => 0, :data => @reports.collect(&:sales), :tooltip => {:valueSuffix => "円"})
+      f.series(:type => "column", :name => t("activerecord.attributes.report.extra_sales"), :yAxis => 0, :data => @reports.collect(&:extra_sales), :tooltip => {:valueSuffix => "円"})
       f.series(:type => "column", :name => t("activerecord.attributes.report.fuel_cost"), :yAxis => 0, :data => @reports.collect(&:fuel_cost), :tooltip => {:valueSuffix => "円"})
       f.series(:type => "spline", :name => t("views.report.fuel_cost_rate"), :yAxis => 1, :data => fuel_cost_rates, :tooltip => {:valueSuffix => "%"})
 
       f.yAxis [
-               {:title => {:text => t("activerecord.attributes.report.sales") + "・" + t("activerecord.attributes.report.fuel_cost"), :margin => 70} },
+               {:title => {:text => t("activerecord.attributes.report.sales") + "・" + t("activerecord.attributes.report.extra_sales") + "・" + t("activerecord.attributes.report.fuel_cost"), :margin => 70} },
                {:title => {:text => t("views.report.fuel_cost_rate")}, :opposite => true},
               ]
     end

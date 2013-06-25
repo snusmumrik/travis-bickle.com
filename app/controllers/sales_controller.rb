@@ -38,6 +38,7 @@ class SalesController < ApplicationController
     @meter_fare_count = 0
     @passengers = 0
     @sales = 0
+    @extra_sales = 0
     @fuel_cost = 0
     @ticket = 0
     @account_receivable = 0
@@ -58,6 +59,7 @@ class SalesController < ApplicationController
       @sales_hash[report.date.day][:meter_fare_count] += report.meter_fare_count if report.meter_fare_count
       @sales_hash[report.date.day][:passengers] += report.passengers if report.passengers
       @sales_hash[report.date.day][:sales] += report.sales if report.sales
+      @sales_hash[report.date.day][:extra_sales] += report.extra_sales if report.extra_sales
       @sales_hash[report.date.day][:fuel_cost] += report.fuel_cost if report.fuel_cost
       @sales_hash[report.date.day][:ticket] += report.ticket if report.ticket
       @sales_hash[report.date.day][:account_receivable] += report.account_receivable if report.account_receivable
@@ -72,6 +74,7 @@ class SalesController < ApplicationController
       @meter_fare_count += report.meter_fare_count if report.meter_fare_count
       @passengers += report.passengers if report.passengers
       @sales += report.sales if report.sales
+      @extra_sales += report.extra_sales if report.extra_sales
       @fuel_cost += report.fuel_cost if report.fuel_cost
       @ticket += report.ticket if report.ticket
       @account_receivable += report.account_receivable if report.account_receivable
@@ -86,6 +89,7 @@ class SalesController < ApplicationController
       @drivers_hash[report.driver_id][:meter_fare_count] += report.meter_fare_count if report.meter_fare_count
       @drivers_hash[report.driver_id][:passengers] += report.passengers if report.passengers
       @drivers_hash[report.driver_id][:sales] += report.sales if report.sales
+      @drivers_hash[report.driver_id][:extra_sales] += report.extra_sales if report.extra_sales
       @drivers_hash[report.driver_id][:fuel_cost] += report.fuel_cost if report.fuel_cost
       @drivers_hash[report.driver_id][:ticket] += report.ticket if report.ticket
       @drivers_hash[report.driver_id][:account_receivable] += report.account_receivable if report.account_receivable
@@ -98,7 +102,7 @@ class SalesController < ApplicationController
     @sales_array = Array.new
     for i in 1..Date.new(year, month, -1).day
       if @sales_hash[i]
-        @sales_array << @sales_hash[i][:sales]
+        @sales_array << @sales_hash[i][:sales] + @sales_hash[i][:extra_sales]
       else
         @sales_array << 0
       end
@@ -115,7 +119,7 @@ class SalesController < ApplicationController
 
     @driver_sales = Array.new
     @drivers.each do |driver|
-      @driver_sales << @drivers_hash[driver.id][:sales]
+      @driver_sales << @drivers_hash[driver.id][:sales] + @drivers_hash[driver.id][:extra_sales]
     end
 
     fuel_cost_rates = Array.new
@@ -131,7 +135,7 @@ class SalesController < ApplicationController
       f.title({ :text => t("label.report.daily_total") })
       f.options[:xAxis][:categories] =  (1..Date.new(year, month, -1).day).to_a
       f.labels(:items => [:html => "", :style => {:left => "40px", :top => "8px", :color => "black"} ])
-      f.series(:type => 'column', :name => t("activerecord.attributes.report.sales"), :yAxis => 0, :data => @sales_array, :tooltip => {:valueSuffix => "円"})
+      f.series(:type => 'column', :name => t("activerecord.attributes.report.sales") + "+" + t("activerecord.attributes.report.extra_sales"), :yAxis => 0, :data => @sales_array, :tooltip => {:valueSuffix => "円"})
       f.series(:type => "column", :name => t("activerecord.attributes.report.fuel_cost"), :yAxis => 0, :data => @fuel_cost_array, :tooltip => {:valueSuffix => "円"})
       f.series(:type => "spline", :name => t("views.report.fuel_cost_rate"), :yAxis => 1, :data => fuel_cost_rates, :tooltip => {:valueSuffix => "%"})
 
@@ -143,7 +147,7 @@ class SalesController < ApplicationController
 
     @driver_chart = LazyHighCharts::HighChart.new('column') do |f|
       f.labels(:items => [:html => "", :style => {:left => "40px", :top => "8px", :color => "black"} ])
-      f.series(:name => t("activerecord.attributes.report.sales"), :data => @driver_sales, :tooltip => {:valueSuffix => "円"})
+      f.series(:name => t("activerecord.attributes.report.sales") + "+" + t("activerecord.attributes.report.extra_sales"), :data => @driver_sales, :tooltip => {:valueSuffix => "円"})
       f.title({ :text => t("label.report.monthly_total") })
       f.options[:xAxis][:categories] = @drivers.collect(&:name)
       f.options[:chart][:defaultSeriesType] = "column"

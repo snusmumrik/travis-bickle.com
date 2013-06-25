@@ -43,7 +43,7 @@
       <td><%= number_with_delimiter report.passengers %><% if report.passengers %>人<% end %></td>
       <td><%= number_to_currency report.sales, :locale => "ja" %></td>
       <td><%= number_to_currency report.extra_sales, :locale => "ja" %></td>
-      <td><%= number_to_currency(report.sales/report.mileage, :precision => 0, :locale => "ja") rescue "" %></td>
+      <td><%= number_to_currency((report.sales + report.extra_sales)/report.mileage, :precision => 0, :locale => "ja") rescue "" %></td>
       <td><%= number_to_currency report.fuel_cost, :locale => "ja" %></td>
       <td><%= number_to_currency report.ticket, :locale => "ja" %></td>
       <td><%= number_to_currency report.account_receivable, :locale => "ja" %></td>

@@ -11,6 +11,7 @@
     <th><%=t "activerecord.attributes.report.meter_fare_count" %></th>
     <th><%=t "activerecord.attributes.report.passengers" %></th>
     <th><%=t "activerecord.attributes.report.sales" %></th>
+    <th><%=t "activerecord.attributes.report.extra_sales" %></th>
     <th><%=t "activerecord.attributes.report.sales_per_kilometer" %></th>
     <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
     <th><%=t "activerecord.attributes.report.ticket" %></th>
@@ -40,7 +41,8 @@
       <td><%= number_with_delimiter @sales_hash[i][:meter_fare_count] %><% if @sales_hash[i][:meter_fare_count] %>回<% end %></td>
       <td><%= number_with_delimiter @sales_hash[i][:passengers] %><% if @sales_hash[i][:passengers] %>人<% end %></td>
       <td><%= number_to_currency @sales_hash[i][:sales], :locale => "ja" %></td>
-      <td><%= number_to_currency(@sales_hash[i][:sales]/@sales_hash[i][:mileage], :precision => 0, :locale => "ja") rescue "" %></td>
+      <td><%= number_to_currency @sales_hash[i][:extra_sales], :locale => "ja" %></td>
+      <td><%= number_to_currency((@sales_hash[i][:sales] + @sales_hash[i][:extra_sales])/@sales_hash[i][:mileage], :precision => 0, :locale => "ja") rescue "" %></td>
       <td><%= number_to_currency @sales_hash[i][:fuel_cost], :locale => "ja" %></td>
       <td><%= number_to_currency @sales_hash[i][:ticket], :locale => "ja" %></td>
       <td><%= number_to_currency @sales_hash[i][:account_receivable], :locale => "ja" %></td>
@@ -61,6 +63,7 @@
     <th><%=t "activerecord.attributes.report.meter_fare_count" %></th>
     <th><%=t "activerecord.attributes.report.passengers" %></th>
     <th><%=t "activerecord.attributes.report.sales" %></th>
+    <th><%=t "activerecord.attributes.report.extra_sales" %></th>
     <th><%=t "activerecord.attributes.report.sales_per_kilometer" %></th>
     <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
     <th><%=t "activerecord.attributes.report.ticket" %></th>
@@ -81,7 +84,8 @@
     <td><%= number_with_delimiter @meter_fare_count %><% if @meter_fare_count %>回<% end %></td>
     <td><%= number_with_delimiter @passengers %><% if @passengers %>人<% end %></td>
     <td><%= number_to_currency @sales, :locale => "ja" %></td>
-    <td><%= number_to_currency(@sales/@mileage, :precision => 0, :locale => "ja") rescue "" %></td>
+    <td><%= number_to_currency @extra_sales, :locale => "ja" %></td>
+    <td><%= number_to_currency((@sales + @extra_sales)/@mileage, :precision => 0, :locale => "ja") rescue "" %></td>
     <td><%= number_to_currency @fuel_cost, :locale => "ja" %></td>
     <td><%= number_to_currency @ticket, :locale => "ja" %></td>
     <td><%= number_to_currency @account_receivable, :locale => "ja" %></td>
