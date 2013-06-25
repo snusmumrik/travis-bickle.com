@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130624080019) do
+ActiveRecord::Schema.define(:version => 20130625040610) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -116,13 +116,13 @@ ActiveRecord::Schema.define(:version => 20130624080019) do
 
   create_table "meters", :force => true do |t|
     t.integer  "report_id"
-    t.integer  "meter"
-    t.integer  "mileage"
-    t.integer  "riding_mileage"
-    t.integer  "riding_count"
+    t.integer  "meter",            :default => 0
+    t.integer  "mileage",          :default => 0
+    t.integer  "riding_mileage",   :default => 0
+    t.integer  "riding_count",     :default => 0
     t.integer  "meter_fare_count"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
   end
 
   add_index "meters", ["report_id"], :name => "index_meters_on_report_id"

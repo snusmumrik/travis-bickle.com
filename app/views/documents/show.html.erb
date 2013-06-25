@@ -82,11 +82,11 @@
       </tr>
       <tr>
         <th><%=t "label.meter.finish" %></th>
-        <td><%= number_with_delimiter @report.meter.meter %><% if @report.meter.meter %>Km<% end %></td>
-        <td><%= number_with_delimiter @report.meter.mileage %><% if @report.meter.mileage %>Km<% end %></td>
-        <td><%= number_with_delimiter @report.meter.riding_mileage %><% if @report.meter.riding_mileage %>Km<% end %></td>
-        <td><%= number_with_delimiter @report.meter.riding_count %><% if @report.meter.riding_count %>回<% end %></td>
-        <td><%= number_with_delimiter @report.meter.meter_fare_count %><% if @report.meter.meter_fare_count %>回<% end %></td>
+        <td><% if @report.meter %><%= number_with_delimiter @report.meter.meter %>Km<% end %></td>
+        <td><% if @report.meter %><%= number_with_delimiter @report.meter.mileage %>Km<% end %></td>
+        <td><% if @report.meter %><%= number_with_delimiter @report.meter.riding_mileage %>Km<% end %></td>
+        <td><% if @report.meter %><%= number_with_delimiter @report.meter.riding_count %>回<% end %></td>
+        <td><% if @report.meter %><%= number_with_delimiter @report.meter.meter_fare_count %>回<% end %></td>
       </tr>
       <tr>
         <th><%=t "label.meter.start" %></th>
