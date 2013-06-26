@@ -18,18 +18,14 @@
     <th><%=t "activerecord.attributes.location.address" %></th>
     <th><%=t "activerecord.attributes.location.updated_at" %></th>
     <th></th>
-    <th></th>
-    <th></th>
   </tr>
 
 <% @locations.each do |location| %>
   <tr>
-    <td><%= link_to location.car.name, "#{car_path(location.car)}/#{Date.today.year}/#{Date.today.month}/#{Date.today.day}" %></td>
+    <td><%= link_to location.car.name, report_path(location.car.reports.where("finished_at IS NULL").last) %></td>
     <td><%= location.address %></td>
     <td><%= location.updated_at.strftime("%Y/%m/%d %H:%M:%S") rescue nil %></td>
-    <td><%= link_to t("link.show"), location.car %></td>
-    <td><%= link_to t("link.edit"), edit_car_path(location.car) %></td>
-    <td><%= link_to t("link.destroy"), location.car, method: :delete, data: { confirm: t("message.destroy_confirmation") } %></td>
+    <td><%= link_to t("activerecord.models.report"), report_path(location.car.reports.where("finished_at IS NULL").last) %></td>
   </tr>
 <% end %>
 </table>

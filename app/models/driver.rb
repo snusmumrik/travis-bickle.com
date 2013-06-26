@@ -6,6 +6,9 @@ class Driver < ActiveRecord::Base
 
   attr_accessible :user_id, :name, :email, :password, :password_confirmation, :deleted_at
 
+  # if use this, deleted drivers's reports cannot be shown
+  # acts_as_paranoid
+
   validates :user_id, :name, :email, :presence => true
   validates :password, :password_confirmation, :presence => true, :length => { :within => 6..40 }, :on => :update, :unless => lambda{ |driver| driver.password.blank? }
   validates :email, :uniqueness => true
