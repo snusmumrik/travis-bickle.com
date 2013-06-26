@@ -1,5 +1,13 @@
 class RideObserver < ActiveRecord::Observer
+  def after_create(ride)
+    calculate(ride)
+  end
+
   def after_update(ride)
+    calculate(ride)
+  end
+
+  def calculate(ride)
     @report = ride.report
     rides = @report.rides
 
@@ -11,13 +19,21 @@ class RideObserver < ActiveRecord::Observer
       sum + n
     end
 
-    riding_count = rides.size || 0
-    meter_fare_count = (sales - @report.car.base_fare * riding_count) / @report.car.meter_fare unless sales.blank?
+    @report.riding_count = rides.size || 0
+    @report.meter_fare_count = (sales - @report.car.base_fare * @report.riding_count) / @report.car.meter_fare unless sales.blank?
+    @report.passengers = passengers
+    @report.sales = sales
 
-    @report.update_attributes({ :riding_count => riding_count,
-                                :meter_fare_count => meter_fare_count,
-                                :passengers => passengers,
-                                :sales => sales
-                              })
+    credit = @report.cash + @report.ticket + @report.account_receivable + @report.fuel_cost + @report.advance
+    debit = @report.sales + @report.extra_sales
+    if debit - credit >= 0
+      @report.deficiency_account = debit - credit
+      @report.surplus_funds = 0
+    elsif credit - debit > 0
+      @report.surplus_funds = credit - debit
+      @report.deficiency_account = 0
+    end
+
+    @report.save
   end
 end
