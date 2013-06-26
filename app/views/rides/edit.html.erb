@@ -2,4 +2,5 @@
 
 <%= render 'form' %>
 
+<%= link_to t("link.destroy"), @ride, method: :delete, data: { confirm: t("message.destroy_confirmation") }, :class => "btn" %>
 <%= link_to t("link.back"), report_path(@ride.report), :class => "btn" %>
