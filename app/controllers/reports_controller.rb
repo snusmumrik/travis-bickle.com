@@ -2,8 +2,8 @@
 class ReportsController < InheritedResources::Base
   before_filter :authenticate_user!, :except => [:api_show, :api_create, :api_update]
   before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
-  before_filter :get_drivers_option, :except => [:index, :show]
-  before_filter :get_cars_option, :except => [:index, :show]
+  before_filter :get_drivers_option, :except => [:api_show, :api_create, :api_update, :index, :show]
+  before_filter :get_cars_option, :except => [:api_show, :api_create, :api_update, :index, :show]
   before_filter :check_balance, :only => [:create, :update]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
@@ -57,9 +57,9 @@ class ReportsController < InheritedResources::Base
 
       if meter = Meter.where(["report_id = ?", @report.id]).first
         meter.update_attributes({ :report_id => @report.id,
-                                  :meter => params[:meter].to_i,
-                                  :mileage => params[:mileage].to_i,
-                                  :riding_mileage => params[:riding_mileage].to_i,
+                                  :meter => params[:meter].presence || 0,
+                                  :mileage => params[:mileage].presence || 0,
+                                  :riding_mileage => params[:riding_mileage].presence || 0,
                                   :riding_count => @last_meter.riding_count + params[:riding_count].to_i,
                                   :meter_fare_count => @last_meter.meter_fare_count + params[:meter_fare_count].to_i })
       else
@@ -84,13 +84,13 @@ class ReportsController < InheritedResources::Base
 
       @report.update_attributes({ :mileage => params[:mileage].to_i - @last_meter.mileage,
                                   :riding_mileage => params[:riding_mileage].to_i - @last_meter.riding_mileage,
+                                  :riding_count => params[:riding_count],
+                                  :meter_fare_count => params[:meter_fare_count],
                                   :fuel_cost => params[:fuel_cost].presence || 0,
                                   :ticket => params[:ticket].presence || 0,
                                   :account_receivable => params[:account_receivable].presence || 0,
                                   :cash => params[:cash].presence || 0,
-                                  :surplus_funds => params[:surplus_funds].presence || 0,
-                                  :deficiency_account => params[:deficiency_account].presence || 0,
-                                  :advance => params[:advance].presence || 0,
+                                  :extra_sales => params[:extra_sales].presence || 0,
                                   :finished_at => DateTime.now})
 
 
@@ -263,32 +263,32 @@ class ReportsController < InheritedResources::Base
                                      :riding_mileage => params[:report][:riding_mileage].to_i - last_meter.riding_mileage,
                                      :riding_count => params[:report][:riding_count].to_i - last_meter.riding_count,
                                      :meter_fare_count => params[:report][:meter_fare_count].to_i - last_meter.meter_fare_count,
-                                     :passengers => params[:report][:passengers],
-                                     :sales => params[:report][:sales],
-                                     :extra_sales => params[:report][:extra_sales],
-                                     :fuel_cost => params[:report][:fuel_cost],
-                                     :ticket => params[:report][:ticket],
-                                     :account_receivable => params[:report][:account_receivable],
-                                     :cash => params[:report][:cash],
-                                     :surplus_funds => params[:report][:surplus_funds],
-                                     :deficiency_account => params[:report][:deficiency_account],
-                                     :advance => params[:report][:advance]
+                                     :passengers => params[:report][:passengers].presence || 0,
+                                     :sales => params[:report][:sales].presence || 0,
+                                     :extra_sales => params[:report][:extra_sales].presence || 0,
+                                     :fuel_cost => params[:report][:fuel_cost].presence || 0,
+                                     :ticket => params[:report][:ticket].presence || 0,
+                                     :account_receivable => params[:report][:account_receivable].presence || 0,
+                                     :cash => params[:report][:cash].presence || 0,
+                                     :surplus_funds => params[:report][:surplus_funds].presence || 0,
+                                     :deficiency_account => params[:report][:deficiency_account].presence || 0,
+                                     :advance => params[:report][:advance].presence || 0
                                    })
 
         if @report.meter
-        @report.meter.update_attributes({ :meter => params[:report][:meter],
-                                          :mileage => params[:report][:mileage].to_i,
-                                          :riding_mileage => params[:report][:riding_mileage].to_i,
-                                          :riding_count => params[:report][:riding_count].to_i,
-                                          :meter_fare_count => params[:report][:meter_fare_count].to_i
+        @report.meter.update_attributes({ :meter => params[:report][:meter].presence || 0,
+                                          :mileage => params[:report][:mileage].presence || 0,
+                                          :riding_mileage => params[:report][:riding_mileage].presence || 0,
+                                          :riding_count => params[:report][:riding_count].presence || 0,
+                                          :meter_fare_count => params[:report][:meter_fare_count].presence || 0
                                         })
         else
           Meter.create( :report_id => @report.id,
-                        :meter => params[:report][:meter],
-                        :mileage => params[:report][:mileage].to_i,
-                        :riding_mileage => params[:report][:riding_mileage].to_i,
-                        :riding_count => params[:report][:riding_count].to_i,
-                        :meter_fare_count => params[:report][:meter_fare_count].to_i
+                        :meter => params[:report][:meter].presence || 0,
+                        :mileage => params[:report][:mileage].presence || 0,
+                        :riding_mileage => params[:report][:riding_mileage].presence || 0,
+                        :riding_count => params[:report][:riding_count].presence || 0,
+                        :meter_fare_count => params[:report][:meter_fare_count].presence || 0
                         )
         end
 

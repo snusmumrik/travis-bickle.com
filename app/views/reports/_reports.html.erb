@@ -35,12 +35,12 @@
     <tr>
       <td><%= link_to report.car.name, "#{car_path(report.car)}/#{report.date.year}/#{report.date.month}/#{params[:day]}" %></td>
       <td><%= link_to report.driver.name, "#{driver_path(report.driver)}/#{report.date.year}/#{report.date.month}/#{params[:day]}" %></td>
-      <td><%= number_with_delimiter report.mileage %><% if report.mileage %>Km<% end %></td>
-      <td><%= number_with_delimiter report.riding_mileage %><% if report.riding_mileage %>Km<% end %></td>
+      <td><% if report.mileage %><%= number_with_delimiter report.mileage %>Km<% end %></td>
+      <td><% if report.riding_mileage %><%= number_with_delimiter report.riding_mileage %>Km<% end %></td>
       <td><%= number_to_percentage(report.riding_mileage*100/report.mileage, :precision => 0) rescue "" %></td>
-      <td><%= number_with_delimiter report.riding_count %><% if report.riding_count %>回<% end %></td>
-      <td><%= number_with_delimiter report.meter_fare_count %><% if report.meter_fare_count %>回<% end %></td>
-      <td><%= number_with_delimiter report.passengers %><% if report.passengers %>人<% end %></td>
+      <td><% if report.riding_count %><%= number_with_delimiter report.riding_count %>回<% end %></td>
+      <td><% if report.meter_fare_count %><%= number_with_delimiter report.meter_fare_count %>回<% end %></td>
+      <td><% if report.passengers %><%= number_with_delimiter report.passengers %>人<% end %></td>
       <td><%= number_to_currency report.sales, :locale => "ja" %></td>
       <td><%= number_to_currency report.extra_sales, :locale => "ja" %></td>
       <td><%= number_to_currency((report.sales + report.extra_sales)/report.mileage, :precision => 0, :locale => "ja") rescue "" %></td>
@@ -116,12 +116,12 @@
   <tr class="info">
     <!-- <td></td>
      !-- <td></td> -->
-    <td><%= number_with_delimiter @mileage %><% if @mileage %>Km<% end %></td>
-    <td><%= number_with_delimiter @riding_mileage %><% if @riding_mileage %>Km<% end %></td>
+    <td><% if @mileage %><%= number_with_delimiter @mileage %>Km<% end %></td>
+    <td><% if @riding_mileage %><%= number_with_delimiter @riding_mileage %>Km<% end %></td>
     <td><%= number_to_percentage(@riding_mileage*100/@mileage, :precision => 0) rescue "" %></td>
-    <td><%= number_with_delimiter @riding_count %><% if @riding_count %>回<% end %></td>
-    <td><%= number_with_delimiter @meter_fare_count %><% if @meter_fare_count %>回<% end %></td>
-    <td><%= number_with_delimiter @passengers %><% if @passengers %>人<% end %></td>
+    <td><% if @riding_count %><%= number_with_delimiter @riding_count %>回<% end %></td>
+    <td><% if @meter_fare_count %><%= number_with_delimiter @meter_fare_count %>回<% end %></td>
+    <td><% if @passengers %><%= number_with_delimiter @passengers %>人<% end %></td>
     <td><%= number_to_currency @sales, :locale => "ja" %></td>
     <td><%= number_to_currency @extra_sales, :locale => "ja" %></td>
     <td><%= number_to_currency(@sales/@mileage, :precision => 0, :locale => "ja") rescue "" %></td>
