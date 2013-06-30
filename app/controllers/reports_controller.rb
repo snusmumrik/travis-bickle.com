@@ -4,7 +4,7 @@ class ReportsController < InheritedResources::Base
   before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
   before_filter :get_drivers_option, :except => [:api_show, :api_create, :api_update, :index, :show]
   before_filter :get_cars_option, :except => [:api_show, :api_create, :api_update, :index, :show]
-  after_filter :check_balance, :only => [:create, :update]
+  before_filter :check_balance, :only => [:create, :update]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
   def api_show
@@ -73,13 +73,13 @@ class ReportsController < InheritedResources::Base
       end
 
       credit = params[:cash].to_i + params[:ticket].to_i + params[:account_receivable].to_i + params[:fuel_cost].to_i + params[:advance].to_i
-      debit = params[:sales].to_i
-      if debit - credit > 0
-        params[:deficiency_account] = debit - credit
-        params[:surplus_funds] = 0
+      debit = params[:sales].to_i + params[:extra_sales].to_i
+      if debit - credit >= 0
+        deficiency_account = debit - credit
+        surplus_funds = 0
       elsif credit - debit > 0
-        params[:surplus_funds] = credit - debit
-        params[:deficiency_account] = 0
+        surplus_funds = credit - debit
+        deficiency_account = 0
       end
 
       @report.update_attributes({ :mileage => params[:mileage].to_i - @last_meter.mileage,
@@ -90,7 +90,10 @@ class ReportsController < InheritedResources::Base
                                   :ticket => params[:ticket].presence || 0,
                                   :account_receivable => params[:account_receivable].presence || 0,
                                   :cash => params[:cash].presence || 0,
+                                  :sales => params[:sales].presence || 0,
                                   :extra_sales => params[:extra_sales].presence || 0,
+                                  :surplus_funds => surplus_funds,
+                                  :deficiency_account => deficiency_account,
                                   :finished_at => DateTime.now})
 
 
