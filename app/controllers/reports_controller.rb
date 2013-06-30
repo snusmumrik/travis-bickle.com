@@ -4,7 +4,7 @@ class ReportsController < InheritedResources::Base
   before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
   before_filter :get_drivers_option, :except => [:api_show, :api_create, :api_update, :index, :show]
   before_filter :get_cars_option, :except => [:api_show, :api_create, :api_update, :index, :show]
-  before_filter :check_balance, :only => [:create, :update]
+  after_filter :check_balance, :only => [:create, :update]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
   def api_show
