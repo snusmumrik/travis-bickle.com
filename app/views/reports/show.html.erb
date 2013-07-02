@@ -46,52 +46,44 @@
       </tr>
       <tr>
         <th><%=t "label.meter.finish" %></th>
-        <td><%= number_with_delimiter @report.meter.try(:meter) %><% if @report.meter.try(:meter) %>Km<% end %></td>
-        <td><%= number_with_delimiter @report.meter.try(:mileage) %><% if @report.meter.try(:mileage) %>Km<% end %></td>
-        <td><%= number_with_delimiter @report.meter.try(:riding_mileage) %><% if @report.meter.try(:riding_mileage) %>Km<% end %></td>
-        <td><%= number_with_delimiter @report.meter.try(:riding_count) %><% if @report.meter.try(:riding_count) %>回<% end %></td>
-        <td><%= number_with_delimiter @report.meter.try(:meter_fare_count) %><% if @report.meter.try(:meter_fare_count) %>回<% end %></td>
+        <td><% if @report.meter.try(:meter) && @report.finished_at %><%= number_with_delimiter @report.meter.meter %>Km<% end %></td>
+        <td><% if @report.meter.try(:mileage) && @report.finished_at %><%= number_with_delimiter @report.meter.mileage %>Km<% end %></td>
+        <td><% if @report.meter.try(:riding_mileage) && @report.finished_at %><%= number_with_delimiter @report.meter.riding_mileage %>Km<% end %></td>
+        <td><% if @report.meter.try(:riding_count) && @report.finished_at %><%= number_with_delimiter @report.meter.riding_count %>回<% end %></td>
+        <td><% if @report.meter.try(:meter_fare_count) && @report.finished_at %><%= number_with_delimiter @report.meter.meter_fare_count %>回<% end %></td>
       </tr>
       <tr>
         <th><%=t "label.meter.start" %></th>
-        <td><%= number_with_delimiter @last_meter.try(:meter) %><% if @last_meter.try(:meter) %>Km<% end %></td>
-        <td><%= number_with_delimiter @last_meter.try(:mileage) %><% if @last_meter.try(:mileage) %>Km<% end %></td>
-        <td><%= number_with_delimiter @last_meter.try(:riding_mileage) %><% if @last_meter.try(:riding_mileage) %>Km<% end %></td>
-        <td><%= number_with_delimiter @last_meter.try(:riding_count) %><% if @last_meter.try(:riding_count) %>回<% end %></td>
-        <td><%= number_with_delimiter @last_meter.try(:meter_fare_count) %><% if @last_meter.try(:meter_fare_count) %>回<% end %></td>
+        <td><% if @last_meter.try(:meter) %><%= number_with_delimiter @last_meter.meter %>Km<% end %></td>
+        <td><% if @last_meter.try(:mileage) %><%= number_with_delimiter @last_meter.mileage %>Km<% end %></td>
+        <td><% if @last_meter.try(:riding_mileage) %><%= number_with_delimiter @last_meter.riding_mileage %>Km<% end %></td>
+        <td><% if @last_meter.try(:riding_count) %><%= number_with_delimiter @last_meter.riding_count %>回<% end %></td>
+        <td><% if @last_meter.try(:meter_fare_count) %><%= number_with_delimiter @last_meter.meter_fare_count %>回<% end %></td>
       </tr>
       <tr>
         <th><%=t "label.meter.balance" %></th>
-        <td><% if @report.meter.try(:meter) && @last_meter.try(:meter) %><%= number_with_delimiter @report.meter.meter - @last_meter.meter %>Km<% end %></td>
+        <td><% if @report.meter.try(:meter) && @last_meter.try(:meter) && @report.finished_at %><%= number_with_delimiter @report.meter.meter - @last_meter.meter %>Km<% end %></td>
         <td>
-          <% if @report.meter.try(:mileage) && @last_meter.try(:mileage) && @report.meter.mileage - @last_meter.mileage != @report.mileage %>
-            <span class="red">!</span>
-          <% end %>
-          <% if @report.mileage  %>
+          <% if @report.mileage && @report.finished_at %>
+            <% if @report.meter.try(:mileage) && @last_meter.try(:mileage) && @report.finished_at && @report.meter.mileage - @last_meter.mileage != @report.mileage %><span class="red">!</span><% end %>
             <%= number_with_delimiter @report.mileage %>Km
           <% end %>
         </td>
         <td>
-          <% if @report.meter.try(:riding_mileage) && @last_meter.try(:riding_mileage) && @report.meter.riding_mileage - @last_meter.riding_mileage != @report.riding_mileage %>
-            <span class="red">!</span>
-          <% end %>
-          <% if @report.riding_mileage %>
+          <% if @report.riding_mileage && @report.finished_at %>
+            <% if @report.meter.try(:riding_mileage) && @last_meter.try(:riding_mileage) && @report.meter.riding_mileage - @last_meter.riding_mileage != @report.riding_mileage %><span class="red">!</span><% end %>
             <%= number_with_delimiter @report.riding_mileage %>Km
           <% end %>
         </td>
         <td>
-          <% if @report.meter.try(:riding_count) && @last_meter.try(:riding_count) && @report.meter.riding_count - @last_meter.riding_count != @report.riding_count %>
-            <span class="red">!</span>
-          <% end %>
-          <% if @report.riding_count %>
+          <% if @report.riding_count && @report.finished_at %>
+            <% if @report.meter.try(:riding_count) && @last_meter.try(:riding_count) && @report.meter.riding_count - @last_meter.riding_count != @report.riding_count %><span class="red">!</span><% end %>
             <%= number_with_delimiter @report.riding_count %>回
           <% end %>
         </td>
         <td>
-          <% if @report.meter.try(:meter_fare_count) && @last_meter.try(:meter_fare_count) && @report.meter.meter_fare_count - @last_meter.meter_fare_count != @report.meter_fare_count%>
-            <span class="red">!</span>
-          <% end %>
-          <% if @report.meter_fare_count %>
+          <% if @report.meter_fare_count && @report.finished_at %>
+            <% if @report.meter.try(:meter_fare_count) && @last_meter.try(:meter_fare_count) && @report.meter.meter_fare_count - @last_meter.meter_fare_count != @report.meter_fare_count%><span class="red">!</span><% end %>
             <%= number_with_delimiter @report.meter_fare_count %>回
           <% end %>
         </td>
@@ -145,9 +137,9 @@
         <th><%=t "activerecord.attributes.report.sales_per_kilometer" %></th>
       </tr>
       <tr>
-        <td><%= number_with_delimiter @report.passengers %><% if @report.passengers %>人<% end %></td>
-        <td><%= number_to_percentage(@report.riding_mileage*100/@report.mileage, :precision => 0) rescue "" %></td>
-        <td><%= number_to_currency((@report.sales + @report.extra_sales)/@report.mileage, :precision => 0, :locale => "ja") rescue "" %></td>
+        <td><% if @report.passengers %><%= number_with_delimiter @report.passengers %>人<% end %></td>
+        <td><% if @report.finished_at && @report.mileage != 0 %><%= number_to_percentage(@report.riding_mileage*100/@report.mileage, :precision => 0) %><% end %></td>
+        <td><% if @report.finished_at && @report.mileage != 0 %><%= number_to_currency((@report.sales + @report.extra_sales)/@report.mileage, :precision => 0, :locale => "ja") %><% end %></td>
       </tr>
     </table>
   </div>
