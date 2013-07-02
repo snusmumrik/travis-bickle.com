@@ -9,11 +9,11 @@ class DocumentsController < ApplicationController
   def index
     @driver = Driver.find(params[:driver_id])
     if params[:year] && params[:month]
-      @reports = Report.where(["driver_id = ? AND date BETWEEN ? AND ?", params[:driver_id], Date.new(params[:year].to_i, params[:month].to_i, 1), (Date.new(params[:year].to_i, params[:month].to_i, 1) >> 1) - 1]).order("date").all
+      @reports = Report.where(["driver_id = ? AND started_at BETWEEN ? AND ?", params[:driver_id], Date.new(params[:year].to_i, params[:month].to_i, 1), (Date.new(params[:year].to_i, params[:month].to_i, 1) >> 1) - 1]).order("date").all
     else
       params[:year] = Date.today.year
       params[:month] = Date.today.month
-      @reports = Report.where(["driver_id = ? AND date BETWEEN ? AND ?", params[:driver_id], Date.new(Date.today.year.to_i, Date.today.month.to_i, 1), (Date.new(Date.today.year.to_i, Date.today.month.to_i, 1) >> 1) - 1]).all
+      @reports = Report.where(["driver_id = ? AND started_at BETWEEN ? AND ?", params[:driver_id], Date.new(Date.today.year.to_i, Date.today.month.to_i, 1), (Date.new(Date.today.year.to_i, Date.today.month.to_i, 1) >> 1) - 1]).all
     end
 
     @working_hours = 0
@@ -62,7 +62,7 @@ class DocumentsController < ApplicationController
   # GET /documents/reports/1
   # GET /documents/reports/1.json
   def show
-    @title = "乗務記録簿 #{@report.date.strftime("%Y%m%d")} #{@report.driver.name}"
+    @title = "乗務記録簿 #{@report.started_at.strftime("%Y%m%d")} #{@report.driver.name}"
     @report = Report.find(params[:report_id])
     @estimated_rest = 0
 

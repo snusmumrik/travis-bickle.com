@@ -18,7 +18,7 @@
 
 <table class="table table-striped table-bordered table-hover">
   <tr>
-    <th><%=t "activerecord.attributes.report.date" %></th>
+    <th><%=t "activerecord.attributes.report.started_at" %></th>
     <th><%=t "activerecord.attributes.report.car" %></th>
     <th><%=t "activerecord.attributes.report.mileage" %></th>
     <th><%=t "activerecord.attributes.report.riding_mileage" %></th>
@@ -49,12 +49,12 @@
   <% @reports.each do |report| %>
     <tr>
       <td>
-        <% if Date.new(params[:year].to_i, params[:month].to_i, report.date.day).strftime("%w") == "0" %>
-        <%= link_to Date.new(params[:year].to_i, params[:month].to_i, report.date.day).strftime("%-d日(#{%w(日 月 火 水 木 金 土)[Date.new(params[:year].to_i, params[:month].to_i, report.date.day).wday]})"), "#{drivers_path}/#{@driver.id}/#{params[:year]}/#{params[:month]}/#{i}", :class => "red" %>
-        <% elsif Date.new(params[:year].to_i, params[:month].to_i, report.date.day).strftime("%w") == "6" %>
-        <%= link_to Date.new(params[:year].to_i, params[:month].to_i, report.date.day).strftime("%-d日(#{%w(日 月 火 水 木 金 土)[Date.new(params[:year].to_i, params[:month].to_i, report.date.day).wday]})"), "#{drivers_path}/#{@driver.id}/#{params[:year]}/#{params[:month]}/#{i}", :class => "blue" %>
+        <% if Date.new(params[:year].to_i, params[:month].to_i, report.started_at.day).strftime("%w") == "0" %>
+        <%= link_to Date.new(params[:year].to_i, params[:month].to_i, report.started_at.day).strftime("%-d日(#{%w(日 月 火 水 木 金 土)[Date.new(params[:year].to_i, params[:month].to_i, report.started_at.day).wday]})"), "#{drivers_path}/#{@driver.id}/#{params[:year]}/#{params[:month]}/#{i}", :class => "red" %>
+        <% elsif Date.new(params[:year].to_i, params[:month].to_i, report.started_at.day).strftime("%w") == "6" %>
+        <%= link_to Date.new(params[:year].to_i, params[:month].to_i, report.started_at.day).strftime("%-d日(#{%w(日 月 火 水 木 金 土)[Date.new(params[:year].to_i, params[:month].to_i, report.started_at.day).wday]})"), "#{drivers_path}/#{@driver.id}/#{params[:year]}/#{params[:month]}/#{i}", :class => "blue" %>
         <% else %>
-        <%= link_to Date.new(params[:year].to_i, params[:month].to_i, report.date.day).strftime("%-d日(#{%w(日 月 火 水 木 金 土)[Date.new(params[:year].to_i, params[:month].to_i, report.date.day).wday]})"), "#{drivers_path}/#{@driver.id}/#{params[:year]}/#{params[:month]}/#{i}" %>
+        <%= link_to Date.new(params[:year].to_i, params[:month].to_i, report.started_at.day).strftime("%-d日(#{%w(日 月 火 水 木 金 土)[Date.new(params[:year].to_i, params[:month].to_i, report.started_at.day).wday]})"), "#{drivers_path}/#{@driver.id}/#{params[:year]}/#{params[:month]}/#{i}" %>
         <% end %>
       </td>
       <td><%= link_to report.car.name, "#{car_path(report.car)}/#{params[:year]}/#{params[:month]}/#{params[:day]}" %></td>

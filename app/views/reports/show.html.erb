@@ -1,16 +1,16 @@
-<h1><%= link_to @report.date.strftime("%Y年%-m月%-d日"), "#{reports_path}/#{@report.date.year}/#{@report.date.month}/#{@report.date.day}" %> <%= t("activerecord.models.report") %> （<%= link_to @report.car.name, "#{car_path(@report.car)}/#{@report.date.year}/#{@report.date.month}" %>：<%= link_to @report.driver.name, "#{driver_path(@report.driver)}/#{@report.date.year}/#{@report.date.month}" %>）</h1>
+<h1><%= link_to @report.started_at.strftime("%Y年%-m月%-d日"), "#{reports_path}/#{@report.started_at.year}/#{@report.started_at.month}/#{@report.started_at.day}" %> <%= t("activerecord.models.report") %> （<%= link_to @report.car.name, "#{car_path(@report.car)}/#{@report.started_at.year}/#{@report.started_at.month}" %>：<%= link_to @report.driver.name, "#{driver_path(@report.driver)}/#{@report.started_at.year}/#{@report.started_at.month}" %>）</h1>
 
 <div class="pagination">
   <ul>
-    <li><%= link_to "#{@report.date.year - 1}年 «", "#{sales_path}/#{@report.date.year - 1}/12" %></li>
-    <% if @report.date.year < Date.today.year %>
+    <li><%= link_to "#{@report.started_at.year - 1}年 «", "#{sales_path}/#{@report.started_at.year - 1}/12" %></li>
+    <% if @report.started_at.year < Date.today.year %>
        <% for i in 1..12 %>
-       <li><%= link_to "#{i}月", "#{sales_path}/#{@report.date.year}/#{i}" %></li>
+       <li><%= link_to "#{i}月", "#{sales_path}/#{@report.started_at.year}/#{i}" %></li>
        <% end %>
-       <li><%= link_to "» #{@report.date.year + 1}年", "#{sales_path}/#{@report.date.year + 1}/1" %></li>
+       <li><%= link_to "» #{@report.started_at.year + 1}年", "#{sales_path}/#{@report.started_at.year + 1}/1" %></li>
        <% else %>
        <% for i in 1..Date.today.month %>
-       <li><%= link_to "#{i}月", "#{sales_path}/#{@report.date.year}/#{i}" %></li>
+       <li><%= link_to "#{i}月", "#{sales_path}/#{@report.started_at.year}/#{i}" %></li>
        <% end %>
        <% end %>
   </ul>
@@ -18,14 +18,14 @@
 
 <div class="pagination calender">
   <ul>
-    <% Date.today.year == @report.date.year && Date.today.month == @report.date.month ? last_day = Date.today.day : last_day = Date.new(@report.date.year.to_i, @report.date.month.to_i, -1).day %>
+    <% Date.today.year == @report.started_at.year && Date.today.month == @report.started_at.month ? last_day = Date.today.day : last_day = Date.new(@report.started_at.year.to_i, @report.started_at.month.to_i, -1).day %>
     <% for i in 1..last_day %>
-      <% if Date.new(@report.date.year, @report.date.month, i).strftime("%w") == "0" %>
-        <li><%= link_to "#{i}日", "#{reports_path}/#{Date.new(@report.date.year, @report.date.month, 9).year}/#{Date.new(@report.date.year, @report.date.month, 9).month}/#{i}", :class => "red" %></li>
-      <% elsif Date.new(@report.date.year, @report.date.month, i).strftime("%w") == "6" %>
-        <li><%= link_to "#{i}日", "#{reports_path}/#{Date.new(@report.date.year, @report.date.month, 9).year}/#{Date.new(@report.date.year, @report.date.month, 9).month}/#{i}", :class => "blue" %></li>
+      <% if Date.new(@report.started_at.year, @report.started_at.month, i).strftime("%w") == "0" %>
+        <li><%= link_to "#{i}日", "#{reports_path}/#{Date.new(@report.started_at.year, @report.started_at.month, 9).year}/#{Date.new(@report.started_at.year, @report.started_at.month, 9).month}/#{i}", :class => "red" %></li>
+      <% elsif Date.new(@report.started_at.year, @report.started_at.month, i).strftime("%w") == "6" %>
+        <li><%= link_to "#{i}日", "#{reports_path}/#{Date.new(@report.started_at.year, @report.started_at.month, 9).year}/#{Date.new(@report.started_at.year, @report.started_at.month, 9).month}/#{i}", :class => "blue" %></li>
       <% else %>
-        <li><%= link_to "#{i}日", "#{reports_path}/#{Date.new(@report.date.year, @report.date.month, 9).year}/#{Date.new(@report.date.year, @report.date.month, 9).month}/#{i}" %></li>
+        <li><%= link_to "#{i}日", "#{reports_path}/#{Date.new(@report.started_at.year, @report.started_at.month, 9).year}/#{Date.new(@report.started_at.year, @report.started_at.month, 9).month}/#{i}" %></li>
       <% end %>
     <% end %>
   </ul>

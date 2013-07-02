@@ -18,7 +18,7 @@
 
 <table class="table table-striped table-bordered table-hover">
   <tr>
-    <th><%=t "activerecord.attributes.report.date" %></th>
+    <th><%=t "activerecord.attributes.report.started_at" %></th>
     <th><%=t "activerecord.attributes.report.driver" %></th>
     <th><%=t "activerecord.attributes.report.mileage" %></th>
     <th><%=t "activerecord.attributes.report.riding_mileage" %></th>
@@ -44,15 +44,15 @@
   <% @reports.each do |report| %>
     <tr>
       <td>
-        <% if report.date.strftime("%w") == "0" %>
-        <%= link_to report.date.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), "#{car_path(report.car)}/#{report.date.year}/#{report.date.month}/#{report.date.day}", :class => "red" %>
-        <% elsif report.date.strftime("%w") == "6" %>
-        <%= link_to report.date.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), "#{car_path(report.car)}/#{report.date.year}/#{report.date.month}/#{report.date.day}", :class => "blue" %>
+        <% if report.started_at.strftime("%w") == "0" %>
+        <%= link_to report.started_at.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.started_at.wday]})"), "#{car_path(report.car)}/#{report.started_at.year}/#{report.started_at.month}/#{report.started_at.day}", :class => "red" %>
+        <% elsif report.started_at.strftime("%w") == "6" %>
+        <%= link_to report.started_at.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.started_at.wday]})"), "#{car_path(report.car)}/#{report.started_at.year}/#{report.started_at.month}/#{report.started_at.day}", :class => "blue" %>
         <% else %>
-        <%= link_to report.date.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), "#{car_path(report.car)}/#{report.date.year}/#{report.date.month}/#{report.date.day}" %>
+        <%= link_to report.started_at.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.started_at.wday]})"), "#{car_path(report.car)}/#{report.started_at.year}/#{report.started_at.month}/#{report.started_at.day}" %>
         <% end %>
       </td>
-      <td><%= link_to report.driver.name, "#{driver_path(report.driver)}/#{report.date.year}/#{report.date.month}/#{report.date.day}" %></td>
+      <td><%= link_to report.driver.name, "#{driver_path(report.driver)}/#{report.started_at.year}/#{report.started_at.month}/#{report.started_at.day}" %></td>
       <td><%= number_with_delimiter report.mileage %><% if report.mileage %>Km<% end %></td>
       <td><%= number_with_delimiter report.riding_mileage %><% if report.riding_mileage %>Km<% end %></td>
       <td><%= number_to_percentage(report.riding_mileage*100/report.mileage, :precision => 0) rescue "" %></td>

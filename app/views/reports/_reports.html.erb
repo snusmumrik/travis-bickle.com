@@ -33,8 +33,8 @@
 
   <% @reports.each do |report| %>
     <tr>
-      <td><%= link_to report.car.name, "#{car_path(report.car)}/#{report.date.year}/#{report.date.month}/#{params[:day]}" %></td>
-      <td><%= link_to report.driver.name, "#{driver_path(report.driver)}/#{report.date.year}/#{report.date.month}/#{params[:day]}" %></td>
+      <td><%= link_to report.car.name, "#{car_path(report.car)}/#{report.started_at.year}/#{report.started_at.month}/#{params[:day]}" %></td>
+      <td><%= link_to report.driver.name, "#{driver_path(report.driver)}/#{report.started_at.year}/#{report.started_at.month}/#{params[:day]}" %></td>
       <td><% if report.mileage %><%= number_with_delimiter report.mileage %>Km<% end %></td>
       <td><% if report.riding_mileage %><%= number_with_delimiter report.riding_mileage %>Km<% end %></td>
       <td><%= number_to_percentage(report.riding_mileage*100/report.mileage, :precision => 0) rescue "" %></td>

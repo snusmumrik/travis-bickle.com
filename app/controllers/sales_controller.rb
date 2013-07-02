@@ -15,7 +15,7 @@ class SalesController < ApplicationController
 
     @title += " | #{year}年#{month}月 月次成績"
 
-    @reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date BETWEEN ? AND ?",
+    @reports = Report.includes(:car => :user).where(["cars.user_id = ? AND started_at BETWEEN ? AND ?",
                                                     current_user.id,
                                                     Date.new(year, month, 1),
                                                     Date.new(year, month, -1)]).all
@@ -47,26 +47,26 @@ class SalesController < ApplicationController
     @deficiency_account = 0
     @advance = 0
 
-    @drivers = Driver.includes(:reports).where(["user_id = ? AND reports.date BETWEEN ? AND ?",
+    @drivers = Driver.includes(:reports).where(["user_id = ? AND reports.started_at BETWEEN ? AND ?",
                                                 current_user.id,
                                                 Date.new(year, month, 1),
                                                 Date.new(year, month, -1)]).all
 
     @reports.each do |report|
-      @sales_hash[report.date.day][:mileage] += report.mileage if report.mileage
-      @sales_hash[report.date.day][:riding_mileage] += report.riding_mileage if report.riding_mileage
-      @sales_hash[report.date.day][:riding_count] += report.riding_count if report.riding_count
-      @sales_hash[report.date.day][:meter_fare_count] += report.meter_fare_count if report.meter_fare_count
-      @sales_hash[report.date.day][:passengers] += report.passengers if report.passengers
-      @sales_hash[report.date.day][:sales] += report.sales if report.sales
-      @sales_hash[report.date.day][:extra_sales] += report.extra_sales if report.extra_sales
-      @sales_hash[report.date.day][:fuel_cost] += report.fuel_cost if report.fuel_cost
-      @sales_hash[report.date.day][:ticket] += report.ticket if report.ticket
-      @sales_hash[report.date.day][:account_receivable] += report.account_receivable if report.account_receivable
-      @sales_hash[report.date.day][:cash] += report.cash if report.cash
-      @sales_hash[report.date.day][:surplus_funds] += report.surplus_funds if report.surplus_funds
-      @sales_hash[report.date.day][:deficiency_account] += report.deficiency_account if report.deficiency_account
-      @sales_hash[report.date.day][:advance] += report.advance if report.advance
+      @sales_hash[report.started_at.day][:mileage] += report.mileage if report.mileage
+      @sales_hash[report.started_at.day][:riding_mileage] += report.riding_mileage if report.riding_mileage
+      @sales_hash[report.started_at.day][:riding_count] += report.riding_count if report.riding_count
+      @sales_hash[report.started_at.day][:meter_fare_count] += report.meter_fare_count if report.meter_fare_count
+      @sales_hash[report.started_at.day][:passengers] += report.passengers if report.passengers
+      @sales_hash[report.started_at.day][:sales] += report.sales if report.sales
+      @sales_hash[report.started_at.day][:extra_sales] += report.extra_sales if report.extra_sales
+      @sales_hash[report.started_at.day][:fuel_cost] += report.fuel_cost if report.fuel_cost
+      @sales_hash[report.started_at.day][:ticket] += report.ticket if report.ticket
+      @sales_hash[report.started_at.day][:account_receivable] += report.account_receivable if report.account_receivable
+      @sales_hash[report.started_at.day][:cash] += report.cash if report.cash
+      @sales_hash[report.started_at.day][:surplus_funds] += report.surplus_funds if report.surplus_funds
+      @sales_hash[report.started_at.day][:deficiency_account] += report.deficiency_account if report.deficiency_account
+      @sales_hash[report.started_at.day][:advance] += report.advance if report.advance
 
       @mileage += report.mileage if report.mileage
       @riding_mileage += report.riding_mileage if report.riding_mileage

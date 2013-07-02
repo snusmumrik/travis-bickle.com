@@ -34,7 +34,7 @@
 
 <table class="table table-striped table-bordered table-hover">
   <tr>
-    <th><%=t "activerecord.attributes.report.date" %></th>
+    <th><%=t "activerecord.attributes.report.started_at" %></th>
     <th><%=t "activerecord.attributes.report.started_at" %></th>
     <th><%=t "activerecord.attributes.report.finished_at" %></th>
     <th><%=t "activerecord.attributes.report.working_hours" %></th>
@@ -50,12 +50,12 @@
   <% @reports.each do |report| %>
     <tr>
       <td>
-        <% if report.date.strftime("%w") == "0" %>
-          <%= link_to report.date.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), report_path(report), :class => "red" %>
-        <% elsif report.date.strftime("%w") == "6" %>
-          <%= link_to report.date.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), report_path(report), :class => "blue" %>
+        <% if report.started_at.strftime("%w") == "0" %>
+          <%= link_to report.started_at.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.started_at.wday]})"), report_path(report), :class => "red" %>
+        <% elsif report.started_at.strftime("%w") == "6" %>
+          <%= link_to report.started_at.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.started_at.wday]})"), report_path(report), :class => "blue" %>
         <% else %>
-          <%= link_to report.date.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.date.wday]})"), report_path(report) %>
+          <%= link_to report.started_at.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.started_at.wday]})"), report_path(report) %>
         <% end %>
       </td>
       <td>

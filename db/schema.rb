@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130625040610) do
+ActiveRecord::Schema.define(:version => 20130702103046) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -143,7 +143,6 @@ ActiveRecord::Schema.define(:version => 20130625040610) do
   create_table "reports", :force => true do |t|
     t.integer  "driver_id"
     t.integer  "car_id"
-    t.date     "date"
     t.integer  "mileage",            :default => 0
     t.integer  "riding_mileage",     :default => 0
     t.integer  "riding_count",       :default => 0
