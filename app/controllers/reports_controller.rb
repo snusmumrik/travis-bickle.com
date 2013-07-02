@@ -240,7 +240,7 @@ class ReportsController < InheritedResources::Base
   # POST /reports.json
   def create
     @report = Report.new(params[:report])
-    @report.date = Date.today
+    @report.date = @report.started_at
 
     respond_to do |format|
       if @report.save
@@ -257,6 +257,8 @@ class ReportsController < InheritedResources::Base
   # PUT /reports/1.json
   def update
     @report = Report.find(params[:id])
+
+    finished_at = Time.parse("#{params[:report]["finished_at(1i)"].to_s}-#{params[:report]["finished_at(2i)"].to_s}-#{params[:report]["finished_at(3i)"].to_s} #{params[:report]["finished_at(4i)"].to_s}:#{params[:report]["finished_at(5i)"].to_s}") rescue nil
 
     respond_to do |format|
       last_meter = @report.last_meter
@@ -275,7 +277,10 @@ class ReportsController < InheritedResources::Base
                                      :cash => params[:report][:cash].presence || 0,
                                      :surplus_funds => params[:report][:surplus_funds].presence || 0,
                                      :deficiency_account => params[:report][:deficiency_account].presence || 0,
-                                     :advance => params[:report][:advance].presence || 0
+                                     :advance => params[:report][:advance].presence || 0,
+                                     :started_at => Time.parse("#{params[:report]["started_at(1i)"].to_s}-#{params[:report]["started_at(2i)"].to_s}-#{params[:report]["started_at(3i)"].to_s} #{params[:report]["started_at(4i)"].to_s}:#{params[:report]["started_at(5i)"].to_s}"),
+                                     :finished_at => finished_at
+
                                    })
 
         if @report.meter
