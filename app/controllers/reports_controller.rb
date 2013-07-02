@@ -241,7 +241,6 @@ class ReportsController < InheritedResources::Base
   def create
     @report = Report.new(params[:report])
     @report.started_at = @report.started_at.in_time_zone("Tokyo")
-    raise @report.started_at.day.inspect
 
     respond_to do |format|
       if @report.save
