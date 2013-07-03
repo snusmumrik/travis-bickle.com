@@ -16,9 +16,12 @@ class SalesController < ApplicationController
     @title += " | #{year}年#{month}月 月次成績"
 
     @reports = Report.includes(:car => :user).where(["cars.user_id = ? AND started_at BETWEEN ? AND ?",
-                                                    current_user.id,
-                                                    Date.new(year, month, 1),
-                                                    Date.new(year, month, -1)]).all
+                                                     current_user.id,
+                                                     Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{1} 00:00}"),
+                                                     Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{Date.new(params[:year].to_i, params[:month].to_i, -1).day.to_s} 23:59}")
+                                                     # Date.new(year, month, 1),
+                                                     # Date.new(year, month, -1)
+                                                    ]).all
 
     @sales_hash = Hash.new do |hash, key|
       hash[key] = Hash.new do |hash, key|

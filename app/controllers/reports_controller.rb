@@ -114,19 +114,12 @@ class ReportsController < InheritedResources::Base
   # GET /reports
   # GET /reports.json
   def index
-    if params[:year] && params[:month] && params[:day]
-      @reports = Report.includes(:car, :driver, :rests).where(["cars.user_id = ? AND reports.started_at = ?",
-                                                       current_user.id,
-                                                       Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
-                                                      ]).order("cars.name, reports.started_at").all
-      @title += " | #{@reports.first.date.strftime("%Y年%-m月%-d日")} 日次成績" rescue "#{params[:year]}年#{params[:month]}月#{params[:day]} 日次成績"
-    else
-      @reports = Report.includes(:car, :driver, :rests).where(["cars.user_id = ? AND reports.started_at BETWEEN ? AND ?",
-                                                       current_user.id,
-                                                       Date.new(Date.today.year.to_i, Date.today.month.to_i, 1),
-                                                       Date.new(Date.today.year.to_i, Date.today.month.to_i, -1)]).order("cars.name").all
-      @title += " | #{@reports.first.date.strftime("%Y年%-m月")} 月次成績" rescue "#{params[:year]}年#{params[:month]}月 月次成績"
-    end
+    @reports = Report.includes(:car, :driver, :rests).where(["cars.user_id = ? AND reports.started_at BETWEEN ? AND ?",
+                                                             current_user.id,
+                                                             Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 00:00}"),
+                                                             Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 23:59}")
+                                                            ]).order("cars.name, reports.started_at").all
+    @title += " | #{@reports.first.started_at.strftime("%Y年%-m月%-d日")} 日次成績" rescue "#{params[:year]}年#{params[:month]}月#{params[:day]} 日次成績"
 
     @mileage = 0
     @riding_mileage = 0
