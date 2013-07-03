@@ -237,6 +237,39 @@ class ReportsController < InheritedResources::Base
 
     respond_to do |format|
       if @report.save
+        @last_meter = @report.last_meter
+
+        @report.update_attributes({ :mileage => params[:report][:mileage].to_i - @last_meter.mileage,
+                                    :riding_mileage => params[:report][:riding_mileage].to_i - @last_meter.riding_mileage,
+                                    :riding_count => params[:report][:riding_count],
+                                    :meter_fare_count => params[:report][:meter_fare_count],
+                                    :fuel_cost => params[:report][:fuel_cost].presence || 0,
+                                    :ticket => params[:report][:ticket].presence || 0,
+                                    :account_receivable => params[:report][:account_receivable].presence || 0,
+                                    :cash => params[:report][:cash].presence || 0,
+                                    :sales => params[:report][:sales].presence || 0,
+                                    :extra_sales => params[:report][:extra_sales].presence || 0,
+                                    :surplus_funds => params[:report][:surplus_funds],
+                                    :deficiency_account => params[:report][:deficiency_account],
+                                    :finished_at => DateTime.now})
+
+        if meter = Meter.where(["report_id = ?", @report.id]).first
+          meter.update_attributes({ :report_id => @report.id,
+                                    :meter => params[:report][:meter].presence || 0,
+                                    :mileage => params[:report][:mileage].presence || 0,
+                                    :riding_mileage => params[:report][:riding_mileage].presence || 0,
+                                    :riding_count => @last_meter.riding_count + params[:report][:riding_count].to_i,
+                                    :meter_fare_count => @last_meter.meter_fare_count + params[:report][:meter_fare_count].to_i })
+        else
+          Meter.create( :report_id => @report.id,
+                        :meter => params[:report][:meter],
+                        :mileage => params[:report][:mileage],
+                        :riding_mileage => params[:report][:riding_mileage],
+                        :riding_count => @last_meter.riding_count + params[:report][:riding_count].to_i,
+                        :meter_fare_count => @last_meter.meter_fare_count + params[:report][:meter_fare_count].to_i
+                        )
+        end
+
         format.html { redirect_to @report, notice: t("activerecord.models.report") + t("message.created") }
         format.json { render json: @report, status: :created, location: @report }
       else
