@@ -239,6 +239,8 @@ class ReportsController < InheritedResources::Base
       if @report.save
         @last_meter = @report.last_meter
 
+        finished_at = Time.parse("#{params[:report]["finished_at(1i)"].to_s}-#{params[:report]["finished_at(2i)"].to_s}-#{params[:report]["finished_at(3i)"].to_s} #{params[:report]["finished_at(4i)"].to_s}:#{params[:report]["finished_at(5i)"].to_s}") rescue nil
+
         @report.update_attributes({ :mileage => params[:report][:mileage].to_i - @last_meter.mileage,
                                     :riding_mileage => params[:report][:riding_mileage].to_i - @last_meter.riding_mileage,
                                     :riding_count => params[:report][:riding_count],
@@ -251,7 +253,7 @@ class ReportsController < InheritedResources::Base
                                     :extra_sales => params[:report][:extra_sales].presence || 0,
                                     :surplus_funds => params[:report][:surplus_funds],
                                     :deficiency_account => params[:report][:deficiency_account],
-                                    :finished_at => DateTime.now})
+                                    :finished_at => finished_at})
 
         if meter = Meter.where(["report_id = ?", @report.id]).first
           meter.update_attributes({ :report_id => @report.id,
@@ -286,7 +288,7 @@ class ReportsController < InheritedResources::Base
 
     finished_at = Time.parse("#{params[:report]["finished_at(1i)"].to_s}-#{params[:report]["finished_at(2i)"].to_s}-#{params[:report]["finished_at(3i)"].to_s} #{params[:report]["finished_at(4i)"].to_s}:#{params[:report]["finished_at(5i)"].to_s}") rescue nil
 
-    respond_to do |format|
+    Respond_to do |format|
       last_meter = @report.last_meter
       if @report.update_attributes({ :driver_id => params[:report][:driver_id],
                                      :car_id => params[:report][:car_id],
