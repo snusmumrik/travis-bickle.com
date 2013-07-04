@@ -288,7 +288,7 @@ class ReportsController < InheritedResources::Base
 
     finished_at = Time.parse("#{params[:report]["finished_at(1i)"].to_s}-#{params[:report]["finished_at(2i)"].to_s}-#{params[:report]["finished_at(3i)"].to_s} #{params[:report]["finished_at(4i)"].to_s}:#{params[:report]["finished_at(5i)"].to_s}") rescue nil
 
-    Respond_to do |format|
+    respond_to do |format|
       last_meter = @report.last_meter
       if @report.update_attributes({ :driver_id => params[:report][:driver_id],
                                      :car_id => params[:report][:car_id],
