@@ -59,19 +59,19 @@ class CarsController < InheritedResources::Base
       @month = params[:month].to_i
       @day = params[:day].to_i
 
-      @reports = Report.includes(:driver).where(["car_id = ? AND started_at = ?", params[:id], Date.new(@year, @month, @day)]).all
+      @reports = Report.includes(:driver).where(["car_id = ? AND started_at = ?", params[:id], Date.new(@year, @month, @day)]).order("reports.started_at").all
       @title += " | #{@reports.first.started_at.strftime("%Y年%-m月%-d日")} 日次成績 #{@car.name}" rescue "#{@year}年#{@month}月#{@day} 日次成績 #{@car.name}"
     elsif params[:year] && params[:month]
       @year = params[:year].to_i
       @month = params[:month].to_i
 
-      @reports = Report.includes(:driver).where(["car_id = ? AND started_at BETWEEN ? AND ?", params[:id], Date.new(@year, @month, 1), Date.new(@year, @month, -1)]).all
+      @reports = Report.includes(:driver).where(["car_id = ? AND started_at BETWEEN ? AND ?", params[:id], Date.new(@year, @month, 1), Date.new(@year, @month, -1)]).order("reports.started_at").all
       @title += " | #{@reports.first.started_at.strftime("%Y年%-m月")} 月次成績 #{@car.name}" rescue "#{@year}年#{@month}月} 月次成績 #{@car.name}"
     else
       @year = Date.today.year.to_i
       @month = Date.today.month.to_i
 
-      @reports = Report.where(["car_id = ? AND started_at BETWEEN ? AND ?", params[:id], Date.new(@year, @month, 1), Date.new(@year, @month, -1)]).all
+      @reports = Report.where(["car_id = ? AND started_at BETWEEN ? AND ?", params[:id], Date.new(@year, @month, 1), Date.new(@year, @month, -1)]).order("reports.started_at").all
       @title += " | #{@reports.first.started_at.strftime("%Y年%-m月")} 月次成績 #{@car.name}" rescue "#{@year}年#{@month}月} 月次成績 #{@car.name}"
     end
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class DriversController < InheritedResources::Base
   before_filter :authenticate_user!, :except => :api_signin
-  before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
+  before_filter :authenticate_owner, :only => [:show, :edit, :update :destroy]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
   # GET /drivers
@@ -45,7 +45,7 @@ class DriversController < InheritedResources::Base
       @reports = Report.includes(:car, :rests).where(["driver_id = ? AND started_at = ?", params[:id], Date.new(@year, @month, @day)]).all
       @title += " | #{@reports.first.started_at.strftime("%Y年%-m月%-d日")} 日次成績 #{@driver.name}" rescue "#{@year}年#{@month}月#{@day} 日次成績 #{@driver.name}"
     elsif @year && @month
-      @reports = Report.includes(:car, :rests).where(["driver_id = ? AND started_at BETWEEN ? AND ? AND deleted_at IS NULL", params[:id], Date.new(@year, @month, 1), Date.new(@year, @month, -1)]).order("date").all
+      @reports = Report.includes(:car, :rests).where(["driver_id = ? AND started_at BETWEEN ? AND ? AND deleted_at IS NULL", params[:id], Date.new(@year, @month, 1), Date.new(@year, @month, -1)]).order("reports.started_at").all
       @title += " | #{@reports.first.started_at.strftime("%Y年%-m月")} 月次成績 #{@driver.name}" rescue "#{@year}年#{@month}月 月次成績 #{@driver.name}"
     else
       @year = Date.today.year
