@@ -35,7 +35,7 @@ class ReportsController < InheritedResources::Base
     else
       @report = Report.new(:driver_id => params[:driver_id],
                            :car_id => params[:car_id],
-                           :date => Date.today(),
+                           :started_at => Date.today(),
                            :started_at => DateTime.now())
 
       respond_to do |format|
