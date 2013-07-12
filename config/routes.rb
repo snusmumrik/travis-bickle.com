@@ -48,6 +48,7 @@ TravisBickle::Application.routes.draw do
   resources :drivers do
     collection do
       post "api_signin"
+      get "api_index"
     end
   end
 

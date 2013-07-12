@@ -9,6 +9,7 @@ class CarsController < InheritedResources::Base
   def api_index
     driver = Driver.find(params[:driver_id])
     @cars = Car.where(["user_id = ? AND deleted_at IS NULL", driver.user_id]).all if driver
+
     respond_to do |format|
       format.json { render json: @cars }
     end

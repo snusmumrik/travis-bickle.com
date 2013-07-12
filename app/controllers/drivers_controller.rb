@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class DriversController < InheritedResources::Base
-  before_filter :authenticate_user!, :except => :api_signin
+  before_filter :authenticate_user!, :except => [:api_signin, :api_index]
   before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
@@ -14,6 +14,17 @@ class DriversController < InheritedResources::Base
       else
         format.json { render json:{:error => "signin failed" } }
       end
+    end
+  end
+
+  # GET /drivers
+  # GET /drivers.json
+  def api_index
+    driver = Driver.find(params[:driver_id])
+    @drivers = Driver.where(["user_id = ? AND deleted_at IS NULL", driver.user_id]).all if driver
+
+    respond_to do |format|
+      format.json { render json: @drivers }
     end
   end
 
