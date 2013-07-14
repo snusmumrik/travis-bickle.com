@@ -53,7 +53,10 @@ class DriversController < InheritedResources::Base
       @month = params[:month].to_i
       @day = params[:day].to_i
 
-      @reports = Report.includes(:car, :rests).where(["driver_id = ? AND started_at = ?", params[:id], Date.new(@year, @month, @day)]).all
+      @reports = Report.includes(:car, :rests).where(["driver_id = ? AND started_at BETWEEN ? AND ?",
+                                                      params[:id],
+                                                      Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 00:00}"),
+                                                      Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 23:59}")]).all
       @title += " | #{@reports.first.started_at.strftime("%Y年%-m月%-d日")} 日次成績 #{@driver.name}" rescue "#{@year}年#{@month}月#{@day} 日次成績 #{@driver.name}"
     elsif @year && @month
       @reports = Report.includes(:car, :rests).where(["driver_id = ? AND started_at BETWEEN ? AND ? AND deleted_at IS NULL", params[:id], Date.new(@year, @month, 1), Date.new(@year, @month, -1)]).order("reports.started_at").all
