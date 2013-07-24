@@ -22,10 +22,10 @@
 
 <% @locations.each do |location| %>
   <tr>
-    <td><%= link_to location.car.name, report_path(location.car.reports.where("finished_at IS NULL").last) %></td>
+    <td><%= link_to location.car.name, report_path(location.car.reports.where("finished_at IS NULL").last) rescue nil %></td>
     <td><%= location.address %></td>
     <td><%= location.updated_at.strftime("%Y/%m/%d %H:%M:%S") rescue nil %></td>
-    <td><%= link_to t("activerecord.models.report"), report_path(location.car.reports.where("finished_at IS NULL").last) %></td>
+    <td><%= link_to t("activerecord.models.report"), report_path(location.car.reports.where("finished_at IS NULL").last) rescue nil %></td>
   </tr>
 <% end %>
 </table>
