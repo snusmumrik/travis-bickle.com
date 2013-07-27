@@ -250,8 +250,8 @@ class ReportsController < InheritedResources::Base
 
         @report.update_attributes({ :mileage => params[:report][:mileage].to_i - @last_meter.mileage,
                                     :riding_mileage => params[:report][:riding_mileage].to_i - @last_meter.riding_mileage,
-                                    :riding_count => params[:report][:riding_count],
-                                    :meter_fare_count => params[:report][:meter_fare_count],
+                                    :riding_count => params[:report][:riding_count].to_i - @last_meter.riding_count,
+                                    :meter_fare_count => params[:report][:meter_fare_count].to_i - @last_meter.meter_fare_count,
                                     :fuel_cost => params[:report][:fuel_cost].presence || 0,
                                     :ticket => params[:report][:ticket].presence || 0,
                                     :account_receivable => params[:report][:account_receivable].presence || 0,
@@ -263,19 +263,18 @@ class ReportsController < InheritedResources::Base
                                     :finished_at => finished_at})
 
         if meter = Meter.where(["report_id = ?", @report.id]).first
-          meter.update_attributes({ :report_id => @report.id,
-                                    :meter => params[:report][:meter].presence || 0,
+          meter.update_attributes({ :meter => params[:report][:meter].presence || 0,
                                     :mileage => params[:report][:mileage].presence || 0,
                                     :riding_mileage => params[:report][:riding_mileage].presence || 0,
-                                    :riding_count => @last_meter.riding_count + params[:report][:riding_count].to_i,
-                                    :meter_fare_count => @last_meter.meter_fare_count + params[:report][:meter_fare_count].to_i })
+                                    :riding_count => params[:report][:riding_count].to_i,
+                                    :meter_fare_count => params[:report][:meter_fare_count].to_i })
         else
           Meter.create( :report_id => @report.id,
                         :meter => params[:report][:meter],
                         :mileage => params[:report][:mileage],
                         :riding_mileage => params[:report][:riding_mileage],
-                        :riding_count => @last_meter.riding_count + params[:report][:riding_count].to_i,
-                        :meter_fare_count => @last_meter.meter_fare_count + params[:report][:meter_fare_count].to_i
+                        :riding_count => params[:report][:riding_count].to_i,
+                        :meter_fare_count => params[:report][:meter_fare_count].to_i
                         )
         end
 
@@ -296,13 +295,13 @@ class ReportsController < InheritedResources::Base
     finished_at = Time.parse("#{params[:report]["finished_at(1i)"].to_s}-#{params[:report]["finished_at(2i)"].to_s}-#{params[:report]["finished_at(3i)"].to_s} #{params[:report]["finished_at(4i)"].to_s}:#{params[:report]["finished_at(5i)"].to_s}") rescue nil
 
     respond_to do |format|
-      last_meter = @report.last_meter
+      @last_meter = @report.last_meter
       if @report.update_attributes({ :driver_id => params[:report][:driver_id],
                                      :car_id => params[:report][:car_id],
-                                     :mileage => params[:report][:mileage].to_i - last_meter.mileage,
-                                     :riding_mileage => params[:report][:riding_mileage].to_i - last_meter.riding_mileage,
-                                     :riding_count => params[:report][:riding_count].to_i - last_meter.riding_count,
-                                     :meter_fare_count => params[:report][:meter_fare_count].to_i - last_meter.meter_fare_count,
+                                     :mileage => params[:report][:mileage].to_i - @last_meter.mileage,
+                                     :riding_mileage => params[:report][:riding_mileage].to_i - @last_meter.riding_mileage,
+                                     :riding_count => params[:report][:riding_count].to_i - @last_meter.riding_count,
+                                     :meter_fare_count => params[:report][:meter_fare_count].to_i - @last_meter.meter_fare_count,
                                      :passengers => params[:report][:passengers].presence || 0,
                                      :sales => params[:report][:sales].presence || 0,
                                      :extra_sales => params[:report][:extra_sales].presence || 0,
