@@ -146,8 +146,8 @@
         <td><%= number_to_currency @report.sales, :locale => "ja" %></td>
       </tr>
       <tr>
-        <th><%=t "label.meter.non_meter_sales" %></th>
-        <td></td>
+        <th><%=t "label.meter.extra_sales" %></th>
+        <td><%= number_to_currency @report.extra_sales, :locale => "ja" %></td>
       </tr>
       <tr>
         <th><%=t "activerecord.attributes.report.fuel_cost" %></th>

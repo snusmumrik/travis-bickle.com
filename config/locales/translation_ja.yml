@@ -222,7 +222,7 @@ ja:
       balance: 差引
       riding_count_sales: 乗車回数売上
       meter_fare_count_sales: 爾後回数売上
-      non_meter_sales: メーター外収入
+      extra_sales: メーター外収入
 
     document:
       company: 会社名
