@@ -58,8 +58,8 @@
         <% end %>
       </td>
       <td><%= link_to @sales_hash[i][:car].name, "#{car_path(@sales_hash[i][:car])}/#{params[:year]}/#{params[:month]}/#{params[:day]}" rescue nil %></td>
-      <td><%= number_with_delimiter @sales_hash[i][:mileage] %><% if @sales_hash[i][:mileage] %>Km<% end %></td>
-      <td><%= number_with_delimiter @sales_hash[i][:riding_mileage] %><% if @sales_hash[i][:riding_mileage] %>Km<% end %></td>
+      <td><%= number_with_delimiter @sales_hash[i][:mileage] %><% if @sales_hash[i][:mileage] %>km<% end %></td>
+      <td><%= number_with_delimiter @sales_hash[i][:riding_mileage] %><% if @sales_hash[i][:riding_mileage] %>km<% end %></td>
       <td><%= number_to_percentage(@sales_hash[i][:riding_mileage]*100/@sales_hash[i][:mileage], :precision => 0) rescue "" %></td>
       <td><%= number_with_delimiter @sales_hash[i][:riding_count] %><% if @sales_hash[i][:riding_count] %>回<% end %></td>
       <td><%= number_with_delimiter @sales_hash[i][:meter_fare_count] %><% if @sales_hash[i][:meter_fare_count] %>回<% end %></td>
@@ -132,8 +132,8 @@
   <tr class="info">
     <!-- <td></td>
      !-- <td></td> -->
-    <td><%= number_with_delimiter @mileage %><% if @mileage %>Km<% end %></td>
-    <td><%= number_with_delimiter @riding_mileage %><% if @riding_mileage %>Km<% end %></td>
+    <td><%= number_with_delimiter @mileage %><% if @mileage %>km<% end %></td>
+    <td><%= number_with_delimiter @riding_mileage %><% if @riding_mileage %>km<% end %></td>
     <td><%= number_to_percentage(@riding_mileage*100/@mileage, :precision => 0) rescue "" %></td>
     <td><%= number_with_delimiter @riding_count %><% if @riding_count %>回<% end %></td>
     <td><%= number_with_delimiter @meter_fare_count %><% if @meter_fare_count %>回<% end %></td>

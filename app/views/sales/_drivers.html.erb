@@ -22,8 +22,8 @@
   <% @drivers.each do |driver| %>
   <tr>
     <td><%= link_to driver.name, "#{driver_path driver}/#{params[:year]}/#{params[:month]}" %></td>
-    <td><%= number_with_delimiter @drivers_hash[driver.id][:mileage] %><% if @drivers_hash[driver.id][:mileage] %>Km<% end %></td>
-    <td><%= number_with_delimiter @drivers_hash[driver.id][:riding_mileage] %><% if @drivers_hash[driver.id][:riding_mileage] %>Km<% end %></td>
+    <td><%= number_with_delimiter @drivers_hash[driver.id][:mileage] %><% if @drivers_hash[driver.id][:mileage] %>km<% end %></td>
+    <td><%= number_with_delimiter @drivers_hash[driver.id][:riding_mileage] %><% if @drivers_hash[driver.id][:riding_mileage] %>km<% end %></td>
     <td><%= number_to_percentage(@drivers_hash[driver.id][:riding_mileage]*100/@drivers_hash[driver.id][:mileage], :precision => 0) rescue "" %></td>
     <td><%= number_with_delimiter @drivers_hash[driver.id][:riding_count] %><% if @drivers_hash[driver.id][:riding_count] %>回<% end %></td>
     <td><%= number_with_delimiter @drivers_hash[driver.id][:meter_fare_count] %><% if @drivers_hash[driver.id][:meter_fare_count] %>回<% end %></td>

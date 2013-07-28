@@ -53,8 +53,8 @@
         <% end %>
       </td>
       <td><%= link_to report.driver.name, "#{driver_path(report.driver)}/#{report.started_at.year}/#{report.started_at.month}/#{report.started_at.day}" %></td>
-      <td><%= number_with_delimiter report.mileage %><% if report.mileage %>Km<% end %></td>
-      <td><%= number_with_delimiter report.riding_mileage %><% if report.riding_mileage %>Km<% end %></td>
+      <td><%= number_with_delimiter report.mileage %><% if report.mileage %>km<% end %></td>
+      <td><%= number_with_delimiter report.riding_mileage %><% if report.riding_mileage %>km<% end %></td>
       <td><%= number_to_percentage(report.riding_mileage*100/report.mileage, :precision => 0) rescue "" %></td>
       <td><%= number_with_delimiter report.riding_count %><% if report.riding_count %>回<% end %></td>
       <td><%= number_with_delimiter report.meter_fare_count %><% if report.meter_fare_count %>回<% end %></td>
@@ -101,8 +101,8 @@
   <tr class="info">
     <!-- <td></td>
      !-- <td></td> -->
-    <td><%= number_with_delimiter @mileage %><% if @mileage %>Km<% end %></td>
-    <td><%= number_with_delimiter @riding_mileage %><% if @riding_mileage %>Km<% end %></td>
+    <td><%= number_with_delimiter @mileage %><% if @mileage %>km<% end %></td>
+    <td><%= number_with_delimiter @riding_mileage %><% if @riding_mileage %>km<% end %></td>
     <td><%= number_to_percentage(@riding_mileage*100/@mileage, :precision => 0) rescue "" %></td>
     <td><%= number_with_delimiter @riding_count %><% if @riding_count %>回<% end %></td>
     <td><%= number_with_delimiter @meter_fare_count %><% if @meter_fare_count %>回<% end %></td>
