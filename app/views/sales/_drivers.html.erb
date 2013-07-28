@@ -18,6 +18,7 @@
     <th><%=t "activerecord.attributes.report.deficiency_account" %></th>
     <th><%=t "activerecord.attributes.report.advance" %></th>
     <th></th>
+    <th></th>
   </tr>
   <% @drivers.each do |driver| %>
   <tr>
@@ -39,6 +40,7 @@
     <td><%= number_to_currency @drivers_hash[driver.id][:deficiency_account], :locale => "ja" %></td>
     <td><%= number_to_currency @drivers_hash[driver.id][:advance], :locale => "ja" %></td>
     <td><%= link_to t("link.show"), "#{driver_path driver}/#{params[:year]}/#{params[:month]}" %></td>
+    <td><%= link_to t("link.document.index"), "#{documents_path}/drivers/#{driver.id}/#{params[:year]}/#{params[:month]}", :target => "_blank" %></td>
   </tr>
   <% end %>
 </table>
