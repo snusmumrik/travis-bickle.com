@@ -9,7 +9,7 @@ class DocumentsController < ApplicationController
   def index
     @driver = Driver.find(params[:driver_id])
     if params[:year] && params[:month]
-      @reports = Report.where(["driver_id = ? AND started_at BETWEEN ? AND ?", params[:driver_id], Date.new(params[:year].to_i, params[:month].to_i, 1), (Date.new(params[:year].to_i, params[:month].to_i, 1) >> 1) - 1]).order("date").all
+      @reports = Report.where(["driver_id = ? AND started_at BETWEEN ? AND ?", params[:driver_id], Date.new(params[:year].to_i, params[:month].to_i, 1), (Date.new(params[:year].to_i, params[:month].to_i, 1) >> 1) - 1]).order("started_at").all
     else
       params[:year] = Date.today.year
       params[:month] = Date.today.month

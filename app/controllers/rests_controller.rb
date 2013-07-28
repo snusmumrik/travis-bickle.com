@@ -55,6 +55,12 @@ class RestsController < InheritedResources::Base
     end
   end
 
+  # GET /rests/1/edit
+  def edit
+    @rest = Rest.find(params[:id])
+    @report = @rest.report
+  end
+
   # POST /rests
   # POST /rests.json
   def create

@@ -69,6 +69,12 @@ class RidesController < InheritedResources::Base
     end
   end
 
+  # GET /rides/1/edit
+  def edit
+    @ride = Ride.find(params[:id])
+    @report = @ride.report
+  end
+
   # POST /rides
   # POST /rides.json
   def create
