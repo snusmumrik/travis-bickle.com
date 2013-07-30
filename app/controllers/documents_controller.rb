@@ -22,6 +22,7 @@ class DocumentsController < ApplicationController
     @late_night_hash = {}
     @late_night = 0
     @sales = 0
+    @extra_sales = 0
 
     @reports.each do |report|
       rest_time = 0
@@ -35,6 +36,7 @@ class DocumentsController < ApplicationController
       @rest_hash.store(report.id, [hours[0], mins[0]])
 
       @sales += report.sales if report.sales
+      @extra_sales += report.extra_sales if report.extra_sales
 
       if report.finished_at.nil?
         return

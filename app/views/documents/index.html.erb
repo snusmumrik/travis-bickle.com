@@ -85,7 +85,7 @@
       <td></td>
       <td><%= @late_night_hash[report.id] %></td>
       <td></td>
-      <td><%= number_to_currency report.sales, :locale => "ja" %></td>
+      <td><%= number_to_currency report.sales + report.extra_sales, :locale => "ja" %></td>
       <td></td>
     </tr>
   <% end %>
@@ -108,7 +108,7 @@
     <td></td>
     <td><%= @late_night %></td>
     <td></td>
-    <td><%= number_to_currency @sales, :locale => "ja" %></td>
+    <td><%= number_to_currency @sales + @extra_sales, :locale => "ja" %></td>
     <td></td>
   </tr>
 </table>
