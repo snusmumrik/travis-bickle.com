@@ -14,7 +14,8 @@ class RestsController < InheritedResources::Base
 
     respond_to do |format|
       if @rest.save
-        format.json { render json: @rest, status: :created, location: @rest }
+        @json = Hash[:rest => {:id => @rest.id, :report_id => @rest.report_id, :latitude => @rest.latitude, :longitude => @rest.longitude, :address => @rest.address}]
+        format.json { render json: @json, status: :created, location: @json }
       else
         format.json { render json: @rest.errors, status: :unprocessable_entity }
       end
