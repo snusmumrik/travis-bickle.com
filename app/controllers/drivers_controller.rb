@@ -48,11 +48,11 @@ class DriversController < InheritedResources::Base
   def show
     @driver = Driver.find(params[:id])
 
-    if params[:year] && params[:month] && params[:day]
-      @year = params[:year].to_i
-      @month = params[:month].to_i
-      @day = params[:day].to_i
+    @year = params[:year].to_i if params[:year]
+    @month = params[:month].to_i if params[:month]
+    @day = params[:day].to_i if params[:day]
 
+    if @year && @month && @day
       @reports = Report.includes(:car, :rests).where(["driver_id = ? AND started_at BETWEEN ? AND ?",
                                                       params[:id],
                                                       Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 00:00}"),
