@@ -8,8 +8,8 @@
 
 body {
     font-family: "ヒラギノ明朝 Pro W6", "Hiragino Mincho Pro", "HGS明朝E", "ＭＳ Ｐ明朝", serif ,monospace !important;
-    /* font-family:'Lucida Grande','Hiragino Kaku Gothic ProN', Meiryo, sans-serif !important; */
-    /* font-family:'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック','MS PGothic',sans-serif !important; */
+/* font-family:'Lucida Grande','Hiragino Kaku Gothic ProN', Meiryo, sans-serif !important; */
+/* font-family:'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック','MS PGothic',sans-serif !important; */
 }
 
 .right {
@@ -20,7 +20,7 @@ body {
 
 .left {
     float: left;
-   width: 49%;
+    width: 49%;
     padding-right: 1%;
 }
 
@@ -63,4 +63,21 @@ body {
 th {
     text-align: center !important;
     vertical-align: middle !important;
+}
+
+div.field, div.actions {
+    margin: 20px 0 !important;
+}
+
+label, input, button, select, textarea {
+    font-size: 17px !important;
+}
+
+input[type="search"] {
+    margin-bottom: 0px !important;
+}
+
+footer {
+    width: 100%;
+    text-align: center;
 }

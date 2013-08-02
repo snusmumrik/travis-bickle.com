@@ -12,76 +12,76 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :driver %><br />
+    <%= f.label :driver %>
     <%= f.select :driver_id, options_for_select(@drivers_option, @report.driver_id) %>
     <%#= f.select :driver_id, options_from_collection_for_select(Driver.all, :id, :name) %>
   </div>
   <div class="field">
-    <%= f.label :car %><br />
+    <%= f.label :car %>
     <%= f.select :car_id, options_for_select(@cars_option, @report.car_id) %>
     <%#= f.select :car_id, options_from_collection_for_select(Car.all, :id, :name) %>
   </div>
   <div class="field">
-    <%= f.label :meter %><br />
+    <%= f.label :meter %>
     <%= f.number_field :meter, :value => @report.meter.try(:meter) %>
   </div>
   <div class="field">
-    <%= f.label :mileage %><br />
+    <%= f.label :mileage %>
     <%= f.number_field :mileage, :value => @report.meter.try(:mileage) %>
   </div>
   <div class="field">
-    <%= f.label :riding_mileage %><br />
+    <%= f.label :riding_mileage %>
     <%= f.number_field :riding_mileage, :value => @report.meter.try(:riding_mileage) %>
   </div>
   <div class="field">
-    <%= f.label :riding_count %><br />
+    <%= f.label :riding_count %>
     <%= f.number_field :riding_count, :value => @report.meter.try(:riding_count) %>
   </div>
   <div class="field">
-    <%= f.label :meter_fare_count %><br />
+    <%= f.label :meter_fare_count %>
     <%= f.number_field :meter_fare_count, :value => @report.meter.try(:meter_fare_count) %>
   </div>
   <div class="field">
-    <%= f.label :passengers %><br />
+    <%= f.label :passengers %>
     <%= f.number_field :passengers %>
   </div>
   <div class="field">
-    <%= f.label :sales %><br />
+    <%= f.label :sales %>
     <%= f.number_field :sales %>
   </div>
   <div class="field">
-    <%= f.label :extra_sales %><br />
+    <%= f.label :extra_sales %>
     <%= f.number_field :extra_sales %>
   </div>
   <div class="field">
-    <%= f.label :fuel_cost %><br />
+    <%= f.label :fuel_cost %>
     <%= f.number_field :fuel_cost %>
   </div>
   <div class="field">
-    <%= f.label :ticket %><br />
+    <%= f.label :ticket %>
     <%= f.number_field :ticket %>
   </div>
   <div class="field">
-    <%= f.label :account_receivable %><br />
+    <%= f.label :account_receivable %>
     <%= f.number_field :account_receivable %>
   </div>
   <div class="field">
-    <%= f.label :cash %><br />
+    <%= f.label :cash %>
     <%= f.number_field :cash %>
   </div>
   <div class="field">
-    <%= f.label :advance %><br />
+    <%= f.label :advance %>
     <%= f.number_field :advance %>
   </div>
   <div class="field">
-    <%= f.label :started_at %><br />
+    <%= f.label :started_at %>
     <%= f.datetime_select :started_at %>
   </div>
   <div class="field">
-    <%= f.label :finished_at %><br />
+    <%= f.label :finished_at %>
     <%= f.datetime_select :finished_at, :start_year => Date.today.year, :end_year => Date.today.year + 1, :include_blank => true %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit t("helpers.submit.update"), :class => "btn" %>
   </div>
 <% end %>

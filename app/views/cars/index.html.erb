@@ -2,7 +2,7 @@
 
 <%= form_for Car.new, :url => cars_path, :remote => true, :html => {:method => :get} do |f| %>
   <%= f.search_field :name %>
-  <%= f.submit t("link.search") %>
+  <%= f.submit t("link.search"), :class => "btn" %>
 <% end %>
 
 <table class="table table-striped table-bordered">

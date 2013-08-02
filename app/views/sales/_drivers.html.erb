@@ -39,8 +39,8 @@
     <td><%= number_to_currency @drivers_hash[driver.id][:surplus_funds], :locale => "ja" %></td>
     <td><%= number_to_currency @drivers_hash[driver.id][:deficiency_account], :locale => "ja" %></td>
     <td><%= number_to_currency @drivers_hash[driver.id][:advance], :locale => "ja" %></td>
-    <td><%= link_to t("link.show"), "#{driver_path driver}/#{params[:year]}/#{params[:month]}" %></td>
-    <td><%= link_to t("link.document.index"), "#{documents_path}/drivers/#{driver.id}/#{params[:year]}/#{params[:month]}", :target => "_blank" %></td>
+    <td><%= link_to t("link.show"), "#{driver_path driver}/#{params[:year]}/#{params[:month]}", :class => "btn" %></td>
+    <td><%= link_to t("link.document.index"), "#{documents_path}/drivers/#{driver.id}/#{params[:year]}/#{params[:month]}", :target => "_blank", :class => "btn" %></td>
   </tr>
   <% end %>
 </table>

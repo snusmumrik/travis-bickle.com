@@ -50,7 +50,7 @@
       <td><%= number_to_currency @sales_hash[i][:surplus_funds], :locale => "ja" %></td>
       <td><%= number_to_currency @sales_hash[i][:deficiency_account], :locale => "ja" %></td>
       <td><%= number_to_currency @sales_hash[i][:advance], :locale => "ja" %></td>
-      <td><%= link_to t("link.show"), "#{reports_path}/#{params[:year]}/#{params[:month]}/#{i}" %></td>
+      <td><%= link_to t("link.show"), "#{reports_path}/#{params[:year]}/#{params[:month]}/#{i}", :class => "btn" %></td>
     </tr>
   <% end %>
 
