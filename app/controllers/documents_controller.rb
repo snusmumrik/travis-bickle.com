@@ -81,6 +81,9 @@ class DocumentsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @report }
+      format.pdf do
+        render :pdf => "file_name", :template => "documents/show.pdf.erb", :encoding => "UTF-8"
+      end
     end
   end
 

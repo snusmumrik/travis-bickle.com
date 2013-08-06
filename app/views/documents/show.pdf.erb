@@ -1,11 +1,70 @@
 <link rel="stylesheet" type="text/css" media="print" href="/assets/documents.css" />
 
-<div class="left">
+<%= wicked_pdf_stylesheet_link_tag "bootstrap" %>
+<%= wicked_pdf_stylesheet_link_tag "documents" %>
+
+<style type="text/css">
+.title {
+    width: 65%;
+    float: left;
+}
+
+.boxes {
+    width: 30%;
+    float: right;
+}
+
+.square {
+    margin-bottom: 20px;
+}
+
+.square th {
+    width: 70px;
+    padding: 8px;
+    line-height: 20px;
+    vertical-align: top;
+}
+
+.square td {
+    height: 70px;
+    width: 70px;
+}
+
+.meter {
+    width: 65%;
+    float: left;
+}
+
+.sales {
+    width: 30%;
+    float: right;
+}
+
+.check_point {
+    float: left;
+}
+
+.check_point th {
+  font-size: 0.8em;
+}
+
+.rest, .ride {
+    float: left;
+}
+
+.rest .left, .rest .right, .ride .left, .ride .right {
+  width: 50%;
+  float: left;
+}
+</style>
+
+<div class="left title">
   <h1>乗務記録簿・日常点検記録簿</h1>
   <h2><%= @report.started_at.strftime("%Y年%-m月%-d日") %></h2>
 </div>
+<div class="clear"></div>
 
-<div class="right">
+<div class="right boxes">
   <table class="table-striped table-bordered table-hover square right">
     <tr>
       <th>代表者</th>
@@ -20,10 +79,8 @@
   </table>
 </div>
 
-<div class="clear"></div>
-
 <div class="left">
-  <div class="report">
+  <div class="meter">
     <h3><%=t "label.car" %></h3>
     <table class="table table-striped table-bordered table-hoverw">
       <tr>
@@ -68,9 +125,7 @@
         </td>
       </tr>
     </table>
-  </div>
 
-  <div class="meter">
     <table class="table table-striped table-bordered table-hoverw">
       <tr>
         <th></th>
@@ -120,6 +175,7 @@
     </table>
   </div>
 </div>
+<div class="clear"></div>
 
 <div class="right">
   <div class="sales">
@@ -181,24 +237,22 @@
   </div>
 </div>
 
-<div class="clear"></div>
-
-<h3><%=t "activerecord.models.check_point" %></h3>
-<table class="table table-striped table-bordered table-hoverw square">
-  <tr>
-    <th><%=t "label.check_point.mark" %></th>
-    <% @check_points.each do |check_point| %>
-    <th><%= check_point.name %></th>
-    <% end %>
-  </tr>
-  <tr>
-    <% for i in 0..@check_points.size %>
-    <td></td>
-    <% end %>
-  </tr>
-</table>
-
-<div class="clear"></div>
+<div class="check_point">
+  <h3><%=t "activerecord.models.check_point" %></h3>
+  <table class="table table-striped table-bordered table-hoverw square">
+    <tr>
+      <th><%=t "label.check_point.mark" %></th>
+      <% @check_points.each do |check_point| %>
+      <th><%= check_point.name %></th>
+      <% end %>
+    </tr>
+    <tr>
+      <% for i in 0..@check_points.size %>
+      <td></td>
+      <% end %>
+    </tr>
+  </table>
+</div>
 
 <% if @report.rests %>
 <div class="rest">
@@ -259,9 +313,6 @@
 </div>
 <% end %>
 
-
-<div class="clear"></div>
-
 <% if @report.rides %>
 <div class="ride">
   <h3><%=t "activerecord.models.ride" %></h3>
@@ -321,6 +372,6 @@
   </div>
 </div>
 <% end %>
-<div class="clear"></div>
 
-<p><a href="#" onClick="window.close(); return false;" class="btn">サブウィンドウを閉じる</a></p>
+
+<!-- <p><a href="#" onClick="window.close(); return false;" class="btn">サブウィンドウを閉じる</a></p> -->
