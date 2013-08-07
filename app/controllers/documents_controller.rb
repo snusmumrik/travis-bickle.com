@@ -58,6 +58,9 @@ class DocumentsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @reports }
+      format.pdf do
+        render :pdf => "労務時間報告書#{@reports[0].started_at.strftime('%Y%0m')}_(#{@reports[0].driver.name})", :encoding => "UTF-8"
+      end
     end
   end
 
@@ -82,7 +85,7 @@ class DocumentsController < ApplicationController
       format.html # index.html.erb
       format.json { render json: @report }
       format.pdf do
-        render :pdf => "file_name", :template => "documents/show.pdf.erb", :encoding => "UTF-8"
+        render :pdf => "乗務記録簿#{@report.started_at.strftime('%Y%m%0d')}_#{@report.driver.name}(#{@report.car.name})", :encoding => "UTF-8"
       end
     end
   end

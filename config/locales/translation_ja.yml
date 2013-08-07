@@ -7,7 +7,7 @@ ja:
       car: 車両
       check_point: 点検項目
       driver: 運転手
-      report: 日次乗務記録
+      report: 乗務記録
       rest: 休憩
       image: image  #g
       image/user_image: image/user_image  #g
