@@ -2,7 +2,7 @@
   <td><%= link_to car.name, "#{car_path(car)}" %></td>
   <td><%= car.base_fare %></td>
   <td><%= car.meter_fare %></td>
-  <td><%= link_to t("link.show"), "#{car_path(car)}" %></td>
-  <td><%= link_to t("link.edit"), edit_car_path(car) %></td>
-  <td><%= link_to t("link.destroy"), car, method: :delete, data: { confirm: t("message.destroy_confirmation") } %></td>
+  <td><%= link_to t("link.show"), "#{car_path(car)}", :class => "btn" %></td>
+  <td><%= link_to t("link.edit"), edit_car_path(car), :class => "btn" %></td>
+  <td><%= link_to t("link.destroy"), car, method: :delete, data: { confirm: t("message.destroy_confirmation") }, :class => "btn" %></td>
 </tr>

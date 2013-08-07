@@ -41,9 +41,7 @@
     <th><%=t "activerecord.attributes.report.working_hours" %></th>
     <th><%=t "activerecord.attributes.report.rest_hours" %></th>
     <th><%=t "activerecord.attributes.report.real_working_hours" %></th>
-    <th colspan="3"></th>
-    <!-- <th></th>
-     !-- <th></th> -->
+    <th></th>
   </tr>
 
   <% for i in 1..Date.new(params[:year].to_i, params[:month].to_i, - 1).day %>
@@ -94,9 +92,10 @@
         <%#= "#{((@sales_hash[i][:finished_at] - @sales_hash[i][:started_at]).to_i - (@rest_hash[i][0]*60*60 + @rest_hash[i][1]*60)).divmod(60*60)[1].divmod(60)[0]}分" rescue nil %>
         <% end %>
       </td>
-      <td><%= link_to t("link.show"), report_path(@sales_hash[i][:id]) %></td>
-      <td><%= link_to t("link.edit"), edit_report_path(@sales_hash[i][:id]) %></td>
-      <td><%= link_to t("link.destroy"), report_path(@sales_hash[i][:id]), method: :delete, data: { confirm: t("message.destroy_confirmation") } %></td>
+      <td>
+        <%= link_to t("link.show"), report_path(@sales_hash[i][:id]), :class => "btn" %>
+        <%= link_to t("link.edit"), edit_report_path(@sales_hash[i][:id]), :class => "btn" %>
+      </td>
     </tr>
   <% end %>
 
@@ -124,9 +123,7 @@
     <th><%=t "activerecord.attributes.report.working_hours" %></th>
     <th><%=t "activerecord.attributes.report.rest_hours" %></th>
     <th><%=t "activerecord.attributes.report.real_working_hours" %></th>
-    <th colspan="3"></th>
-    <!-- <th></th>
-     !-- <th></th> -->
+    <th></th>
   </tr>
 
   <tr class="info">
@@ -162,8 +159,6 @@
       <%= (@working_hours - @rest_hours).divmod(60*60)[0] %>時間
       <%= (@working_hours - @rest_hours).divmod(60*60)[1].divmod(60)[0] %>分
     </td>
-    <!-- <td></td>
-     !-- <td></td>
-     !-- <td></td> -->
+    <td></td>
   </tr>
 </table>
