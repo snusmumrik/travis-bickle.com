@@ -22,7 +22,7 @@ end
 
 def create_records(year, month, day)
   for i in 1..@driver_count
-    report = Report.new(:driver_id => i, :car_id => rand(@car_count - 1) + 1, :date => Date.new(year, month, day), :started_at => DateTime.new(year, month, day, rand(23), rand(59), rand(59)))
+    report = Report.new(:driver_id => i, :car_id => rand(@car_count - 1) + 1, :date => Date.new(year, month, day), :started_at => DateTime.new(year, month, day, i, rand(59), rand(59)))
     report.save
 
     for j in 1..rand(19)+1
