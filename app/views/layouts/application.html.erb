@@ -19,6 +19,8 @@
     <%= favicon_link_tag "favicon.ico" %>
 
     <%= stylesheet_link_tag "application" %>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     <%= csrf_meta_tags %>
   </head>
 
@@ -34,12 +36,30 @@
           <a class="brand" href="/">TravisBickle</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <% if params[:id] == "cars" %><li class="active"><% else %><li><% end %><%= link_to t("activerecord.models.car"), cars_path %></li>
-              <% if params[:id] == "drivers" %><li class="active"><% else %><li><% end %><%= link_to t("activerecord.models.driver"), drivers_path %></li>
-              <% if params[:id] == "check_points" %><li class="active"><% else %><li><% end %><%= link_to t("activerecord.models.check_point"), check_points_path %></li>
-              <% if params[:id] == "reports" %><li class="active"><% else %><li><% end %><%= link_to t("activerecord.models.report"), "#{reports_path}/#{Date.today.year}/#{Date.today.month}/#{Date.today.day}" %></li>
-              <% if params[:id] == "sales" %><li class="active"><% else %><li><% end %><%= link_to t("link.sale.index"), "#{sales_path}/#{Date.today.year}/#{Date.today.month}" %></li>
-              <% if params[:id] == "notifications" %><li class="active"><% else %><li><% end %><%= link_to t("activerecord.models.notification"), notifications_path %></li>
+              <% if params[:id] == "cars" %><li class="active"><% else %><li><% end %>
+                <%#= link_to t("activerecord.models.car"), cars_path %>
+                <a href="<%= cars_path %>"><i class="icon-map-marker"></i> <%= t("activerecord.models.car") %></a>
+              </li>
+              <% if params[:id] == "drivers" %><li class="active"><% else %><li><% end %>
+                <%#= link_to t("activerecord.models.driver"), drivers_path %>
+                <a href="<%= drivers_path %>"><i class="icon-user"></i> <%= t("activerecord.models.driver") %></a>
+              </li>
+              <% if params[:id] == "check_points" %><li class="active"><% else %><li><% end %>
+                <%#= link_to t("activerecord.models.check_point"), check_points_path %>
+                <a href="<%= check_points_path %>"><i class="icon-check"></i> <%= t("activerecord.models.check_point") %></a>
+              </li>
+              <% if params[:id] == "reports" %><li class="active"><% else %><li><% end %>
+                <%#= link_to t("activerecord.models.report"), "#{reports_path}/#{Date.today.year}/#{Date.today.month}/#{Date.today.day}" %>
+                <a href="<%= "#{reports_path}/#{Date.today.year}/#{Date.today.month}/#{Date.today.day}" %>"><i class="icon-edit"></i> <%= t("activerecord.models.report") %></a>
+              </li>
+              <% if params[:id] == "sales" %><li class="active"><% else %><li><% end %>
+                <%#= link_to t("link.sale.index"), "#{sales_path}/#{Date.today.year}/#{Date.today.month}" %>
+                <a href="<%= "#{sales_path}/#{Date.today.year}/#{Date.today.month}" %>"><i class="icon-bar-chart"></i> <%= t("link.sale.index") %></a>
+              </li>
+              <% if params[:id] == "notifications" %><li class="active"><% else %><li><% end %>
+                <%#= link_to t("activerecord.models.notification"), notifications_path %>
+                <a href="<%= notifications_path %>"><i class="icon-bell"></i> <%= t("activerecord.models.notification") %></a>
+              </li>
               <!-- <li><%= link_to t("link.contact"), "mailto:info@test.com" %></li> -->
             </ul>
             <% if user_signed_in? %>
