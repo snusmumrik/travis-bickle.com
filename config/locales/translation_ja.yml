@@ -281,5 +281,6 @@ ja:
     updated: を更新しました。
     destroy: を削除しました。
     destroy_confirmation: 本当に削除してもよろしいですか？
+    signout_confirmation: サインアウトしてもよろしいですか？
 
   deleted_at: deleted_at  #g

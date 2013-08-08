@@ -48,6 +48,14 @@ body {
     vertical-align:middle !important;
 }
 
+.navbar-text {
+    font-size: 13px !important;
+}
+
+.navbar-text {
+    margin-left: 10px !important;
+}
+
 .pagination {
     margin-bottom: 10px !important;
 }
