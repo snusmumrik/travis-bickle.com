@@ -1,6 +1,8 @@
 class RideObserver < ActiveRecord::Observer
   def after_create(ride)
-    calculate(ride)
+    @report = ride.report
+    @report.riding_count = @report.rides.size
+    @report.save
   end
 
   def after_update(ride)
@@ -9,17 +11,15 @@ class RideObserver < ActiveRecord::Observer
 
   def calculate(ride)
     @report = ride.report
-    rides = @report.rides
 
-    passengers = rides.collect(&:passengers).inject(0) do |sum, n|
+    passengers = @report.rides.collect(&:passengers).inject(0) do |sum, n|
       sum + n
     end
 
-    sales = rides.collect(&:fare).inject(0) do |sum, n|
+    sales = @report.rides.collect(&:fare).inject(0) do |sum, n|
       sum + n
     end
 
-    @report.riding_count = rides.size || 0
     @report.meter_fare_count = (sales - @report.car.base_fare * @report.riding_count) / @report.car.meter_fare unless sales.blank?
     @report.passengers = passengers
     @report.sales = sales
