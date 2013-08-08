@@ -93,8 +93,10 @@
         <% end %>
       </td>
       <td>
-        <%= link_to t("link.show"), report_path(@sales_hash[i][:id]), :class => "btn" %>
-        <%= link_to t("link.edit"), edit_report_path(@sales_hash[i][:id]), :class => "btn" %>
+        <% if @sales_hash[i][:id] != 0 %>
+          <%= link_to t("link.show"), report_path(@sales_hash[i][:id]), :class => "btn" %>
+          <%= link_to t("link.edit"), edit_report_path(@sales_hash[i][:id]), :class => "btn" %>
+        <% end %>
       </td>
     </tr>
   <% end %>

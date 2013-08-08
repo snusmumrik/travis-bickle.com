@@ -6,5 +6,5 @@
   <%= high_chart("bar", @chart) %>
 <% end %>
 
-<%= link_to t("link.edit"), edit_car_path(@car), :class => "btn" %>
+<%= link_to t("link.new") + t("activerecord.models.report"), "#{new_report_path}?car_id=#{@car.id}", :class => "btn" %>
 <%= link_to t("link.back"), cars_path, :class => "btn" %>

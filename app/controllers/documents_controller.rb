@@ -9,11 +9,11 @@ class DocumentsController < ApplicationController
   def index
     @driver = Driver.find(params[:driver_id])
     if params[:year] && params[:month]
-      @reports = Report.where(["driver_id = ? AND started_at BETWEEN ? AND ?", params[:driver_id], Date.new(params[:year].to_i, params[:month].to_i, 1), (Date.new(params[:year].to_i, params[:month].to_i, 1) >> 1) - 1]).order("started_at").all
+      @reports = Report.includes(:rests).where(["driver_id = ? AND started_at BETWEEN ? AND ?", params[:driver_id], Date.new(params[:year].to_i, params[:month].to_i, 1), (Date.new(params[:year].to_i, params[:month].to_i, 1) >> 1) - 1]).order("started_at").all
     else
       params[:year] = Date.today.year
       params[:month] = Date.today.month
-      @reports = Report.where(["driver_id = ? AND started_at BETWEEN ? AND ?", params[:driver_id], Date.new(Date.today.year.to_i, Date.today.month.to_i, 1), (Date.new(Date.today.year.to_i, Date.today.month.to_i, 1) >> 1) - 1]).all
+      @reports = Report.includes(:rests).where(["driver_id = ? AND started_at BETWEEN ? AND ?", params[:driver_id], Date.new(Date.today.year.to_i, Date.today.month.to_i, 1), (Date.new(Date.today.year.to_i, Date.today.month.to_i, 1) >> 1) - 1]).all
     end
 
     @working_hours = 0
@@ -27,8 +27,9 @@ class DocumentsController < ApplicationController
     @reports.each do |report|
       rest_time = 0
       report.rests.each do |rest|
-        rest_time += rest.ended_at - rest.started_at if rest.ended_at && rest.started_at
+        rest_time += rest.ended_at - rest.started_at if rest.ended_at
       end
+
       @working_hours += report.finished_at - report.started_at if report.finished_at
       @rest_hours += rest_time
       hours = rest_time.divmod(60*60) #=> [12.0, 1800.0]
@@ -39,7 +40,7 @@ class DocumentsController < ApplicationController
       @extra_sales += report.extra_sales if report.extra_sales
 
       if report.finished_at.nil?
-        return
+        next
       elsif report.finished_at.hour == 22 || report.finished_at.hour == 23
         @late_night_hash.store(report.id, 1)
         @late_night += 1

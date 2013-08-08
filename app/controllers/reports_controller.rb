@@ -229,6 +229,8 @@ class ReportsController < InheritedResources::Base
   # GET /reports/new.json
   def new
     @report = Report.new
+    @report.driver_id = params[:driver_id]
+    @report.car_id = params[:car_id]
 
     respond_to do |format|
       format.html # new.html.erb
