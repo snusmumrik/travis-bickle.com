@@ -1,5 +1,5 @@
 TravisBickle::Application.routes.draw do
-  root :to => 'locations#index'
+  root :to => 'contents#index'
 
   resources :documents
 

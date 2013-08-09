@@ -33,7 +33,11 @@
             <span class="i-bar"></span>
             <span class="i-bar"></span>
           </a>
+          <%if user_signed_in? %>
+          <%= link_to "TravisBickle", locations_path, :class => "brand" %>
+          <% else %>
           <a class="brand" href="/">TravisBickle</a>
+          <% end %>
           <div class="nav-collapse">
             <ul class="nav">
               <% if params[:id] == "cars" %><li class="active"><% else %><li><% end %>
@@ -93,7 +97,10 @@
 
       <hr>
       <footer>
-        <div">Travis Bickle &copy; <%= Date.today.year %> Powered by Chishaku (智積)</div>
+        <div>
+          <%= link_to t("link.content.index"), "/contents/index" %> <%= link_to t("link.content.about_us"), "/contents/about_us" %>
+        </div>
+        <div>Travis Bickle &copy; <%= Date.today.year %> Powered by Chishaku (智積)</div>
       </footer>
     </div> <!-- /container -->
 

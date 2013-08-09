@@ -276,6 +276,10 @@ ja:
       index: 労務時間
       show: 乗務記録
 
+    content:
+      index: トラヴィス ビックルとは
+      about_us: 運営者情報
+
   message:
     created: を登録しました。
     updated: を更新しました。

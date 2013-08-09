@@ -8,8 +8,7 @@
 
 body {
     font-family: "ヒラギノ明朝 Pro W6", "Hiragino Mincho Pro", "HGS明朝E", "ＭＳ Ｐ明朝", serif ,monospace !important;
-/* font-family:'Lucida Grande','Hiragino Kaku Gothic ProN', Meiryo, sans-serif !important; */
-/* font-family:'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック','MS PGothic',sans-serif !important; */
+    /* font-family:"メイリオ", Meiryo,  "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif !important; */
 }
 
 .right {

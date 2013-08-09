@@ -1,0 +1,168 @@
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=1398795260344175";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="/assets/js/html5shiv.js"></script>
+<![endif]-->
+
+<!-- Carousel
+================================================== -->
+<div id="myCarousel" class="carousel slide">
+  <div class="carousel-inner">
+    <div class="item active" style="background-image: url('/assets/slide/revolution.png')">
+      <div class="container">
+        <div class="carousel-caption">
+          <h1 class="shadow"></h1>
+          <p class="lead"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" style="background-image: url('/assets/slide/locations.png')">
+      <div class="container">
+        <div class="carousel-caption">
+          <h1 class="shadow"></h1>
+          <p class="lead"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" style="background-image: url('/assets/slide/reports.png')">
+      <div class="container">
+        <div class="carousel-caption">
+          <h1 class="shadow"></h1>
+          <p class="lead"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="item" style="background-image: url('/assets/slide/sales.png')">
+      <div class="container">
+        <div class="carousel-caption">
+          <h1 class="shadow"></h1>
+          <p class="lead"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+  <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+
+<div class="fb-like" data-href="http://travis-bickle.com" data-width="450" data-show-faces="true" data-send="true"></div>
+</div><!-- /.carousel -->
+
+<!-- Marketing messaging and featurettes
+================================================== -->
+<!-- Wrap the rest of the page in another container to center all the content. -->
+
+<div class="container marketing">
+  <!-- Three columns of text below the carousel -->
+  <div id="row" class="row">
+    <div class="span4">
+      <img class="img-circle" src="/assets/row/map.jpg">
+      <h2>車両位置が一目瞭然</h2>
+      <p>車両に搭載したiPadから位置情報をリアルタイムに取得。PCやタブレットなどから全車両の位置がすぐに確認できます。</p>
+      <p><a class="btn anchor" href="#feature1">詳細はこちら  &raquo;</a></p>
+    </div><!-- /.span4 -->
+    <div id="row2" class="span4">
+      <img class="img" src="/assets/row/chart.jpg">
+      <h2>リアルタイムに売上集計</h2>
+      <p>アプリから計上される乗車情報は瞬時にクラウドへ転送。事務所や外出先から各車両の運行状況がすぐに把握できます。</p>
+      <p><a class="btn anchor" href="#feature2">詳細はこちら &raquo;</a></p>
+    </div><!-- /.span4 -->
+    <div id="row3" class="span4">
+      <img class="img" src="/assets/row/ad.jpg">
+      <h2>地域密着型の広告</h2>
+      <p>乗車後はiPadが広告媒体に。走行中の位置情報に即した最適な広告を配信します。実際に町を走るタクシーだからこそ、伝えられることがあります。</p>
+      <p><a class="btn anchor" href="#feature3">詳細はこちら &raquo;</a></p>
+    </div><!-- /.span4 -->
+  </div><!-- /.row -->
+
+
+  <!-- START THE FEATURETTES -->
+
+  <hr class="featurette-divider">
+
+  <div id="feature1" class="featurette">
+    <img class="featurette-image pull-right" src="/assets/feature/locations.png">
+    <h2 class="featurette-heading">Q: 無線を使う主な理由は？<br />
+      <span class="muted">A: 空車の位置を知るため</span></h2>
+    <p class="lead">
+      無線による通話の半分以上は、実に空車の位置を把握するためのやり取りに費やされています（弊社調べ）。迎車依頼のあった場所に一番近い空車は、無線で呼びかけずとも、画面を見れば一目瞭然です。もちろん、乗車、空車に加えて休憩中、緊急事態の状態も画面から確認できます。
+    </p>
+    <p><%= link_to "もどる", "#row", :class => "btn anchor" %></p>
+  </div>
+  <hr class="featurette-divider">
+
+  <div id="feature2" class="featurette">
+    <img class="featurette-image pull-left" src="/assets/feature/reports.png">
+    <h2 class="featurette-heading">Q: 今日の売上が気になる？<br />
+      <span class="muted">A: いつでも確認できます</span></h2>
+    <p class="lead">
+      各車両から乗車データはリアルタイムに集計されます。運行収入や乗車人数はリアルタイムに反映され、入庫後は乗車率や燃費も自動計算されてグラフ化されます。協会提出資料なども乗務記録から簡単に印刷することができます。
+    </p>
+    <p><%= link_to "もどる", "#row2", :class => "btn anchor" %></p>
+  </div>
+  <hr class="featurette-divider">
+
+  <div id="feature3" class="featurette">
+    <img class="featurette-image pull-right" src="/assets/feature/ad.png">
+    <h2 class="featurette-heading">Q: 広告を掲載したい？<br />
+      <span class="muted">A: 必要なのはiPadだけです</h2>
+      <p class="lead">
+        従来の広告と異なり、準備するものは何もありません。iPadが走行中の位置情報から最適な広告を自動で選んで配信します。将来的には観光タクシーへの応用も検討中です。
+      </p>
+    <p><%= link_to "もどる", "#row3", :class => "btn anchor" %>　<%= link_to "心ひかれましたか？ &raquo;".html_safe, "#feature4", :class => "btn anchor" %></p>
+  </div>
+
+  <hr class="featurette-divider">
+
+  <div id="feature4" class="featurette">
+    <img class="featurette-image pull-left" src="/assets/feature/travisbickle.png">
+    <h2 class="featurette-heading">
+      トラヴィスがタクシーを<br />
+      変えていきます。<br />
+      <span class="muted"></span></h2>
+    <p class="lead">
+      煩雑な乗務記録簿の管理から開放されたいタクシー会社さま、移動する新しい広告媒体への広告出稿をお考えの企業さま、ぜひトラヴィス ビックルをご検討下さい。
+    </p>
+    <p><a class="btn btn-large btn-primary" href="mailto:customer@travis-bickle.com?subject=【トラヴィス ビックル】お問い合わせ">お問い合わせはこちらから</a></p>
+  </div>
+
+  <!-- /END THE FEATURETTES -->
+
+</div><!-- /.container -->
+
+
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="http://getbootstrap.com/2.3.2/assets/js/jquery.js"></script>
+<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-transition.js"></script>
+<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-alert.js"></script>
+<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-modal.js"></script>
+<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-dropdown.js"></script>
+<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-scrollspy.js"></script>
+<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-tab.js"></script>
+<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-tooltip.js"></script>
+<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-popover.js"></script>
+<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-button.js"></script>
+<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-collapse.js"></script>
+<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-carousel.js"></script>
+<script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-typeahead.js"></script>
+<script>
+!function ($) {
+  $(function(){
+      // carousel demo
+      $('#myCarousel').carousel()
+    })
+}(window.jQuery)
+</script>
