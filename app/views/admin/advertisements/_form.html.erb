@@ -1,0 +1,6 @@
+<%= semantic_form_for [:admin, @advertisement], {:html => {:multipart => true}} do |f| %>
+  <%= f.inputs :name, :youtube_videoid, :location, :latitude, :longitude, :gmaps, :deleted_at %>
+  <%= image_tag @advertisement.images.last.image.url(:large) if @advertisement.images.last%>
+  <%= file_field :image, :image %>
+  <%= f.submit %>
+<% end %>

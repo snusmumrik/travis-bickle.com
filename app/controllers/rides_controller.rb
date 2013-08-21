@@ -18,9 +18,13 @@ class RidesController < InheritedResources::Base
 
     respond_to do |format|
       if @ride.save(:validate => false)
-        advertisements = Advertisement.select("youtube_videoid").where("deleted_at IS NULL").collect(&:youtube_videoid).sort_by{rand}
+        @advertisements = []
+        images = Advertisement.includes(:images).collect(&:images).sort_by{rand}
+        images.each do |image|
+          @advertisements << image.first.image.url(:ipad_mini)
+        end
         @json = Hash[:ride => {:id => @ride.id, :report_id => @ride.report_id, :ride_latitude => @ride.ride_latitude, :ride_longitude => @ride.ride_longitude, :ride_address => @ride.ride_address},
-                     :advertisements => advertisements
+                     :advertisements => @advertisements
                     ]
         format.json { render json: @json, status: :created, location: @ride }
       else
@@ -111,7 +115,7 @@ class RidesController < InheritedResources::Base
   # DELETE /rides/1.json
   def destroy
     @ride = Ride.find(params[:id])
-    @ride.update_attribute("deleted_at", DateTime.now)
+    @ride.destroy
 
     respond_to do |format|
       format.html { redirect_to @ride.report }

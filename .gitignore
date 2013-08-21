@@ -1,6 +1,7 @@
 */.DS_Store
 .bundle
 .sass-cache/
+app/assets/images/image
 config/database.yml
 config/environments/production.rb
 config/initializers/devise.rb

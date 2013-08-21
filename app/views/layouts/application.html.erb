@@ -72,7 +72,7 @@
               </div>
               <div class="navbar-text pull-right"><%= link_to current_user.username, user_path(current_user.username) %></div>
             <% else %>
-              <div class="navbar-text pull-right span2"><%= link_to t("link.user.signup"), new_user_registration_path %></div>
+              <!-- <div class="navbar-text pull-right span2"><%#= link_to t("link.user.signup"), new_user_registration_path %></div> -->
               <div class="navbar-text pull-right"><%= link_to t("link.user.signin"), new_user_session_path %></div>
             <% end %>
           </div><!--/.nav-collapse -->

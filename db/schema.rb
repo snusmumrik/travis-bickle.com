@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130728123003) do
+ActiveRecord::Schema.define(:version => 20130813080442) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -49,9 +49,13 @@ ActiveRecord::Schema.define(:version => 20130728123003) do
   create_table "advertisements", :force => true do |t|
     t.string   "name"
     t.string   "youtube_videoid"
+    t.string   "location"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.boolean  "gmaps",           :default => true
     t.datetime "deleted_at"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
   end
 
   create_table "cars", :force => true do |t|
