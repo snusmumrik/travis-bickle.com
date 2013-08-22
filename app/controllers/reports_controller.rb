@@ -348,7 +348,7 @@ class ReportsController < InheritedResources::Base
   # DELETE /reports/1
   # DELETE /reports/1.json
   def destroy
-    @report.update_attribute("deleted_at", DateTime.now)
+    @report.destroy
 
     respond_to do |format|
       format.html { redirect_to "#{reports_path}/#{@report.started_at.year}/#{@report.started_at.month}/#{@report.started_at.day}", notice: t("activerecord.models.report") + t("message.destroy") }

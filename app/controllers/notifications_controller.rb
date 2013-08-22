@@ -29,7 +29,7 @@ class NotificationsController < InheritedResources::Base
   # GET /notifications.json
   def index
     @title += " | #{t('activerecord.models.notification')}"
-    @notifications = Notification.where(["user_id = ? AND deleted_at IS NULL", current_user.id])
+    @notifications = Notification.where(["user_id = ?", current_user.id])
     if params[:notification]
       @notifications = @notifications.name_matches params[:notification][:text]
     end

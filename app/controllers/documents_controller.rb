@@ -80,7 +80,7 @@ class DocumentsController < ApplicationController
     @estimated_rest = [hours[0], mins[0]]
 
     @last_meter = @report.last_meter
-    @check_points = CheckPoint.where(["user_id = ? AND deleted_at IS NULL", current_user.id]).all
+    @check_points = CheckPoint.where(["user_id = ?", current_user.id]).all
 
     respond_to do |format|
       format.html # index.html.erb
