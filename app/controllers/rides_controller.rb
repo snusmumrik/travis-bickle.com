@@ -60,6 +60,11 @@ class RidesController < InheritedResources::Base
     end
   end
 
+  # GET /rides
+  # GET /rides.json
+  def index
+    redirect_to root_path
+  end
 
   # GET /rides/new
   # GET /rides/new.json

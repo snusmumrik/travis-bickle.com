@@ -44,6 +44,12 @@ class RestsController < InheritedResources::Base
     end
   end
 
+  # GET /rests
+  # GET /rests.json
+  def index
+    redirect_to root_path
+  end
+
   # GET /rests/new
   # GET /rests/new.json
   def new
