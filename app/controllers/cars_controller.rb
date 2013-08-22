@@ -40,14 +40,15 @@ class CarsController < InheritedResources::Base
   # GET /cars.json
   def index
     @title += "#{t('activerecord.models.car')}#{t('link.index')}"
-    @cars = Car.where(["user_id = ? AND deleted_at IS NULL", current_user.id])
     if params[:car]
       @cars = @cars.name_matches params[:car][:name]
+    else
+      @cars = Car.find_by_sql(["SELECT * FROM `cars` INNER JOIN `locations` ON `locations`.`car_id` = `cars`.`id` WHERE (user_id = ?)", current_user.id])
     end
     respond_to do |format|
       format.html # index.html.erb
       format.js # index.js.erb
-      format.json { render json: @car }
+      format.json { render json: @cars }
     end
   end
 

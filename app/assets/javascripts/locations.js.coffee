@@ -13,5 +13,15 @@
         error: (XMLHttpRequest, textStatus, errorThrown)->
           alert(errorThrown)
       })
+
+      $.ajax({
+        type: "GET",
+        url: "/cars.json",
+        success: (@json)->
+          for car, i in @json
+            $('#locations td.address').eq(i).html(car.address)
+        error: (XMLHttpRequest, textStatus, errorThrown)->
+          alert(errorThrown)
+      })
   , 5000)
 )()
