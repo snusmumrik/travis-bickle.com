@@ -183,8 +183,8 @@ ja:
       notification:
         car: :activerecord.models.car
         deleted_at: deleted_at  #g
-        read: 既読  #g
-        cancel: キャンセル
+        accepted_at: 了承  #g
+        canceled_at: キャンセル
         text: メッセージ
         user: :activerecord.models.user  #g
 

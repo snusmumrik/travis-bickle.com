@@ -1,22 +1,18 @@
-<p>
-  <b><%=t "activerecord.attributes.notification.car" %></b>
-  <%= @notification.car.name %>
-</p>
+<table class="table table-striped table-bordered">
+  <tr>
+    <th><%=t "activerecord.attributes.notification.car" %></th>
+    <th><%=t "activerecord.attributes.notification.text" %></th>
+    <th><%=t "activerecord.attributes.notification.accepted_at" %></th>
+    <th><%=t "activerecord.attributes.notification.canceled_at" %></th>
+  </tr>
 
-<p>
-  <b><%=t "activerecord.attributes.notification.text" %></b>
-  <%= @notification.text %>
-</p>
-
-<p>
-  <b><%=t "activerecord.attributes.notification.read" %></b>
-  <%= @notification.read %>
-</p>
-
-<p>
-  <b><%=t "activerecord.attributes.notification.cancel" %></b>
-  <%= @notification.cancel %>
-</p>
+  <tr>
+    <td><%= @notification.car.name %></td>
+    <td><%= @notification.text %></td>
+    <td><%= @notification.accepted_at.strftime("%-m月%-d日 %H時%M分") rescue nil %></td>
+    <td><%= @notification.canceled_at.strftime("%-m月%-d日 %H時%M分") rescue nil %></td>
+  </tr>
+</table>
 
 <%= link_to t("link.edit"), edit_notification_path(@notification), :class => "btn" %>
 <%= link_to t("link.back"), notifications_path, :class => "btn" %>

@@ -1,9 +1,10 @@
 <tr>
   <td><%= notification.car.try(:name) %></td>
   <td><%= notification.text %></td>
-  <td><%= notification.read %></td>
-  <td><%= notification.cancel %></td>
-  <td><%= link_to t("link.show"), notification %></td>
-  <td><%= link_to t("link.edit"), edit_notification_path(notification) %></td>
-  <td><%= link_to t("link.destroy"), notification, method: :delete, data: { confirm: t("message.destroy_confirmation") } %></td>
+  <td><%= notification.accepted_at.strftime("%-m月%-d日 %H時%M分") rescue nil %></td>
+  <td><%= notification.canceled_at.strftime("%-m月%-d日 %H時%M分") rescue nil %></td>
+  <td>
+    <%= link_to t("link.edit"), edit_notification_path(notification), :class => "btn" %>
+    <%= link_to t("link.destroy"), notification, method: :delete, data: { confirm: t("message.destroy_confirmation") }, :class => "btn" %>
+  </td>
 </tr>

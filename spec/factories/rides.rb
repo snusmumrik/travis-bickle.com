@@ -10,7 +10,7 @@ FactoryGirl.define do
     leave_longitude 1.5
     leave_address "MyString"
     passengers 1
-    fare 1
+    fare 430
     deleted_at nil
     ended_at nil
     created_at DateTime.now

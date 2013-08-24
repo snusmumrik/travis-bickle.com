@@ -43,7 +43,7 @@ class CarsController < InheritedResources::Base
     if params[:car]
       @cars = @cars.name_matches params[:car][:name]
     else
-      @cars = Car.find_by_sql(["SELECT * FROM `cars` INNER JOIN `locations` ON `locations`.`car_id` = `cars`.`id` WHERE (user_id = ?)", current_user.id])
+      @cars = Car.find_by_sql(["SELECT * FROM cars INNER JOIN locations ON locations.car_id = cars.id WHERE (user_id = ?)", current_user.id])
     end
     respond_to do |format|
       format.html # index.html.erb

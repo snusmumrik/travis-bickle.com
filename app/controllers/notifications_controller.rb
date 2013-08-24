@@ -1,14 +1,32 @@
 class NotificationsController < InheritedResources::Base
-  before_filter :authenticate_user!, :except => :api_update
+  before_filter :authenticate_user!, :except => [:api_index, :api_update]
   before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
   before_filter :prepare_options, :only => [:new, :edit, :create, :update]
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
+  def api_index
+    @notifications = Notification.find_by_sql(["SELECT * FROM notifications INNER JOIN cars ON cars.id = notifications.car_id WHERE notifications.deleted_at IS NULL AND notifications.user_id = ? AND notifications.sent_at IS NULL", current_user.id])
+
+    if @notifications != []
+      @notifications.each do |notification|
+        notification.update_attribute(:sent_at, DateTime.now)
+      end
+
+      respond_to do |format|
+        format.json { render json: @notifications }
+      end
+    else
+      respond_to do |format|
+        format.json { render json:{:error => "not found" } }
+      end
+    end
+  end
+
   def api_update
     @notification = Notification.find(params[:id])
     if @notification
-      @notification.update_attribute(:cancel, true) if params[:cancel]
-      @notification.update_attribute(:read, true) if params[:read]
+      @notification.update_attribute(:canceled_at, DateTime.now) if params[:cancel]
+      @notification.update_attribute(:accepted_at, DateTime.now) if params[:accept]
 
       respond_to do |format|
         if @notification.save
@@ -22,7 +40,6 @@ class NotificationsController < InheritedResources::Base
         format.json { render json:{:error => "not found" } }
       end
     end
-
   end
 
   # GET /notifications

@@ -1,7 +1,7 @@
 class Notification < ActiveRecord::Base
   belongs_to :user
   belongs_to :car
-  attr_accessible :user_id, :car_id, :deleted_at, :read, :cancel, :text
+  attr_accessible :user_id, :car_id, :deleted_at, :accepted_at, :canceled_at, :text
 
   acts_as_paranoid
 
@@ -11,3 +11,4 @@ class Notification < ActiveRecord::Base
     where "text like :q", :q => "%#{q}%"
   }
 end
+
