@@ -5,19 +5,19 @@ class NotificationsController < InheritedResources::Base
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
   def api_index
-    @notifications = Notification.find_by_sql(["SELECT * FROM notifications INNER JOIN cars ON cars.id = notifications.car_id WHERE notifications.deleted_at IS NULL AND notifications.user_id = ? AND notifications.sent_at IS NULL", current_user.id])
+    @notifications = Notification.find_by_sql(["SELECT notifications.*, cars.name FROM notifications INNER JOIN cars ON cars.id = notifications.car_id WHERE (notifications.deleted_at IS NULL AND notifications.user_id = ? AND notifications.sent_at IS NULL)", current_user.id])
 
-    if @notifications != []
+    if @notifications.nil?
+      respond_to do |format|
+        format.json { render json:{:error => "not found" } }
+      end
+    else
       @notifications.each do |notification|
         notification.update_attribute(:sent_at, DateTime.now)
       end
 
       respond_to do |format|
         format.json { render json: @notifications }
-      end
-    else
-      respond_to do |format|
-        format.json { render json:{:error => "not found" } }
       end
     end
   end
