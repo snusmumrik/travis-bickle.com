@@ -21,7 +21,7 @@ class RidesController < InheritedResources::Base
         @advertisements = []
         images = Advertisement.includes(:images).collect(&:images).sort_by{rand}
         images.each do |image|
-          @advertisements << image.first.image.url(:ipad_mini)
+          @advertisements << image.first.image.url(:ipad_mini) if image.first
         end
         @json = Hash[:ride => {:id => @ride.id, :report_id => @ride.report_id, :ride_latitude => @ride.ride_latitude, :ride_longitude => @ride.ride_longitude, :ride_address => @ride.ride_address},
                      :advertisements => @advertisements
