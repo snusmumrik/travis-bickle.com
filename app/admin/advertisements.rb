@@ -48,7 +48,7 @@ ActiveAdmin.register Advertisement do
     column :latitude
     column :longitude
     column "image" do |advertisement|
-      image_tag advertisement.images.last.image.url(:thumb)
+      image_tag advertisement.images.last.image.url(:thumb) if advertisement.images.last
     end
     actions
   end
