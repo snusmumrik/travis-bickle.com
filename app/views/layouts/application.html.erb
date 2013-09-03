@@ -106,6 +106,48 @@
 
     <%= javascript_include_tag "application" %>
     <% if controller.controller_name == "locations" %><%= yield :scripts %><% end %>
+    <% unless controller.controller_name == "contents"%>
+    <script>
+      var showNotifications;
+
+      showNotifications = function() {
+        $.ajax({
+          type: "GET",
+          url: "/notifications/api_index.json",
+          success: function(json) {
+            var notification, _i, _len, _ref, _results;
+            this.json = json;
+            $('div.alert').fadeOut('slow', function() {
+              return $(this).html('');
+            });
+            if (this.json.error !== "not found") {
+              _ref = this.json;
+              _results = [];
+              for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                notification = _ref[_i];
+                if (notification.accepted_at) {
+                  $('.container').eq(1).prepend('<div class="alert alert-success"><p id="notice"></p></div>');
+                  _results.push($('#notice').hide().append('<li>' + notification.name + '号車が「' + notification.text + '」を了承しました。' + '</li>').fadeIn('slow'));
+                } else if (notification.canceled_at) {
+                  $('.container').eq(1).prepend('<div class="alert alert-error"><p id="notice"></p></div>');
+                  _results.push($('#notice').hide().append('<li>' + notification.name + '号車が「' + notification.text + '」を辞退しました。' + '</li>').fadeIn('slow'));
+                } else {
+                  _results.push(void 0);
+                }
+              }
+              return _results;
+            }
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) {}
+        });
+        return setTimeout(showNotifications, 10000);
+      };
+
+      $(function() {
+        return setTimeout(showNotifications, 10000);
+      });
+    </script>
+    <% end %>
   </body>
 
   <script>
