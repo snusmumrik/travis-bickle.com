@@ -19,7 +19,7 @@
         url: "/cars.json",
         success: (@json)->
           for car, i in @json
-            $('#locations td.address').eq(i).html(car.address)
+            $('#address-' + car.id).html(car.address)
         error: (XMLHttpRequest, textStatus, errorThrown)->
           alert(errorThrown)
       })
