@@ -19,7 +19,8 @@
         url: "/cars.json",
         success: (@json)->
           for car, i in @json
-            $('#address-' + car.id).html(car.address)
+            $('#car-' + car.id + ' td.address').html(car.address)
+            $('#car-' + car.id + ' td.updated-at').html(car.updated_at.replace(/(\d+)-(\d+)-(\d+)T(\d+):(\d+):(\d+)\+(\d+):(\d+)/, '$1/$2/$3 $4:$5:$6'))
         error: (XMLHttpRequest, textStatus, errorThrown)->
           alert(errorThrown)
       })
