@@ -43,12 +43,13 @@ class CarsController < InheritedResources::Base
     if params[:car]
       @cars = @cars.name_matches params[:car][:name]
     else
-      @cars = Car.find_by_sql(["SELECT * FROM cars INNER JOIN locations ON locations.car_id = cars.id WHERE cars.deleted_at IS NULL AND cars.user_id = ?", current_user.id])
+      @cars = Car.where(["deleted_at IS NULL AND user_id = ?", current_user.id]).all
     end
+
     respond_to do |format|
       format.html # index.html.erb
       format.js # index.js.erb
-      format.json { render json: @cars }
+      format.json { render json: @cars = Car.find_by_sql(["SELECT cars.*, locations.address, locations.latitude, locations.longitude, locations.updated_at AS locations_updated_at  FROM cars INNER JOIN locations ON locations.car_id = cars.id WHERE cars.deleted_at IS NULL AND cars.user_id = ?", current_user.id]) }
     end
   end
 
