@@ -66,7 +66,7 @@ class NotificationsController < InheritedResources::Base
     respond_to do |format|
       if @notification.save
         push_notification(@notification.id, @notification.car.device_token, @notification.text) if @notification.car.device_token
-        format.html { redirect_to @notification, notice: t("activerecord.models.notification") + t("message.created") }
+        format.html { redirect_to notifications_path, notice: t("activerecord.models.notification") + t("message.created") }
         format.json { render json: @notification, status: :created, location: @notification }
       else
         format.html { render action: "new" }
@@ -81,7 +81,7 @@ class NotificationsController < InheritedResources::Base
     @notification = Notification.find(params[:id])
     respond_to do |format|
       if @notification.update_attributes(params[:notification])
-        format.html { redirect_to @notification, notice: t("activerecord.models.notification") + t("message.updated") }
+        format.html { redirect_to notifications_path, notice: t("activerecord.models.notification") + t("message.updated") }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
@@ -106,12 +106,12 @@ class NotificationsController < InheritedResources::Base
   end
 
   def push_notification(id, device_token, text)
-    pusher = Grocer.pusher(certificate: "#{Rails.root}/doc/apns-pro.pem",      # production
-                           # "#{Rails.root}/doc/apns-dev.pem",      # development
+    pusher = Grocer.pusher(certificate: "#{Rails.root}/doc/aps_certificate_pro.pem",      # production
+                           # certificate: "#{Rails.root}/doc/aps_certificate_dev.pem",      # development
                            # passphrase:  "",                       # optional
                            # gateway:     localhost, # test
-                           # gateway:     "gateway.sandbox.push.apple.com", # develpment
                            gateway:     "gateway.push.apple.com", # production
+                           # gateway:     "gateway.sandbox.push.apple.com", # develpment
                            port:        2195,                     # optional
                            retries:     3                         # optional
                            )
