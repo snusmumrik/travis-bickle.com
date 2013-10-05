@@ -43,7 +43,7 @@ class CarsController < InheritedResources::Base
     if params[:car]
       @cars = Car.name_matches params[:car][:name]
     else
-      @cars = Car.where(["deleted_at IS NULL AND user_id = ?", current_user.id]).all
+      @cars = Car.where(["deleted_at IS NULL AND user_id = ?", current_user.id]).page params[:page]
     end
 
     respond_to do |format|

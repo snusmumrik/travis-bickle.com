@@ -35,7 +35,7 @@ class DriversController < InheritedResources::Base
     if params[:driver]
       @drivers = Driver.where(["name LIKE ? OR email LIKE ?", "%#{params[:driver][:name]}%", "%#{params[:driver][:name]}%"])
     else
-      @drivers = Driver.where(["user_id = ? AND deleted_at IS NULL", current_user.id])
+      @drivers = Driver.where(["user_id = ? AND deleted_at IS NULL", current_user.id]).page params[:page]
     end
     respond_to do |format|
       format.html # index.html.erb

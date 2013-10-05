@@ -8,6 +8,7 @@ class Car < ActiveRecord::Base
 
   # if use this, deleted car's reports cannot be shown
   # acts_as_paranoid
+  # paginates_per 25
 
   validates :user_id, :name, :base_fare, :meter_fare, :presence => true
 

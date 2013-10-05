@@ -49,7 +49,7 @@ class NotificationsController < InheritedResources::Base
     if params[:notification]
       @notifications = Notification.joins(:car).where(["cars.name LIKE ? OR text LIKE ?", "%#{params[:notification][:text]}%", "%#{params[:notification][:text]}%"])
     else
-      @notifications = Notification.where(["user_id = ?", current_user.id]).all
+      @notifications = Notification.where(["user_id = ?", current_user.id]).page params[:page]
     end
 
     respond_to do |format|

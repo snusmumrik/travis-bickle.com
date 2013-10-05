@@ -5,6 +5,7 @@
   <%= f.submit t("link.search"), :class => "btn" %>
 <% end %>
 
+<%= paginate @notifications %>
 <table class="table table-striped table-bordered">
   <tr>
     <th><%=t "activerecord.attributes.notification.car" %></th>
@@ -20,5 +21,6 @@
 </table>
 
 <br />
+<%= paginate @notifications %>
 
 <%= link_to t("link.new") + t("activerecord.models.notification"), new_notification_path, :class => "btn" %>

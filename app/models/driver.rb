@@ -8,6 +8,7 @@ class Driver < ActiveRecord::Base
 
   # if use this, deleted drivers's reports cannot be shown
   # acts_as_paranoid
+  # paginates_per 25
 
   validates :user_id, :name, :email, :presence => true
   validates :password, :password_confirmation, :presence => true, :length => { :within => 6..40 }, :on => :update, :unless => lambda{ |driver| driver.password.blank? }

@@ -5,6 +5,7 @@
   <%= f.submit t("link.search"), :class => "btn" %>
 <% end %>
 
+<%= paginate @drivers %>
 <table class="table table-striped table-bordered table-hover">
   <tr>
     <th><%=t "activerecord.attributes.driver.name" %></th>
@@ -20,5 +21,6 @@
 </table>
 
 <br />
+<%= paginate @drivers %>
 
 <%= link_to t("link.new") + t("activerecord.models.driver"), new_driver_path, :class => "btn" %>
