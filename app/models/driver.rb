@@ -12,8 +12,4 @@ class Driver < ActiveRecord::Base
   validates :user_id, :name, :email, :presence => true
   validates :password, :password_confirmation, :presence => true, :length => { :within => 6..40 }, :on => :update, :unless => lambda{ |driver| driver.password.blank? }
   validates :email, :uniqueness => true
-
-  scope :name_matches, lambda {|q|
-    where "name like :q", :q => "%#{q}%"
-  }
 end

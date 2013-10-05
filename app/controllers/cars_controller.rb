@@ -41,7 +41,7 @@ class CarsController < InheritedResources::Base
   def index
     @title += "#{t('activerecord.models.car')}#{t('link.index')}"
     if params[:car]
-      @cars = @cars.name_matches params[:car][:name]
+      @cars = Car.name_matches params[:car][:name]
     else
       @cars = Car.where(["deleted_at IS NULL AND user_id = ?", current_user.id]).all
     end

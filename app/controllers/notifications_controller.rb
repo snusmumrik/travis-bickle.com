@@ -46,10 +46,12 @@ class NotificationsController < InheritedResources::Base
   # GET /notifications.json
   def index
     @title += " | #{t('activerecord.models.notification')}"
-    @notifications = Notification.where(["user_id = ?", current_user.id])
     if params[:notification]
-      @notifications = @notifications.name_matches params[:notification][:text]
+      @notifications = Notification.joins(:car).where(["cars.name LIKE ? OR text LIKE ?", "%#{params[:notification][:text]}%", "%#{params[:notification][:text]}%"])
+    else
+      @notifications = Notification.where(["user_id = ?", current_user.id]).all
     end
+
     respond_to do |format|
       format.html # index.html.erb
       format.js # index.js.erb

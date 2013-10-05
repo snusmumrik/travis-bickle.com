@@ -32,9 +32,10 @@ class DriversController < InheritedResources::Base
   # GET /drivers.json
   def index
     @title += " | #{t('activerecord.models.driver')}#{t('link.index')}"
-    @drivers = Driver.where(["user_id = ? AND deleted_at IS NULL", current_user.id])
     if params[:driver]
-      @drivers = @drivers.name_matches params[:driver][:name]
+      @drivers = Driver.where(["name LIKE ? OR email LIKE ?", "%#{params[:driver][:name]}%", "%#{params[:driver][:name]}%"])
+    else
+      @drivers = Driver.where(["user_id = ? AND deleted_at IS NULL", current_user.id])
     end
     respond_to do |format|
       format.html # index.html.erb
