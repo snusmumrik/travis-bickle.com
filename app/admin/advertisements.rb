@@ -6,6 +6,10 @@ ActiveAdmin.register Advertisement do
     # POST /adbertisements.xml
     def create
       @advertisement = Advertisement.new(params[:advertisement])
+      coordinates = Geocoder.coordinates(@advertisement.location)
+      @advertisement.latitude = coordinates[0]
+      @advertisement.longitude = coordinates[1]
+
       @image = Image::AdvertisementImage.new(params[:image])
 
       respond_to do |format|
@@ -25,6 +29,10 @@ ActiveAdmin.register Advertisement do
     # PUT /advertisements/1.json
     def update
       @advertisement = Advertisement.find(params[:id])
+      coordinates = Geocoder.coordinates(@advertisement.location)
+      params[:advertisement][:latitude] = coordinates[0]
+      params[:advertisement][:longitude] = coordinates[1]
+
       @image = Image::AdvertisementImage.new(params[:image]) if params[:image]
 
       respond_to do |format|
