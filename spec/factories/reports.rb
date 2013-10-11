@@ -4,7 +4,6 @@ FactoryGirl.define do
   factory :report do
     driver
     car
-    date Date.today
     sequence(:mileage) {|n| n}
     sequence(:riding_mileage) {|n| n}
     sequence(:riding_count) {|n| n}
