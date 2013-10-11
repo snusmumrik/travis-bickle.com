@@ -277,8 +277,8 @@ ja:
       show: 乗務記録
 
     content:
-      index: トラヴィス ビックルとは
-      about_us: 運営者情報
+      about_travis: トラヴィスについて
+      about_chishaku: 運営者情報
 
   message:
     created: を登録しました。
