@@ -71,6 +71,7 @@ TravisBickle::Application.routes.draw do
     get "sign_up", :to => "devise/registrations#new"
     get "sign_out", :to => "devise/sessions#destroy"
     get "/users/auth/:provider", :to => "users/omniauth_callbacks#passthru"
+    match 'users/:id' => 'users#show', :via => 'get', :format => false, :id => /.*/
   end
 
   # The priority is based upon order of creation:

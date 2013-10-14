@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
   before_filter :find_user, :except => :index
 
   # GET /users
@@ -81,8 +82,13 @@ class UsersController < ApplicationController
     end
   end
 
-  protected
+  private
   def find_user
     @user = User.where(["username = ?", params[:id]]).first || User.find(params[:id])
+  end
+
+  def authenticate_owner
+    find_user
+    redirect_to root_path if @user != current_user
   end
 end
