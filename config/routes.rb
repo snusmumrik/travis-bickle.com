@@ -71,7 +71,6 @@ TravisBickle::Application.routes.draw do
     get "sign_up", :to => "devise/registrations#new"
     get "sign_out", :to => "devise/sessions#destroy"
     get "/users/auth/:provider", :to => "users/omniauth_callbacks#passthru"
-    match 'users/:id' => 'users#show', :via => 'get', :format => false, :id => /.*/
   end
 
   # The priority is based upon order of creation:
@@ -84,7 +83,7 @@ TravisBickle::Application.routes.draw do
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
   resources :contents
-  resources :users
+  resources :users, constraints: { id: /[^\/]+/ }
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
