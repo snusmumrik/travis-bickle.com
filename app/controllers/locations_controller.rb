@@ -9,6 +9,7 @@ class LocationsController < InheritedResources::Base
   def api_update
     @location = Location.where(["car_id = ?", params[:car_id]]).first || Location.new(:car_id => params[:car_id])
 
+    @location.address = params[:address]
     @location.latitude = params[:latitude]
     @location.longitude = params[:longitude]
 
