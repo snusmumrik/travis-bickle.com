@@ -54,6 +54,7 @@
                 <%#= link_to t("activerecord.models.check_point"), check_points_path %>
                 <a href="<%= check_points_path %>"><i class="icon-check"></i> <%= t("activerecord.models.check_point") %></a>
               </li>
+              <li>
               <% if params[:id] == "reports" %><li class="active"><% else %><li><% end %>
                 <%#= link_to t("activerecord.models.report"), "#{reports_path}/#{Date.today.year}/#{Date.today.month}/#{Date.today.day}" %>
                 <a href="<%= "#{reports_path}/#{Date.today.year}/#{Date.today.month}/#{Date.today.day}" %>"><i class="icon-edit"></i> <%= t("activerecord.models.report") %></a>
@@ -108,73 +109,8 @@
 
     <%= javascript_include_tag "application" %>
     <% if controller.controller_name == "locations" %><%= yield :scripts %><% end %>
-    <% unless controller.controller_name == "contents"%>
+    <% if controller.controller_name != "contents" && controller.controller_name != "users" %>
     <script>
-      var getLocations;
-      getLocations = function() {
-        if ($('#map').length) {
-          $.ajax({
-            type: "GET",
-            url: "/locations.json",
-            success: function(json) {
-              this.json = json;
-              return Gmaps.map.replaceMarkers(this.json);
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-              return alert(errorThrown);
-            }
-          });
-        }
-        return setTimeout(getLocations, 5000);
-      };
-      $(function() {
-        return setTimeout(getLocations, 5000);
-      });
-
-        /* var getCars;
-        getCars = function(){
-        $.ajax({
-        type: "GET",
-        url: "/cars.json",
-        success: function(json) {
-        var car, d, i, localOffset, localTime, m, m2, new_updated_at, offset, result, updated_at, utc, _i, _len, _ref, _results;
-        this.json = json;
-        _ref = this.json;
-        _results = [];
-        for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-        car = _ref[i];
-        d = new Date();
-        localTime = d.getTime();
-        localOffset = d.getTimezoneOffset() * 60000;
-        utc = localTime + localOffset;
-        offset = -9.0;
-        m = car.locations_updated_at.match(/(\d+)-(\d+)-(\d+)[^0-9](\d+):(\d+):(\d+)[^0-9]/);
-        updated_at = new Date(m[1], m[2] - 1, m[3], m[4], m[5], m[6]);
-        result = updated_at - (3600000 * offset);
-        m2 = new Date(result).toLocaleString("en-GB", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit"
-        }).match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/);
-        new_updated_at = m2[3] + "/" + m2[2] + "/" + m2[1] + " " + m2[4] + ":" + m2[5] + ":" + m2[6];
-        $('#car-' + car.id + ' td.address').html(car.address);
-        _results.push($('#car-' + car.id + ' td.updated-at').html(new_updated_at));
-        }
-        return _results;
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-        return alert(errorThrown);
-        }
-        });
-        return setTimeout(getCars, 5000);
-        }
-        $(function() {
-        return setTimeout(getCars, 5000);
-        }); */
-
       var getNotifications;
       getNotifications = function() {
         $.ajax({

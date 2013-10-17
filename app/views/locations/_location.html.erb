@@ -1,6 +1,7 @@
-<tr id="car-<%= location.car.id %>">
-  <td><%= link_to location.car.name, report_path(location.car.reports.where("finished_at IS NULL").last) rescue nil %></td>
-  <td class="address"><%= location.address %></td>
+<tr id="car-<%= location.car.try(:id) %>">
+  <td class="center"><%= link_to "配車指示", "/notifications/new?car_id=#{location.car_id}" %></td>
+  <td><%= link_to location.car.name, report_path(location.car.reports.last) rescue nil %></td>
+  <td class="address"><%= location.address.sub(/^日本, /, "") %></td>
   <td class="updated-at"><%= location.updated_at.strftime("%Y/%m/%d %H:%M:%S") rescue nil %></td>
-  <td><%= link_to t("activerecord.models.report"), report_path(location.car.reports.where("finished_at IS NULL").last) rescue nil %></td>
+  <td class="center"><%= link_to t("activerecord.models.report"), report_path(location.car.reports.last) rescue nil %></td>
 </tr>
