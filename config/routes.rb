@@ -1,6 +1,8 @@
 TravisBickle::Application.routes.draw do
   root :to => 'contents#about_travis'
 
+  resources :pickup_locations
+
   resources :documents
 
   resources :sales

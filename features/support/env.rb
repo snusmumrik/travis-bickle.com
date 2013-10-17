@@ -6,7 +6,8 @@
 
 require 'rubygems'
 require 'spork'
- 
+require Rails.root.join("spec/support/geocoding")
+
 Spork.prefork do
   require 'cucumber/rails'
 

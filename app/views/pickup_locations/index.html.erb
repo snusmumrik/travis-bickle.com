@@ -1,0 +1,29 @@
+<h1><%= t("activerecord.models.pickup_location") %><%=  t("link.index") %></h1>
+
+<%= form_for Car.new, :url => cars_path, :remote => true, :html => {:method => :get} do |f| %>
+  <%= f.search_field :name %>
+  <%= f.submit t("link.search"), :class => "btn" %>
+<% end %>
+
+<%= paginate @pickup_locations %>
+
+<table class="table table-striped table-bordered">
+  <tr>
+    <th><%=t("activerecord.attributes.pickup_location.name") %></th>
+    <th><%=t("activerecord.attributes.pickup_location.address") %></th>
+    <th><%=t("activerecord.attributes.pickup_location.latitude") %></th>
+    <th><%=t("activerecord.attributes.pickup_location.longitude") %></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <tbody id="pickup_locations">
+    <%= render @pickup_locations %>
+  </tbody>
+</table>
+
+<br />
+<%= paginate @pickup_locations %>
+
+<%= link_to t("link.new"), new_pickup_location_path, :class => "btn" %>

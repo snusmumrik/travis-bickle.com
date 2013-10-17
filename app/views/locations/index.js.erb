@@ -1,0 +1,4 @@
+$('#locations').hide();
+$('#locations').html(
+  '<%= escape_javascript(render @locations) %>'
+).fadeIn();

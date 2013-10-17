@@ -6,6 +6,7 @@
  *= require_tree . 
  */
 
+/* common style sheet */
 body {
     font-family: "ヒラギノ明朝 Pro W6", "Hiragino Mincho Pro", "HGS明朝E", "ＭＳ Ｐ明朝", serif ,monospace !important;
     /* font-family:"メイリオ", Meiryo,  "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif !important; */
@@ -47,6 +48,12 @@ body {
     vertical-align:middle !important;
 }
 
+/* bootstrap override  */
+
+.container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
+width: 1170px !important;
+}
+
 .navbar-text {
     font-size: 13px !important;
 }
@@ -82,6 +89,14 @@ label, input, button, select, textarea {
 
 input[type="search"] {
     margin-bottom: 0px !important;
+}
+
+.input-xxlarge {
+  width: 450px !important;
+}
+
+.select-large {
+  width: 500px;
 }
 
 footer {

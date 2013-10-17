@@ -26,7 +26,17 @@ class LocationsController < InheritedResources::Base
   def index
     @title += "#{t('activerecord.models.location')}#{t('link.index')}"
 
-    @locations = Location.includes(:car => [:user, :reports => [:rides, :rests]]).where(["users.id = ? AND reports.finished_at IS NULL AND reports.deleted_at IS NULL", current_user.id]).order("locations.car_id").all
+    @pickup_location_option = [["迎車場所を選択", ""]]
+    pickup_locations = current_user.pickup_locations.order("name")
+    pickup_locations.each do |pickup_location|
+      @pickup_location_option << [pickup_location.name, pickup_location.address]
+    end
+
+    if params[:location] && !params[:location][:address].blank?
+      @locations = Location.includes(:car => [:user, :reports => [:rides, :rests]]).near(params[:location][:address])
+    else
+      @locations = Location.includes(:car => [:user, :reports => [:rides, :rests]]).where(["users.id = ? AND reports.finished_at IS NULL AND reports.deleted_at IS NULL", current_user.id]).order("locations.car_id").all
+    end
 
     @json = @locations.to_gmaps4rails do |location, marker|
       begin

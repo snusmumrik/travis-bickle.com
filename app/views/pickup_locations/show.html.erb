@@ -1,0 +1,26 @@
+<h1><%= t("activerecord.models.pickup_location") %><%= t("link.show") %></h1>
+
+<table class="table table-striped table-bordered table-hover table-narrow">
+<tr>
+  <th><%=t "activerecord.attributes.pickup_location.name" %></th>
+  <td><%= @pickup_location.name %></td>
+</tr>
+
+<tr>
+  <th><%=t "activerecord.attributes.pickup_location.address" %></th>
+  <td><%= @pickup_location.address %></td>
+</tr>
+
+<tr>
+  <th><%=t "activerecord.attributes.pickup_location.latitude" %></th>
+  <td><%= @pickup_location.latitude %></td>
+</tr>
+
+<tr>
+  <th><%=t "activerecord.attributes.pickup_location.longitude" %></th>
+  <td><%= @pickup_location.longitude %></td>
+</tr>
+</table>
+
+<%= link_to t("link.edit"), edit_pickup_location_path(@pickup_location), :class => "btn" %>
+<%= link_to t("link.back"), pickup_locations_path, :class => "btn" %>

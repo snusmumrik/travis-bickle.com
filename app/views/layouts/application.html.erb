@@ -55,6 +55,10 @@
                 <a href="<%= check_points_path %>"><i class="icon-check"></i> <%= t("activerecord.models.check_point") %></a>
               </li>
               <li>
+              <% if params[:id] == "pickup_locations" %><li class="active"><% else %><li><% end %>
+                <%#= link_to t("activerecord.models.pickup_location"), pickup_locations_path %>
+                <a href="<%= pickup_locations_path %>"><i class="icon-flag-alt"></i> <%= t("activerecord.models.pickup_location") %></a>
+              </li>
               <% if params[:id] == "reports" %><li class="active"><% else %><li><% end %>
                 <%#= link_to t("activerecord.models.report"), "#{reports_path}/#{Date.today.year}/#{Date.today.month}/#{Date.today.day}" %>
                 <a href="<%= "#{reports_path}/#{Date.today.year}/#{Date.today.month}/#{Date.today.day}" %>"><i class="icon-edit"></i> <%= t("activerecord.models.report") %></a>

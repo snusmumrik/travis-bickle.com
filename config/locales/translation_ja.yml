@@ -16,6 +16,8 @@ ja:
       ride: 乗車記録
       notification: 配車指示
       advertisement: 広告
+      image/advertisement_image: image/advertisement_image  #g
+      pickup_location: 迎車場所
 
     attributes:
       user:
@@ -43,6 +45,9 @@ ja:
         images: images  #g
         cars: cars  #g
         drivers: drivers  #g
+        latitude: latitude  #g
+        longitude: longitude  #g
+        pickup_locations: pickup_locations  #g
 
       active_admin/comment:
         author_type: author_type  #g
@@ -165,6 +170,7 @@ ja:
         mileage: 走行距離
         riding_mileage: 乗車距離
         report: :activerecord.models.report  #g
+        deleted_at: deleted_at  #g
 
       ride:
         ride_latitude: 乗車緯度
@@ -187,10 +193,33 @@ ja:
         canceled_at: キャンセル
         text: メッセージ
         user: :activerecord.models.user  #g
+        sent_at: sent_at  #g
 
       advertisement:
         name: 広告名
         youtube_videoid: Youtube Video Id
+        deleted_at: deleted_at  #g
+        gmaps: gmaps  #g
+        images: images  #g
+        latitude: latitude  #g
+        location: location  #g
+        longitude: longitude  #g
+
+      image/advertisement_image:
+        image_file_name: image_file_name  #g
+        image_file_size: image_file_size  #g
+        image_updated_at: image_updated_at  #g
+        parent: :activerecord.models.parent  #g
+        parent_type: parent_type  #g
+
+      pickup_location:
+        address: 住所
+        deleted_at: deleted_at  #g
+        gmaps: gmaps  #g
+        latitude: 緯度
+        longitude: 軽度
+        name: 名称
+        user: :activerecord.models.user  #g
 
   views:
     pagination:
@@ -201,6 +230,7 @@ ja:
 
     report:
       fuel_cost_rate: 燃料費率
+
   label:
     error: エラー
 
@@ -286,5 +316,3 @@ ja:
     destroy: を削除しました。
     destroy_confirmation: 本当に削除してもよろしいですか？
     signout_confirmation: サインアウトしてもよろしいですか？
-
-  deleted_at: deleted_at  #g

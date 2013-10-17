@@ -23,6 +23,7 @@ end
 group :test do
   gem 'cucumber-rails', :require => false # rails generate cucumber:install --capybara --rspec --spork
   gem 'database_cleaner' # database_cleaner is not required, but highly recommended
+  gem 'fakeweb'
 end
 
 group :test, :development do

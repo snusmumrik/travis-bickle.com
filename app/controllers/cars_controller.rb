@@ -234,7 +234,7 @@ class CarsController < InheritedResources::Base
 
     respond_to do |format|
       if @car.update_attributes(params[:car])
-      format.html { redirect_to cars_path, notice: t("activerecord.models.car") + t("message.updated") }
+      format.html { redirect_to @car, notice: t("activerecord.models.car") + t("message.updated") }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

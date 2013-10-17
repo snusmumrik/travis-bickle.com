@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
   has_many :images, :as => :parent, :dependent => :destroy
   has_many :cars
   has_many :drivers
+  has_many :pickup_locations
 
   geocoded_by :address
   after_validation :geocode
