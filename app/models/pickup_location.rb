@@ -4,6 +4,7 @@ class PickupLocation < ActiveRecord::Base
 
   acts_as_paranoid
   geocoded_by :address
+  after_validation :geocode
   # paginates_per 25
 
   validates :name, :presence => true
