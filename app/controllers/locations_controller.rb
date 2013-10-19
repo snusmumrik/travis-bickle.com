@@ -41,13 +41,13 @@ class LocationsController < InheritedResources::Base
 
     @json = @locations.to_gmaps4rails do |location, marker|
       begin
-        if !location.car.reports.blank? && !location.car.reports.last.rides.blank? && location.car.reports.last.rides.last.leave_latitude.nil?
+        if !location.car.reports.blank? && !location.car.reports.order("started_at").last.rides.blank? && location.car.reports.order("started_at").last.rides.last.ended_at.nil?
           marker.picture({
                            :picture => "http://chart.apis.google.com/chart?chst=d_map_spin&chld=1.1|0|FF0000|12|_|#{location.car.try(:name) }",
                            :width   => 100,
                            :height  => 100
                          })
-        elsif !location.car.reports.blank? && !location.car.reports.last.rests.blank? && location.car.reports.last.rests.last.ended_at.nil?
+        elsif !location.car.reports.blank? && !location.car.reports.order("started_at").last.rests.blank? && location.car.reports.order("started_at").last.rests.last.ended_at.nil?
           marker.picture({
                            :picture => "http://chart.apis.google.com/chart?chst=d_map_spin&chld=1.1|0|90ee90|12|_|#{location.car.try(:name) }",
                            :width   => 100,
