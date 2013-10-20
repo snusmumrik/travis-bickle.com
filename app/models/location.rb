@@ -4,8 +4,8 @@ class Location < ActiveRecord::Base
 
   acts_as_gmappable :process_geocoding => false
   geocoded_by :address
-  reverse_geocoded_by :latitude, :longitude
-  after_validation :geocode, :reverse_geocode
+  # reverse_geocoded_by :latitude, :longitude
+  # after_validation :geocode, :reverse_geocode
 
   validates :car_id, :latitude, :longitude, :presence => true
 

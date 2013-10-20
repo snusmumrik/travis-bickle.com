@@ -43,7 +43,7 @@ $('#pickup-locations').change( ->
             m2 = new Date(result).toLocaleString("en-GB", {year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit"}).match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/)
             new_updated_at = m2[3] + "/" + m2[2] + "/" + m2[1] + " " + m2[4] + ":" + m2[5] + ":" + m2[6]
 
-            $('#car-' + car.id + ' td.address').html(car.address.replace(/^日本, /, ""))
+            $('#car-' + car.id + ' td.address').html(car.address)
             $('#car-' + car.id + ' td.updated-at').html(new_updated_at)
         error: (XMLHttpRequest, textStatus, errorThrown)->
           alert(errorThrown)
