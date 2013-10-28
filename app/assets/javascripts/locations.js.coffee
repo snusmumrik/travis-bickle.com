@@ -40,8 +40,17 @@ $('#pickup-locations').change( ->
             updated_at = new Date(m[1], m[2] - 1, m[3], m[4], m[5], m[6])
             # result = utc - (3600000 * offset)
             result = updated_at - (3600000 * offset)
-            m2 = new Date(result).toLocaleString("en-GB", {year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit"}).match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/)
-            new_updated_at = m2[3] + "/" + m2[2] + "/" + m2[1] + " " + m2[4] + ":" + m2[5] + ":" + m2[6]
+            # m2 = new Date(result).toLocaleString("en-GB", {year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit"}).match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/)
+            # new_updated_at = m2[3] + "/" + m2[2] + "/" + m2[1] + " " + m2[4] + ":" + m2[5] + ":" + m2[6]w
+
+            m2 = new Date(result)
+            if m2.getYear() < 2000 then yyyy =  m2.getYear() + 1900 else yyyy = m2.getYear()
+            mm = m2.getMonth() + 1
+            dd = m2.getDate()
+            hh = m2.getHours()
+            ii = m2.getMinutes()
+            ss = m2.getSeconds()
+            new_updated_at = yyyy + "/" + mm + "/" + dd + " " + hh + ":" + ii + ":" + ss + "<br>"
 
             $('#car-' + car.id + ' td.address').html(car.address)
             $('#car-' + car.id + ' td.updated-at').html(new_updated_at)
