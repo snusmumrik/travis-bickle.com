@@ -57,28 +57,23 @@ class CarsController < InheritedResources::Base
   # GET /cars/1.json
   def show
     @car = Car.find(params[:id])
-    if params[:year] && params[:month] && params[:day]
-      @year = params[:year].to_i
-      @month = params[:month].to_i
-      @day = params[:day].to_i
 
-      @reports = Report.includes(:driver).where(["car_id = ? AND started_at BETWEEN ? AND ?",
+    params[:year] = Date.today.year unless params[:year]
+    params[:month] = Date.today.month unless params[:month]
+
+    if params[:day]
+      @reports = Report.includes(:car, :driver).where(["car_id = ? AND started_at BETWEEN ? AND ?",
                                                  params[:id],
-                                                 Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 00:00}"),
-                                                 Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 23:59}")]).order("reports.started_at").all
-      @title += " | #{@reports.first.started_at.strftime("%Y年%-m月%-d日")} 日次成績 #{@car.name}" rescue "#{@year}年#{@month}月#{@day} 日次成績 #{@car.name}"
-    elsif params[:year] && params[:month]
-      @year = params[:year].to_i
-      @month = params[:month].to_i
-
-      @reports = Report.includes(:driver).where(["car_id = ? AND started_at BETWEEN ? AND ?", params[:id], Date.new(@year, @month, 1), Date.new(@year, @month, -1)]).order("reports.started_at").all
-      @title += " | #{@reports.first.started_at.strftime("%Y年%-m月")} 月次成績 #{@car.name}" rescue "#{@year}年#{@month}月} 月次成績 #{@car.name}"
+                                                 Time.parse("#{params[:year]}-#{params[:month]}-#{params[:day]} 00:00}"),
+                                                 Time.parse("#{params[:year]}-#{params[:month]}-#{params[:day]} 23:59}")]).order("reports.started_at").all
+      @title += " | #{params[:year]}年#{params[:month]}月#{params[:day]} 日次成績 #{@car.name}"
     else
-      @year = Date.today.year.to_i
-      @month = Date.today.month.to_i
-
-      @reports = Report.where(["car_id = ? AND started_at BETWEEN ? AND ?", params[:id], Date.new(@year, @month, 1), Date.new(@year, @month, -1)]).order("reports.started_at").all
-      @title += " | #{@reports.first.started_at.strftime("%Y年%-m月")} 月次成績 #{@car.name}" rescue "#{@year}年#{@month}月} 月次成績 #{@car.name}"
+      end_of_month = Date.new(params[:year].to_i, params[:month].to_i, -1).day
+      @reports = Report.includes(:car, :driver).where(["car_id = ? AND started_at BETWEEN ? AND ?",
+                                                 params[:id],
+                                                 Time.parse("#{params[:year]}-#{params[:month]}-01} 00:00}"),
+                                                 Time.parse("#{params[:year]}-#{params[:month]}-#{end_of_month} 23:59}")]).order("reports.started_at").all
+      @title += " | #{params[:year]}年#{params[:month]}月} 月次成績 #{@car.name}"
     end
 
     @mileage = 0
@@ -107,6 +102,14 @@ class CarsController < InheritedResources::Base
     end
 
     fuel_cost_hash = Hash.new do |hash, key|
+      hash[key] = 0
+    end
+
+    sales_data_hash = Hash.new do |hash, key|
+      hash[key] = 0
+    end
+
+    fuel_cost_data_hash = Hash.new do |hash, key|
       hash[key] = 0
     end
 
@@ -144,23 +147,13 @@ class CarsController < InheritedResources::Base
       # @sales_hash[report.driver][report.started_at.day] += report.sales
       # daily_@sales_hash[report.started_at.day] += report.sales
       # fuel_cost_hash[report.started_at.day] += report.fuel_cost
-    end
 
-    sales_data_hash = Hash.new do |hash, key|
-      hash[key] = 0
-    end
-
-    fuel_cost_data_hash = Hash.new do |hash, key|
-      hash[key] = 0
-    end
-
-    @reports.each do |report|
       sales_data_hash[report.started_at.day] += report.sales + report.extra_sales if report.sales && report.extra_sales
       fuel_cost_data_hash[report.started_at.day] += report.fuel_cost if report.fuel_cost
     end
 
     sales_array = Array.new
-    for i in 1..Date.new(@year, @month, -1).day
+    for i in 1..Date.new(params[:year].to_i, params[:month].to_i, -1).day
       if sales_data_hash[i] != 0
         sales_array << sales_data_hash[i]
       else
@@ -169,7 +162,7 @@ class CarsController < InheritedResources::Base
     end
 
     fuel_cost_array = Array.new
-    for i in 1..Date.new(@year, @month, -1).day
+    for i in 1..Date.new(params[:year].to_i, params[:month].to_i, -1).day
       if @sales_hash[i]
         fuel_cost_array << @sales_hash[i][:fuel_cost]
       else
@@ -178,7 +171,7 @@ class CarsController < InheritedResources::Base
     end
 
     fuel_cost_rates = Array.new
-    for i in 1..Date.new(@year, @month, -1).day
+    for i in 1..Date.new(params[:year].to_i, params[:month].to_i, -1).day
       if sales_data_hash[i] != 0
         fuel_cost_rates << (fuel_cost_data_hash[i].to_f / sales_data_hash[i] * 100).ceil
       else
@@ -188,7 +181,7 @@ class CarsController < InheritedResources::Base
 
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.title(:text => t("activerecord.attributes.report.sales"))
-      f.options[:xAxis][:categories] = (1..Date.new(@year, @month, -1).day).to_a
+      f.options[:xAxis][:categories] = (1..Date.new(params[:year].to_i, params[:month].to_i, -1).day).to_a
       f.labels(:items => [:html => "", :style => {:left => "40px", :top => "8px", :color => "black"} ])
       f.series(:type => "column", :name => t("activerecord.attributes.report.sales") + "+" + t("activerecord.attributes.report.extra_sales"), :yAxis => 0, :data => sales_array, :tooltip => {:valueSuffix => "円"})
       f.series(:type => "column", :name => t("activerecord.attributes.report.fuel_cost"), :yAxis => 0, :data => fuel_cost_array, :tooltip => {:valueSuffix => "円"})

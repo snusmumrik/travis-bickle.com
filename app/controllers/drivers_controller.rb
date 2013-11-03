@@ -49,25 +49,22 @@ class DriversController < InheritedResources::Base
   def show
     @driver = Driver.find(params[:id])
 
-    @year = params[:year].to_i if params[:year]
-    @month = params[:month].to_i if params[:month]
-    @day = params[:day].to_i if params[:day]
+    params[:year] = Date.today.year unless params[:year]
+    params[:month] = Date.today.month unless params[:month]
 
-    if @year && @month && @day
+    if params[:day]
       @reports = Report.includes(:car, :rests).where(["driver_id = ? AND started_at BETWEEN ? AND ?",
                                                       params[:id],
-                                                      Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 00:00}"),
-                                                      Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 23:59}")]).all
-      @title += " | #{@reports.first.started_at.strftime("%Y年%-m月%-d日")} 日次成績 #{@driver.name}" rescue "#{@year}年#{@month}月#{@day} 日次成績 #{@driver.name}"
-    elsif @year && @month
-      @reports = Report.includes(:car, :rests).where(["driver_id = ? AND started_at BETWEEN ? AND ? AND deleted_at IS NULL", params[:id], Date.new(@year, @month, 1), Date.new(@year, @month, -1)]).order("reports.started_at").all
-      @title += " | #{@reports.first.started_at.strftime("%Y年%-m月")} 月次成績 #{@driver.name}" rescue "#{@year}年#{@month}月 月次成績 #{@driver.name}"
+                                                      Time.parse("#{params[:year]}-#{params[:month]}-#{params[:day]} 00:00}"),
+                                                      Time.parse("#{params[:year]}-#{params[:month]}-#{params[:day]} 23:59}")]).order("reports.started_at").all
+      @title += " | #{params[:year]}年#{params[:month]}月#{params[:day]} 日次成績 #{@driver.name}"
     else
-      @year = Date.today.year
-      @month = Date.today.month
-
-      @reports = Report.includes(:car, :rests).where(["driver_id = ? AND started_at BETWEEN ? AND ?", params[:id], Date.new(@year, @month, 1), Date.new(@year, @month, -1)]).all
-      @title += " | #{@year}年#{@month}月 月次成績 #{@driver.name}"
+      end_of_month = Date.new(params[:year].to_i, params[:month].to_i, -1).day
+      @reports = Report.includes(:car, :rests).where(["driver_id = ? AND started_at BETWEEN ? AND ? AND deleted_at IS NULL",
+                                                      params[:id],
+                                                      Time.parse("#{params[:year]}-#{params[:month]}-01} 00:00}"),
+                                                      Time.parse("#{params[:year]}-#{params[:month]}-#{end_of_month} 23:59}")]).order("reports.started_at").all
+      @title += " | #{params[:year]}年#{params[:month]}月 月次成績 #{@driver.name}"
     end
 
     @sales_hash = Hash.new do |hash, key|
@@ -145,7 +142,7 @@ class DriversController < InheritedResources::Base
 
     if @sales_hash
       sales_array = Array.new
-      for i in 1..Date.new(@year, @month, -1).day
+      for i in 1..Date.new(params[:year].to_i, params[:month].to_i, -1).day
         if @sales_hash[i]
           sales_array << @sales_hash[i][:sales] + @sales_hash[i][:extra_sales]
         else
@@ -156,7 +153,7 @@ class DriversController < InheritedResources::Base
 
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.title(:text => t("activerecord.attributes.report.sales"))
-      f.options[:xAxis][:categories] = (1..Date.new(@year, @month, -1).day).to_a
+      f.options[:xAxis][:categories] = (1..Date.new(params[:year].to_i, params[:month].to_i, -1).day).to_a
       # f.labels(:items => [:html => "", :style => {:left => "40px", :top => "8px", :color => "black"} ])
       f.series(:type => 'column', :name => t("activerecord.attributes.report.sales") + "+" + t("activerecord.attributes.report.extra_sales"), :data => sales_array)
     end
@@ -165,7 +162,7 @@ class DriversController < InheritedResources::Base
       if params[:year] && params[:month]
         format.html # show.html.erb
       else
-        format.html {redirect_to "#{driver_path(@driver)}/#{@year}/#{@month}"}
+        format.html {redirect_to "#{driver_path(@driver)}/#{params[:year]}/#{params[:month]}"}
       end
       format.json { render json: @driver }
     end
