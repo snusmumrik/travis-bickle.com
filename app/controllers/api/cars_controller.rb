@@ -4,7 +4,8 @@ class Api::CarsController < ApplicationController
   # GET /api/cars
   # GET /api/cars.json
   def index
-    @cars = Car.where(["device_token = ? AND deleted_at IS NULL", params[:device_token]]).all
+    car = Car.where(["device_token = ? AND deleted_at IS NULL", params[:device_token]]).first
+    @cars = Car.where(["user_id = ? AND deleted_at IS NULL", car.user_id]).all if car
 
     respond_to do |format|
       if @cars
