@@ -26,7 +26,8 @@ class Api::NotificationsController < ApplicationController
   # PUT /api/notifications/1
   # PUT /api/notifications/1.json
   def update
-    @notification = Notification.joins(:car).where(["device_token = ? AND notifications.id = ?", params[:device_token], params[:id]]).first
+    car = Car.where(["device_token = ? AND deleted_at IS NULL", params[:device_token]]).first
+    @notification = Notification.find(params[:id]) if car
     if @notification
       @notification.canceled_at =  DateTime.now if params[:cancel]
       @notification.accepted_at =  DateTime.now if params[:accept]

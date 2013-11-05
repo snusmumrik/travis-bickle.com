@@ -86,8 +86,7 @@ class NotificationsController < InheritedResources::Base
                                             # identifier:   1234,                 # optional
                                             custom: {
                                               id: id
-                                            }
-                                            )
+                                            })
 
     pusher.push(notification)
   end
