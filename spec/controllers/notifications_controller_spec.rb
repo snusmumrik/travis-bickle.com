@@ -110,7 +110,7 @@ describe NotificationsController do
 
         it "redirects to the created notification" do
           post :create, {:notification => valid_attributes}
-          response.should redirect_to(Notification.last)
+          response.should redirect_to(notifications_path)
         end
       end
 

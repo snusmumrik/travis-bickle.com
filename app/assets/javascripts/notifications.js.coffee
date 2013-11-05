@@ -5,7 +5,7 @@
 # getNotifications = ->
 #   $.ajax({
 #     type: "GET",
-#     url: "/notifications/api_index.json",
+#     url: "/api/notificationsindex.json",
 #     success: (@json)->
 #       $('div.alert').fadeOut('slow', ->
 #         $(this).html('')

@@ -34,13 +34,14 @@ class PickupLocationsController < InheritedResources::Base
   # PUT /pickup_locations/1.json
   def update
     @pickup_location = PickupLocation.find(params[:id])
-    coordinate = Geocoder.coordinates(params[:pickup_location][:address])
-    params[:pickup_location][:latitude] = coordinate[0]
-    params[:pickup_location][:longitude] = coordinate[1]
+    if coordinate = Geocoder.coordinates(params[:pickup_location][:address])
+      params[:pickup_location][:latitude] = coordinate[0]
+      params[:pickup_location][:longitude] = coordinate[1]
+    end
 
     respond_to do |format|
       if @pickup_location.update_attributes(params[:pickup_location])
-        format.html { redirect_to pickup_locations_path, notice: t("activerecord.models.pickup_location") + t("message.updated") }
+        format.html { redirect_to @pickup_location, notice: t("activerecord.models.pickup_location") + t("message.updated") }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

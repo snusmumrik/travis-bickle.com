@@ -3,8 +3,9 @@ FactoryGirl.define do
     user
     car
     sequence(:text) {|n| "notification text#{n}"}
-    read false
-    cancel false
+    sent_at DateTime.now
+    canceled_at false
+    accepted_at false
     deleted_at nil
   end
 end

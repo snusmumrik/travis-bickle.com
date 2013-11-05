@@ -12,13 +12,8 @@ class RideObserver < ActiveRecord::Observer
   def calculate(ride)
     @report = ride.report
 
-    passengers = @report.rides.collect(&:passengers).inject(0) do |sum, n|
-      sum + n
-    end
-
-    sales = @report.rides.collect(&:fare).inject(0) do |sum, n|
-      sum + n
-    end
+    passengers = @report.rides.collect(&:passengers).sum
+    sales = @report.rides.collect(&:fare).sum
 
     @report.meter_fare_count = (sales - @report.car.base_fare * @report.riding_count) / @report.car.meter_fare unless sales.blank?
     @report.passengers = passengers

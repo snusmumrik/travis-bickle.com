@@ -48,10 +48,9 @@ describe DocumentsController do
         driver = FactoryGirl.create(:driver_with_report)
         year = Date.today.year
         month = Date.today.month
-        raise driver.reports.inspect
 
         get :index, {:driver_id => driver.id}
-        reports = Report.where(["driver_id = ? AND date BETWEEN ? AND ?", driver.id, Date.new(year, month, 1), Date.new(year, month, -1)]).order("date").all
+        reports = Report.where(["driver_id = ? AND started_at BETWEEN ? AND ?", driver.id, Date.new(year, month, 1), Date.new(year, month, -1)]).all
         assigns(:reports).should eq(reports)
       end
 
@@ -61,7 +60,7 @@ describe DocumentsController do
         month = Date.today.month
 
         get :index, {:driver_id => driver.id}
-        reports = Report.where(["driver_id = ? AND date BETWEEN ? AND ?", driver.id, Date.new(year, month, 1), Date.new(year, month, -1)]).all
+        reports = Report.where(["driver_id = ? AND started_at BETWEEN ? AND ?", driver.id, Date.new(year, month, 1), Date.new(year, month, -1)]).all
         assigns(:reports).should eq(reports)
       end
 

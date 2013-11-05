@@ -45,7 +45,7 @@ describe ReportsController do
 
     describe "GET index" do
       it "assigns all reports as @reports without params" do
-        reports = Report.includes(:car, :driver, :rests).where(["cars.user_id = ? AND date BETWEEN ? AND ?",
+        reports = Report.includes(:car, :driver, :rests).where(["cars.user_id = ? AND reports.started_at BETWEEN ? AND ?",
                                                                 controller.current_user.id,
                                                                 Date.new(Date.today.year.to_i, Date.today.month.to_i, 1),
                                                                 Date.new(Date.today.year.to_i, Date.today.month.to_i, -1)]).order("cars.name").all
@@ -57,7 +57,7 @@ describe ReportsController do
         year = Date.today.year
         month = Date.today.month
         day = Date.today.day
-        reports = Report.includes(:car, :driver, :rests).where(["cars.user_id = ? AND date BETWEEN ? AND ?",
+        reports = Report.includes(:car, :driver, :rests).where(["cars.user_id = ? AND reports.started_at BETWEEN ? AND ?",
                                                                 controller.current_user.id,
                                                                 Date.new(year, month, 1),
                                                                 Date.new(year, month, -1)]).order("cars.name").all
@@ -208,7 +208,7 @@ describe ReportsController do
         report = Report.create! valid_attributes
         expect {
           delete :destroy, {:id => report.to_param}
-        }.to change(Report, :count).by(0)
+        }.to change(Report, :count).by(-1)
         Report.last.deleted_at.should_not nil
       end
 

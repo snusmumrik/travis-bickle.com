@@ -1,46 +1,7 @@
 class NotificationsController < InheritedResources::Base
-  before_filter :authenticate_user!, :except => [:api_index, :api_update]
+  before_filter :authenticate_user!
   before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
   before_filter :prepare_options, :only => [:new, :edit, :create, :update]
-  skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
-
-  def api_index
-    @notifications = Notification.find_by_sql(["SELECT notifications.*, cars.name FROM notifications INNER JOIN cars ON cars.id = notifications.car_id WHERE (notifications.deleted_at IS NULL AND notifications.user_id = ? AND notifications.sent_at IS NULL)", current_user.id])
-
-    if @notifications.nil?
-      respond_to do |format|
-        format.json { render json:{:error => "not found" } }
-      end
-    else
-      @notifications.each do |notification|
-        notification.update_attribute(:sent_at, DateTime.now)
-      end
-
-      respond_to do |format|
-        format.json { render json: @notifications }
-      end
-    end
-  end
-
-  def api_update
-    @notification = Notification.find(params[:id])
-    if @notification
-      @notification.update_attribute(:canceled_at, DateTime.now) if params[:cancel]
-      @notification.update_attribute(:accepted_at, DateTime.now) if params[:accept]
-
-      respond_to do |format|
-        if @notification.save
-          format.json { render json: @notification }
-        else
-          format.json { render json: @notification.errors }
-        end
-      end
-    else
-      respond_to do |format|
-        format.json { render json:{:error => "not found" } }
-      end
-    end
-  end
 
   # GET /notifications
   # GET /notifications.json
@@ -49,7 +10,7 @@ class NotificationsController < InheritedResources::Base
     if params[:notification]
       @notifications = Notification.joins(:car).where(["cars.name LIKE ? OR text LIKE ?", "%#{params[:notification][:text]}%", "%#{params[:notification][:text]}%"])
     else
-      @notifications = Notification.where(["user_id = ?", current_user.id]).page params[:page]
+      @notifications = Notification.where(["user_id = ?", current_user.id]).order("created_at DESC").page params[:page]
     end
 
     respond_to do |format|
@@ -83,7 +44,7 @@ class NotificationsController < InheritedResources::Base
     @notification = Notification.find(params[:id])
     respond_to do |format|
       if @notification.update_attributes(params[:notification])
-        format.html { redirect_to notifications_path, notice: t("activerecord.models.notification") + t("message.updated") }
+        format.html { redirect_to @notification, notice: t("activerecord.models.notification") + t("message.updated") }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

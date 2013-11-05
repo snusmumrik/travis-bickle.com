@@ -1,119 +1,18 @@
 # -*- Coding: utf-8 -*-
 class ReportsController < InheritedResources::Base
-  before_filter :authenticate_user!, :except => [:api_show, :api_create, :api_update]
+  before_filter :authenticate_user!
   before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
-  before_filter :get_drivers_option, :except => [:api_show, :api_create, :api_update, :index, :show]
-  before_filter :get_cars_option, :except => [:api_show, :api_create, :api_update, :index, :show]
+  before_filter :get_drivers_option, :except => [:index, :show]
+  before_filter :get_cars_option, :except => [:index, :show]
   before_filter :check_balance, :only => [:create, :update]
-  skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
-
-  def api_show
-    @report = Report.where(["car_id = ? AND driver_id = ? AND finished_at IS NULL", params[:car_id], params[:driver_id]]).first
-    respond_to do |format|
-      if @report
-        format.json { render json: @report, status: :created, location: @report }
-      else
-        format.json { render json:{:error => "not found" } }
-      end
-    end
-  end
-
-  # POST /reports/api_create
-  # POST /reports/api_create.jsonb
-  def api_create
-    if params[:device_token]
-      car = Car.find(params[:car_id])
-      car.update_attribute(:device_token, params[:device_token])
-    end
-
-    @report = Report.where(["car_id = ? AND driver_id = ? AND finished_at IS NULL", params[:car_id], params[:driver_id]]).first
-    if @report
-      @report.update_attribute(:updated_at, Time.now())
-      respond_to do |format|
-        format.json { render json: @report }
-      end
-    else
-      @report = Report.new(:driver_id => params[:driver_id],
-                           :car_id => params[:car_id],
-                           :started_at => Date.today(),
-                           :started_at => DateTime.now())
-
-      respond_to do |format|
-        if @report.save
-          format.json { render json: @report, status: :created, location: @report }
-        else
-          format.json { render json: @report.errors, status: :unprocessable_entity }
-        end
-      end
-    end
-  end
-
-  # PUT /reports/api_update
-  # PUT /reports/api_update.json
-  def api_update
-    @report = Report.find(params[:report_id])
-    if @report
-      @last_meter = @report.last_meter
-
-      if meter = Meter.where(["report_id = ?", @report.id]).first
-        meter.update_attributes({ :report_id => @report.id,
-                                  :meter => params[:meter].presence || 0,
-                                  :mileage => params[:mileage].presence || 0,
-                                  :riding_mileage => params[:riding_mileage].presence || 0,
-                                  :riding_count => @last_meter.riding_count + params[:riding_count].to_i,
-                                  :meter_fare_count => @last_meter.meter_fare_count + params[:meter_fare_count].to_i })
-      else
-        Meter.create( :report_id => @report.id,
-                      :meter => params[:meter],
-                      :mileage => params[:mileage],
-                      :riding_mileage => params[:riding_mileage],
-                      :riding_count => @last_meter.riding_count + params[:riding_count].to_i,
-                      :meter_fare_count => @last_meter.meter_fare_count + params[:meter_fare_count].to_i
-                      )
-      end
-
-      credit = params[:cash].to_i + params[:ticket].to_i + params[:account_receivable].to_i + params[:fuel_cost].to_i + params[:advance].to_i
-      debit = params[:sales].to_i + params[:extra_sales].to_i
-      if debit - credit >= 0
-        deficiency_account = debit - credit
-        surplus_funds = 0
-      elsif credit - debit > 0
-        surplus_funds = credit - debit
-        deficiency_account = 0
-      end
-
-      @report.update_attributes({ :mileage => params[:mileage].to_i - @last_meter.mileage,
-                                  :riding_mileage => params[:riding_mileage].to_i - @last_meter.riding_mileage,
-                                  :riding_count => params[:riding_count],
-                                  :meter_fare_count => params[:meter_fare_count],
-                                  :fuel_cost => params[:fuel_cost].presence || 0,
-                                  :ticket => params[:ticket].presence || 0,
-                                  :account_receivable => params[:account_receivable].presence || 0,
-                                  :cash => params[:cash].presence || 0,
-                                  :sales => params[:sales].presence || 0,
-                                  :extra_sales => params[:extra_sales].presence || 0,
-                                  :surplus_funds => surplus_funds,
-                                  :deficiency_account => deficiency_account,
-                                  :finished_at => DateTime.now})
-
-
-      respond_to do |format|
-        if @report.save
-          format.json { render json: @report, status: :created, location: @report }
-        else
-          format.json { render json: @report.errors, status: :unprocessable_entity }
-        end
-      end
-    else
-      respond_to do |format|
-        format.json { render json:{:error => "not found" } }
-      end
-    end
-  end
 
   # GET /reports
   # GET /reports.json
   def index
+    params[:year] = Date.today.year unless params[:year]
+    params[:month] = Date.today.month unless params[:month]
+    params[:day] = Date.today.day unless params[:day]
+
     @reports = Report.includes(:car, :driver, :rests).where(["cars.user_id = ? AND reports.started_at BETWEEN ? AND ?",
                                                              current_user.id,
                                                              Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 00:00}"),
@@ -136,6 +35,7 @@ class ReportsController < InheritedResources::Base
     @deficiency_account = 0
     @advance = 0
     @rest_hash = {}
+    @sales_array = Array.new
 
     @reports.each do |report|
       @mileage += report.mileage if report.mileage
@@ -160,10 +60,6 @@ class ReportsController < InheritedResources::Base
       hours = rest_sum.divmod(60*60) #=> [12.0, 1800.0]
       mins = hours[1].divmod(60) #=> [30.0, 0.0]
       @rest_hash.store(report.id, [hours[0], mins[0]])
-    end
-
-    @sales_array = Array.new
-    @reports.each do |report|
       @sales_array << report.sales + report.extra_sales
     end
 
@@ -242,7 +138,7 @@ class ReportsController < InheritedResources::Base
   # POST /reports.json
   def create
     @report = Report.new(params[:report])
-    @report.started_at = @report.started_at.in_time_zone("Tokyo")
+    @report.started_at = @report.started_at.in_time_zone("Tokyo") if @report.started_at
 
     respond_to do |format|
       if @report.save

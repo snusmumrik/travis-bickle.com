@@ -8,13 +8,15 @@ class DocumentsController < ApplicationController
   # GET /documents.json
   def index
     @driver = Driver.find(params[:driver_id])
-    if params[:year] && params[:month]
-      @reports = Report.includes(:rests).where(["driver_id = ? AND started_at BETWEEN ? AND ?", params[:driver_id], Date.new(params[:year].to_i, params[:month].to_i, 1), (Date.new(params[:year].to_i, params[:month].to_i, 1) >> 1) - 1]).order("started_at").all
-    else
-      params[:year] = Date.today.year
-      params[:month] = Date.today.month
-      @reports = Report.includes(:rests).where(["driver_id = ? AND started_at BETWEEN ? AND ?", params[:driver_id], Date.new(Date.today.year.to_i, Date.today.month.to_i, 1), (Date.new(Date.today.year.to_i, Date.today.month.to_i, 1) >> 1) - 1]).all
-    end
+
+    params[:year] = Date.today.year unless params[:year]
+    params[:month] = Date.today.month unless params[:month]
+
+    @reports = Report.includes(:rests).where(["driver_id = ? AND started_at BETWEEN ? AND ?",
+                                              params[:driver_id],
+                                              Date.new(params[:year].to_i, params[:month].to_i, 1),
+                                              Date.new(params[:year].to_i, params[:month].to_i, -1)]
+                                             ).order("started_at").all
 
     @working_hours = 0
     @rest_hours = 0
@@ -93,8 +95,8 @@ class DocumentsController < ApplicationController
 
   private
   def authenticate_driver_owner
-    @driver = Driver.find(params[:driver_id])
-    redirect_to reports_path if @driver.user_id != current_user.id
+    @driver = Driver.find(params[:driver_id]) if params[:driver_id]
+    redirect_to reports_path if @driver.try(:user_id) != current_user.id
   end
 
   def authenticate_report_owner

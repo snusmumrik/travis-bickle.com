@@ -16,9 +16,9 @@ FactoryGirl.define do
       # attributes; `create_list`'s second argument is the number of records
       # to create and we make sure the user is associated properly to them
       after(:create) do |driver|
-        cars = Car.includes(:user).where(["user_id = ?", driver.user_id]).all
-        car = cars[rand(cars.size)]
-        create(:report_with_ride, driver: driver, car: car)
+        # cars = Car.includes(:user).where(["user_id = ?", driver.user_id]).all
+        # car = cars[rand(cars.size)]
+        create(:report_with_ride, driver: driver)#, car: car)
       end
     end
   end

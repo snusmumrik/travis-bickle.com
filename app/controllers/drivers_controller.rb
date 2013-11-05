@@ -1,42 +1,21 @@
 # -*- coding: utf-8 -*-
 class DriversController < InheritedResources::Base
-  before_filter :authenticate_user!, :except => [:api_signin, :api_index]
+  before_filter :authenticate_user!
   before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
-  skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
-
-  # GET /drivers
-  # GET /drivers.json
-  def api_signin
-    respond_to do |format|
-      @driver = Driver.where(["email = ? AND deleted_at IS NULL", params[:email]]).first
-      if @driver && @driver.authenticate(params[:password])
-        format.json { render json: @driver }
-      else
-        format.json { render json:{:error => "signin failed" } }
-      end
-    end
-  end
-
-  # GET /drivers
-  # GET /drivers.json
-  def api_index
-    driver = Driver.find(params[:driver_id])
-    @drivers = Driver.where(["user_id = ? AND deleted_at IS NULL", driver.user_id]).all if driver
-
-    respond_to do |format|
-      format.json { render json: @drivers }
-    end
-  end
 
   # GET /drivers
   # GET /drivers.json
   def index
     @title += " | #{t('activerecord.models.driver')}#{t('link.index')}"
     if params[:driver]
-      @drivers = Driver.where(["name LIKE ? OR email LIKE ?", "%#{params[:driver][:name]}%", "%#{params[:driver][:name]}%"])
+      @drivers = Driver.where(["user_id = ? AND deleted_at IS NULL AND (name LIKE ? OR email LIKE ?)",
+                               current_user.id,
+                               "%#{params[:driver][:name]}%",
+                               "%#{params[:driver][:name]}%"])
     else
       @drivers = Driver.where(["user_id = ? AND deleted_at IS NULL", current_user.id]).page params[:page]
     end
+
     respond_to do |format|
       format.html # index.html.erb
       format.js # index.js.erb

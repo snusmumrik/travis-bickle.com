@@ -1,40 +1,7 @@
 # -*- coding: utf-8 -*-
 class CarsController < InheritedResources::Base
-  before_filter :authenticate_user!, :except => [:api_index, :api_update]
+  before_filter :authenticate_user!
   before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
-  skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
-
-  # GET /cars
-  # GET /cars.json
-  def api_index
-    driver = Driver.find(params[:driver_id])
-    @cars = Car.where(["user_id = ? AND deleted_at IS NULL", driver.user_id]).all if driver
-
-    respond_to do |format|
-      format.json { render json: @cars }
-    end
-  end
-
-  # PUT /cars/api_update
-  # PUT /cars/api_update.json
-  def api_update
-    @car = Car.where(["id = ?", params[:car_id]]).first
-    if @car
-      @car.update_attributes({:device_token => params[:device_token]})
-
-      respond_to do |format|
-        if @car.save
-          format.json { render json: @car }
-        else
-          format.json { render json: @car.errors }
-        end
-      end
-    else
-      respond_to do |format|
-        format.json { render json:{:error => "not found" } }
-      end
-    end
-  end
 
   # GET /cars
   # GET /cars.json

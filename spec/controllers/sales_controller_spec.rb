@@ -47,7 +47,7 @@ describe SalesController do
       it "assigns all reports as @reports without params" do
         year = Date.today.year
         month = Date.today.month
-        reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date BETWEEN ? AND ?",
+        reports = Report.includes(:car => :user).where(["cars.user_id = ? AND started_at BETWEEN ? AND ?",
                                                         controller.current_user.id,
                                                         Date.new(year, month, 1),
                                                         Date.new(year, month, -1)]).all
@@ -58,7 +58,7 @@ describe SalesController do
       it "assigns all reports as @reports with params" do
         year = Date.today.year
         month = Date.today.month
-        reports = Report.includes(:car => :user).where(["cars.user_id = ? AND date BETWEEN ? AND ?",
+        reports = Report.includes(:car => :user).where(["cars.user_id = ? AND started_at BETWEEN ? AND ?",
                                                         controller.current_user.id,
                                                         Date.new(year, month, 1),
                                                         Date.new(year, month, -1)]).all

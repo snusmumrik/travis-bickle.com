@@ -1,26 +1,7 @@
 # -*- coding: utf-8 -*-
 class LocationsController < InheritedResources::Base
-  before_filter :authenticate_user!, :except => :api_update
+  before_filter :authenticate_user!
   before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
-  skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
-
-  # PUT /locations/api_update
-  # PUT /locations/api_update.json
-  def api_update
-    @location = Location.where(["car_id = ?", params[:car_id]]).first || Location.new(:car_id => params[:car_id])
-
-    @location.address = params[:address]
-    @location.latitude = params[:latitude]
-    @location.longitude = params[:longitude]
-
-    respond_to do |format|
-      if @location.update_attributes(params[:location])
-        format.json { render json: @location, status: :created, location: @location }
-      else
-        format.json { render json: @location.errors, status: :unprocessable_entity }
-      end
-    end
-  end
 
   # GET /locations
   # GET /locations.json

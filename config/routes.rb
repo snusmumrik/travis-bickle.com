@@ -7,60 +7,21 @@ TravisBickle::Application.routes.draw do
 
   resources :sales
 
-  resources :notifications do
-    collection do
-      get "api_index"
-      put "api_update"
-    end
-  end
+  resources :notifications
 
-  resources :rests do
-    collection do
-      post "api_create"
-      put "api_update"
-    end
-  end
+  resources :rests
 
-  resources :locations do
-    collection do
-      put "api_update"
-    end
-  end
+  resources :locations
 
-  resources :rides do
-    collection do
-      post "api_create"
-      put "api_update"
-    end
-  end
+  resources :rides
 
-  resources :reports do
-    collection do
-      post "api_show"
-      post "api_create"
-      put "api_update"
-    end
-  end
+  resources :reports
 
-  resources :check_points do
-    collection do
-      get "api_index"
-    end
-  end
+  resources :check_points
 
-  resources :drivers do
-    collection do
-      post "api_signin"
-      get "api_index"
-    end
-  end
+  resources :drivers
 
-  resources :cars do
-    collection do
-      get "api_index"
-      put "api_update"
-    end
-  end
+  resources :cars
 
   ActiveAdmin.routes(self)
 
@@ -132,6 +93,15 @@ TravisBickle::Application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  namespace :api do
+    resources :cars, :check_points, :locations, :notifications, :reports, :rests, :rides
+
+    resources :drivers do
+      collection do
+        post "signin"
+      end
+    end
+  end
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.

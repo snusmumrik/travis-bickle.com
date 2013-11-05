@@ -119,7 +119,7 @@
       getNotifications = function() {
         $.ajax({
           type: "GET",
-          url: "/notifications/api_index.json",
+          url: "/api/notifications.json",
           success: function(json) {
             var notification, _i, _len, _ref, _results;
             this.json = json;

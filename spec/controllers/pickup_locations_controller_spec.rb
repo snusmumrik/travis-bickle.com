@@ -43,7 +43,7 @@ describe PickupLocationsController do
 
     describe "GET index" do
       it "assigns all pickup_locations as @pickup_locations" do
-        pickup_location = PickupLocation.create! valid_attributes
+        pickup_location = FactoryGirl.create(:pickup_location, user: controller.current_user)
         get :index, {}, valid_session
         assigns(:pickup_locations).should eq([pickup_location])
       end
@@ -51,7 +51,7 @@ describe PickupLocationsController do
 
     describe "GET show" do
       it "assigns the requested pickup_location as @pickup_location" do
-        pickup_location = PickupLocation.create! valid_attributes
+        pickup_location = FactoryGirl.create(:pickup_location, user: controller.current_user)
         get :show, {:id => pickup_location.to_param}, valid_session
         assigns(:pickup_location).should eq(pickup_location)
       end
@@ -66,7 +66,7 @@ describe PickupLocationsController do
 
     describe "GET edit" do
       it "assigns the requested pickup_location as @pickup_location" do
-        pickup_location = PickupLocation.create! valid_attributes
+        pickup_location = FactoryGirl.create(:pickup_location, user: controller.current_user)
         get :edit, {:id => pickup_location.to_param}, valid_session
         assigns(:pickup_location).should eq(pickup_location)
       end
@@ -88,7 +88,7 @@ describe PickupLocationsController do
 
         it "redirects to the created pickup_location" do
           post :create, {:pickup_location => valid_attributes}, valid_session
-          response.should redirect_to(PickupLocation.last)
+          response.should redirect_to pickup_locations_path
         end
       end
 
@@ -112,7 +112,7 @@ describe PickupLocationsController do
     describe "PUT update" do
       describe "with valid params" do
         it "updates the requested pickup_location" do
-          pickup_location = PickupLocation.create! valid_attributes
+          pickup_location = FactoryGirl.create(:pickup_location, user: controller.current_user)
           # Assuming there are no other pickup_locations in the database, this
           # specifies that the PickupLocation created on the previous line
           # receives the :update_attributes message with whatever params are
@@ -122,13 +122,13 @@ describe PickupLocationsController do
         end
 
         it "assigns the requested pickup_location as @pickup_location" do
-          pickup_location = PickupLocation.create! valid_attributes
+          pickup_location = FactoryGirl.create(:pickup_location, user: controller.current_user)
           put :update, {:id => pickup_location.to_param, :pickup_location => valid_attributes}, valid_session
           assigns(:pickup_location).should eq(pickup_location)
         end
 
         it "redirects to the pickup_location" do
-          pickup_location = PickupLocation.create! valid_attributes
+          pickup_location = FactoryGirl.create(:pickup_location, user: controller.current_user)
           put :update, {:id => pickup_location.to_param, :pickup_location => valid_attributes}, valid_session
           response.should redirect_to(pickup_location)
         end
@@ -136,7 +136,7 @@ describe PickupLocationsController do
 
       describe "with invalid params" do
         it "assigns the pickup_location as @pickup_location" do
-          pickup_location = PickupLocation.create! valid_attributes
+        pickup_location = FactoryGirl.create(:pickup_location, user: controller.current_user)
           # Trigger the behavior that occurs when invalid params are submitted
           PickupLocation.any_instance.stub(:save).and_return(false)
           put :update, {:id => pickup_location.to_param, :pickup_location => { "user" => "invalid value" }}, valid_session
@@ -144,7 +144,7 @@ describe PickupLocationsController do
         end
 
         it "re-renders the 'edit' template" do
-          pickup_location = PickupLocation.create! valid_attributes
+        pickup_location = FactoryGirl.create(:pickup_location, user: controller.current_user)
           # Trigger the behavior that occurs when invalid params are submitted
           PickupLocation.any_instance.stub(:save).and_return(false)
           put :update, {:id => pickup_location.to_param, :pickup_location => { "user" => "invalid value" }}, valid_session
@@ -155,22 +155,22 @@ describe PickupLocationsController do
 
     describe "DELETE destroy" do
       it "destroys the requested pickup_location" do
-        pickup_location = PickupLocation.create! valid_attributes
+        pickup_location = FactoryGirl.create(:pickup_location, user: controller.current_user)
         expect {
           delete :destroy, {:id => pickup_location.to_param}, valid_session
         }.to change(PickupLocation, :count).by(-1)
       end
 
       it "redirects to the pickup_locations list" do
-        pickup_location = PickupLocation.create! valid_attributes
+        pickup_location = FactoryGirl.create(:pickup_location, user: controller.current_user)
         delete :destroy, {:id => pickup_location.to_param}, valid_session
         response.should redirect_to(pickup_locations_url)
       end
     end
   end
 
-  context "unauthenticated use" do
-        describe "GET index" do
+  context "unauthenticated user" do
+    describe "GET index" do
       it "redirects to signin" do
         get :index, {}
         response.should redirect_to "/users/sign_in"
@@ -179,7 +179,7 @@ describe PickupLocationsController do
 
     describe "GET show" do
       it "redirect to signin" do
-        pickup_location = PickupLocation.create! valid_attributes
+        pickup_location = FactoryGirl.create(:pickup_location)
         get :show, {:id => pickup_location.to_param}
         response.should redirect_to "/users/sign_in"
       end
@@ -194,7 +194,7 @@ describe PickupLocationsController do
 
     describe "GET edit" do
       it "redirect to signin" do
-        pickup_location = PickupLocation.create! valid_attributes
+        pickup_location = FactoryGirl.create(:pickup_location)
         get :edit, {:id => pickup_location.to_param}
         response.should redirect_to "/users/sign_in"
       end
