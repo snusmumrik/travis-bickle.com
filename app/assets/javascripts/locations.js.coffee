@@ -2,6 +2,41 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
+Date::getMonthTwoDigits = ->
+  retval = @getMonth() + 1
+  if retval < 10
+    "0" + retval.toString()
+  else
+    retval.toString()
+
+Date::getDateTwoDigits = ->
+  retval = @getDate()
+  if retval < 10
+    "0" + retval.toString()
+  else
+    retval.toString()
+
+ Date::getHoursTwoDigits = ->
+  retval = @getHours()
+  if retval < 10
+    "0" + retval.toString()
+  else
+    retval.toString()
+
+Date::getMinutesTwoDigits = ->
+  retval = @getMinutes()
+  if retval < 10
+    "0" + retval.toString()
+  else
+    retval.toString()
+
+Date::getSecondsTwoDigits = ->
+  retval = @getSeconds()
+  if retval < 10
+    "0" + retval.toString()
+  else
+    retval.toString()
+
 $('#pickup-locations').change( ->
   $('#location_address').val($(this).val())
   $("input[name='commit']").submit()
@@ -45,11 +80,11 @@ $('#pickup-locations').change( ->
 
             m2 = new Date(result)
             if m2.getYear() < 2000 then yyyy =  m2.getYear() + 1900 else yyyy = m2.getYear()
-            mm = m2.getMonth() + 1
-            dd = m2.getDate()
-            hh = m2.getHours()
-            ii = m2.getMinutes()
-            ss = m2.getSeconds()
+            mm = m2.getMonthTwoDigits()
+            dd = m2.getDateTwoDigits()
+            hh = m2.getHoursTwoDigits()
+            ii = m2.getMinutesTwoDigits()
+            ss = m2.getSecondsTwoDigits()
             new_updated_at = yyyy + "/" + mm + "/" + dd + " " + hh + ":" + ii + ":" + ss + "<br>"
 
             $('#car-' + car.id + ' td.address').html(car.address)
