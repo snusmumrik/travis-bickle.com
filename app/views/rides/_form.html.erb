@@ -37,12 +37,12 @@
     <%= f.text_field :fare %>
   </div>
     <div class="field">
-    <%= f.label :created_at %><br />
-    <%= f.datetime_select :created_at, :default => @report.started_at %>
+    <%= f.label :started_at %><br />
+    <%= f.datetime_select :started_at, :default => @report.started_at %>
   </div>
   <div class="field">
       <%= f.label :ended_at %><br />
-      <%= f.datetime_select :ended_at, :default => @report.started_at %>
+      <%= f.datetime_select :ended_at, :default => @report.ended_at %>
     </div>
   <div class="actions">
     <%= f.submit %>

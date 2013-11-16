@@ -181,7 +181,7 @@ ja:
         leave_address: 降車地
         passengers: 乗客数
         fare: 料金
-        created_at: 乗車時刻
+        started_at: 乗車時刻
         ended_at: 降車時刻
         deleted_at: deleted_at  #g
         report: :activerecord.models.report  #g

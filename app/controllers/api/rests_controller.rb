@@ -19,7 +19,8 @@ class Api::RestsController < ApplicationController
                        :report_id => @rest.report_id,
                        :latitude => @rest.latitude,
                        :longitude => @rest.longitude,
-                       :address => @rest.address
+                       :address => @rest.address,
+                       :started_at => @rest.started_at
                      }]
         format.json { render json: @json, status: :created, location: @json }
       else
@@ -36,10 +37,19 @@ class Api::RestsController < ApplicationController
     if @rest
       @rest.update_attributes({ :location => params[:location],
                                 :ended_at => DateTime.now })
-
       respond_to do |format|
         if @rest.save
-          format.json { render json: @rest }
+          @json = Hash[:rest => {
+                         :id => @rest.id,
+                         :report_id => @rest.report_id,
+                         :location => @rest.location,
+                         :latitude => @rest.latitude,
+                         :longitude => @rest.longitude,
+                         :address => @rest.address,
+                         :started_at => @rest.started_at,
+                         :ended_at => @rest.ended_at
+                       }]
+          format.json { render json: @json }
         else
           format.json { render json: @rest.errors, status: :unprocessable_entity }
         end

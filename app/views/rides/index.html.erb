@@ -7,7 +7,7 @@
     <th><%=t "activerecord.attributes.ride.leave_address" %></th>
     <th><%=t "activerecord.attributes.ride.passengers" %></th>
     <th><%=t "activerecord.attributes.ride.fare" %></th>
-    <th><%=t "activerecord.attributes.ride.created_at" %></th>
+    <th><%=t "activerecord.attributes.ride.started_at" %></th>
     <th><%=t "activerecord.attributes.ride.ended_at" %></th>
     <th></th>
     <th></th>
@@ -21,7 +21,7 @@
     <td><%= ride.leave_address %></td>
     <td><%= ride.passengers %></td>
     <td><%= ride.fare %></td>
-    <td><%= ride.created_at.strftime("%Y年%m月%d日 %H時%M分") %></td>
+    <td><%= ride.started_at.strftime("%Y年%m月%d日 %H時%M分") %></td>
     <td><%= ride.ended_at.strftime("%Y年%m月%d日 %H時%M分") %></td>
     <td><%= link_to t("link.show"), ride %></td>
     <td><%= link_to t("link.edit"), edit_ride_path(ride) %></td>

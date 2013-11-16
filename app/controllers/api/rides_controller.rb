@@ -9,7 +9,8 @@ class Api::RidesController < ApplicationController
       @ride = Ride.new(:report_id => params[:report_id],
                        :ride_latitude => params[:ride_latitude],
                        :ride_longitude => params[:ride_longitude],
-                       :ride_address => params[:ride_address]
+                       :ride_address => params[:ride_address],
+                       :started_at => Time.now()
                        )
     end
 
@@ -51,6 +52,20 @@ class Api::RidesController < ApplicationController
 
       respond_to do |format|
         if @ride.save
+          @json = Hash[:ride => {
+                         :id => @ride.id,
+                         :report_id => @ride.report_id,
+                         :ride_latitude => @ride.ride_latitude,
+                         :ride_longitude => @ride.ride_longitude,
+                         :ride_address => @ride.ride_address,
+                         :leave_latitude => @ride.leave_latitude,
+                         :leave_longitude => @ride.leave_longitude,
+                         :leave_address => @ride.leave_address,
+                         :passengers => @ride.passengers,
+                         :fare => @ride.fare,
+                         :started_at => @ride.started_at,
+                         :ended_at => @ride.ended_at
+                       }]
           format.json { render json: @ride }
         else
           format.json { render json: @ride.errors, status: :unprocessable_entity }
