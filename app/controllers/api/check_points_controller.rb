@@ -4,7 +4,7 @@ class Api::CheckPointsController < ApplicationController
   # GET /api/check_points
   # GET /api/check_points.json
   def index
-    @car = Car.where(["device_token = ? AND deleted_at IS NULL", params[:device_token]]).first
+    @car = Car.where(["device_token = ? AND deleted_at IS NULL", params[:device_token]]).order("updated_at DESC").first
     @check_points = CheckPoint.where(["user_id = ?", @car.user_id]).all
     respond_to do |format|
       if @check_points

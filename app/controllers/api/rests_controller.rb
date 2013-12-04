@@ -35,10 +35,8 @@ class Api::RestsController < ApplicationController
     @rest = Rest.where(["id = ? AND report_id = ?" , params[:id], params[:report_id]]).first
 
     if @rest
-      @rest.update_attributes({ :location => params[:location],
-                                :ended_at => DateTime.now })
       respond_to do |format|
-        if @rest.save
+        if @rest.update_attributes({ :location => params[:location], :ended_at => DateTime.now })
           @json = Hash[:rest => {
                          :id => @rest.id,
                          :report_id => @rest.report_id,
@@ -63,7 +61,7 @@ class Api::RestsController < ApplicationController
 
   private
   def authenticate_token
-    @car = Car.where(["device_token = ?", params[:device_token]]).first
+    @car = Car.where(["device_token = ? AND deleted_at IS NULL", params[:device_token]]).order("updated_at DESC").first
     @report = Report.where(["id = ? AND car_id = ?", params[:report_id], @car.try(:id)]).first
     render json:{ :error => "Not Acceptable:rests#authenticate_token", :status => 406 } unless @report
   end

@@ -106,7 +106,7 @@ class Api::ReportsController < ApplicationController
 
   private
   def authenticate_token
-    @car = Car.where(["device_token = ?", params[:device_token]]).first
+    @car = Car.where(["device_token = ? AND deleted_at IS NULL", params[:device_token]]).order("updated_at DESC").first
     @report = Report.where(["id = ? AND car_id = ?", params[:id], @car.id]).first if @car
     render json:{ :error => "Not Acceptable:reports#authenticate_token", :status => 406 } unless @report
   end
