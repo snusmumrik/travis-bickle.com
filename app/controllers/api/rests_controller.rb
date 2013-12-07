@@ -5,12 +5,14 @@ class Api::RestsController < ApplicationController
   # POST /api/rests
   # POST /api/rests.jsonb
   def create
-    @rest = Rest.new(:report_id => params[:report_id],
-                     :latitude => params[:latitude],
-                     :longitude => params[:longitude],
-                     :address => params[:address],
-                     :started_at => Time.now()
-                     )
+    unless @rest = Rest.where(["report_id = ? AND ended_at IS NULL", params[:report_id]]).first
+      @rest = Rest.new(:report_id => params[:report_id],
+                       :latitude => params[:latitude],
+                       :longitude => params[:longitude],
+                       :address => params[:address],
+                       :started_at => Time.now()
+                       )
+    end
 
     respond_to do |format|
       if @rest.save
@@ -24,7 +26,7 @@ class Api::RestsController < ApplicationController
                      }]
         format.json { render json: @json, status: :created, location: @json }
       else
-        format.json { render json: @rest.errors, status: :unprocessable_entity }
+        format.json { render json: {:error => "Rest creation faild."}, status: :unprocessable_entity }
       end
     end
   end
@@ -49,7 +51,7 @@ class Api::RestsController < ApplicationController
                        }]
           format.json { render json: @json }
         else
-          format.json { render json: @rest.errors, status: :unprocessable_entity }
+          format.json { render json: {:error => "Rest update failed."}, status: :unprocessable_entity }
         end
       end
     else

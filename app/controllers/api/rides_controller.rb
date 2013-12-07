@@ -32,7 +32,7 @@ class Api::RidesController < ApplicationController
                     ]
         format.json { render json: @json, status: :created, location: @ride }
       else
-        format.json { render json: @ride.errors, status: :unprocessable_entity }
+        format.json { render json: {:error => "Ride creation failed."}, status: :unprocessable_entity }
       end
     end
   end
@@ -40,8 +40,7 @@ class Api::RidesController < ApplicationController
   # PUT /api/rides/1
   # PUT /api/rides/1.json
   def update
-    @ride = Ride.where(["id = ? AND report_id = ?", params[:id], params[:report_id]]).first
-    if @ride
+    if @ride = Ride.find(params[:id])
       @ride.update_attributes({ :leave_latitude => params[:leave_latitude],
                                 :leave_longitude => params[:leave_longitude],
                                 :leave_address => params[:leave_address],
@@ -68,7 +67,7 @@ class Api::RidesController < ApplicationController
                        }]
           format.json { render json: @ride }
         else
-          format.json { render json: @ride.errors, status: :unprocessable_entity }
+          format.json { render json: {:error => "Ride update failed."}, status: :unprocessable_entity }
         end
       end
     else
@@ -81,7 +80,6 @@ class Api::RidesController < ApplicationController
   private
   def authenticate_token
     @car = Car.where(["device_token = ? AND deleted_at IS NULL", params[:device_token]]).order("updated_at DESC").first
-    @report = Report.where(["id = ? AND car_id = ?", params[:report_id], @car.try(:id)]).first
-    render json:{ :error => "Not Acceptable:rides#authenticate_token", :status => 406 } unless @report
+    render json:{ :error => "Not Acceptable:rides#authenticate_token", :status => 406 } unless @car
   end
 end
