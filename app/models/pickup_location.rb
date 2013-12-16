@@ -8,4 +8,8 @@ class PickupLocation < ActiveRecord::Base
   # paginates_per 25
 
   validates :name, :presence => true
+
+  scope :name_matches, lambda {|q|
+    where "name like :q", :q => "%#{q}%"
+  }
 end

@@ -155,7 +155,7 @@ describe DriversController do
         it "redirects to the driver" do
           driver = Driver.create! valid_attributes
           put :update, {:id => driver.to_param, :driver => valid_attributes}
-          response.should redirect_to(driver)
+          response.should redirect_to(drivers_path)
         end
       end
 

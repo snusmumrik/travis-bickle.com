@@ -8,7 +8,10 @@ class NotificationsController < InheritedResources::Base
   def index
     @title += " | #{t('activerecord.models.notification')}"
     if params[:notification]
-      @notifications = Notification.joins(:car).where(["cars.name LIKE ? OR text LIKE ?", "%#{params[:notification][:text]}%", "%#{params[:notification][:text]}%"])
+      @notifications = Notification.joins(:car).where(["cars.name LIKE ? OR text LIKE ?",
+                                                       "%#{params[:notification][:text]}%",
+                                                       "%#{params[:notification][:text]}%"
+                                                      ]).order("created_at DESC")
     else
       @notifications = Notification.where(["user_id = ?", current_user.id]).order("created_at DESC").page params[:page]
     end
@@ -44,7 +47,7 @@ class NotificationsController < InheritedResources::Base
     @notification = Notification.find(params[:id])
     respond_to do |format|
       if @notification.update_attributes(params[:notification])
-        format.html { redirect_to @notification, notice: t("activerecord.models.notification") + t("message.updated") }
+        format.html { redirect_to notifications_path, notice: t("activerecord.models.notification") + t("message.updated") }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

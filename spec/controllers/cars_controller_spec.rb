@@ -154,7 +154,7 @@ describe CarsController do
         it "redirects to the car" do
           car = Car.create! valid_attributes
           put :update, {:id => car.to_param, :car => valid_attributes}
-          response.should redirect_to(car)
+          response.should redirect_to(cars_path)
         end
       end
 

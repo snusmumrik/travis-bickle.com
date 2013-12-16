@@ -130,7 +130,7 @@ describe PickupLocationsController do
         it "redirects to the pickup_location" do
           pickup_location = FactoryGirl.create(:pickup_location, user: controller.current_user)
           put :update, {:id => pickup_location.to_param, :pickup_location => valid_attributes}, valid_session
-          response.should redirect_to(pickup_location)
+          response.should redirect_to(pickup_locations_path)
         end
       end
 

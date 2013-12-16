@@ -171,7 +171,7 @@ class DriversController < InheritedResources::Base
 
     respond_to do |format|
       if @driver.update_attributes(params[:driver])
-      format.html { redirect_to @driver, notice: t("activerecord.models.driver") + t("message.updated") }
+      format.html { redirect_to drivers_path, notice: t("activerecord.models.driver") + t("message.updated") }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

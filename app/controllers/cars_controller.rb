@@ -8,7 +8,7 @@ class CarsController < InheritedResources::Base
   def index
     @title += "#{t('activerecord.models.car')}#{t('link.index')}"
     if params[:car]
-      @cars = Car.name_matches params[:car][:name]
+      @cars = Car.where(["deleted_at IS NULL AND user_id = ?", current_user.id]).name_matches params[:car][:name]
     else
       @cars = Car.where(["deleted_at IS NULL AND user_id = ?", current_user.id]).page params[:page]
     end
@@ -194,7 +194,7 @@ class CarsController < InheritedResources::Base
 
     respond_to do |format|
       if @car.update_attributes(params[:car])
-      format.html { redirect_to @car, notice: t("activerecord.models.car") + t("message.updated") }
+      format.html { redirect_to cars_path, notice: t("activerecord.models.car") + t("message.updated") }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

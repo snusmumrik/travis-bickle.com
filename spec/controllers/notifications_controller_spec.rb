@@ -161,7 +161,7 @@ describe NotificationsController do
         it "redirects to the notification" do
           notification = Notification.create! valid_attributes
           put :update, {:id => notification.to_param, :notification => valid_attributes}
-          response.should redirect_to(notification)
+          response.should redirect_to(notifications_path)
         end
       end
 

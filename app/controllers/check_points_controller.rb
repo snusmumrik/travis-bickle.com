@@ -7,7 +7,7 @@ class CheckPointsController < InheritedResources::Base
   def index
     @title += " | #{t('activerecord.models.check_point')}"
     if params[:check_point]
-      @check_points = @check_points.name_matches params[:check_point][:name]
+      @check_points = CheckPoint.where(["user_id = ?", current_user.id]).name_matches params[:check_point][:name]
     else
       @check_points = CheckPoint.where(["user_id = ?", current_user.id]).page params[:page]
     end
@@ -41,7 +41,7 @@ class CheckPointsController < InheritedResources::Base
     @check_point = CheckPoint.find(params[:id])
     respond_to do |format|
       if @check_point.update_attributes(params[:check_point])
-        format.html { redirect_to @check_point, notice: t("activerecord.models.check_point") + t("message.updated") }
+        format.html { redirect_to check_points_path, notice: t("activerecord.models.check_point") + t("message.updated") }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

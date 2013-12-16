@@ -1,6 +1,6 @@
 <h1><%= t("activerecord.models.pickup_location") %><%=  t("link.index") %></h1>
 
-<%= form_for Car.new, :url => cars_path, :remote => true, :html => {:method => :get} do |f| %>
+<%= form_for PickupLocation.new, :url => pickup_locations_path, :remote => true, :html => {:method => :get} do |f| %>
   <%= f.search_field :name %>
   <%= f.submit t("link.search"), :class => "btn" %>
 <% end %>

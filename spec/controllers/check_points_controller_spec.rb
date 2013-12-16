@@ -155,7 +155,7 @@ describe CheckPointsController do
         it "redirects to the check_point" do
           check_point = CheckPoint.create! valid_attributes
           put :update, {:id => check_point.to_param, :check_point => valid_attributes}
-          response.should redirect_to(check_point)
+          response.should redirect_to(check_points_path)
         end
       end
 

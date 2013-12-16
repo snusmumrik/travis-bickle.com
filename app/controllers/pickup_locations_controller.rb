@@ -5,10 +5,15 @@ class PickupLocationsController < InheritedResources::Base
   # GET /pickup_locations
   # GET /pickup_locations.json
   def index
-    @pickup_locations = PickupLocation.where(["user_id = ?", current_user.id]).order(:name).page params[:page]
+    if params[:pickup_location]
+      @pickup_locations = PickupLocation.where(["user_id = ?", current_user.id]).name_matches(params[:pickup_location][:name]).order("name")
+    else
+      @pickup_locations = PickupLocation.where(["user_id = ?", current_user.id]).order(:name).page params[:page]
+    end
 
     respond_to do |format|
       format.html # index.html.erb
+      format.js # index.js.erb
       format.json { render json: @pickup_locations }
     end
   end
@@ -41,7 +46,7 @@ class PickupLocationsController < InheritedResources::Base
 
     respond_to do |format|
       if @pickup_location.update_attributes(params[:pickup_location])
-        format.html { redirect_to @pickup_location, notice: t("activerecord.models.pickup_location") + t("message.updated") }
+        format.html { redirect_to pickup_locations_path, notice: t("activerecord.models.pickup_location") + t("message.updated") }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
