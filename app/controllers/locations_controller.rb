@@ -16,9 +16,13 @@ class LocationsController < InheritedResources::Base
 
     if params[:location] && !params[:location][:address].blank?
       # @locations = Location.includes(:car => [:user, :reports => [:rides, :rests]]).near(params[:location][:address])
-      @locations = Location.where(["cars.user_id = ? AND reports.finished_at IS NULL AND reports.deleted_at IS NULL", current_user.id]).near(params[:location][:address]).joins(:car => :reports).group(:id)
+      @locations = Location.where(["cars.user_id = ? AND reports.finished_at IS NULL AND reports.deleted_at IS NULL",
+                                   current_user.id
+                                  ]).near(params[:location][:address]).joins(:car => :reports).group(:id)
     else
-      @locations = Location.includes(:car => :reports).where(["cars.user_id = ? AND reports.finished_at IS NULL AND reports.deleted_at IS NULL", current_user.id]).order("locations.car_id").all
+      @locations = Location.includes(:car => :reports).where(["cars.user_id = ? AND reports.finished_at IS NULL AND reports.deleted_at IS NULL",
+                                                              current_user.id
+                                                             ]).order("locations.car_id").all
     end
 
     @json = @locations.to_gmaps4rails do |location, marker|

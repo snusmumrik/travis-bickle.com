@@ -288,8 +288,8 @@
     <% if i <= (@report.rides.size + 1)/2 - 1%>
        <tr>
          <td class="center"><%= i + 1 %></td>
-         <td><%= ride.ride_address %></td>
-         <td><%= ride.leave_address %></td>
+         <td><%= ride.ride_address.gsub("(null)", "") %></td>
+         <td><%= ride.leave_address.gsub("(null)", "") %></td>
          <td><%= ride.passengers %></td>
          <td><%= number_with_delimiter ride.fare %></td>
          <td><% if ride.started_at %><%= ride.started_at.strftime("%H時%M分") %><% end %></td>
@@ -317,8 +317,8 @@
       <% if i > (@report.rides.size + 1)/2 - 1 %>
         <tr>
           <td class="center"><%= i + 1 %></td>
-          <td><%= ride.ride_address %></td>
-          <td><%= ride.leave_address %></td>
+          <td><%= ride.ride_address.gsub("(null)", "") %></td>
+          <td><%= ride.leave_address.gsub("(null)", "") %></td>
           <td><%= ride.passengers %></td>
           <td><%= number_with_delimiter ride.fare %></td>
           <td><% if ride.started_at %><%= ride.started_at.strftime("%H時%M分") %><% end %></td>

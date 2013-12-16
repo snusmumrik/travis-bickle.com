@@ -87,7 +87,7 @@ $('#pickup-locations').change( ->
             ss = m2.getSecondsTwoDigits()
             new_updated_at = yyyy + "/" + mm + "/" + dd + " " + hh + ":" + ii + ":" + ss + "<br>"
 
-            $('#car-' + car.id + ' td.address').html(car.address)
+            $('#car-' + car.id + ' td.address').html(car.address.replace('(null)', ''))
             $('#car-' + car.id + ' td.updated-at').html(new_updated_at)
         error: (XMLHttpRequest, textStatus, errorThrown)->
           alert(errorThrown)
