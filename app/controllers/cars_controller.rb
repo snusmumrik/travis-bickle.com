@@ -8,9 +8,9 @@ class CarsController < InheritedResources::Base
   def index
     @title += "#{t('activerecord.models.car')}#{t('link.index')}"
     if params[:car]
-      @cars = Car.where(["deleted_at IS NULL AND user_id = ?", current_user.id]).name_matches params[:car][:name]
+      @cars = Car.where(["deleted_at IS NULL AND user_id = ?", current_user.id]).name_matches(params[:car][:name]).order("name")
     else
-      @cars = Car.where(["deleted_at IS NULL AND user_id = ?", current_user.id]).page params[:page]
+      @cars = Car.where(["deleted_at IS NULL AND user_id = ?", current_user.id]).order("name").page params[:page]
     end
 
     respond_to do |format|

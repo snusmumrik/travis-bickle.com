@@ -11,9 +11,10 @@ class DriversController < InheritedResources::Base
       @drivers = Driver.where(["user_id = ? AND deleted_at IS NULL AND (name LIKE ? OR email LIKE ?)",
                                current_user.id,
                                "%#{params[:driver][:name]}%",
-                               "%#{params[:driver][:name]}%"])
+                               "%#{params[:driver][:name]}%"
+                              ]).order("name")
     else
-      @drivers = Driver.where(["user_id = ? AND deleted_at IS NULL", current_user.id]).page params[:page]
+      @drivers = Driver.where(["user_id = ? AND deleted_at IS NULL", current_user.id]).order("name").page params[:page]
     end
 
     respond_to do |format|
