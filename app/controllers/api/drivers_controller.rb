@@ -19,7 +19,7 @@ class Api::DriversController < ApplicationController
   # GET /api/drivers.json
   def index
     @driver = Driver.find(params[:driver_id])
-    @drivers = Driver.where(["user_id = ? AND deleted_at IS NULL", @driver.user_id]).all
+    @drivers = Driver.where(["user_id = ? AND deleted_at IS NULL", @driver.user_id]).order("name").all
 
     respond_to do |format|
       if @drivers
