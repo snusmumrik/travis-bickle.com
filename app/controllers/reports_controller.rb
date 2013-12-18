@@ -18,7 +18,7 @@ class ReportsController < InheritedResources::Base
                                                              Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 00:00}"),
                                                              Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 23:59}")
                                                             ]).order("cars.name, reports.started_at").all
-    @title += " | #{@reports.first.started_at.strftime("%Y年%-m月%-d日")} 日次成績" rescue "#{params[:year]}年#{params[:month]}月#{params[:day]} 日次成績"
+    @title += " | #{@reports.first.started_at.strftime("%Y年%-m月%-d日")} #{t('views.report.index')}" rescue "#{params[:year]}年#{params[:month]}月#{params[:day]} #{t('views.report.index')}"
 
     @mileage = 0
     @riding_mileage = 0
@@ -111,7 +111,7 @@ class ReportsController < InheritedResources::Base
       month = Date.today.month.to_i
     end
 
-    @title += " | #{year}年#{month}月 月次成績"
+    @title += " | #{year}年#{month}月 #{t('views.report.daily')}"
 
     @reports = Report.includes(:car => :user).where(["cars.user_id = ? AND started_at BETWEEN ? AND ?",
                                                      current_user.id,
