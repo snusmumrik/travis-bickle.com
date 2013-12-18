@@ -5,8 +5,6 @@ TravisBickle::Application.routes.draw do
 
   resources :documents
 
-  resources :sales
-
   resources :notifications
 
   resources :rests
@@ -56,7 +54,7 @@ TravisBickle::Application.routes.draw do
   match 'cars/:id/:year/:month/:day' => 'cars#show'
   match 'drivers/:id/:year/:month' => 'drivers#show'
   match 'drivers/:id/:year/:month/:day' => 'drivers#show'
-  match 'sales/:year/:month' => 'sales#index'
+  match 'reports/:year/:month' => 'reports#daily'
   match 'reports/:year/:month/:day' => 'reports#index'
   match 'documents/drivers/:driver_id/:year/:month' => 'documents#index'
   match 'documents/reports/:report_id' => 'documents#show'

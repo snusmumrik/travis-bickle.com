@@ -229,6 +229,8 @@ ja:
       next: "次 &rsaquo;"
 
     report:
+      index: 売上
+      daily: 日次売上
       fuel_cost_rate: 燃料費率
 
   label:
@@ -288,10 +290,8 @@ ja:
       show: 月次成績
 
     report:
-      index: 日次集計
-
-    sale:
-      index: 月次集計
+      index: 本日の売上
+      daily: 今月の売上
 
     user:
       signin: サインイン

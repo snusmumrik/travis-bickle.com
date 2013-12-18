@@ -59,13 +59,13 @@
                 <%#= link_to t("activerecord.models.pickup_location"), pickup_locations_path %>
                 <a href="<%= pickup_locations_path %>"><i class="icon-flag-alt"></i> <%= t("activerecord.models.pickup_location") %></a>
               </li>
-              <% if params[:id] == "reports" %><li class="active"><% else %><li><% end %>
+              <% if params[:id] == "reports" && controller.action_name == "index" %><li class="active"><% else %><li><% end %>
                 <%#= link_to t("activerecord.models.report"), "#{reports_path}/#{Date.today.year}/#{Date.today.month}/#{Date.today.day}" %>
-                <a href="<%= "#{reports_path}/#{Date.today.year}/#{Date.today.month}/#{Date.today.day}" %>"><i class="icon-edit"></i> <%= t("activerecord.models.report") %></a>
+                <a href="<%= "#{reports_path}/#{Date.today.year}/#{Date.today.month}/#{Date.today.day}" %>"><i class="icon-edit"></i> <%= t("link.report.index") %></a>
               </li>
-              <% if params[:id] == "sales" %><li class="active"><% else %><li><% end %>
-                <%#= link_to t("link.sale.index"), "#{sales_path}/#{Date.today.year}/#{Date.today.month}" %>
-                <a href="<%= "#{sales_path}/#{Date.today.year}/#{Date.today.month}" %>"><i class="icon-bar-chart"></i> <%= t("link.sale.index") %></a>
+              <% if params[:id] == "reports" && controller.action_name == "daily" %><li class="active"><% else %><li><% end %>
+                <%#= link_to t("link.sale.index"), "#{reports_path}/#{Date.today.year}/#{Date.today.month}" %>
+                <a href="<%= "#{reports_path}/#{Date.today.year}/#{Date.today.month}" %>"><i class="icon-bar-chart"></i> <%= t("link.report.daily") %></a>
               </li>
               <% if params[:id] == "notifications" %><li class="active"><% else %><li><% end %>
                 <%#= link_to t("activerecord.models.notification"), notifications_path %>

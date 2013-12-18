@@ -1,14 +1,14 @@
 <div class="pagination">
   <ul>
-    <li><%= link_to "#{params[:year].to_i - 1}年 «", "#{sales_path}/#{params[:year].to_i - 1}/12" %></li>
+    <li><%= link_to "#{params[:year].to_i - 1}年 «", "#{reports_path}/#{params[:year].to_i - 1}/12" %></li>
     <% if params[:year].to_i < Date.today.year %>
       <% for i in 1..12 %>
-        <li><%= link_to "#{i}月", "#{sales_path}/#{params[:year]}/#{i}" %></li>
+        <li><%= link_to "#{i}月", "#{reports_path}/#{params[:year]}/#{i}" %></li>
       <% end %>
-      <li><%= link_to "» #{params[:year].to_i + 1}年", "#{sales_path}/#{params[:year].to_i + 1}/1" %></li>
+      <li><%= link_to "» #{params[:year].to_i + 1}年", "#{reports_path}/#{params[:year].to_i + 1}/1" %></li>
     <% else %>
       <% for i in 1..Date.today.month %>
-      <li><%= link_to "#{i}月", "#{sales_path}/#{params[:year]}/#{i}" %></li>
+      <li><%= link_to "#{i}月", "#{reports_path}/#{params[:year]}/#{i}" %></li>
       <% end %>
     <% end %>
   </ul>

@@ -1,9 +1,9 @@
 <h1>
   <%= "#{params[:year]}年#{params[:month]}月" %>
-  <%= t("link.sale.index") %>
+  <%= t("views.report.daily") %>
 </h1>
 
-<%= render "reports" %>
+<%= render "daily_reports" %>
 <%= high_chart("daily_chart", @daily_chart) %>
 
 <%= render "drivers" %>

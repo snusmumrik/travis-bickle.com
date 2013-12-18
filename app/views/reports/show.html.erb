@@ -2,15 +2,15 @@
 
 <div class="pagination">
   <ul>
-    <li><%= link_to "#{@report.started_at.year - 1}年 «", "#{sales_path}/#{@report.started_at.year - 1}/12" %></li>
+    <li><%= link_to "#{@report.started_at.year - 1}年 «", "#{reports_path}/#{@report.started_at.year - 1}/12" %></li>
     <% if @report.started_at.year < Date.today.year %>
        <% for i in 1..12 %>
-       <li><%= link_to "#{i}月", "#{sales_path}/#{@report.started_at.year}/#{i}" %></li>
+       <li><%= link_to "#{i}月", "#{reports_path}/#{@report.started_at.year}/#{i}" %></li>
        <% end %>
-       <li><%= link_to "» #{@report.started_at.year + 1}年", "#{sales_path}/#{@report.started_at.year + 1}/1" %></li>
+       <li><%= link_to "» #{@report.started_at.year + 1}年", "#{reports_path}/#{@report.started_at.year + 1}/1" %></li>
        <% else %>
        <% for i in 1..Date.today.month %>
-       <li><%= link_to "#{i}月", "#{sales_path}/#{@report.started_at.year}/#{i}" %></li>
+       <li><%= link_to "#{i}月", "#{reports_path}/#{@report.started_at.year}/#{i}" %></li>
        <% end %>
        <% end %>
   </ul>
