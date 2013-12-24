@@ -44,7 +44,7 @@ table.small th,td{
     </tr>
     <tr>
       <th><%=t "activerecord.models.driver" %></th>
-      <td><%= @reports.first.driver.name %></td>
+      <td><%= @driver.name %></td>
     </tr>
   </table>
 </div>
@@ -81,47 +81,75 @@ table.small th,td{
     <th><%=t "label.document.note" %></th>
   </tr>
 
-  <% @reports.each do |report| %>
-    <tr>
-      <td>
-        <% if report.started_at.strftime("%w") == "0" %>
-          <%= link_to report.started_at.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.started_at.wday]})"), report_path(report), :class => "red" %>
-        <% elsif report.started_at.strftime("%w") == "6" %>
-          <%= link_to report.started_at.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.started_at.wday]})"), report_path(report), :class => "blue" %>
-        <% else %>
-          <%= link_to report.started_at.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.started_at.wday]})"), report_path(report) %>
-        <% end %>
-      </td>
-      <td>
-        <% if report.started_at %><%= report.started_at.strftime("%H時%M分") %><% end %>
-      </td>
-      <td>
-        <% if report.finished_at %><%= report.finished_at.strftime("%H時%M分") %><% end %>
-      </td>
-      <td>
-        <% if report.finished_at %>
-        <%= (report.finished_at - report.started_at).divmod(60*60)[0] %>時間
-        <%= (report.finished_at - report.started_at).divmod(60*60)[1].divmod(60)[0] %>分
-        <% end %>
-      </td>
-      <td>
-        <% if @rest_hash[report.id] %>
-          <%= @rest_hash[report.id][0] %>時間
-          <%= @rest_hash[report.id][1] %>分
-        <% end %>
-      </td>
-      <td>
-        <% if report.finished_at && @rest_hash[report.id] %>
-          <%= ((report.finished_at - report.started_at).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[0] %>時間
-          <%= ((report.finished_at - report.started_at).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
-        <% end %>
-      </td>
-      <td></td>
-      <td><%= @late_night_hash[report.id] %></td>
-      <td></td>
-      <td><%= number_to_currency report.sales + report.extra_sales, :locale => "ja" %></td>
-      <td></td>
-    </tr>
+  <% for i in 1..Date.new(params[:year].to_i, params[:month].to_i, - 1).day %>
+    <% unless @report_hash[i].blank? %>
+      <% @report_hash[i].each_with_index do |report, j| %>
+        <tr>
+          <td>
+            <% if j == 0 %>
+              <% if report.started_at.strftime("%w") == "0" %>
+                <%= link_to report.started_at.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.started_at.wday]})"), report_path(report), :class => "red" %>
+              <% elsif report.started_at.strftime("%w") == "6" %>
+                <%= link_to report.started_at.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.started_at.wday]})"), report_path(report), :class => "blue" %>
+              <% else %>
+                <%= link_to report.started_at.strftime("%-d日(#{%w(日 月 火 水 木 金 土)[report.started_at.wday]})"), report_path(report) %>
+              <% end %>
+            <% end %>
+          </td>
+          <td>
+            <% if report.started_at %><%= report.started_at.strftime("%H時%M分") %><% end %>
+          </td>
+          <td>
+            <% if report.finished_at %><%= report.finished_at.strftime("%H時%M分") %><% end %>
+          </td>
+          <td>
+            <% if report.finished_at %>
+              <%= (report.finished_at - report.started_at).divmod(60*60)[0] %>時間
+              <%= (report.finished_at - report.started_at).divmod(60*60)[1].divmod(60)[0] %>分
+            <% end %>
+          </td>
+          <td>
+            <% if @rest_hash[report.id] %>
+              <%= @rest_hash[report.id][0] %>時間
+              <%= @rest_hash[report.id][1] %>分
+            <% end %>
+          </td>
+          <td>
+            <% if report.finished_at && @rest_hash[report.id] %>
+              <%= ((report.finished_at - report.started_at).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[0] %>時間
+              <%= ((report.finished_at - report.started_at).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
+            <% end %>
+          </td>
+          <td></td>
+          <td><%= @late_night_hash[report.id] %></td>
+          <td></td>
+          <td><%= number_to_currency report.sales + report.extra_sales, :locale => "ja" %></td>
+          <td></td>
+        </tr>
+      <% end %>
+    <% else %>
+      <tr>
+        <td>
+          <% if Date.new(params[:year].to_i, params[:month].to_i, i).strftime("%w") == "0" %>
+            <%= link_to Date.new(params[:year].to_i, params[:month].to_i, i).strftime("%-d日(#{%w(日 月 火 水 木 金 土)[Date.new(params[:year].to_i, params[:month].to_i, i).wday]})"), "#{reports_path}/#{params[:year]}/#{params[:month]}/#{i}", :class => "red" %>
+          <% elsif Date.new(params[:year].to_i, params[:month].to_i, i).strftime("%w") == "6" %>
+            <%= link_to Date.new(params[:year].to_i, params[:month].to_i, i).strftime("%-d日(#{%w(日 月 火 水 木 金 土)[Date.new(params[:year].to_i, params[:month].to_i, i).wday]})"), "#{reports_path}/#{params[:year]}/#{params[:month]}/#{i}", :class => "blue" %>
+          <% else %>
+            <%= link_to Date.new(params[:year].to_i, params[:month].to_i, i).strftime("%-d日(#{%w(日 月 火 水 木 金 土)[Date.new(params[:year].to_i, params[:month].to_i, i).wday]})"), "#{reports_path}/#{params[:year]}/#{params[:month]}/#{i}" %>
+          <% end %>
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    <% end %>
   <% end %>
 
   <tr class="info">

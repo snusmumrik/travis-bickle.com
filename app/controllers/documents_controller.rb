@@ -14,9 +14,9 @@ class DocumentsController < ApplicationController
 
     @reports = Report.includes(:rests).where(["driver_id = ? AND started_at BETWEEN ? AND ?",
                                               params[:driver_id],
-                                              Date.new(params[:year].to_i, params[:month].to_i, 1),
-                                              Date.new(params[:year].to_i, params[:month].to_i, -1)]
-                                             ).order("started_at").all
+                                              Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-1 00:00}"),
+                                              Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{Date.new(params[:year].to_i, params[:month].to_i, -1).day} 23:59}")
+                                             ]).order("started_at").all
 
     @working_hours = 0
     @rest_hours = 0
@@ -26,7 +26,13 @@ class DocumentsController < ApplicationController
     @sales = 0
     @extra_sales = 0
 
+    @report_hash = Hash.new do |hash, key|
+      hash[key] = Array.new
+    end
+
     @reports.each do |report|
+      @report_hash[report.started_at.day] << report
+
       rest_time = 0
       report.rests.each do |rest|
         rest_time += rest.ended_at - rest.started_at if rest.ended_at
@@ -58,11 +64,13 @@ class DocumentsController < ApplicationController
       end
     end
 
+    title = "労務時間報告書#{@reports[0].started_at.strftime('%Y%0m')}_(#{@reports[0].driver.name})" rescue "労務時間報告書"
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @reports }
       format.pdf do
-        render :pdf => "労務時間報告書#{@reports[0].started_at.strftime('%Y%0m')}_(#{@reports[0].driver.name})", :encoding => "UTF-8"
+        render :pdf => title, :encoding => "UTF-8"
       end
     end
   end

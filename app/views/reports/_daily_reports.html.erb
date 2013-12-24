@@ -34,22 +34,22 @@
         <%= link_to Date.new(params[:year].to_i, params[:month].to_i, i).strftime("%-d日(#{%w(日 月 火 水 木 金 土)[Date.new(params[:year].to_i, params[:month].to_i, i).wday]})"), "#{reports_path}/#{params[:year]}/#{params[:month]}/#{i}" %>
         <% end %>
       </td>
-      <td><%= number_with_delimiter @sales_hash[i][:mileage] %><% if @sales_hash[i][:mileage] %>km<% end %></td>
-      <td><%= number_with_delimiter @sales_hash[i][:riding_mileage] %><% if @sales_hash[i][:riding_mileage] %>km<% end %></td>
-      <td><%= number_to_percentage(@sales_hash[i][:riding_mileage]*100/@sales_hash[i][:mileage], :precision => 0) rescue "" %></td>
-      <td><%= number_with_delimiter @sales_hash[i][:riding_count] %><% if @sales_hash[i][:riding_count] %>回<% end %></td>
-      <td><%= number_with_delimiter @sales_hash[i][:meter_fare_count] %><% if @sales_hash[i][:meter_fare_count] %>回<% end %></td>
-      <td><%= number_with_delimiter @sales_hash[i][:passengers] %><% if @sales_hash[i][:passengers] %>人<% end %></td>
-      <td><%= number_to_currency @sales_hash[i][:sales], :locale => "ja" %></td>
-      <td><%= number_to_currency @sales_hash[i][:extra_sales], :locale => "ja" %></td>
-      <td><%= number_to_currency((@sales_hash[i][:sales] + @sales_hash[i][:extra_sales])/@sales_hash[i][:mileage], :precision => 0, :locale => "ja") rescue "" %></td>
-      <td><%= number_to_currency @sales_hash[i][:fuel_cost], :locale => "ja" %></td>
-      <td><%= number_to_currency @sales_hash[i][:ticket], :locale => "ja" %></td>
-      <td><%= number_to_currency @sales_hash[i][:account_receivable], :locale => "ja" %></td>
-      <td><%= number_to_currency @sales_hash[i][:cash], :locale => "ja" %></td>
-      <td><%= number_to_currency @sales_hash[i][:surplus_funds], :locale => "ja" %></td>
-      <td><%= number_to_currency @sales_hash[i][:deficiency_account], :locale => "ja" %></td>
-      <td><%= number_to_currency @sales_hash[i][:advance], :locale => "ja" %></td>
+      <td><%= number_with_delimiter @report_hash[i][:mileage] %><% if @report_hash[i][:mileage] %>km<% end %></td>
+      <td><%= number_with_delimiter @report_hash[i][:riding_mileage] %><% if @report_hash[i][:riding_mileage] %>km<% end %></td>
+      <td><%= number_to_percentage(@report_hash[i][:riding_mileage]*100/@report_hash[i][:mileage], :precision => 0) rescue "" %></td>
+      <td><%= number_with_delimiter @report_hash[i][:riding_count] %><% if @report_hash[i][:riding_count] %>回<% end %></td>
+      <td><%= number_with_delimiter @report_hash[i][:meter_fare_count] %><% if @report_hash[i][:meter_fare_count] %>回<% end %></td>
+      <td><%= number_with_delimiter @report_hash[i][:passengers] %><% if @report_hash[i][:passengers] %>人<% end %></td>
+      <td><%= number_to_currency @report_hash[i][:sales], :locale => "ja" %></td>
+      <td><%= number_to_currency @report_hash[i][:extra_sales], :locale => "ja" %></td>
+      <td><%= number_to_currency((@report_hash[i][:sales] + @report_hash[i][:extra_sales])/@report_hash[i][:mileage], :precision => 0, :locale => "ja") rescue "" %></td>
+      <td><%= number_to_currency @report_hash[i][:fuel_cost], :locale => "ja" %></td>
+      <td><%= number_to_currency @report_hash[i][:ticket], :locale => "ja" %></td>
+      <td><%= number_to_currency @report_hash[i][:account_receivable], :locale => "ja" %></td>
+      <td><%= number_to_currency @report_hash[i][:cash], :locale => "ja" %></td>
+      <td><%= number_to_currency @report_hash[i][:surplus_funds], :locale => "ja" %></td>
+      <td><%= number_to_currency @report_hash[i][:deficiency_account], :locale => "ja" %></td>
+      <td><%= number_to_currency @report_hash[i][:advance], :locale => "ja" %></td>
       <td><%= link_to t("link.show"), "#{reports_path}/#{params[:year]}/#{params[:month]}/#{i}", :class => "btn" %></td>
     </tr>
   <% end %>

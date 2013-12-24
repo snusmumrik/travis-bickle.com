@@ -119,7 +119,7 @@ class ReportsController < InheritedResources::Base
                                                      Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{Date.new(params[:year].to_i, params[:month].to_i, -1).day.to_s} 23:59}")
                                                     ]).all
 
-    @sales_hash = Hash.new do |hash, key|
+    @report_hash = Hash.new do |hash, key|
       hash[key] = Hash.new do |hash, key|
         hash[key] = 0
       end
@@ -152,20 +152,20 @@ class ReportsController < InheritedResources::Base
                                                 Date.new(year, month, -1)]).all
 
     @reports.each do |report|
-      @sales_hash[report.started_at.day][:mileage] += report.mileage if report.mileage
-      @sales_hash[report.started_at.day][:riding_mileage] += report.riding_mileage if report.riding_mileage
-      @sales_hash[report.started_at.day][:riding_count] += report.riding_count if report.riding_count
-      @sales_hash[report.started_at.day][:meter_fare_count] += report.meter_fare_count if report.meter_fare_count
-      @sales_hash[report.started_at.day][:passengers] += report.passengers if report.passengers
-      @sales_hash[report.started_at.day][:sales] += report.sales if report.sales
-      @sales_hash[report.started_at.day][:extra_sales] += report.extra_sales if report.extra_sales
-      @sales_hash[report.started_at.day][:fuel_cost] += report.fuel_cost if report.fuel_cost
-      @sales_hash[report.started_at.day][:ticket] += report.ticket if report.ticket
-      @sales_hash[report.started_at.day][:account_receivable] += report.account_receivable if report.account_receivable
-      @sales_hash[report.started_at.day][:cash] += report.cash if report.cash
-      @sales_hash[report.started_at.day][:surplus_funds] += report.surplus_funds if report.surplus_funds
-      @sales_hash[report.started_at.day][:deficiency_account] += report.deficiency_account if report.deficiency_account
-      @sales_hash[report.started_at.day][:advance] += report.advance if report.advance
+      @report_hash[report.started_at.day][:mileage] += report.mileage if report.mileage
+      @report_hash[report.started_at.day][:riding_mileage] += report.riding_mileage if report.riding_mileage
+      @report_hash[report.started_at.day][:riding_count] += report.riding_count if report.riding_count
+      @report_hash[report.started_at.day][:meter_fare_count] += report.meter_fare_count if report.meter_fare_count
+      @report_hash[report.started_at.day][:passengers] += report.passengers if report.passengers
+      @report_hash[report.started_at.day][:sales] += report.sales if report.sales
+      @report_hash[report.started_at.day][:extra_sales] += report.extra_sales if report.extra_sales
+      @report_hash[report.started_at.day][:fuel_cost] += report.fuel_cost if report.fuel_cost
+      @report_hash[report.started_at.day][:ticket] += report.ticket if report.ticket
+      @report_hash[report.started_at.day][:account_receivable] += report.account_receivable if report.account_receivable
+      @report_hash[report.started_at.day][:cash] += report.cash if report.cash
+      @report_hash[report.started_at.day][:surplus_funds] += report.surplus_funds if report.surplus_funds
+      @report_hash[report.started_at.day][:deficiency_account] += report.deficiency_account if report.deficiency_account
+      @report_hash[report.started_at.day][:advance] += report.advance if report.advance
 
       @mileage += report.mileage if report.mileage
       @riding_mileage += report.riding_mileage if report.riding_mileage
@@ -200,8 +200,8 @@ class ReportsController < InheritedResources::Base
 
     @sales_array = Array.new
     for i in 1..Date.new(year, month, -1).day
-      if @sales_hash[i]
-        @sales_array << @sales_hash[i][:sales] + @sales_hash[i][:extra_sales]
+      if @report_hash[i]
+        @sales_array << @report_hash[i][:sales] + @report_hash[i][:extra_sales]
       else
         @sales_array << 0
       end
@@ -209,8 +209,8 @@ class ReportsController < InheritedResources::Base
 
     @fuel_cost_array = Array.new
     for i in 1..Date.new(year, month, -1).day
-      if @sales_hash[i]
-        @fuel_cost_array << @sales_hash[i][:fuel_cost]
+      if @report_hash[i]
+        @fuel_cost_array << @report_hash[i][:fuel_cost]
       else
         @fuel_cost_array << 0
       end
@@ -222,9 +222,9 @@ class ReportsController < InheritedResources::Base
     end
 
     fuel_cost_rates = Array.new
-    for i in 1..@sales_hash.size
-      if (!@sales_hash[i][:sales].blank? && @sales_hash[i][:sales].to_i != 0) || (!@sales_hash[i][:extra_sales].blank? && @sales_hash[i][:extra_sales].to_i != 0)
-        fuel_cost_rates << (@sales_hash[i][:fuel_cost].to_f / (@sales_hash[i][:sales].to_i + @sales_hash[i][:extra_sales]) * 100).ceil
+    for i in 1..@report_hash.size
+      if (!@report_hash[i][:sales].blank? && @report_hash[i][:sales].to_i != 0) || (!@report_hash[i][:extra_sales].blank? && @report_hash[i][:extra_sales].to_i != 0)
+        fuel_cost_rates << (@report_hash[i][:fuel_cost].to_f / (@report_hash[i][:sales].to_i + @report_hash[i][:extra_sales]) * 100).ceil
       else
         fuel_cost_rates << 0
       end
