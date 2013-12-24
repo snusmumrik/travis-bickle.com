@@ -4,7 +4,7 @@ class Car < ActiveRecord::Base
   has_many :reports
   has_many :drivers, :through => :reports
 
-  attr_accessible :user_id, :name, :base_fare, :meter_fare, :access_token, :device_token, :deleted_at
+  attr_accessible :user_id, :name, :base_fare, :meter_fare, :access_token, :device_token, :deleted_at, :updated_at
 
   # if use this, deleted car's reports cannot be shown
   # acts_as_paranoid
