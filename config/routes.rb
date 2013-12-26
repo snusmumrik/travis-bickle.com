@@ -99,6 +99,12 @@ TravisBickle::Application.routes.draw do
         post "signin"
       end
     end
+
+    resources :users do
+      collection do
+        post "signin"
+      end
+    end
   end
 
   # You can have the root of your site routed with "root"
