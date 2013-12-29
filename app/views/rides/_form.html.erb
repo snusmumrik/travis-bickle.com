@@ -36,7 +36,11 @@
     <%= f.label :fare %><br />
     <%= f.text_field :fare %>
   </div>
-    <div class="field">
+    <%= f.label :segment %><br />
+  <div class="field">
+    <%= f.select :segment, options_for_select(@segment_options, @ride.segment) %>
+  </div>
+  <div class="field">
     <%= f.label :started_at %><br />
     <%= f.datetime_select :started_at, :default => @ride.started_at %>
   </div>

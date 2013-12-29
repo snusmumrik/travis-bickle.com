@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131115095028) do
+ActiveRecord::Schema.define(:version => 20131228214519) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -56,6 +56,17 @@ ActiveRecord::Schema.define(:version => 20131115095028) do
     t.datetime "deleted_at"
     t.datetime "created_at",                        :null => false
     t.datetime "updated_at",                        :null => false
+  end
+
+  create_table "api_talks", :force => true do |t|
+    t.integer  "sender_user_id"
+    t.integer  "sender_car_id"
+    t.integer  "receiver_user_id"
+    t.integer  "receiver_car_id"
+    t.binary   "contents"
+    t.boolean  "received"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "cars", :force => true do |t|
@@ -212,6 +223,7 @@ ActiveRecord::Schema.define(:version => 20131115095028) do
     t.string   "leave_address"
     t.integer  "passengers",      :default => 0
     t.integer  "fare",            :default => 0
+    t.integer  "segment",         :default => 0
     t.datetime "started_at"
     t.datetime "ended_at"
     t.datetime "deleted_at"
@@ -233,6 +245,7 @@ ActiveRecord::Schema.define(:version => 20131115095028) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "authentication_token"
     t.string   "address"
     t.float    "latitude"
     t.float    "longitude"

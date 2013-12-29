@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 class RidesController < InheritedResources::Base
   before_filter :authenticate_user!
+  before_filter :set_options, :only => [:new, :edit, :create, :update]
 
   # GET /rides
   # GET /rides.json
@@ -66,6 +68,15 @@ class RidesController < InheritedResources::Base
     respond_to do |format|
       format.html { redirect_to @ride.report }
       format.json { head :ok }
+    end
+  end
+
+  private
+  def set_options
+    @segment_options = Array.new
+    segments = ["現金", "Edy", "チケット"]
+    segments.each_with_index do |segment, i|
+      @segment_options << [segment, i]
     end
   end
 end
