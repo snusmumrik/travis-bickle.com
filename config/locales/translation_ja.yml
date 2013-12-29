@@ -74,6 +74,8 @@ ja:
         car_model: 年式
         base_fare: 初乗料金
         meter_fare: メーター料金
+        meter_fare_segment: 爾後距離
+        initial_meter: 初乗り距離
         access_token: アクセストークン
         device_token: デバイストークン
         deleted_at: deleted_at  #g
