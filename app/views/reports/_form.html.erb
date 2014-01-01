@@ -75,11 +75,11 @@
   </div>
   <div class="field">
     <%= f.label :started_at %>
-    <%= f.datetime_select :started_at %>
+    <%= f.datetime_select :started_at, :start_year => Date.today.year - 1, :end_year => Date.today.year + 1 %>
   </div>
   <div class="field">
     <%= f.label :finished_at %>
-    <%= f.datetime_select :finished_at, :start_year => Date.today.year, :end_year => Date.today.year + 1, :include_blank => true %>
+    <%= f.datetime_select :finished_at, :start_year => Date.today.year - 1, :end_year => Date.today.year + 1, :include_blank => true %>
   </div>
   <div class="actions">
     <%= f.submit t("helpers.submit.update"), :class => "btn" %>
