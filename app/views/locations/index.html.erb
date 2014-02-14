@@ -1,4 +1,10 @@
-<%= gmaps(:map_options => {:language => "ja", :center_latitude => controller.current_user.latitude, :center_longitude => controller.current_user.longitude, :zoom => 13, :auto_adjust => false},
+<%= gmaps(:map_options => {
+            :language => "ja",
+            :center_latitude => controller.current_user.latitude,
+            :center_longitude => controller.current_user.longitude,
+            :zoom => 13,
+            :auto_adjust => false
+          },
           :markers => {:data => @json}) %>
 
 <% content_for :scripts do %>
@@ -18,6 +24,7 @@
 
 <div class="right">
   <%= form_for Location.new, :url => locations_path, :remote => true, :html => {:method => :get, :class => "form-search"} do |f| %>
+    <%= hidden_field :location, :pickup_location %>
     <%= f.search_field :address, :class => "input-xxlarge search-query" %>
     <%= f.submit t("link.search"), :class => "btn" %>
   <% end %>

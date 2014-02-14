@@ -15,6 +15,8 @@ class LocationsController < InheritedResources::Base
     end
 
     if params[:location] && !params[:location][:address].blank?
+      @pickup_location = params[:location][:pickup_location]
+      @address = params[:location][:address]
       # @locations = Location.includes(:car => [:user, :reports => [:rides, :rests]]).near(params[:location][:address])
       @locations = Location.where(["cars.user_id = ? AND reports.finished_at IS NULL AND reports.deleted_at IS NULL",
                                    current_user.id

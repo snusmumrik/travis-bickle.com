@@ -64,7 +64,7 @@ group :test do
 end
 
 gem 'devise'
-gem 'rails3_acts_as_paranoid'
+gem 'paranoia'
 gem 'omniauth'
 gem 'oa-oauth', :require => 'omniauth/oauth'
 gem 'activeadmin'

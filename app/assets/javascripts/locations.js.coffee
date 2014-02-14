@@ -38,6 +38,7 @@ Date::getSecondsTwoDigits = ->
     retval.toString()
 
 $('#pickup-locations').change( ->
+  $('#location_pickup_location').val($('option:selected', this).html())
   $('#location_address').val($(this).val())
   $("input[name='commit']").submit()
 )
