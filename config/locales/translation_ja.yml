@@ -311,8 +311,8 @@ ja:
       resend_confirmation: 登録メールの再送
 
     document:
-      index: 労務時間
-      show: 乗務記録
+      index: 労務時間報告書
+      show: 乗務記録簿
 
     content:
       about_travis: トラヴィスについて

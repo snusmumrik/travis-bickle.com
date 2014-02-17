@@ -4,8 +4,7 @@ class DocumentsController < ApplicationController
   before_filter :authenticate_driver_owner, :only => :index
   before_filter :authenticate_report_owner, :only => :show
 
-  # GET /documents
-  # GET /documents.json
+  # GET /documents/:driver/:id/:year/:month.pdf
   def index
     @driver = Driver.find(params[:driver_id])
 
@@ -75,8 +74,7 @@ class DocumentsController < ApplicationController
     end
   end
 
-  # GET /documents/reports/1
-  # GET /documents/reports/1.json
+  # GET /documents/reports/1.pdf
   def show
     @title = "乗務記録簿 #{@report.started_at.strftime("%Y%m%d")} #{@report.driver.name}"
     @report = Report.find(params[:report_id])
