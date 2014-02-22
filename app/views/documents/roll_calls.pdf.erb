@@ -137,13 +137,13 @@ table.small th,td{
     <td>◯</td>
     <td>◯</td>
     <td>◯</td>
-    <td><%= (report.started_at - 10*60).strftime("%H時%M分")%></td>
+    <td><%= (report.started_at - 10*60).strftime("%H時%M分") %></td>
     <td></td>
     <td>有</td>
     <td>◯</td>
     <td>◯</td>
     <td>◯</td>
-    <td><%= (report.finished_at + 10*60).strftime("%H時%M分")%></td>
+    <td><%= (report.finished_at + 10*60).strftime("%H時%M分") rescue nil %></td>
     <td></td>
   </tr>
   <% end %>
