@@ -1,11 +1,33 @@
 # -*- coding: utf-8 -*-
 class DocumentsController < ApplicationController
   before_filter :authenticate_user!
-  before_filter :authenticate_driver_owner, :only => :index
-  before_filter :authenticate_report_owner, :only => :show
+  before_filter :authenticate_driver_owner, :only => :driver
+  before_filter :authenticate_report_owner, :only => :report
+
+  # GET /documents/:drivers/:year/:month/:day.pdf
+  def roll_calls
+    title = "点呼記録簿#{params[:year]}年#{params[:month]}月#{params[:day]}"
+    @user = current_user
+    @reports = Report.includes(:car, :driver).where(["cars.user_id = ? AND started_at BETWEEN ? AND ?",
+                                               current_user.id,
+                                               Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 00:00}"),
+                                               Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 23:59}")
+                                              ]).order("cars.name, drivers.name").all
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @reports }
+      format.pdf do
+        render :pdf => title, :encoding => "UTF-8"
+      end
+    end
+  end
 
   # GET /documents/:driver/:id/:year/:month.pdf
-  def index
+  def driver
+    title = "労務時間報告書#{@reports[0].started_at.strftime('%Y%0m')}_(#{@reports[0].driver.name})" rescue "労務時間報告書"
+
+    @user = current_user
     @driver = Driver.find(params[:driver_id])
 
     params[:year] = Date.today.year unless params[:year]
@@ -63,8 +85,6 @@ class DocumentsController < ApplicationController
       end
     end
 
-    title = "労務時間報告書#{@reports[0].started_at.strftime('%Y%0m')}_(#{@reports[0].driver.name})" rescue "労務時間報告書"
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @reports }
@@ -75,8 +95,9 @@ class DocumentsController < ApplicationController
   end
 
   # GET /documents/reports/1.pdf
-  def show
-    @title = "乗務記録簿 #{@report.started_at.strftime("%Y%m%d")} #{@report.driver.name}"
+  def report
+    title = "乗務記録簿 #{@report.started_at.strftime("%Y%m%d")} #{@report.driver.name}"
+    @user = current_user
     @report = Report.find(params[:report_id])
     @estimated_rest = 0
 
@@ -94,7 +115,7 @@ class DocumentsController < ApplicationController
       format.html # index.html.erb
       format.json { render json: @report }
       format.pdf do
-        render :pdf => "乗務記録簿#{@report.started_at.strftime('%Y%m%0d')}_#{@report.driver.name}(#{@report.car.name})", :encoding => "UTF-8"
+        render :pdf => title, :encoding => "UTF-8"
       end
     end
   end

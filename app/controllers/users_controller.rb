@@ -62,7 +62,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.update_attributes(params[:user])
         @user.images << @image if @image
-        format.html { redirect_to user_path(current_user.username), notice: t("devise.registrations.user.updated") }
+        format.html { redirect_to user_path(@user.username), notice: t("devise.registrations.user.updated") }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

@@ -16,6 +16,10 @@
     <%= f.text_field :username %>
   </div>
   <div class="field">
+    <%= f.label :person_in_charge %><br />
+    <%= f.text_field :person_in_charge %>
+  </div>
+  <div class="field">
     <%= f.label :image %><br />
     <% unless @user.images.blank? %>
       <%= image_tag @user.images.pop.image.url(:thumb) %><br />

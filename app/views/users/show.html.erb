@@ -6,6 +6,11 @@
 </p>
 
 <p>
+  <b><%=t "activerecord.attributes.user.person_in_charge" %></b>
+  <%= @user.person_in_charge %>
+</p>
+
+<p>
   <b><%=t "activerecord.attributes.user.image" %></b>
   <% unless @user.images.blank? %>
     <%= image_tag @user.images.pop.image.url(:medium) %>

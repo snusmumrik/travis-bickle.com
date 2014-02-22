@@ -21,8 +21,9 @@ ja:
 
     attributes:
       user:
-        username: ユーザーネーム
-        image: アバター
+        username: 会社名
+        person_in_charge: 運行管理者
+        image: 代表者印
         email: メールアドレス
         signin: ユーザーネーム / メールアドレス
         password: パスワード
@@ -311,8 +312,9 @@ ja:
       resend_confirmation: 登録メールの再送
 
     document:
-      index: 労務時間報告書
-      show: 乗務記録簿
+      roll_calls: 点呼記録簿
+      driver: 労務時間報告書
+      report: 乗務記録簿
 
     content:
       about_travis: トラヴィスについて

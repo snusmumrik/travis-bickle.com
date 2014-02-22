@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   attr_accessor :signin
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :signin, :username, :email, :password, :password_confirmation, :remember_me, :address, :latitude, :longitude
+  attr_accessible :signin, :username, :person_in_charge, :email, :password, :password_confirmation, :remember_me, :address, :latitude, :longitude
 
   has_many :images, :as => :parent, :dependent => :destroy
   has_many :cars

@@ -64,3 +64,4 @@
 <%= high_chart("chart", @chart) %>
 
 <%= link_to t("link.new") + t("activerecord.models.report"), new_report_path, :class => "btn" %>
+<%= link_to t("link.document.roll_calls"), "#{documents_path}/roll_calls/#{params[:year]}/#{params[:month]}/#{params[:day]}.pdf", :class => "btn", :target => "_blank" %>
