@@ -24,6 +24,7 @@ table {
 table th {
   line-height: 10px !important;
   text-align: center !important;
+  vertical-align: middle !important;
 }
 
 table td {
@@ -93,7 +94,9 @@ table td.wide {
 
 <div class="left title">
   <h1>乗務記録簿・日常点検記録簿</h1>
-  <h2><%= @report.started_at.strftime("%Y年%-m月%-d日") %></h2>
+  <h2>
+    <%= @report.started_at.strftime("%Y年%-m月%-d日") %>（<%= @report.car.name %>：<%= @report.driver.name %>）
+  </h2>
 </div>
 <div class="clear"></div>
 
@@ -292,7 +295,7 @@ table td.wide {
   <div class="left">
     <table class="table table-striped table-bordered table-hoverw">
       <tr>
-        <th class="middle"><%=t "label.ride.index" %></th>
+        <th><%=t "label.ride.index" %></th>
         <th><%=t "activerecord.attributes.rest.location" %></th>
         <th><%=t "activerecord.attributes.rest.started_at" %></th>
         <th><%=t "activerecord.attributes.rest.ended_at" %></th>
@@ -303,8 +306,8 @@ table td.wide {
          <tr>
            <td><%= i + 1 %></td>
            <td><%= rest.location %></td>
-           <td><%= rest.started_at.strftime("%-m月%-d日 %H時%M分") %></td>
-           <td><%= rest.ended_at.strftime("%-m月%-d日 %H時%M分") %></td>
+           <td><%= rest.started_at.strftime("%H時%M分") %></td>
+           <td><%= rest.ended_at.strftime("%H時%M分") %></td>
            <td>
              <%= (rest.ended_at - rest.started_at).divmod(60*60)[0] %>時間
              <%= (rest.ended_at - rest.started_at).divmod(60*60)[1].divmod(60)[0]%>分
@@ -329,8 +332,8 @@ table td.wide {
       <tr>
         <td><%= i + 1 %></td>
         <td><%= rest.location %></td>
-        <td><%= rest.started_at.strftime("%-m月%-d日 %H時%M分") %></td>
-        <td><%= rest.ended_at.strftime("%-m月%-d日 %H時%M分") %></td>
+        <td><%= rest.started_at.strftime("%H時%M分") %></td>
+        <td><%= rest.ended_at.strftime("%H時%M分") %></td>
         <td>
           <%= (rest.ended_at - rest.started_at).divmod(60*60)[0] %>時間
           <%= (rest.ended_at - rest.started_at).divmod(60*60)[1].divmod(60)[0]%>分
@@ -356,20 +359,22 @@ table td.wide {
         <th><%=t "label.ride.index" %></th>
         <th><%=t "activerecord.attributes.ride.ride_address" %></th>
         <th><%=t "activerecord.attributes.ride.leave_address" %></th>
+        <th class="span1"><%=t "activerecord.attributes.ride.started_at" %></th>
         <th><%=t "activerecord.attributes.ride.passengers" %></th>
         <th><%=t "activerecord.attributes.ride.fare" %></th>
       </tr>
       <% @report.rides.each_with_index do |ride, i| %>
-      <% if i <= @report.rides.size/2 %>
-         <tr>
-           <td><%= i + 1 %></td>
-           <td class="wide"><%= ride.ride_address %></td>
-           <td class="wide"><%= ride.leave_address %></td>
-           <td><%= ride.passengers %></td>
-           <td><%= number_with_delimiter ride.fare %></td>
-         </tr>
-         <% end %>
-         <% end %>
+        <% if i <= @report.rides.size/2 %>
+        <tr>
+          <td><%= i + 1 %></td>
+          <td class="wide"><%= ride.ride_address %></td>
+          <td class="wide"><%= ride.leave_address %></td>
+          <td><% if ride.started_at %><%= ride.started_at.strftime("%H時%M分") %><% end %></td>
+          <td><%= ride.passengers %></td>
+          <td><%= number_with_delimiter ride.fare %></td>
+       </tr>
+       <% end %>
+     <% end %>
     </table>
   </div>
 
@@ -379,23 +384,27 @@ table td.wide {
         <th><%=t "label.ride.index" %></th>
         <th><%=t "activerecord.attributes.ride.ride_address" %></th>
         <th><%=t "activerecord.attributes.ride.leave_address" %></th>
+        <th class="span1"><%=t "activerecord.attributes.ride.started_at" %></th>
         <th><%=t "activerecord.attributes.ride.passengers" %></th>
         <th><%=t "activerecord.attributes.ride.fare" %></th>
       </tr>
       <% @report.rides.each_with_index do |ride, i| %>
-      <% if i > @report.rides.size/2 %>
-      <tr>
-        <td><%= i + 1 %></td>
-        <td class="wide"><%= ride.ride_address %></td>
-        <td class="wide"><%= ride.leave_address %></td>
-        <td><%= ride.passengers %></td>
-        <td><%= number_with_delimiter ride.fare %></td>
-      </tr>
-      <% end %>
+        <% if i > @report.rides.size/2 %>
+        <tr>
+          <td><%= i + 1 %></td>
+          <td class="wide"><%= ride.ride_address %></td>
+          <td class="wide"><%= ride.leave_address %></td>
+          <td><% if ride.started_at %><%= ride.started_at.strftime("%H時%M分") %><% end %></td>
+          <td><%= ride.passengers %></td>
+          <td><%= number_with_delimiter ride.fare %></td>
+        </tr>
+        <% end %>
       <% end %>
       <% if  @report.rides.size % 2 == 1 %>
       <tr>
         <th>　</th>
+        <td></td>
+        <td></td>
         <td></td>
         <td></td>
         <td></td>

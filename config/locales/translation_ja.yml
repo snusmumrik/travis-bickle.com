@@ -183,7 +183,7 @@ ja:
         leave_longitude: 降車軽度
         leave_address: 降車地
         passengers: 乗客数
-        fare: 料金
+        fare: 運賃
         segment: 支払方法
         started_at: 乗車時刻
         ended_at: 降車時刻
