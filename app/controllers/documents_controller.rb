@@ -109,7 +109,12 @@ class DocumentsController < ApplicationController
     @estimated_rest = [hours[0], mins[0]]
 
     @last_meter = @report.last_meter
-    @check_points = CheckPoint.where(["user_id = ?", current_user.id]).all
+
+    @check_points = current_user.check_points
+    @selected_status = {}
+    @report.check_point_statuses.each do |status|
+      @selected_status.store(status.check_point_id, status.status)
+    end
 
     respond_to do |format|
       format.html # index.html.erb

@@ -5,6 +5,8 @@ class ReportsController < InheritedResources::Base
   before_filter :get_drivers_option, :except => [:index, :show]
   before_filter :get_cars_option, :except => [:index, :show]
   before_filter :check_balance, :only => [:create, :update]
+  before_filter :set_check_points, :only => [:new, :create, :edit, :update, :show]
+  after_filter :set_check_point_status, :only => [:new, :create, :edit, :update]
 
   # GET /reports/:year/:month/:day
   # GET /reports/:year/:month/:day.json
@@ -446,6 +448,34 @@ class ReportsController < InheritedResources::Base
     elsif credit - debit > 0
       params[:report][:surplus_funds] = credit - debit
       params[:report][:deficiency_account] = 0
+    end
+  end
+
+  def set_check_points
+    @check_points = current_user.check_points
+    @selected_status = {}
+    @status_options = [["点検良", "レ"], ["調整要ス", "調整要ス"], ["修理要ス", "修理要ス"], ["補給", "補給"]]
+    @report.check_point_statuses.each do |status|
+      @selected_status.store(status.check_point_id, status.status)
+    end
+  end
+
+  def set_check_point_status
+    if params[:report] && params[:report][:check_point_statuses]
+      params[:report][:check_point_statuses].each do |status|
+        check_point_status = CheckPointStatus.where(["report_id = ? AND check_point_id = ?", @report.id, status[0]]).first
+        if status[1] == "レ"
+          check_point_status.delete if check_point_status
+        else
+          if check_point_status
+            check_point_status.update_attribute(:status, status[1])
+          else
+            CheckPointStatus.create(:report_id => @report.id,
+                                    :check_point_id => status[0],
+                                    :status => status[1])
+          end
+        end
+      end
     end
   end
 end

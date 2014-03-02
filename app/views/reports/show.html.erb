@@ -111,20 +111,17 @@
         </td>
         <td>
           <% if @report.finished_at %>
-          <%= (@report.finished_at - @report.started_at).divmod(60*60)[0] %>時間
-          <%= (@report.finished_at - @report.started_at).divmod(60*60)[1].divmod(60)[0] %>分
+          <%= (@report.finished_at - @report.started_at).divmod(60*60)[0] %>時間<%= (@report.finished_at - @report.started_at).divmod(60*60)[1].divmod(60)[0] %>分
           <% end %>
         </td>
         <td>
           <% if @rest_array %>
-          <%= @rest_array[0] %>時間
-          <%= @rest_array[1] %>分
+          <%= @rest_array[0] %>時間<%= @rest_array[1] %>分
           <% end %>
         </td>
         <td>
           <% if @report.finished_at %>
-          <%= ((@report.finished_at - @report.started_at).to_i - (@rest_array[0]*60*60 + @rest_array[1]*60)).divmod(60*60)[0] %>時間
-          <%= ((@report.finished_at - @report.started_at).to_i - (@rest_array[0]*60*60 + @rest_array[1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
+          <%= ((@report.finished_at - @report.started_at).to_i - (@rest_array[0]*60*60 + @rest_array[1]*60)).divmod(60*60)[0] %>時間<%= ((@report.finished_at - @report.started_at).to_i - (@rest_array[0]*60*60 + @rest_array[1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
           <% end %>
         </td>
       </tr>
@@ -195,6 +192,26 @@
 </div>
 
 <div class="clear"></div>
+
+<div class="check_point">
+  <h3><%=t "activerecord.models.check_point" %></h3>
+  <table class="table table-striped table-bordered table-hoverw square">
+    <tr>
+      <% @check_points.each do |check_point| %>
+      <th><%= check_point.name %></th>
+      <% end %>
+    </tr>
+    <tr>
+      <% @check_points.each do |check_point| %>
+        <% if @selected_status[check_point.id] %>
+          <td class="middle"><%= @selected_status[check_point.id] %></td>
+        <% else %>
+          <td class="middle">レ</td>
+        <% end %>
+      <% end %>
+    </tr>
+  </table>
+</div>
 
 <div>
   <% if @report.rests %>

@@ -48,25 +48,25 @@ table td.wide {
   float: right;
 }
 
-.square {
-  margin-bottom: 20px;
-}
-
-.square th {
-  width: 70px;
-  padding: 8px;
-  line-height: 20px;
-  vertical-align: top;
-}
-
 .square td {
   height: 70px;
   width: 70px;
 }
 
+.check-point th {
+  text-align: left !important;
+  padding: 5px !important;
+  width: 50px;
+}
+
+.check-point td {
+  height: 50px;
+}
+
 .meter {
-  width: 65%;
+  clear: right;
   float: left;
+  width: 65%;
 }
 
 .sales {
@@ -79,16 +79,21 @@ table td.wide {
 }
 
 .check_point th {
-  font-size: 0.8em;
+  font-size: 0.7em;
 }
 
 .rest, .ride {
   float: left;
 }
 
-.rest .left, .rest .right, .ride .left, .ride .right {
+.rest .left, .ride .left {
   width: 50%;
   float: left;
+}
+
+.rest .right, .ride .right {
+  width: 50%;
+  float: right;
 }
 </style>
 
@@ -98,10 +103,9 @@ table td.wide {
     <%= @report.started_at.strftime("%Y年%-m月%-d日") %>（<%= @report.car.name %>：<%= @report.driver.name %>）
   </h2>
 </div>
-<div class="clear"></div>
 
 <div class="right boxes">
-  <table class="table-striped table-bordered table-hover square right">
+  <table class="table-striped table-bordered table-hover square">
     <tr>
       <th>代表者</th>
       <th>整備管理者</th>
@@ -143,20 +147,17 @@ table td.wide {
         </td>
         <td>
           <% if @report.finished_at %>
-          <%= (@report.finished_at - @report.started_at).divmod(60*60)[0] %>時間
-          <%= (@report.finished_at - @report.started_at).divmod(60*60)[1].divmod(60)[0] %>分
+          <%= (@report.finished_at - @report.started_at).divmod(60*60)[0] %>時間<%= (@report.finished_at - @report.started_at).divmod(60*60)[1].divmod(60)[0] %>分
           <% end %>
         </td>
         <td>
           <% if @estimated_rest %>
-          <%= @estimated_rest[0] %>時間
-          <%= @estimated_rest[1] %>分
+          <%= @estimated_rest[0] %>時間<%= @estimated_rest[1] %>分
           <% end %>
         </td>
         <td>
           <% if @report.finished_at %>
-          <%= ((@report.finished_at - @report.started_at).to_i - (@estimated_rest[0]*60*60 + @estimated_rest[1]*60)).divmod(60*60)[0] %>時間
-          <%= ((@report.finished_at - @report.started_at).to_i - (@estimated_rest[0]*60*60 + @estimated_rest[1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
+          <%= ((@report.finished_at - @report.started_at).to_i - (@estimated_rest[0]*60*60 + @estimated_rest[1]*60)).divmod(60*60)[0] %>時間<%= ((@report.finished_at - @report.started_at).to_i - (@estimated_rest[0]*60*60 + @estimated_rest[1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
           <% end %>
         </td>
       </tr>
@@ -211,7 +212,6 @@ table td.wide {
     </table>
   </div>
 </div>
-<div class="clear"></div>
 
 <div class="right">
   <div class="sales">
@@ -275,15 +275,19 @@ table td.wide {
 
 <div class="check_point">
   <h3><%=t "activerecord.models.check_point" %></h3>
-  <table class="table table-striped table-bordered table-hoverw square">
+  <table class="table table-striped table-bordered table-hoverw check-point">
     <tr>
       <% @check_points.each do |check_point| %>
       <th><%= check_point.name %></th>
       <% end %>
     </tr>
     <tr>
-      <% for i in 0..@check_points.size - 1 %>
-      <td></td>
+      <% @check_points.each do |check_point| %>
+        <% if @selected_status[check_point.id] %>
+          <td class="middle"><%= @selected_status[check_point.id] %></td>
+        <% else %>
+          <td class="middle">レ</td>
+        <% end %>
       <% end %>
     </tr>
   </table>

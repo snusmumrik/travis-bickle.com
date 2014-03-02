@@ -45,7 +45,18 @@ body {
 }
 
 .middle {
-    vertical-align:middle !important;
+    vertical-align: middle !important;
+    text-align: center !important;
+}
+
+li.none {
+    list-style: none;
+}
+
+div.inline label {
+    display: inline !important;
+    vertical-align: top;
+    line-height: 30px;
 }
 
 /* bootstrap override  */

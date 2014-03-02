@@ -4,6 +4,7 @@ class Report < ActiveRecord::Base
   has_one :meter, :dependent => :destroy
   has_many :rides, :dependent => :destroy
   has_many :rests, :dependent => :destroy
+  has_many :check_point_statuses
 
   attr_accessible :driver_id, :car_id, :account_receivable, :advance, :cash, :deficiency_account, :deleted_at, :fuel_cost, :meter_fare_count, :mileage, :passengers, :riding_count, :riding_mileage, :sales, :extra_sales, :surplus_funds, :ticket, :started_at, :finished_at
   acts_as_paranoid

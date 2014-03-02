@@ -132,6 +132,7 @@ ja:
         rests: rests  #g
         rides: rides  #g
         sum: 合計/平均
+        check_point_id: :activerecord.models.check_point
 
       rest:
         location: 場所

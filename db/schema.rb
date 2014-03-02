@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140222014208) do
+ActiveRecord::Schema.define(:version => 20140302005303) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -85,6 +85,18 @@ ActiveRecord::Schema.define(:version => 20140222014208) do
 
   add_index "cars", ["device_token"], :name => "index_cars_on_device_token"
   add_index "cars", ["user_id"], :name => "index_cars_on_user_id"
+
+  create_table "check_point_statuses", :force => true do |t|
+    t.integer  "report_id"
+    t.integer  "check_point_id"
+    t.string   "status"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.datetime "deleted_at"
+  end
+
+  add_index "check_point_statuses", ["check_point_id"], :name => "index_check_point_statuses_on_check_point_id"
+  add_index "check_point_statuses", ["report_id"], :name => "index_check_point_statuses_on_report_id"
 
   create_table "check_points", :force => true do |t|
     t.integer  "user_id"
