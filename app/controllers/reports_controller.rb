@@ -455,8 +455,10 @@ class ReportsController < InheritedResources::Base
     @check_points = current_user.check_points
     @selected_status = {}
     @status_options = [["点検良", "レ"], ["調整要ス", "A"], ["修理要ス", "△"], ["補給", "L"]]
-    @report.check_point_statuses.each do |status|
-      @selected_status.store(status.check_point_id, status.status)
+    if @report
+      @report.check_point_statuses.each do |status|
+        @selected_status.store(status.check_point_id, status.status)
+      end
     end
   end
 
