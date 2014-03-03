@@ -19,6 +19,8 @@ h3 {
 
 table {
   font-size: 0.7em;
+  page-break-inside: avoid;
+  position: relative;
 }
 
 table th {
@@ -41,11 +43,14 @@ table td.wide {
 .title {
   width: 65%;
   float: left;
+  margin-top: 30px;
 }
 
 .boxes {
   width: 30%;
   float: right;
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 .square td {
@@ -94,6 +99,10 @@ table td.wide {
 .rest .right, .ride .right {
   width: 50%;
   float: right;
+}
+
+.rest {
+  height: 330px;
 }
 </style>
 
@@ -407,9 +416,8 @@ table td.wide {
       <% if  @report.rides.size % 2 == 1 %>
       <tr>
         <th>　</th>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td class="wide"></td>
+        <td class="wide"></td>
         <td></td>
         <td></td>
         <td></td>
