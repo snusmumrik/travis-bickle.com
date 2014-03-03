@@ -6,59 +6,6 @@
  *= require_tree . 
  */
 
-/* common style sheet */
-body {
-    font-family: "ヒラギノ明朝 Pro W6", "Hiragino Mincho Pro", "HGS明朝E", "ＭＳ Ｐ明朝", serif ,monospace !important;
-    /* font-family:"メイリオ", Meiryo,  "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif !important; */
-}
-
-.right {
-    float: right;
-    width: 49%;
-    padding-left: 1%;
-}
-
-.left {
-    float: left;
-    width: 49%;
-    padding-right: 1%;
-}
-
-.clear {
-    clear: both;
-}
-
-.padding-top {
-    padding-top: 60px;
-}
-
-.red {
-    color: red !important;
-}
-
-.blue {
-    color: blue !important;
-}
-
-.center {
-    text-align:center !important;
-}
-
-.middle {
-    vertical-align: middle !important;
-    text-align: center !important;
-}
-
-li.none {
-    list-style: none;
-}
-
-div.inline label {
-    display: inline !important;
-    vertical-align: top;
-    line-height: 30px;
-}
-
 /* bootstrap override  */
 
 .container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
@@ -90,6 +37,11 @@ th {
     vertical-align: middle !important;
 }
 
+td {
+    text-align: right !important;
+    vertical-align: middle !important;
+}
+
 div.field, div.actions {
     margin: 20px 0 !important;
 }
@@ -113,4 +65,65 @@ input[type="search"] {
 footer {
     width: 100%;
     text-align: center;
+}
+
+/* common style sheet */
+body {
+    font-family: "ヒラギノ明朝 Pro W6", "Hiragino Mincho Pro", "HGS明朝E", "ＭＳ Ｐ明朝", serif ,monospace !important;
+    /* font-family:"メイリオ", Meiryo,  "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif !important; */
+}
+
+div.right {
+    float: right;
+    width: 49%;
+    padding-left: 1%;
+}
+
+div.left {
+    float: left;
+    width: 49%;
+    padding-right: 1%;
+}
+
+div.clear {
+    clear: both;
+}
+
+.padding-top {
+    padding-top: 60px;
+}
+
+.red {
+    color: red !important;
+}
+
+.blue {
+    color: blue !important;
+}
+
+.center {
+    text-align:center !important;
+}
+
+.middle {
+    vertical-align: middle !important;
+    text-align: center !important;
+}
+
+.left {
+    text-align: left !important;
+}
+
+.right {
+    text-align: right !important;
+}
+
+li.none {
+    list-style: none;
+}
+
+div.inline label {
+    display: inline !important;
+    vertical-align: top;
+    line-height: 30px;
 }

@@ -99,27 +99,27 @@
         <th><%=t "activerecord.attributes.report.real_working_hours" %></th>
       </tr>
       <tr>
-        <td>
+        <td class="middle">
           <% if @report.started_at %>
           <%= @report.started_at.strftime("%H時%M分") %>
           <% end %>
         </td>
-        <td>
+        <td class="middle">
           <% if @report.finished_at %>
           <%= @report.finished_at.strftime("%H時%M分") %>
           <% end %>
         </td>
-        <td>
+        <td class="middle">
           <% if @report.finished_at %>
           <%= (@report.finished_at - @report.started_at).divmod(60*60)[0] %>時間<%= (@report.finished_at - @report.started_at).divmod(60*60)[1].divmod(60)[0] %>分
           <% end %>
         </td>
-        <td>
+        <td class="middle">
           <% if @rest_array %>
           <%= @rest_array[0] %>時間<%= @rest_array[1] %>分
           <% end %>
         </td>
-        <td>
+        <td class="middle">
           <% if @report.finished_at %>
           <%= ((@report.finished_at - @report.started_at).to_i - (@rest_array[0]*60*60 + @rest_array[1]*60)).divmod(60*60)[0] %>時間<%= ((@report.finished_at - @report.started_at).to_i - (@rest_array[0]*60*60 + @rest_array[1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
           <% end %>
@@ -134,9 +134,9 @@
         <th><%=t "activerecord.attributes.report.sales_per_kilometer" %></th>
       </tr>
       <tr>
-        <td><% if @report.passengers %><%= number_with_delimiter @report.passengers %>人<% end %></td>
-        <td><% if @report.finished_at && @report.mileage != 0 %><%= number_to_percentage(@report.riding_mileage*100/@report.mileage, :precision => 0) %><% end %></td>
-        <td><% if @report.finished_at && @report.mileage != 0 %><%= number_to_currency((@report.sales + @report.extra_sales)/@report.mileage, :precision => 0, :locale => "ja") %><% end %></td>
+        <td class="middle"><% if @report.passengers %><%= number_with_delimiter @report.passengers %>人<% end %></td>
+        <td class="middle"><% if @report.finished_at && @report.mileage != 0 %><%= number_to_percentage(@report.riding_mileage*100/@report.mileage, :precision => 0) %><% end %></td>
+        <td class="middle"><% if @report.finished_at && @report.mileage != 0 %><%= number_to_currency((@report.sales + @report.extra_sales)/@report.mileage, :precision => 0, :locale => "ja") %><% end %></td>
       </tr>
     </table>
   </div>
@@ -230,7 +230,7 @@
         <% @report.rests.each_with_index do |rest, i| %>
           <% if i <= (@report.rests.size + 1)/2 - 1 %>
           <tr>
-            <td><%= i + 1 %></td>
+            <td class="center"><%= i + 1 %></td>
             <td><%= rest.location %></td>
             <td><% if rest.started_at %><%= rest.started_at.strftime("%-m月%-d日 %H時%M分") %><% end %></td>
             <td><% if rest.ended_at %><%= rest.ended_at.strftime("%-m月%-d日 %H時%M分") %><% end %></td>
@@ -260,7 +260,7 @@
         <% @report.rests.each_with_index do |rest, i| %>
           <% if i > (@report.rests.size + 1)/2 - 1 %>
           <tr>
-            <td><%= i + 1 %></td>
+            <td class="center"><%= i + 1 %></td>
             <td><%= rest.location %></td>
             <td><% if rest.started_at %><%= rest.started_at.strftime("%-m月%-d日 %H時%M分") %><% end %></td>
             <td><% if rest.ended_at %><%= rest.ended_at.strftime("%-m月%-d日 %H時%M分") %><% end %></td>
