@@ -46,42 +46,42 @@
       </tr>
       <tr>
         <th><%=t "label.meter.finish" %></th>
-        <td><% if @report.meter.try(:meter) && @report.finished_at %><%= number_with_delimiter @report.meter.meter %>km<% end %></td>
-        <td><% if @report.meter.try(:mileage) && @report.finished_at %><%= number_with_delimiter @report.meter.mileage %>km<% end %></td>
-        <td><% if @report.meter.try(:riding_mileage) && @report.finished_at %><%= number_with_delimiter @report.meter.riding_mileage %>km<% end %></td>
-        <td><% if @report.meter.try(:riding_count) && @report.finished_at %><%= number_with_delimiter @report.meter.riding_count %>回<% end %></td>
-        <td><% if @report.meter.try(:meter_fare_count) && @report.finished_at %><%= number_with_delimiter @report.meter.meter_fare_count %>回<% end %></td>
+        <td class="right"><% if @report.meter.try(:meter) && @report.finished_at %><%= number_with_delimiter @report.meter.meter %>km<% end %></td>
+        <td class="right"><% if @report.meter.try(:mileage) && @report.finished_at %><%= number_with_delimiter @report.meter.mileage %>km<% end %></td>
+        <td class="right"><% if @report.meter.try(:riding_mileage) && @report.finished_at %><%= number_with_delimiter @report.meter.riding_mileage %>km<% end %></td>
+        <td class="right"><% if @report.meter.try(:riding_count) && @report.finished_at %><%= number_with_delimiter @report.meter.riding_count %>回<% end %></td>
+        <td class="right"><% if @report.meter.try(:meter_fare_count) && @report.finished_at %><%= number_with_delimiter @report.meter.meter_fare_count %>回<% end %></td>
       </tr>
       <tr>
         <th><%=t "label.meter.start" %></th>
-        <td><% if @last_meter.try(:meter) %><%= number_with_delimiter @last_meter.meter %>km<% end %></td>
-        <td><% if @last_meter.try(:mileage) %><%= number_with_delimiter @last_meter.mileage %>km<% end %></td>
-        <td><% if @last_meter.try(:riding_mileage) %><%= number_with_delimiter @last_meter.riding_mileage %>km<% end %></td>
-        <td><% if @last_meter.try(:riding_count) %><%= number_with_delimiter @last_meter.riding_count %>回<% end %></td>
-        <td><% if @last_meter.try(:meter_fare_count) %><%= number_with_delimiter @last_meter.meter_fare_count %>回<% end %></td>
+        <td class="right"><% if @last_meter.try(:meter) %><%= number_with_delimiter @last_meter.meter %>km<% end %></td>
+        <td class="right"><% if @last_meter.try(:mileage) %><%= number_with_delimiter @last_meter.mileage %>km<% end %></td>
+        <td class="right"><% if @last_meter.try(:riding_mileage) %><%= number_with_delimiter @last_meter.riding_mileage %>km<% end %></td>
+        <td class="right"><% if @last_meter.try(:riding_count) %><%= number_with_delimiter @last_meter.riding_count %>回<% end %></td>
+        <td class="right"><% if @last_meter.try(:meter_fare_count) %><%= number_with_delimiter @last_meter.meter_fare_count %>回<% end %></td>
       </tr>
       <tr>
         <th><%=t "label.meter.balance" %></th>
-        <td><% if @report.meter.try(:meter) && @last_meter.try(:meter) && @report.finished_at %><%= number_with_delimiter @report.meter.meter - @last_meter.meter %>km<% end %></td>
-        <td>
+        <td class="right"><% if @report.meter.try(:meter) && @last_meter.try(:meter) && @report.finished_at %><%= number_with_delimiter @report.meter.meter - @last_meter.meter %>km<% end %></td>
+        <td class="right">
           <% if @report.mileage && @report.finished_at %>
             <% if @report.meter.try(:mileage) && @last_meter.try(:mileage) && @report.finished_at && @report.meter.mileage - @last_meter.mileage != @report.mileage %><span class="red">!</span><% end %>
             <%= number_with_delimiter @report.mileage %>km
           <% end %>
         </td>
-        <td>
+        <td class="right">
           <% if @report.riding_mileage && @report.finished_at %>
             <% if @report.meter.try(:riding_mileage) && @last_meter.try(:riding_mileage) && @report.meter.riding_mileage - @last_meter.riding_mileage != @report.riding_mileage %><span class="red">!</span><% end %>
             <%= number_with_delimiter @report.riding_mileage %>km
           <% end %>
         </td>
-        <td>
+        <td class="right">
           <% if @report.riding_count && @report.finished_at %>
             <% if @report.meter.try(:riding_count) && @last_meter.try(:riding_count) && @report.meter.riding_count - @last_meter.riding_count != @report.riding_count %><span class="red">!</span><% end %>
             <%= number_with_delimiter @report.riding_count %>回
           <% end %>
         </td>
-        <td>
+        <td class="right">
           <% if @report.meter_fare_count && @report.finished_at %>
             <% if @report.meter.try(:meter_fare_count) && @last_meter.try(:meter_fare_count) && @report.meter.meter_fare_count - @last_meter.meter_fare_count != @report.meter_fare_count%><span class="red">!</span><% end %>
             <%= number_with_delimiter @report.meter_fare_count %>回
@@ -147,45 +147,45 @@
     <table class="table table-striped table-bordered table-hover">
       <tr>
         <th><%=t "activerecord.attributes.report.cash" %></th>
-        <td><%= number_to_currency @report.cash, :locale => "ja" %></td>
+        <td class="right"><%= number_to_currency @report.cash, :locale => "ja" %></td>
         <th><%=t "activerecord.attributes.report.sales" %></th>
-        <td><%= number_to_currency @report.sales, :locale => "ja" %></td>
+        <td class="right"><%= number_to_currency @report.sales, :locale => "ja" %></td>
       </tr>
       <tr>
         <th><%=t "activerecord.attributes.report.ticket" %></th>
-        <td><%= number_to_currency @report.ticket, :locale => "ja" %></td>
+        <td class="right"><%= number_to_currency @report.ticket, :locale => "ja" %></td>
         <th><%=t "activerecord.attributes.report.extra_sales" %></th>
-        <td><%= number_to_currency @report.extra_sales, :locale => "ja" %></td>
+        <td class="right"><%= number_to_currency @report.extra_sales, :locale => "ja" %></td>
       </tr>
       <tr>
         <th><%=t "activerecord.attributes.report.account_receivable" %></th>
-        <td><%= number_to_currency @report.account_receivable, :locale => "ja" %></td>
+        <td class="right"><%= number_to_currency @report.account_receivable, :locale => "ja" %></td>
         <th><%=t "activerecord.attributes.report.surplus_funds" %></th>
-        <td><%= number_to_currency @report.surplus_funds, :locale => "ja" %></td>
+        <td class="right"><%= number_to_currency @report.surplus_funds, :locale => "ja" %></td>
       </tr>
       <tr>
         <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
-        <td><%= number_to_currency @report.fuel_cost, :locale => "ja" %></td>
-        <td></td>
-        <td></td>
+        <td class="right"><%= number_to_currency @report.fuel_cost, :locale => "ja" %></td>
+        <td class="right"></td>
+        <td class="right"></td>
       </tr>
       <tr>
         <th><%=t "activerecord.attributes.report.deficiency_account" %></th>
-        <td><%= number_to_currency @report.deficiency_account, :locale => "ja" %></td>
+        <td class="right"><%= number_to_currency @report.deficiency_account, :locale => "ja" %></td>
         <td></td>
         <td></td>
       </tr>
       <tr>
         <th><%=t "activerecord.attributes.report.advance" %></th>
-        <td><%= number_to_currency @report.advance, :locale => "ja" %></td>
+        <td class="right"><%= number_to_currency @report.advance, :locale => "ja" %></td>
         <td></td>
         <td></td>
       </tr>
       <tr>
         <th><%= t("label.report.total") %></th>
-        <td><%= number_to_currency @report.cash + @report.ticket + @report.account_receivable + @report.fuel_cost + @report.deficiency_account + @report.advance, :locale => "ja" %></td>
+        <td class="right"><%= number_to_currency @report.cash + @report.ticket + @report.account_receivable + @report.fuel_cost + @report.deficiency_account + @report.advance, :locale => "ja" %></td>
         <th><%= t("label.report.total") %></th>
-        <td><%= number_to_currency @report.sales + @report.extra_sales + @report.surplus_funds, :locale => "ja" %></td>
+        <td class="right"><%= number_to_currency @report.sales + @report.extra_sales + @report.surplus_funds, :locale => "ja" %></td>
       </tr>
     </table>
   </div>
@@ -232,15 +232,15 @@
           <tr>
             <td class="center"><%= i + 1 %></td>
             <td><%= rest.location %></td>
-            <td><% if rest.started_at %><%= rest.started_at.strftime("%-m月%-d日 %H時%M分") %><% end %></td>
-            <td><% if rest.ended_at %><%= rest.ended_at.strftime("%-m月%-d日 %H時%M分") %><% end %></td>
-            <td>
+            <td class="center"><% if rest.started_at %><%= rest.started_at.strftime("%H時%M分") %><% end %></td>
+            <td class="center"><% if rest.ended_at %><%= rest.ended_at.strftime("%H時%M分") %><% end %></td>
+            <td class="center">
               <% if rest.ended_at && rest.started_at %>
                 <%= (rest.ended_at - rest.started_at).divmod(60*60)[0] %>時間
                 <%= (rest.ended_at - rest.started_at).divmod(60*60)[1].divmod(60)[0]%>分
               <% end %>
             </td>
-            <td><%= link_to t("link.edit"), edit_rest_path(rest), :class => "btn" %></td>
+            <td class="center"><%= link_to t("link.edit"), edit_rest_path(rest), :class => "btn" %></td>
           </tr>
           <% end %>
         <% end %>
@@ -262,15 +262,15 @@
           <tr>
             <td class="center"><%= i + 1 %></td>
             <td><%= rest.location %></td>
-            <td><% if rest.started_at %><%= rest.started_at.strftime("%-m月%-d日 %H時%M分") %><% end %></td>
-            <td><% if rest.ended_at %><%= rest.ended_at.strftime("%-m月%-d日 %H時%M分") %><% end %></td>
-            <td>
+            <td class="center"><% if rest.started_at %><%= rest.started_at.strftime("%H時%M分") %><% end %></td>
+            <td class="center"><% if rest.ended_at %><%= rest.ended_at.strftime("%H時%M分") %><% end %></td>
+            <td class="center">
               <% if rest.ended_at && rest.started_at %>
                 <%= (rest.ended_at - rest.started_at).divmod(60*60)[0] %>時間
                 <%= (rest.ended_at - rest.started_at).divmod(60*60)[1].divmod(60)[0]%>分
               <% end %>
             </td>
-            <td><%= link_to t("link.edit"), edit_rest_path(rest), :class => "btn" %></td>
+            <td class="center"><%= link_to t("link.edit"), edit_rest_path(rest), :class => "btn" %></td>
           </tr>
           <% end %>
         <% end %>
@@ -308,9 +308,9 @@
          <td class="center"><%= i + 1 %></td>
          <td><%= ride.ride_address.gsub("(null)", "") rescue ride.ride_address %></td>
          <td><%= ride.leave_address.gsub("(null)", "") rescue ride.leave_address %></td>
-         <td><%= ride.passengers %></td>
-         <td><%= number_with_delimiter ride.fare %></td>
-         <td>
+         <td class="center"><%= ride.passengers %></td>
+         <td class="center"><%= number_with_delimiter ride.fare %></td>
+         <td class="center">
            <% if ride.segment == 0 %>
              <%=t "views.ride.cash" %>
            <% elsif ride.segment == 1 %>
@@ -319,9 +319,9 @@
              <%=t "views.ride.ticket" %>
            <% end %>
          </td>
-         <td><% if ride.started_at %><%= ride.started_at.strftime("%H時%M分") %><% end %></td>
-         <td><% if ride.ended_at %><%= ride.ended_at.strftime("%H時%M分") %><% end %></td>
-         <td><%= link_to t("link.edit"), edit_ride_path(ride), :class => "btn" %></td>
+         <td class="center"><% if ride.started_at %><%= ride.started_at.strftime("%H時%M分") %><% end %></td>
+         <td class="center"><% if ride.ended_at %><%= ride.ended_at.strftime("%H時%M分") %><% end %></td>
+         <td class="center"><%= link_to t("link.edit"), edit_ride_path(ride), :class => "btn" %></td>
        </tr>
        <% end %>
      <% end %>
@@ -347,9 +347,9 @@
           <td class="center"><%= i + 1 %></td>
           <td><%= ride.ride_address.gsub("(null)", "") rescue ride.ride_address %></td>
           <td><%= ride.leave_address.gsub("(null)", "") rescue ride.leave_address %></td>
-          <td><%= ride.passengers %></td>
-          <td><%= number_with_delimiter ride.fare %></td>
-          <td>
+          <td class="center"><%= ride.passengers %></td>
+          <td class="center"><%= number_with_delimiter ride.fare %></td>
+          <td class="center">
             <% if ride.segment == 0 %>
               <%=t "views.ride.cash" %>
             <% elsif ride.segment == 1 %>
@@ -358,9 +358,9 @@
               <%=t "views.ride.ticket" %>
             <% end %>
           </td>
-          <td><% if ride.started_at %><%= ride.started_at.strftime("%H時%M分") %><% end %></td>
-          <td><% if ride.ended_at %><%= ride.ended_at.strftime("%H時%M分") %><% end %></td>
-          <td><%= link_to t("link.edit"), edit_ride_path(ride), :class => "btn" %></td>
+          <td class="center"><% if ride.started_at %><%= ride.started_at.strftime("%H時%M分") %><% end %></td>
+          <td class="center"><% if ride.ended_at %><%= ride.ended_at.strftime("%H時%M分") %><% end %></td>
+          <td class="center"><%= link_to t("link.edit"), edit_ride_path(ride), :class => "btn" %></td>
         </tr>
         <% end %>
       <% end %>
