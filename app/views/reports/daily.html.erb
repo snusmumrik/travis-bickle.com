@@ -6,7 +6,9 @@
 <%= render "daily_reports" %>
 <%= high_chart("daily_chart", @daily_chart) %>
 
+<h2><%=t "label.report.daily_driver" %></h2>
 <%= render "drivers" %>
 <%= high_chart("driver_chart", @driver_chart) %>
 
+<%= link_to t("link.document.salaries"), "#{documents_path}/salaries/#{params[:year]}/#{params[:month]}.pdf", :target => "_blank", :class => "btn" %>
 <%= link_to t("link.new") + t("activerecord.models.report"), new_report_path, :class => "btn" %>

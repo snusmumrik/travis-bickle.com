@@ -16,14 +16,13 @@ class DocumentsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @reports }
       format.pdf do
         render :pdf => title, :encoding => "UTF-8"
       end
     end
   end
 
-  # GET /documents/:driver/:id/:year/:month.pdf
+  # GET /documents/driver/:id/:year/:month.pdf
   def driver
     title = "労務時間報告書#{@reports[0].started_at.strftime('%Y%0m')}_(#{@reports[0].driver.name})" rescue "労務時間報告書"
 
@@ -87,7 +86,6 @@ class DocumentsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @reports }
       format.pdf do
         render :pdf => title, :encoding => "UTF-8"
       end
@@ -118,7 +116,47 @@ class DocumentsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @report }
+      format.pdf do
+        render :pdf => title, :encoding => "UTF-8"
+      end
+    end
+  end
+
+  # GET /documents/salaries/:year/:month.pdf
+  def salaries
+    title = "#{params[:year]}年#{params[:month]} 給与一覧"
+
+    params[:year] = Date.today.year unless params[:year]
+    params[:month] = Date.today.month unless params[:month]
+
+    @user = current_user
+    @drivers = Driver.where(["user_id = ?", current_user.id]).all
+
+    @salaries = Hash.new do |hash, key|
+      hash[key] = Hash.new do |hash, key|
+        hash[key] = Hash.new do |hash, key|
+          hash[key] = 0
+        end
+      end
+    end
+
+    @reports = Report.where(["started_at BETWEEN ? AND ?",
+                             Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-1 00:00}"),
+                             Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{Date.new(params[:year].to_i, params[:month].to_i, -1).day} 23:59}")
+                            ]).all
+
+    @reports.each do |report|
+      @salaries[report.driver_id][report.started_at.day][:date] = report.started_at
+      @salaries[report.driver_id][report.started_at.day][:sales] += report.sales + report.extra_sales
+      @salaries[report.driver_id][report.started_at.day][:surplus_funds] += report.surplus_funds
+      @salaries[report.driver_id][report.started_at.day][:deficiency_account] += report.deficiency_account
+      @salaries[report.driver_id][:total][:sales] += report.sales + report.extra_sales
+      @salaries[report.driver_id][:total][:surplus_funds] += report.surplus_funds
+      @salaries[report.driver_id][:total][:deficiency_account] += report.deficiency_account
+    end
+
+    respond_to do |format|
+      format.html # show.html.erb
       format.pdf do
         render :pdf => title, :encoding => "UTF-8"
       end
