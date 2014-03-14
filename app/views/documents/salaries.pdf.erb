@@ -161,6 +161,17 @@ table td {
     <% end %>
   <% end %>
 
+  <% if Date.new(params[:year].to_i, params[:month].to_i, - 1).day < 31 %>
+    <% for j in 1..(31 - Date.new(params[:year].to_i, params[:month].to_i, - 1).day) %>
+       <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    <% end %>
+  <% end %>
+
   <tr class="info">
     <td class="center">合計</td>
     <td><%= number_with_delimiter @salaries[driver.id][:total][:sales] %></td>
