@@ -39,9 +39,6 @@ h3 {
   float: right;
 }
 
-.square {
-  margin-bottom: 20px;
-}
 
 .square th {
   width: 70px;
@@ -64,25 +61,26 @@ table {
   font-size: 10px;
 }
 
+table th {
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+
+table td {
+  vertical-align: middle !important;
+  text-align: right !important;
+}
+
 table.small {
   width: 19%;
   float: left;
   margin-right: 1%;
 }
 
-table th {
-  text-align: center !important;
-  vertical-align: middle !important;
-}
-
-table th.small {
+table.small th,td {
+  height: 22px;
   line-height: 3px !important;
-  font-size: 0.8em;
-}
-
-table td {
-  line-height: 3px !important;
-  text-align: right !important;
+  font-size: 0.9em;
 }
 </style>
 
@@ -122,9 +120,9 @@ table td {
     <th colspan="3"><%= driver.name %></th>
   </tr>
   <tr>
-    <th class="small"><%=t "activerecord.attributes.report.sales" %></th>
-    <th class="small"><%=t "activerecord.attributes.report.surplus_funds" %></th>
-    <th class="small"><%=t "activerecord.attributes.report.deficiency_account" %></th>
+    <th><%=t "activerecord.attributes.report.sales" %></th>
+    <th><%=t "activerecord.attributes.report.surplus_funds" %></th>
+    <th><%=t "activerecord.attributes.report.deficiency_account" %></th>
   </tr>
 
   <% for i in 1..Date.new(params[:year].to_i, params[:month].to_i, - 1).day %>
