@@ -17,8 +17,8 @@ class ReportsController < InheritedResources::Base
 
     @reports = Report.includes(:car, :driver, :rests).where(["cars.user_id = ? AND reports.started_at BETWEEN ? AND ?",
                                                              current_user.id,
-                                                             Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 00:00}"),
-                                                             Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 23:59}")
+                                                             Time.zone.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 00:00}"),
+                                                             Time.zone.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 23:59}")
                                                             ]).order("cars.name, reports.started_at").all
     @title += " | #{@reports.first.started_at.strftime("%Y年%-m月%-d日")} #{t('views.report.index')}" rescue "#{params[:year]}年#{params[:month]}月#{params[:day]} #{t('views.report.index')}"
 
@@ -117,8 +117,8 @@ class ReportsController < InheritedResources::Base
 
     @reports = Report.includes(:car => :user).where(["cars.user_id = ? AND started_at BETWEEN ? AND ?",
                                                      current_user.id,
-                                                     Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{1} 00:00}"),
-                                                     Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{Date.new(params[:year].to_i, params[:month].to_i, -1).day.to_s} 23:59}")
+                                                     Time.zone.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{1} 00:00}"),
+                                                     Time.zone.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{Date.new(params[:year].to_i, params[:month].to_i, -1).day.to_s} 23:59}")
                                                     ]).all
 
     @report_hash = Hash.new do |hash, key|
@@ -309,7 +309,7 @@ class ReportsController < InheritedResources::Base
       if @report.save
         @last_meter = @report.last_meter
 
-        finished_at = Time.parse("#{params[:report]["finished_at(1i)"].to_s}-#{params[:report]["finished_at(2i)"].to_s}-#{params[:report]["finished_at(3i)"].to_s} #{params[:report]["finished_at(4i)"].to_s}:#{params[:report]["finished_at(5i)"].to_s}") rescue nil
+        finished_at = Time.zone.parse("#{params[:report]["finished_at(1i)"].to_s}-#{params[:report]["finished_at(2i)"].to_s}-#{params[:report]["finished_at(3i)"].to_s} #{params[:report]["finished_at(4i)"].to_s}:#{params[:report]["finished_at(5i)"].to_s}") rescue nil
 
         @report.update_attributes({ :mileage => params[:report][:mileage].to_i - @last_meter.mileage,
                                     :riding_mileage => params[:report][:riding_mileage].to_i - @last_meter.riding_mileage,
@@ -355,7 +355,7 @@ class ReportsController < InheritedResources::Base
   def update
     @report = Report.find(params[:id])
 
-    finished_at = Time.parse("#{params[:report]["finished_at(1i)"].to_s}-#{params[:report]["finished_at(2i)"].to_s}-#{params[:report]["finished_at(3i)"].to_s} #{params[:report]["finished_at(4i)"].to_s}:#{params[:report]["finished_at(5i)"].to_s}") rescue nil
+    finished_at = Time.zone.parse("#{params[:report]["finished_at(1i)"].to_s}-#{params[:report]["finished_at(2i)"].to_s}-#{params[:report]["finished_at(3i)"].to_s} #{params[:report]["finished_at(4i)"].to_s}:#{params[:report]["finished_at(5i)"].to_s}") rescue nil
 
     respond_to do |format|
       @last_meter = @report.last_meter
@@ -375,7 +375,7 @@ class ReportsController < InheritedResources::Base
                                      :surplus_funds => params[:report][:surplus_funds].presence || 0,
                                      :deficiency_account => params[:report][:deficiency_account].presence || 0,
                                      :advance => params[:report][:advance].presence || 0,
-                                     :started_at => Time.parse("#{params[:report]["started_at(1i)"].to_s}-#{params[:report]["started_at(2i)"].to_s}-#{params[:report]["started_at(3i)"].to_s} #{params[:report]["started_at(4i)"].to_s}:#{params[:report]["started_at(5i)"].to_s}"),
+                                     :started_at => Time.zone.parse("#{params[:report]["started_at(1i)"].to_s}-#{params[:report]["started_at(2i)"].to_s}-#{params[:report]["started_at(3i)"].to_s} #{params[:report]["started_at(4i)"].to_s}:#{params[:report]["started_at(5i)"].to_s}"),
                                      :finished_at => finished_at
 
                                    })

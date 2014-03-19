@@ -31,15 +31,15 @@ class CarsController < InheritedResources::Base
     if params[:day]
       @reports = Report.includes(:car, :driver).where(["car_id = ? AND started_at BETWEEN ? AND ?",
                                                  params[:id],
-                                                 Time.parse("#{params[:year]}-#{params[:month]}-#{params[:day]} 00:00}"),
-                                                 Time.parse("#{params[:year]}-#{params[:month]}-#{params[:day]} 23:59}")]).order("reports.started_at").all
+                                                 Time.zone.parse("#{params[:year]}-#{params[:month]}-#{params[:day]} 00:00}"),
+                                                 Time.zone.parse("#{params[:year]}-#{params[:month]}-#{params[:day]} 23:59}")]).order("reports.started_at").all
       @title += " | #{params[:year]}年#{params[:month]}月#{params[:day]} 日次成績 #{@car.name}"
     else
       end_of_month = Date.new(params[:year].to_i, params[:month].to_i, -1).day
       @reports = Report.includes(:car, :driver).where(["car_id = ? AND started_at BETWEEN ? AND ?",
                                                  params[:id],
-                                                 Time.parse("#{params[:year]}-#{params[:month]}-01} 00:00}"),
-                                                 Time.parse("#{params[:year]}-#{params[:month]}-#{end_of_month} 23:59}")]).order("reports.started_at").all
+                                                 Time.zone.parse("#{params[:year]}-#{params[:month]}-01} 00:00}"),
+                                                 Time.zone.parse("#{params[:year]}-#{params[:month]}-#{end_of_month} 23:59}")]).order("reports.started_at").all
       @title += " | #{params[:year]}年#{params[:month]}月} 月次成績 #{@car.name}"
     end
 

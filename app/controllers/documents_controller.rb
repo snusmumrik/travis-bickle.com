@@ -10,8 +10,8 @@ class DocumentsController < ApplicationController
     @user = current_user
     @reports = Report.includes(:car, :driver).where(["cars.user_id = ? AND started_at BETWEEN ? AND ?",
                                                current_user.id,
-                                               Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 00:00}"),
-                                               Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 23:59}")
+                                               Time.zone.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 00:00}"),
+                                               Time.zone.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 23:59}")
                                               ]).order("cars.name, drivers.name").all
 
     respond_to do |format|
@@ -34,8 +34,8 @@ class DocumentsController < ApplicationController
 
     @reports = Report.includes(:rests).where(["driver_id = ? AND started_at BETWEEN ? AND ?",
                                               params[:driver_id],
-                                              Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-1 00:00}"),
-                                              Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{Date.new(params[:year].to_i, params[:month].to_i, -1).day} 23:59}")
+                                              Time.zone.parse("#{params[:year].to_s}-#{params[:month].to_s}-1 00:00}"),
+                                              Time.zone.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{Date.new(params[:year].to_i, params[:month].to_i, -1).day} 23:59}")
                                              ]).order("started_at").all
 
     @working_hours = 0
@@ -141,8 +141,8 @@ class DocumentsController < ApplicationController
     end
 
     @reports = Report.where(["started_at BETWEEN ? AND ?",
-                             Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-1 00:00}"),
-                             Time.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{Date.new(params[:year].to_i, params[:month].to_i, -1).day} 23:59}")
+                             Time.zone.parse("#{params[:year].to_s}-#{params[:month].to_s}-1 00:00}"),
+                             Time.zone.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{Date.new(params[:year].to_i, params[:month].to_i, -1).day} 23:59}")
                             ]).all
 
     @reports.each do |report|
