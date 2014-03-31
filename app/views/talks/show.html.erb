@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Sender user:</b>
+  <%= @talk.sender_user_id %>
+</p>
+
+<p>
+  <b>Sender car:</b>
+  <%= @talk.sender_car_id %>
+</p>
+
+<p>
+  <b>Receiver user:</b>
+  <%= @talk.receiver_user_id %>
+</p>
+
+<p>
+  <b>Receiver car:</b>
+  <%= @talk.receiver_car_id %>
+</p>
+
+<p>
+  <b>Received:</b>
+  <%= @talk.received %>
+</p>
+
+
+<%= link_to 'Edit', edit_talk_path(@talk) %> |
+<%= link_to 'Back', talks_path %>

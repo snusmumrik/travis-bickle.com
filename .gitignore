@@ -2,6 +2,7 @@
 .bundle
 .sass-cache/
 app/assets/images/image
+app/assets/audios/
 config/database.yml
 config/environments/production.rb
 config/initializers/devise.rb

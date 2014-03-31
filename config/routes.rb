@@ -1,6 +1,8 @@
 TravisBickle::Application.routes.draw do
   root :to => 'contents#about_travis'
 
+  # resources :talks
+
   resources :pickup_locations
 
   resources :documents
@@ -94,7 +96,7 @@ TravisBickle::Application.routes.draw do
   #     resources :products
   #   end
   namespace :api do
-    resources :cars, :check_points, :locations, :notifications, :reports, :rests, :rides
+    resources :cars, :check_points, :locations, :notifications, :reports, :rests, :rides, :talks
 
     resources :drivers do
       collection do

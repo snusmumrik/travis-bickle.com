@@ -1,7 +1,6 @@
 class Api::NotificationsController < ApplicationController
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
-  # Called from web
   # GET /api/notifications
   # GET /api/notifications.json
   def index
@@ -22,7 +21,6 @@ class Api::NotificationsController < ApplicationController
     end
   end
 
-  # Called from app
   # PUT /api/notifications/1
   # PUT /api/notifications/1.json
   def update

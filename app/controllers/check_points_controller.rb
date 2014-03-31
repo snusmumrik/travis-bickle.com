@@ -1,6 +1,6 @@
 class CheckPointsController < InheritedResources::Base
   before_filter :authenticate_user!
-  before_filter :authenticate_owner, :only => [:show, :edit, :update, :destroy]
+  before_filter :authenticate_owner, :only => [:edit, :update, :destroy]
 
   # GET /check_points
   # GET /check_points.json

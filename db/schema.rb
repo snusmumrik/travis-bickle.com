@@ -247,6 +247,25 @@ ActiveRecord::Schema.define(:version => 20140302005303) do
 
   add_index "rides", ["report_id"], :name => "index_rides_on_report_id"
 
+  create_table "talks", :force => true do |t|
+    t.integer  "sender_user_id"
+    t.integer  "sender_car_id"
+    t.integer  "receiver_user_id"
+    t.integer  "receiver_car_id"
+    t.boolean  "received"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.string   "audio_file_name"
+    t.string   "audio_content_type"
+    t.integer  "audio_file_size"
+    t.datetime "audio_updated_at"
+  end
+
+  add_index "talks", ["receiver_car_id"], :name => "index_talks_on_receiver_car_id"
+  add_index "talks", ["receiver_user_id"], :name => "index_talks_on_receiver_user_id"
+  add_index "talks", ["sender_car_id"], :name => "index_talks_on_sender_car_id"
+  add_index "talks", ["sender_user_id"], :name => "index_talks_on_sender_user_id"
+
   create_table "users", :force => true do |t|
     t.string   "username"
     t.string   "person_in_charge"
