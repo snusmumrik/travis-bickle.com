@@ -1,27 +1,24 @@
 class Api::TalksController < InheritedResources::Base
-  # before_filter :authenticate_token
+  before_filter :authenticate_token
   skip_before_filter :verify_authenticity_token, :if => Proc.new { |c| c.request.format == 'application/json' }
 
 # GET /api/talks
   # GET /api/talks.json
   def index
-    if params[:receiver_car_id]
-      @talks = Talk.where(["receiver_car_id = ? and received IS NULL", params[:receiver_car_id]]).all
-    elsif params[:receiver_user_id]
-      @talks = Talk.where(["receiver_user_id = ? and received IS NULL", params[:receiver_user_id]]).all
+    if @car
+      @talk = Talk.where(["receiver_car_id = ? and received IS NULL", @car.id]).first
+    elsif @user
+      @talk = Talk.where(["receiver_user_id = ? and received IS NULL", @user.id]).first
     end
 
-    if @talks.nil?
+    if @talk
+      @talk.update_attribute(:received, true)
       respond_to do |format|
-        format.json { render json:{ :error => "Not Acceptable:talks#index", :status => 406 } }
+        format.json { send_file @talk.audio.path, :type => "audio/mp3"}
       end
     else
-      @talks.each do |talk|
-        talk.update_attribute(:sent_at, DateTime.now)
-      end
-
       respond_to do |format|
-        format.json { render json: @talks }
+        format.json { render json: {:error => "no talk"}}
       end
     end
   end
@@ -45,6 +42,7 @@ class Api::TalksController < InheritedResources::Base
     respond_to do |format|
       if @talk.save(:validate => false)
         system("ffmpeg -y -i '#{Rails.root}/app/assets/audios/talks/#{@talk.id}/original/audio.caf' -acodec libmp3lame -ab 256 '#{Rails.root}/app/assets/audios/talks/#{@talk.id}/original/audio.mp3'")
+        system("rm '#{Rails.root}/app/assets/audios/talks/#{@talk.id}/original/audio.caf'")
         @talk.update_attribute(:audio_file_name, "audio.mp3")
         format.json { render json: {:talk => @talk} }
       else
@@ -55,7 +53,9 @@ class Api::TalksController < InheritedResources::Base
 
   private
   def authenticate_token
-    @car = Car.where(["device_token = ? AND deleted_at IS NULL", params[:device_token]]).order("updated_at DESC").first
-    render json:{ :error => "Not Acceptable:talks#authenticate_token", :status => 406 } unless @car
+    @car = Car.where(["device_token = ? AND deleted_at IS NULL", params[:device_token]]).order("updated_at DESC").first if params[:device_token]
+    user = User.where(["email = ? AND deleted_at IS NULL", params[:email]]).first if params[:email]
+    @user = user if params[:password] && user.valid_password?(params[:password])
+    render json:{ :error => "Not Acceptable:talks#authenticate_token", :status => 406 } unless @car || @user
   end
 end
