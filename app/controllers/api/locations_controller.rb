@@ -41,7 +41,7 @@ class Api::LocationsController < ApplicationController
 
   private
   def authenticate_devise
-    render json:{ :error => "Not Acceptable:locations#index", :status => 406 } unless params[:latitude] && params[:longitude] # && params[:device_token]
+    render json:{ :error => "Not Acceptable:locations#index", :status => 406 } unless params[:latitude] && params[:longitude] && params[:device_token]
   end
 
   def authenticate_token
