@@ -7,6 +7,10 @@ class Api::UsersController < ApplicationController
     respond_to do |format|
       @user = User.where(["email = ? AND deleted_at IS NULL", params[:email]]).first
       if @user && @user.valid_password?(params[:password])
+        unless DeviceToken.where(["user_id = ? AND device_token =?", @user.id, params[:device_token]]).first
+          DeviceToken.create(:user_id => @user.id, :device_token => params[:device_token])
+        end
+
         @cars = Car.where(["user_id = ?", @user.id]).order("name").all
         format.json { render json: {:user => @user, :cars => @cars} }
       else

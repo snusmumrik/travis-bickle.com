@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140302005303) do
+ActiveRecord::Schema.define(:version => 20140406021621) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -107,6 +107,16 @@ ActiveRecord::Schema.define(:version => 20140302005303) do
   end
 
   add_index "check_points", ["user_id"], :name => "index_check_points_on_user_id"
+
+  create_table "device_tokens", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "device_token"
+    t.datetime "deleted_at"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "device_tokens", ["user_id"], :name => "index_device_tokens_on_user_id"
 
   create_table "drivers", :force => true do |t|
     t.integer  "user_id"
