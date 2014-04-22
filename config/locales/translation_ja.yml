@@ -18,6 +18,10 @@ ja:
       advertisement: 広告
       image/advertisement_image: image/advertisement_image  #g
       pickup_location: 迎車場所
+      check_point_status: check_point_status  #g
+      device_token: device_token  #g
+      talk: talk  #g
+      transfer_slip: 振替伝票
 
     attributes:
       user:
@@ -49,6 +53,9 @@ ja:
         latitude: latitude  #g
         longitude: longitude  #g
         pickup_locations: pickup_locations  #g
+        authentication_token: authentication_token  #g
+        check_points: check_points  #g
+        device_tokens: device_tokens  #g
 
       active_admin/comment:
         author_type: author_type  #g
@@ -133,6 +140,7 @@ ja:
         rides: rides  #g
         sum: 合計/平均
         check_point_id: :activerecord.models.check_point
+        check_point_statuses: check_point_statuses  #g
 
       rest:
         location: 場所
@@ -216,6 +224,7 @@ ja:
         image_updated_at: image_updated_at  #g
         parent: :activerecord.models.parent  #g
         parent_type: parent_type  #g
+        image_content_type: image_content_type  #g
 
       pickup_location:
         address: 住所
@@ -225,6 +234,30 @@ ja:
         longitude: 軽度
         name: 名称
         user: :activerecord.models.user  #g
+
+      check_point_status:
+        deleted_at: deleted_at  #g
+        report: :activerecord.models.report  #g
+        status: status  #g
+
+      device_token:
+        device_token: device_token  #g
+        user: :activerecord.models.user  #g
+
+      talk:
+        audio_file_name: audio_file_name  #g
+        audio_file_size: audio_file_size  #g
+        audio_updated_at: audio_updated_at  #g
+        received: received  #g
+
+      transfer_slip:
+        credit: 借方科目
+        credit_amount: 金額
+        debit: 貸方科目
+        debit_amount: 金額
+        deleted_at: deleted_at  #g
+        note: 摘要
+        report: :activerecord.models.report  #g
 
   views:
     pagination:
@@ -242,6 +275,9 @@ ja:
       cash: 現金
       edy: Edy
       ticket: チケット
+
+    transfer_slip:
+      debit: 現金
 
   label:
     error: エラー
@@ -283,6 +319,7 @@ ja:
       daily_car: 車両毎売上
       daily_total: 日次売上
       monthly_total: 月次売上
+      expenses: 経費
 
   link:
     index: 一覧
@@ -329,3 +366,7 @@ ja:
     destroy: を削除しました。
     destroy_confirmation: 本当に削除してもよろしいですか？
     signout_confirmation: サインアウトしてもよろしいですか？
+
+  check_point: :activerecord.models.check_point  #g
+  deleted_at: deleted_at  #g
+  audio_content_type: audio_content_type  #g

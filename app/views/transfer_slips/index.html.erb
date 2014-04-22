@@ -1,0 +1,36 @@
+<h1>
+  <%= @report.started_at.strftime("%Y年%m月%d日") %>
+  <%= @report.car.name %>（<%= @report.driver.name %>）
+  <%= t("activerecord.models.transfer_slip") %><%=  t("link.index") %>
+</h1>
+
+<table class="table table-striped">
+  <tr>
+    <th><%=t "activerecord.attributes.transfer_slip.debit" %></th>
+    <th><%=t "activerecord.attributes.transfer_slip.debit_amount" %></th>
+    <th><%=t "activerecord.attributes.transfer_slip.credit" %></th>
+    <th><%=t "activerecord.attributes.transfer_slip.credit_amount" %></th>
+    <th><%=t "activerecord.attributes.transfer_slip.note" %></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @transfer_slips.each do |transfer_slip| %>
+  <tr>
+    <td><%= transfer_slip.debit %></td>
+    <td><%= transfer_slip.debit_amount %></td>
+    <td><%= transfer_slip.credit %></td>
+    <td><%= transfer_slip.credit_amount %></td>
+    <td><%= transfer_slip.note %></td>
+    <td><%= link_to t("link.show"), transfer_slip, :class => "btn" %></td>
+    <td><%= link_to t("link.edit"), edit_transfer_slip_path(transfer_slip), :class => "btn btn-info" %></td>
+    <td><%= link_to t("link.destroy"), transfer_slip, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to t("link.back"), report_path(@report), :class => "btn" %>
+<%= link_to t("link.new"), "#{new_transfer_slip_path}?report_id=#{@report.id}", :class => "btn" %>

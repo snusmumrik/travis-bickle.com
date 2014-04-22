@@ -1,0 +1,44 @@
+<%= form_for(@transfer_slip) do |f| %>
+  <% if @transfer_slip.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@transfer_slip.errors.count, "error") %> prohibited this transfer_slip from being saved:</h2>
+
+      <ul>
+      <% @transfer_slip.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.hidden_field :report_id, :value => params[:report_id] %>
+  </div>
+  <div class="field">
+    <%= f.label :debit %><br />
+    <%= f.text_field :debit %>
+  </div>
+  <div class="field">
+    <%= f.label :debit_amount %><br />
+    <%= f.number_field :debit_amount %>
+  </div>
+  <div class="field">
+    <%= f.label :credit %><br />
+    <% unless params[:debit] %>
+      <%= f.text_field :credit, :value => t("views.transfer_slip.debit") %>
+    <% else %>
+      <%= f.text_field :credit %>
+    <% end %>
+  </div>
+  <div class="field">
+    <%= f.label :credit_amount %><br />
+    <%= f.number_field :credit_amount %>
+  </div>
+  <div class="field">
+    <%= f.label :note %><br />
+    <%= f.text_field :note %>
+  </div>
+  <div class="actions">
+    <%= f.submit :class => "btn" %>
+  </div>
+<% end %>

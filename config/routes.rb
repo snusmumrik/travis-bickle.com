@@ -1,4 +1,7 @@
 TravisBickle::Application.routes.draw do
+  resources :transfer_slips
+
+
   root :to => 'contents#about_travis'
 
   # resources :talks

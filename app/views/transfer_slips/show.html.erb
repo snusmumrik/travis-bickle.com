@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Report:</b>
+  <%= @transfer_slip.report %>
+</p>
+
+<p>
+  <b>Debit:</b>
+  <%= @transfer_slip.debit %>
+</p>
+
+<p>
+  <b>Debit amount:</b>
+  <%= @transfer_slip.debit_amount %>
+</p>
+
+<p>
+  <b>Credit:</b>
+  <%= @transfer_slip.credit %>
+</p>
+
+<p>
+  <b>Credit amount:</b>
+  <%= @transfer_slip.credit_amount %>
+</p>
+
+<p>
+  <b>Note:</b>
+  <%= @transfer_slip.note %>
+</p>
+
+<%= link_to 'Edit', edit_transfer_slip_path(@transfer_slip) %> |
+<%= link_to 'Back', transfer_slips_path %>
