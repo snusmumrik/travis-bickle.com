@@ -5,7 +5,6 @@ class Api::CarsController < ApplicationController
   # GET /api/cars
   # GET /api/cars.json
   def index
-    @driver = Driver.find(params[:driver_id])
     @cars = Car.where(["user_id = ? AND deleted_at IS NULL", @driver.user_id]).order("name").all
 
     respond_to do |format|
@@ -20,6 +19,8 @@ class Api::CarsController < ApplicationController
   private
   def authenticate_token
     @car = Car.where(["device_token = ? AND deleted_at IS NULL", params[:device_token]]).order("updated_at DESC").first
-    render json:{ :error => "Not Acceptable:drivers#authenticate_token", :status => 406 } unless @car
+    @driver = Driver.find(params[:driver_id])
+
+    render json:{ :error => "Not Acceptable:drivers#authenticate_token", :status => 406 } unless @car || @driver.device_token
   end
 end

@@ -4,7 +4,7 @@ class Driver < ActiveRecord::Base
   has_many :cars, :through => :reports
   has_secure_password
 
-  attr_accessible :user_id, :name, :email, :password, :password_confirmation, :deleted_at
+  attr_accessible :user_id, :name, :email, :password, :password_confirmation, :device_token, :deleted_at
 
   # if use this, deleted drivers's reports cannot be shown
   # acts_as_paranoid
