@@ -6,66 +6,6 @@
  *= require_tree . 
  */
 
-/* bootstrap override  */
-
-.container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
-width: 1170px !important;
-}
-
-.navbar-text {
-    font-size: 13px !important;
-}
-
-.navbar-text {
-    margin-left: 10px !important;
-}
-
-.pagination {
-    margin-bottom: 10px !important;
-}
-
-.calender {
-    margin-top: 0px !important;
-}
-
-.calender ul > li > a {
-    padding: 4px 5px !important;
-}
-
-th {
-    text-align: center !important;
-    vertical-align: middle !important;
-}
-
-td {
-    vertical-align: middle !important;
-}
-
-div.field, div.actions {
-    margin: 20px 0 !important;
-}
-
-label, input, button, select, textarea {
-    font-size: 17px !important;
-}
-
-input[type="search"] {
-    margin-bottom: 0px !important;
-}
-
-.input-xxlarge {
-  width: 450px !important;
-}
-
-.select-large {
-  width: 500px;
-}
-
-footer {
-    width: 100%;
-    text-align: center;
-}
-
 /* common style sheet */
 body {
     font-family: "ヒラギノ明朝 Pro W6", "Hiragino Mincho Pro", "HGS明朝E", "ＭＳ Ｐ明朝", serif ,monospace !important;
@@ -125,4 +65,69 @@ div.inline label {
     display: inline !important;
     vertical-align: top;
     line-height: 30px;
+}
+
+
+/* bootstrap override  */
+
+.container, .navbar-static-top .container, .navbar-fixed-top .container, .navbar-fixed-bottom .container {
+width: 1170px !important;
+}
+
+.navbar-text {
+    font-size: 13px !important;
+}
+
+.navbar-text {
+    margin-left: 10px !important;
+}
+
+.pagination {
+    margin-bottom: 10px !important;
+}
+
+.calender {
+    margin-top: 0px !important;
+}
+
+.calender ul > li > a {
+    padding: 4px 5px !important;
+}
+
+th {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+td {
+    vertical-align: middle !important;
+}
+
+div.field, div.actions {
+    margin: 20px 0 !important;
+}
+
+label, input, button, select, textarea {
+    font-size: 17px !important;
+}
+
+input[type="search"] {
+    margin-bottom: 0px !important;
+}
+
+.input-xxlarge {
+  width: 450px !important;
+}
+
+.select-large {
+  width: 500px;
+}
+
+.right .carousel-control {
+    text-align: center !important;
+}
+
+footer {
+    width: 100%;
+    text-align: center;
 }
