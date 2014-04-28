@@ -1,6 +1,5 @@
-<h1>Editing transfer_slip</h1>
+<h1><%= t("activerecord.models.transfer_slip") %><%= t("link.edit") %></h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @transfer_slip %> |
-<%= link_to 'Back', transfer_slips_path %>
+<%= link_to t("link.back"), :back, :class => "btn" %>

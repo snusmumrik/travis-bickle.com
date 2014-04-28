@@ -54,19 +54,19 @@ describe CheckPointsController do
       end
     end
 
-    describe "GET show" do
-      it "assigns the requested check_point as @check_point" do
-        check_point = CheckPoint.create! valid_attributes
-        get :show, {:id => check_point.to_param}
-        assigns(:check_point).should eq(check_point)
-      end
+    # describe "GET show" do
+    #   it "assigns the requested check_point as @check_point" do
+    #     check_point = CheckPoint.create! valid_attributes
+    #     get :show, {:id => check_point.to_param}
+    #     assigns(:check_point).should eq(check_point)
+    #   end
 
-      it "redirects to index in case of unauthorized check_point as @check_point" do
-        check_point = FactoryGirl.create(:check_point, :user_id => controller.current_user.id + 1)
-        get :show, {:id => check_point.to_param}
-        response.should redirect_to check_points_path
-      end
-    end
+    #   it "redirects to index in case of unauthorized check_point as @check_point" do
+    #     check_point = FactoryGirl.create(:check_point, :user_id => controller.current_user.id + 1)
+    #     get :show, {:id => check_point.to_param}
+    #     response.should redirect_to check_points_path
+    #   end
+    # end
 
     describe "GET new" do
       it "assigns a new check_point as @check_point" do

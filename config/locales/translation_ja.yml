@@ -122,13 +122,14 @@ ja:
         sales: 運送収入
         extra_sales: メーター外収入
         sales_per_kilometer: 収入/Km
+        edy: Edy
         fuel_cost: 燃料費
-        ticket: チケット
+        ticket: チケット（未収）
         account_receivable: 未収金
         cash: 現金
         surplus_funds: 過剰金
         deficiency_account: 不足金
-        advance: 前渡金
+        advance: チケット（前受）
         started_at: 出庫時刻
         finished_at: 入庫時刻
         working_hours: 拘束時間
@@ -251,9 +252,9 @@ ja:
         received: received  #g
 
       transfer_slip:
-        credit: 借方科目
+        credit: 貸方科目
         credit_amount: 金額
-        debit: 貸方科目
+        debit: 借方科目
         debit_amount: 金額
         deleted_at: deleted_at  #g
         note: 摘要
@@ -274,10 +275,13 @@ ja:
     ride:
       cash: 現金
       edy: Edy
-      ticket: チケット
+      ticket_advance: チケット（前受）
+      ticket_receivable: チケット（未収）
 
     transfer_slip:
-      debit: 現金
+      credit_sales: 運行収入（現金）
+      credit_advance: 運行収入（前受金）
+      credit_receivable: 運行収入（未収）
 
   label:
     error: エラー
@@ -319,7 +323,6 @@ ja:
       daily_car: 車両毎売上
       daily_total: 日次売上
       monthly_total: 月次売上
-      expenses: 経費
 
   link:
     index: 一覧

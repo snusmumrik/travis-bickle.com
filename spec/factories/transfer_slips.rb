@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :transfer_slip do
-    report nil
+    report
     debit "MyString"
     debit_amount 1
     credit "MyString"

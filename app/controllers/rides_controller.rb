@@ -2,6 +2,7 @@
 class RidesController < InheritedResources::Base
   before_filter :authenticate_user!
   before_filter :set_options, :only => [:new, :edit, :create, :update]
+  after_filter :check_balance, :only => [:create, :update]
 
   # GET /rides
   # GET /rides.json
@@ -74,9 +75,29 @@ class RidesController < InheritedResources::Base
   private
   def set_options
     @segment_options = Array.new
-    segments = ["現金", "Edy", "チケット"]
+    segments = ["現金", "Edy",  "チケット（未収）", "チケット（前受）"]
     segments.each_with_index do |segment, i|
       @segment_options << [segment, i]
     end
+  end
+
+  def check_balance
+    @report = @ride.report
+    @report.cash = @report.rides.where("segment = 0").sum(:fare)
+    @report.edy = @report.rides.where("segment = 1").sum(:fare)
+    @report.ticket = @report.rides.where("segment = 2").sum(:fare)
+    @report.advance = @report.rides.where("segment = 3").sum(:fare)
+    @report.sales = @report.rides.sum(:fare)
+
+    credit = @report.cash + @report.ticket + @report.account_receivable + @report.fuel_cost + @report.advance
+    debit = @report.sales + @report.extra_sales
+    if debit - credit >= 0
+      @report.deficiency_account = debit - credit
+      @report.surplus_funds = 0
+    elsif credit - debit > 0
+      @report.surplus_funds = credit - debit
+      @report.deficiency_account = 0
+    end
+    @report.save
   end
 end

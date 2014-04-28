@@ -152,20 +152,32 @@
         <td class="right"><%= number_to_currency @report.sales, :locale => "ja" %></td>
       </tr>
       <tr>
-        <th><%=t "activerecord.attributes.report.ticket" %></th>
-        <td class="right"><%= number_to_currency @report.ticket, :locale => "ja" %></td>
+        <th><%=t "activerecord.attributes.report.edy" %></th>
+        <td class="right"><%= number_to_currency @report.edy, :locale => "ja" %></td>
         <th><%=t "activerecord.attributes.report.extra_sales" %></th>
         <td class="right"><%= number_to_currency @report.extra_sales, :locale => "ja" %></td>
       </tr>
       <tr>
-        <th><%=t "activerecord.attributes.report.account_receivable" %></th>
-        <td class="right"><%= number_to_currency @report.account_receivable, :locale => "ja" %></td>
+        <th><%=t "activerecord.attributes.report.ticket" %></th>
+        <td class="right"><%= number_to_currency @report.ticket, :locale => "ja" %></td>
         <th><%=t "activerecord.attributes.report.surplus_funds" %></th>
         <td class="right"><%= number_to_currency @report.surplus_funds, :locale => "ja" %></td>
       </tr>
       <tr>
+        <th><%=t "activerecord.attributes.report.advance" %></th>
+        <td class="right"><%= number_to_currency @report.advance, :locale => "ja" %></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
         <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
         <td class="right"><%= number_to_currency @report.fuel_cost, :locale => "ja" %></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <th><%=t "activerecord.attributes.report.account_receivable" %></th>
+        <td class="right"><%= number_to_currency @report.account_receivable, :locale => "ja" %></td>
         <td class="right"></td>
         <td class="right"></td>
       </tr>
@@ -175,16 +187,12 @@
         <td></td>
         <td></td>
       </tr>
+      <% @report.transfer_slips.each do |transfer_slip| %>
       <tr>
-        <th><%=t "activerecord.attributes.report.advance" %></th>
-        <td class="right"><%= number_to_currency @report.advance, :locale => "ja" %></td>
-        <td></td>
-        <td></td>
+        <th><%= transfer_slip.debit %></th>
+        <td class="right"><%= number_to_currency transfer_slip.debit_amount, :locale => "ja" %></td>
       </tr>
-      <tr>
-        <th><%= t("label.report.expenses") %></th>
-        <td class="right"><%= number_to_currency @report.transfer_slips.sum(:credit_amount), :locale => "ja" %></td>
-      </tr>
+      <% end %>
       <tr></tr>
       <tr>
         <th><%= t("label.report.total") %></th>
@@ -195,7 +203,7 @@
     </table>
   </div>
   <div class="transfer_slip">
-    <%= link_to t("link.index") + t("activerecord.models.transfer_slip"), "#{transfer_slips_path}?report_id=#{@report.id}", :class => "btn" %>
+    <%= link_to t("activerecord.models.transfer_slip") + t("link.index"), "#{transfer_slips_path}?report_id=#{@report.id}", :class => "btn" %>
     <%= link_to t("link.new") + t("activerecord.models.transfer_slip"), "#{new_transfer_slip_path}?report_id=#{@report.id}", :class => "btn" %>
   </div>
 </div>
@@ -324,8 +332,10 @@
              <%=t "views.ride.cash" %>
            <% elsif ride.segment == 1 %>
              <%=t "views.ride.edy" %>
+           <% elsif ride.segment == 2 %>
+             <%=t "views.ride.ticket_receivable" %>
            <% else %>
-             <%=t "views.ride.ticket" %>
+             <%=t "views.ride.ticket_advance" %>
            <% end %>
          </td>
          <td class="center"><% if ride.started_at %><%= ride.started_at.strftime("%H時%M分") %><% end %></td>
@@ -359,13 +369,15 @@
           <td class="center"><%= ride.passengers %></td>
           <td class="center"><%= number_with_delimiter ride.fare %></td>
           <td class="center">
-            <% if ride.segment == 0 %>
-              <%=t "views.ride.cash" %>
-            <% elsif ride.segment == 1 %>
-              <%=t "views.ride.edy" %>
-            <% else %>
-              <%=t "views.ride.ticket" %>
-            <% end %>
+           <% if ride.segment == 0 %>
+             <%=t "views.ride.cash" %>
+           <% elsif ride.segment == 1 %>
+             <%=t "views.ride.edy" %>
+           <% elsif ride.segment == 2 %>
+             <%=t "views.ride.ticket_receivable" %>
+           <% else %>
+             <%=t "views.ride.ticket_advance" %>
+           <% end %>
           </td>
           <td class="center"><% if ride.started_at %><%= ride.started_at.strftime("%H時%M分") %><% end %></td>
           <td class="center"><% if ride.ended_at %><%= ride.ended_at.strftime("%H時%M分") %><% end %></td>

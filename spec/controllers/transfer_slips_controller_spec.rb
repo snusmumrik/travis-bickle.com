@@ -81,7 +81,7 @@ describe TransferSlipsController do
 
       it "redirects to the created transfer_slip" do
         post :create, {:transfer_slip => valid_attributes}, valid_session
-        response.should redirect_to(TransferSlip.last)
+        response.should redirect_to(reprot_path TransferSlip.last.report)
       end
     end
 
@@ -120,10 +120,10 @@ describe TransferSlipsController do
         assigns(:transfer_slip).should eq(transfer_slip)
       end
 
-      it "redirects to the transfer_slip" do
+      it "redirects to the report" do
         transfer_slip = TransferSlip.create! valid_attributes
         put :update, {:id => transfer_slip.to_param, :transfer_slip => valid_attributes}, valid_session
-        response.should redirect_to(transfer_slip)
+        response.should redirect_to(report_path transfer_slip.report)
       end
     end
 
@@ -154,10 +154,10 @@ describe TransferSlipsController do
       }.to change(TransferSlip, :count).by(-1)
     end
 
-    it "redirects to the transfer_slips list" do
+    it "redirects to the report" do
       transfer_slip = TransferSlip.create! valid_attributes
       delete :destroy, {:id => transfer_slip.to_param}, valid_session
-      response.should redirect_to(transfer_slips_url)
+      response.should redirect_to(report_path transfer_slip.report)
     end
   end
 

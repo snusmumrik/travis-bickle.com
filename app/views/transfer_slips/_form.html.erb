@@ -4,40 +4,59 @@
       <h2><%= pluralize(@transfer_slip.errors.count, "error") %> prohibited this transfer_slip from being saved:</h2>
 
       <ul>
-      <% @transfer_slip.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
+        <% @transfer_slip.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div class="field">
+  <% if @transfer_slip.report_id %>
+    <%= f.hidden_field :report_id, :value => @transfer_slip.report_id %>
+  <% else %>
     <%= f.hidden_field :report_id, :value => params[:report_id] %>
-  </div>
-  <div class="field">
-    <%= f.label :debit %><br />
-    <%= f.text_field :debit %>
-  </div>
-  <div class="field">
-    <%= f.label :debit_amount %><br />
-    <%= f.number_field :debit_amount %>
-  </div>
-  <div class="field">
-    <%= f.label :credit %><br />
-    <% unless params[:debit] %>
-      <%= f.text_field :credit, :value => t("views.transfer_slip.debit") %>
-    <% else %>
-      <%= f.text_field :credit %>
-    <% end %>
-  </div>
-  <div class="field">
-    <%= f.label :credit_amount %><br />
-    <%= f.number_field :credit_amount %>
-  </div>
-  <div class="field">
-    <%= f.label :note %><br />
-    <%= f.text_field :note %>
-  </div>
+  <% end %>
+  <table class="table table-striped table-bordered">
+    <tr>
+      <th>
+        <%= f.label :debit_amount %>
+      </th>
+      <th>
+        <%= f.label :debit %>
+      </th>
+      <th>
+        <%= f.label :note %>
+      </th>
+      <th>
+        <%= f.label :credit %>
+      </th>
+      <th>
+        <%= f.label :credit_amount %>
+      </th>
+    </tr>
+    <tr>
+      <td class="middle">
+        <%= f.number_field :debit_amount, :class => "input-small" %>
+      </td>
+      <td class="middle">
+        <%= f.text_field :debit %>
+      </td>
+      <td class="middle">
+        <%= f.text_field :note %>
+      </td>
+      <td class="middle">
+        <% if params[:credit] %>
+          <%= f.select :credit, options_for_select(@credit_options, params[:credit]) %>
+        <% else %>
+          <%= f.select :credit, options_for_select(@credit_options) %>
+        <% end %>
+      </td>
+      <td class="middle">
+        <%= f.number_field :credit_amount, :class => "input-small" %>
+      </td>
+    </tr>
+  </table>
+
   <div class="actions">
     <%= f.submit :class => "btn" %>
   </div>

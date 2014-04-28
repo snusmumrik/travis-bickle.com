@@ -4,28 +4,26 @@
   <%= t("activerecord.models.transfer_slip") %><%=  t("link.index") %>
 </h1>
 
-<table class="table table-striped">
+<table class="table table-striped table-bordered">
   <tr>
-    <th><%=t "activerecord.attributes.transfer_slip.debit" %></th>
     <th><%=t "activerecord.attributes.transfer_slip.debit_amount" %></th>
+    <th><%=t "activerecord.attributes.transfer_slip.debit" %></th>
+    <th><%=t "activerecord.attributes.transfer_slip.note" %></th>
     <th><%=t "activerecord.attributes.transfer_slip.credit" %></th>
     <th><%=t "activerecord.attributes.transfer_slip.credit_amount" %></th>
-    <th><%=t "activerecord.attributes.transfer_slip.note" %></th>
-    <th></th>
-    <th></th>
     <th></th>
   </tr>
 
 <% @transfer_slips.each do |transfer_slip| %>
   <tr>
-    <td><%= transfer_slip.debit %></td>
-    <td><%= transfer_slip.debit_amount %></td>
-    <td><%= transfer_slip.credit %></td>
-    <td><%= transfer_slip.credit_amount %></td>
-    <td><%= transfer_slip.note %></td>
-    <td><%= link_to t("link.show"), transfer_slip, :class => "btn" %></td>
-    <td><%= link_to t("link.edit"), edit_transfer_slip_path(transfer_slip), :class => "btn btn-info" %></td>
-    <td><%= link_to t("link.destroy"), transfer_slip, method: :delete, data: { confirm: 'Are you sure?' }, :class => "btn btn-danger" %></td>
+    <td class="middle"><%= number_to_currency transfer_slip.debit_amount, :local => "ja" %></td>
+    <td class="middle span4"><%= transfer_slip.debit %></td>
+    <td class="middle"><%= transfer_slip.note %></td>
+    <td class="middle span4"><%= transfer_slip.credit %></td>
+    <td class="middle"><%= number_to_currency transfer_slip.credit_amount, :local => "ja" %></td>
+    <td class="middle">
+      <%= link_to t("link.edit"), edit_transfer_slip_path(transfer_slip), :class => "btn" %>
+      <%= link_to t("link.destroy"), transfer_slip, method: :delete, data: { confirm: t("message.destroy_confirmation") }, :class => "btn" %></td>
   </tr>
 <% end %>
 </table>

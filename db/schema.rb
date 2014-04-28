@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140423013930) do
+ActiveRecord::Schema.define(:version => 20140427145952) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -209,6 +209,7 @@ ActiveRecord::Schema.define(:version => 20140423013930) do
     t.integer  "extra_sales",        :default => 0
     t.integer  "fuel_cost",          :default => 0
     t.integer  "ticket",             :default => 0
+    t.integer  "edy",                :default => 0
     t.integer  "account_receivable", :default => 0
     t.integer  "cash",               :default => 0
     t.integer  "surplus_funds",      :default => 0
