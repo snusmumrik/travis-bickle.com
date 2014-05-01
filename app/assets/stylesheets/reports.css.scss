@@ -12,3 +12,37 @@ div.transfer_slip {
     float: left;
     margin-left: 10%;
 }
+
+.form {
+    float: left;
+    clear: both;
+    width: 100%;
+}
+
+.driver_form {
+    float: left;
+    width: 20%;
+}
+
+.meter_form {
+    float: left;
+    width: 20%;
+    margin-left: 5%;
+}
+
+.sales_form {
+    float: left;
+    width: 20%;
+    margin-left: 5%;
+}
+
+.datetime_form {
+    clear: left;
+    float: left;
+    margin-top: 30px;
+}
+
+.check_point_form {
+    float: left;
+    margin-top: 30px;
+}
