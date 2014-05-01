@@ -139,7 +139,7 @@ ja:
         meter: スピードメーター
         rests: rests  #g
         rides: rides  #g
-        sum: 合計/平均
+        sum: 合計 /平均
         check_point_id: :activerecord.models.check_point
         check_point_statuses: check_point_statuses  #g
 
@@ -270,6 +270,7 @@ ja:
     report:
       index: 売上
       daily: 日次売上
+      date: 日付
       fuel_cost_rate: 燃料費率
 
     ride:

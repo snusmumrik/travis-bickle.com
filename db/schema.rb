@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140427145952) do
+ActiveRecord::Schema.define(:version => 20140429072149) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -279,12 +279,15 @@ ActiveRecord::Schema.define(:version => 20140427145952) do
   add_index "talks", ["sender_user_id"], :name => "index_talks_on_sender_user_id"
 
   create_table "transfer_slips", :force => true do |t|
+    t.integer  "user_id"
     t.integer  "report_id"
+    t.date     "date"
     t.string   "debit"
     t.integer  "debit_amount"
     t.string   "credit"
     t.integer  "credit_amount"
     t.string   "note"
+    t.boolean  "whole_day"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
     t.datetime "deleted_at"

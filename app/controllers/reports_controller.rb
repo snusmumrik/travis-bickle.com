@@ -20,6 +20,19 @@ class ReportsController < InheritedResources::Base
                                                              Time.zone.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 00:00}"),
                                                              Time.zone.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 23:59}")
                                                             ]).order("cars.name, reports.started_at").all
+
+    @transfer_slips = TransferSlip.where(["user_id = ? AND date = ?", current_user.id, "#{params[:year]}-#{params[:month]}-#{params[:day]}"])
+    @transfer_slips = TransferSlip.includes(:report).where(["transfer_slips.user_id = ? AND (date = ? OR reports.started_at BETWEEN ? AND ?)",
+                                                            current_user.id,
+                                                            "#{params[:year]}-#{params[:month]}-#{params[:day]}",
+                                                            Time.zone.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 00:00}"),
+                                                            Time.zone.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 23:59}")
+                                                           ]).all
+    @transfer_slip_amount = 0
+    @transfer_slips.each do |transfer_slip|
+      @transfer_slip_amount += transfer_slip.debit_amount
+    end
+
     @title += " | #{@reports.first.started_at.strftime("%Y年%-m月%-d日")} #{t('views.report.index')}" rescue "#{params[:year]}年#{params[:month]}月#{params[:day]} #{t('views.report.index')}"
 
     @mileage = 0
@@ -33,6 +46,7 @@ class ReportsController < InheritedResources::Base
     @ticket = 0
     @account_receivable = 0
     @cash = 0
+    @edy = 0
     @surplus_funds = 0
     @deficiency_account = 0
     @advance = 0
@@ -51,6 +65,7 @@ class ReportsController < InheritedResources::Base
       @ticket += report.ticket if report.ticket
       @account_receivable += report.account_receivable if report.account_receivable
       @cash += report.cash if report.cash
+      @edy += report.edy if report.edy
       @surplus_funds += report.surplus_funds if report.surplus_funds
       @deficiency_account += report.deficiency_account if report.deficiency_account
       @advance += report.advance if report.advance
@@ -144,6 +159,7 @@ class ReportsController < InheritedResources::Base
     @ticket = 0
     @account_receivable = 0
     @cash = 0
+    @edy = 0
     @surplus_funds = 0
     @deficiency_account = 0
     @advance = 0
@@ -165,6 +181,7 @@ class ReportsController < InheritedResources::Base
       @report_hash[report.started_at.day][:ticket] += report.ticket if report.ticket
       @report_hash[report.started_at.day][:account_receivable] += report.account_receivable if report.account_receivable
       @report_hash[report.started_at.day][:cash] += report.cash if report.cash
+      @report_hash[report.started_at.day][:edy] += report.edy if report.edy
       @report_hash[report.started_at.day][:surplus_funds] += report.surplus_funds if report.surplus_funds
       @report_hash[report.started_at.day][:deficiency_account] += report.deficiency_account if report.deficiency_account
       @report_hash[report.started_at.day][:advance] += report.advance if report.advance
@@ -180,6 +197,7 @@ class ReportsController < InheritedResources::Base
       @ticket += report.ticket if report.ticket
       @account_receivable += report.account_receivable if report.account_receivable
       @cash += report.cash if report.cash
+      @edy += report.edy if report.edy
       @surplus_funds += report.surplus_funds if report.surplus_funds
       @deficiency_account += report.deficiency_account if report.deficiency_account
       @advance += report.advance if report.advance
@@ -440,7 +458,7 @@ class ReportsController < InheritedResources::Base
   end
 
   def check_balance
-    credit = params[:report][:cash].to_i + params[:report][:ticket].to_i + params[:report][:account_receivable].to_i + params[:report][:fuel_cost].to_i + params[:report][:advance].to_i
+    credit = params[:report][:cash].to_i + params[:report][:ticket].to_i + params[:report][:account_receivable].to_i + params[:report][:fuel_cost].to_i + params[:report][:advance].to_i + @report.transfer_slips.sum(:debit_amount)
     debit = params[:report][:sales].to_i + params[:report][:extra_sales].to_i
     if debit - credit >= 0
       params[:report][:deficiency_account] = debit - credit
@@ -456,7 +474,8 @@ class ReportsController < InheritedResources::Base
     @selected_status = {}
     @status_options = [["点検良", "レ"], ["調整要ス", "A"], ["修理要ス", "△"], ["補給", "L"]]
     if @report
-      @report.check_point_statuses.each do |status|
+      check_point_statuses = CheckPointStatus.where(["report_id = ?", @report.id])
+      check_point_statuses.each do |status|
         @selected_status.store(status.check_point_id, status.status)
       end
     end

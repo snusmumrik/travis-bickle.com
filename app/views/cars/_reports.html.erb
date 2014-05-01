@@ -30,12 +30,12 @@
     <th><%=t "activerecord.attributes.report.extra_sales" %></th>
     <th><%=t "activerecord.attributes.report.sales_per_kilometer" %></th>
     <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
-    <th><%=t "activerecord.attributes.report.ticket" %></th>
-    <th><%=t "activerecord.attributes.report.account_receivable" %></th>
     <th><%=t "activerecord.attributes.report.cash" %></th>
+    <th><%=t "activerecord.attributes.report.ticket" %></th>
+    <th><%=t "activerecord.attributes.report.advance" %></th>
+    <th><%=t "activerecord.attributes.report.account_receivable" %></th>
     <th><%=t "activerecord.attributes.report.surplus_funds" %></th>
     <th><%=t "activerecord.attributes.report.deficiency_account" %></th>
-    <th><%=t "activerecord.attributes.report.advance" %></th>
     <th></th>
   </tr>
 
@@ -61,12 +61,12 @@
       <td><%= number_to_currency report.extra_sales, :locale => "ja" %></td>
       <td><%= number_to_currency((report.sales + report.extra_sales)/report.mileage, :precision => 0, :locale => "ja") rescue "" %></td>
       <td><%= number_to_currency report.fuel_cost, :locale => "ja" %></td>
-      <td><%= number_to_currency report.ticket, :locale => "ja" %></td>
-      <td><%= number_to_currency report.account_receivable, :locale => "ja" %></td>
       <td><%= number_to_currency report.cash, :locale => "ja" %></td>
+      <td><%= number_to_currency report.ticket, :locale => "ja" %></td>
+      <td><%= number_to_currency report.advance, :locale => "ja" %></td>
+      <td><%= number_to_currency report.account_receivable, :locale => "ja" %></td>
       <td><%= number_to_currency report.surplus_funds, :locale => "ja" %></td>
       <td><%= number_to_currency report.deficiency_account, :locale => "ja" %></td>
-      <td><%= number_to_currency report.advance, :locale => "ja" %></td>
       <td>
         <%= link_to t("link.show"), report, :class => "btn" %>
       </td>
@@ -86,12 +86,12 @@
     <th><%=t "activerecord.attributes.report.extra_sales" %></th>
     <th><%=t "activerecord.attributes.report.sales_per_kilometer" %></th>
     <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
-    <th><%=t "activerecord.attributes.report.ticket" %></th>
-    <th><%=t "activerecord.attributes.report.account_receivable" %></th>
     <th><%=t "activerecord.attributes.report.cash" %></th>
+    <th><%=t "activerecord.attributes.report.ticket" %></th>
+    <th><%=t "activerecord.attributes.report.advance" %></th>
+    <th><%=t "activerecord.attributes.report.account_receivable" %></th>
     <th><%=t "activerecord.attributes.report.surplus_funds" %></th>
     <th><%=t "activerecord.attributes.report.deficiency_account" %></th>
-    <th><%=t "activerecord.attributes.report.advance" %></th>
     <th></th>
   </tr>
   <tr class="info">
@@ -107,12 +107,12 @@
     <td><%= number_to_currency @extra_sales, :locale => "ja" %></td>
     <td><%= number_to_currency((@sales + @extra_sales)/@mileage, :precision => 0, :locale => "ja") rescue "" %></td>
     <td><%= number_to_currency @fuel_cost, :locale => "ja" %></td>
-    <td><%= number_to_currency @ticket, :locale => "ja" %></td>
-    <td><%= number_to_currency @account_receivable, :locale => "ja" %></td>
     <td><%= number_to_currency @cash, :locale => "ja" %></td>
+    <td><%= number_to_currency @ticket, :locale => "ja" %></td>
+    <td><%= number_to_currency @advance, :locale => "ja" %></td>
+    <td><%= number_to_currency @account_receivable, :locale => "ja" %></td>
     <td><%= number_to_currency @surplus_funds, :locale => "ja" %></td>
     <td><%= number_to_currency @deficiency_account, :locale => "ja" %></td>
-    <td><%= number_to_currency @advance, :locale => "ja" %></td>
     <td></td>
   </tr>
 </table>

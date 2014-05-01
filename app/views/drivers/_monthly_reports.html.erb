@@ -30,12 +30,13 @@
     <th><%=t "activerecord.attributes.report.extra_sales" %></th>
     <th><%=t "activerecord.attributes.report.sales_per_kilometer" %></th>
     <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
-    <th><%=t "activerecord.attributes.report.ticket" %></th>
-    <th><%=t "activerecord.attributes.report.account_receivable" %></th>
     <th><%=t "activerecord.attributes.report.cash" %></th>
+    <th><%=t "activerecord.attributes.report.edy" %></th>
+    <th><%=t "activerecord.attributes.report.ticket" %></th>
+    <th><%=t "activerecord.attributes.report.advance" %></th>
+    <th><%=t "activerecord.attributes.report.account_receivable" %></th>
     <th><%=t "activerecord.attributes.report.surplus_funds" %></th>
     <th><%=t "activerecord.attributes.report.deficiency_account" %></th>
-    <th><%=t "activerecord.attributes.report.advance" %></th>
     <th><%=t "activerecord.attributes.report.started_at" %></th>
     <th><%=t "activerecord.attributes.report.finished_at" %></th>
     <th><%=t "activerecord.attributes.report.working_hours" %></th>
@@ -66,12 +67,13 @@
       <td><%= number_to_currency @sales_hash[i][:extra_sales], :locale => "ja" %></td>
       <td><%= number_to_currency((@sales_hash[i][:sales] + @sales_hash[i][:extra_sales])/@sales_hash[i][:mileage], :precision => 0, :locale => "ja") rescue "" %></td>
       <td><%= number_to_currency @sales_hash[i][:fuel_cost], :locale => "ja" %></td>
-      <td><%= number_to_currency @sales_hash[i][:ticket], :locale => "ja" %></td>
-      <td><%= number_to_currency @sales_hash[i][:account_receivable], :locale => "ja" %></td>
       <td><%= number_to_currency @sales_hash[i][:cash], :locale => "ja" %></td>
+      <td><%= number_to_currency @sales_hash[i][:edy], :locale => "ja" %></td>
+      <td><%= number_to_currency @sales_hash[i][:ticket], :locale => "ja" %></td>
+      <td><%= number_to_currency @sales_hash[i][:advance], :locale => "ja" %></td>
+      <td><%= number_to_currency @sales_hash[i][:account_receivable], :locale => "ja" %></td>
       <td><%= number_to_currency @sales_hash[i][:surplus_funds], :locale => "ja" %></td>
       <td><%= number_to_currency @sales_hash[i][:deficiency_account], :locale => "ja" %></td>
-      <td><%= number_to_currency @sales_hash[i][:advance], :locale => "ja" %></td>
       <td><% if @sales_hash[i][:started_at] %><%= @sales_hash[i][:started_at].strftime("%H時%M分") rescue nil %><% end %></td>
       <td><% if @sales_hash[i][:finished_at] %><%= @sales_hash[i][:finished_at].strftime("%H時%M分") rescue nil %><% end %></td>
       <td>
@@ -88,8 +90,8 @@
       </td>
       <td>
         <% if @sales_hash[i][:finished_at] != 0 %>
-        <%#= "#{((@sales_hash[i][:finished_at] - @sales_hash[i][:started_at]).to_i - (@rest_hash[i][0]*60*60 + @rest_hash[i][1]*60)).divmod(60*60)[0]}時間" rescue nil %>
-        <%#= "#{((@sales_hash[i][:finished_at] - @sales_hash[i][:started_at]).to_i - (@rest_hash[i][0]*60*60 + @rest_hash[i][1]*60)).divmod(60*60)[1].divmod(60)[0]}分" rescue nil %>
+        <%= "#{((@sales_hash[i][:finished_at] - @sales_hash[i][:started_at]).to_i - (@rest_hash[i][0]*60*60 + @rest_hash[i][1]*60)).divmod(60*60)[0]}時間" rescue nil %>
+        <%= "#{((@sales_hash[i][:finished_at] - @sales_hash[i][:started_at]).to_i - (@rest_hash[i][0]*60*60 + @rest_hash[i][1]*60)).divmod(60*60)[1].divmod(60)[0]}分" rescue nil %>
         <% end %>
       </td>
       <td>
@@ -113,12 +115,13 @@
     <th><%=t "activerecord.attributes.report.extra_sales" %></th>
     <th><%=t "activerecord.attributes.report.sales_per_kilometer" %></th>
     <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
-    <th><%=t "activerecord.attributes.report.ticket" %></th>
-    <th><%=t "activerecord.attributes.report.account_receivable" %></th>
     <th><%=t "activerecord.attributes.report.cash" %></th>
+    <th><%=t "activerecord.attributes.report.edy" %></th>
+    <th><%=t "activerecord.attributes.report.ticket" %></th>
+    <th><%=t "activerecord.attributes.report.advance" %></th>
+    <th><%=t "activerecord.attributes.report.account_receivable" %></th>
     <th><%=t "activerecord.attributes.report.surplus_funds" %></th>
     <th><%=t "activerecord.attributes.report.deficiency_account" %></th>
-    <th><%=t "activerecord.attributes.report.advance" %></th>
     <th><%=t "activerecord.attributes.report.started_at" %></th>
     <th><%=t "activerecord.attributes.report.finished_at" %></th>
     <th><%=t "activerecord.attributes.report.working_hours" %></th>
@@ -140,12 +143,13 @@
     <td><%= number_to_currency @extra_sales, :locale => "ja" %></td>
     <td><%= number_to_currency((@sales + @extra_sales)/@mileage, :precision => 0, :locale => "ja") rescue "" %></td>
     <td><%= number_to_currency @fuel_cost, :locale => "ja" %></td>
-    <td><%= number_to_currency @ticket, :locale => "ja" %></td>
-    <td><%= number_to_currency @account_receivable, :locale => "ja" %></td>
     <td><%= number_to_currency @cash, :locale => "ja" %></td>
+    <td><%= number_to_currency @edy, :locale => "ja" %></td>
+    <td><%= number_to_currency @ticket, :locale => "ja" %></td>
+    <td><%= number_to_currency @advance, :locale => "ja" %></td>
+    <td><%= number_to_currency @account_receivable, :locale => "ja" %></td>
     <td><%= number_to_currency @surplus_funds, :locale => "ja" %></td>
     <td><%= number_to_currency @deficiency_account, :locale => "ja" %></td>
-    <td><%= number_to_currency @advance, :locale => "ja" %></td>
     <td>-</td>
     <td>-</td>
     <td>

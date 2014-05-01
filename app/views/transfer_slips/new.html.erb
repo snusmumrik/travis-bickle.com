@@ -2,4 +2,8 @@
 
 <%= render 'form' %>
 
-<%= link_to t("link.back"), report_path(params[:report_id]), :class => "btn" %>
+<% if params[:report_id] %>
+  <%= link_to t("link.back"), report_path(@report), :class => "btn" %>
+<% else %>
+  <%= link_to t("link.back"), "#{reports_path}/#{params[:year]}/#{params[:month]}/#{params[:day]}", :class => "btn" %>
+<% end %>

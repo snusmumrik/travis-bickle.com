@@ -68,6 +68,7 @@ class DriversController < InheritedResources::Base
     @ticket = 0
     @account_receivable = 0
     @cash = 0
+    @edy = 0
     @surplus_funds = 0
     @deficiency_account = 0
     @advance = 0
@@ -86,6 +87,7 @@ class DriversController < InheritedResources::Base
         @sales_hash[report.started_at.day][:fuel_cost] += report.fuel_cost if report.fuel_cost
         @sales_hash[report.started_at.day][:ticket] += report.ticket if report.ticket
         @sales_hash[report.started_at.day][:account_receivable] += report.account_receivable if report.account_receivable
+        @sales_hash[report.started_at.day][:edy] += report.edy if report.edy
         @sales_hash[report.started_at.day][:cash] += report.cash if report.cash
         @sales_hash[report.started_at.day][:surplus_funds] += report.surplus_funds if report.surplus_funds
         @sales_hash[report.started_at.day][:deficiency_account] += report.deficiency_account if report.deficiency_account
@@ -105,6 +107,7 @@ class DriversController < InheritedResources::Base
       @ticket += report.ticket if report.ticket
       @account_receivable += report.account_receivable if report.account_receivable
       @cash += report.cash if report.cash
+      @edy += report.edy if report.edy
       @surplus_funds += report.surplus_funds if report.surplus_funds
       @deficiency_account += report.deficiency_account if report.deficiency_account
       @advance += report.advance if report.advance

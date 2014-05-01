@@ -10,55 +10,66 @@
 <div class="sales">
   <table class="table table-striped table-bordered table-hover">
     <tr>
-      <th class="span2"><%=t "activerecord.attributes.report.cash" %></th>
-      <td class="span2"><%= number_to_currency @cash, :locale => "ja" %></td>
-      <td class="span4"></td>
-      <th class="span2"><%=t "activerecord.attributes.report.sales" %></th>
-      <td class="span2"><%= number_to_currency @sales, :locale => "ja" %></td>
+      <th><%=t "activerecord.attributes.report.cash" %></th>
+      <td class="right"><%= number_to_currency @cash, :locale => "ja" %></td>
+      <th><%=t "activerecord.attributes.report.sales" %></th>
+      <td class="right"><%= number_to_currency @sales, :locale => "ja" %></td>
+    </tr>
+    <tr>
+      <th><%=t "activerecord.attributes.report.edy" %></th>
+      <td class="right"><%= number_to_currency @edy, :locale => "ja" %></td>
+      <th><%=t "activerecord.attributes.report.extra_sales" %></th>
+      <td class="right"><%= number_to_currency @extra_sales, :locale => "ja" %></td>
     </tr>
     <tr>
       <th><%=t "activerecord.attributes.report.ticket" %></th>
-      <td><%= number_to_currency @ticket, :locale => "ja" %></td>
+      <td class="right"><%= number_to_currency @ticket, :locale => "ja" %></td>
+      <th><%=t "activerecord.attributes.report.surplus_funds" %></th>
+      <td class="right"><%= number_to_currency @surplus_funds, :locale => "ja" %></td>
+    </tr>
+    <tr>
+      <th><%=t "activerecord.attributes.report.advance" %></th>
+      <td class="right"><%= number_to_currency @advance, :locale => "ja" %></td>
+      <th></th>
       <td></td>
-      <th><%=t "activerecord.attributes.report.extra_sales" %></th>
-      <td><%= number_to_currency @extra_sales, :locale => "ja" %></td>
     </tr>
     <tr>
       <th><%=t "activerecord.attributes.report.account_receivable" %></th>
-      <td><%= number_to_currency @account_receivable, :locale => "ja" %></td>
-      <td></td>
+      <td class="right"><%= number_to_currency @account_receivable, :locale => "ja" %></td>
       <td></td>
       <td></td>
     </tr>
     <tr>
       <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
-      <td><%= number_to_currency @fuel_cost, :locale => "ja" %></td>
-      <td></td>
+      <td class="right"><%= number_to_currency @fuel_cost, :locale => "ja" %></td>
       <td></td>
       <td></td>
     </tr>
     <tr>
       <th><%=t "activerecord.attributes.report.deficiency_account" %></th>
-      <td><%= number_to_currency @deficiency_account, :locale => "ja" %></td>
+      <td class="right"><%= number_to_currency @deficiency_account, :locale => "ja" %></td>
       <td></td>
-      <th><%=t "activerecord.attributes.report.surplus_funds" %></th>
-      <td><%= number_to_currency @surplus_funds, :locale => "ja" %></td>
-    </tr>
-    <tr>
-      <th><%=t "activerecord.attributes.report.advance" %></th>
-      <td><%= number_to_currency @advance, :locale => "ja" %></td>
-      <th></th>
-      <th></th>
       <td></td>
     </tr>
+    <% @transfer_slips.each do |transfer_slip| %>
+      <tr>
+        <th><%= transfer_slip.debit %></th>
+        <td class="right"><%= number_to_currency transfer_slip.debit_amount, :locale => "ja" %></td>
+      </tr>
+    <% end %>
+    <tr></tr>
     <tr>
       <th><%= t("label.report.total") %></th>
-      <td><%= number_to_currency @cash + @ticket + @account_receivable + @fuel_cost + @deficiency_account + @advance, :locale => "ja" %></td>
-      <th></th>
+      <td class="right"><%= number_to_currency @cash + @edy + @ticket + @advance + @account_receivable + @fuel_cost + @deficiency_account, :locale => "ja" %></td>
       <th><%= t("label.report.total") %></th>
-      <td><%= number_to_currency @sales + @extra_sales + @surplus_funds, :locale => "ja" %></td>
+      <td class="right"><%= number_to_currency @sales + @extra_sales + @surplus_funds, :locale => "ja" %></td>
     </tr>
   </table>
+</div>
+
+<div class="transfer_slip">
+  <%= link_to t("activerecord.models.transfer_slip") + t("link.index"), "#{transfer_slips_path}/#{params[:year]}/#{params[:month]}/#{params[:day]}", :class => "btn" %>
+  <%= link_to t("link.new") + t("activerecord.models.transfer_slip"), "#{new_transfer_slip_path}/#{params[:year]}/#{params[:month]}/#{params[:day]}", :class => "btn" %>
 </div>
 
 <%= high_chart("chart", @chart) %>
