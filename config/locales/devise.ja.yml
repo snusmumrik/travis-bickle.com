@@ -38,6 +38,8 @@ ja:
       signed_up_but_unconfirmed: アカウント確認のリンクが入っているメールを送りました。 メール内のリンクでアカウントを有効にしてください。
       update_needs_confirmation: アカウント情報を変更しました。しかし、メールアドレスを確認する必要があります。メール内のリンクで新しいメールアドレスを確認してください。
       updated: アカウント情報を更新しました。
+      user:
+        updated: アカウント情報を更新しました。
     sessions:
       signed_in: ログインしました。
       signed_out: ログアウトしました。

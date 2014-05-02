@@ -110,7 +110,7 @@ ja:
         user: :activerecord.models.user  #g
 
       report:
-        car: :activerecord.models.car
+        car_id: :activerecord.models.car
         driver: :activerecord.models.driver
         date: 日付
         mileage: 走行粁
@@ -272,8 +272,8 @@ ja:
       daily: 日次売上
       date: 日付
       fuel_cost_rate: 燃料費率
-      debit: 借方小計
-      credit: 貸方小計
+      debit: 収入内訳
+      credit: 収入合計
 
     ride:
       cash: 現金
