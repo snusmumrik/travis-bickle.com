@@ -17,3 +17,53 @@ $("input[id^='report_']").change( ->
 
   $("#credit").html(String(parseInt($("#report_sales").val()) + parseInt($("#report_extra_sales").val()) + parseInt($("#report_surplus_funds").val())).replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'))
 )
+
+$("#report_car_id").change( ->
+  $.ajax({
+  type: "GET",
+  url: "/api/meters.json?car_id=#{$(this).val()}&year=#{$('#report_started_at_1i').val()}&month=#{$('#report_started_at_2i').val()}&day=#{$('#report_started_at_3i').val()}&hour=#{$('#report_started_at_4i').val()}&minute=#{$('#report_started_at_5i').val()}",
+  success: (@json)->
+    $("#meter").html(String(@json["meter"].meter).replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'))
+    $("#mileage").html(String(@json["meter"].mileage).replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'))
+    $("#riding_mileage").html(String(@json["meter"].riding_mileage).replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'))
+    $("#riding_count").html(String(@json["meter"].riding_count).replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'))
+    $("#meter_fare_count").html(String(@json["meter"].meter_fare_count).replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'))
+  error: (XMLHttpRequest, textStatus, errorThrown)->
+    alert(errorThrown)
+  })
+)
+
+$("select[id^='report_started_at_']").change( ->
+  $.ajax({
+  type: "GET",
+  url: "/api/meters.json?car_id=#{$(this).val()}&year=#{$('#report_started_at_1i').val()}&month=#{$('#report_started_at_2i').val()}&day=#{$('#report_started_at_3i').val()}&hour=#{$('#report_started_at_4i').val()}&minute=#{$('#report_started_at_5i').val()}",
+  success: (@json)->
+    $("#meter").html(String(@json["meter"].meter).replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'))
+    $("#mileage").html(String(@json["meter"].mileage).replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'))
+    $("#riding_mileage").html(String(@json["meter"].riding_mileage).replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'))
+    $("#riding_count").html(String(@json["meter"].riding_count).replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'))
+    $("#meter_fare_count").html(String(@json["meter"].meter_fare_count).replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'))
+  error: (XMLHttpRequest, textStatus, errorThrown)->
+    alert(errorThrown)
+  })
+)
+
+$("#report_meter").change( ->
+  $("#meter_diff").html("（#{$(this).val() - parseInt($('#meter').html().replace(',', ''))}）")
+)
+
+$("#report_mileage").change( ->
+  $("#mileage_diff").html("（#{$(this).val() - parseInt($('#mileage').html().replace(',', ''))}）")
+)
+
+$("#report_riding_mileage").change( ->
+  $("#riding_mileage_diff").html("（#{$(this).val() - parseInt($('#riding_mileage').html().replace(',', ''))}）")
+)
+
+$("#report_riding_count").change( ->
+  $("#riding_count_diff").html("（#{$(this).val() - parseInt($('#riding_count').html().replace(',', ''))}）")
+)
+
+$("#report_meter_fare_count").change( ->
+  $("#meter_fare_count_diff").html("（#{$(this).val() - parseInt($('#meter_fare_count').html().replace(',', ''))}）")
+)

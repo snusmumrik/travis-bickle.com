@@ -102,7 +102,7 @@ TravisBickle::Application.routes.draw do
   #     resources :products
   #   end
   namespace :api do
-    resources :cars, :check_points, :locations, :notifications, :reports, :rests, :rides, :talks
+    resources :cars, :check_points, :locations, :notifications, :reports, :rests, :rides, :talks, :meters
 
     resources :drivers do
       collection do

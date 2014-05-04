@@ -40,22 +40,37 @@
       <div class="field">
         <%= f.label :meter %>
         <%= f.number_field :meter, :value => @report.meter.try(:meter) || @report.last_meter.meter, :class => "right" %>
+        <div class="right">
+          <span id="meter"></span><span id="meter_diff"></span>
+        </div>
       </div>
       <div class="field">
         <%= f.label :mileage %>
         <%= f.number_field :mileage, :value => @report.meter.try(:mileage) || @report.last_meter.mileage, :class => "right" %>
+        <div class="right">
+          <span id="mileage"></span><span id="mileage_diff"></span>
+        </div>
       </div>
       <div class="field">
         <%= f.label :riding_mileage %>
         <%= f.number_field :riding_mileage, :value => @report.meter.try(:riding_mileage) || @report.last_meter.riding_mileage, :class => "right" %>
+        <div class="right">
+          <span id="riding_mileage"></span><span id="riding_mileage_diff"></span>
+        </div>
       </div>
       <div class="field">
         <%= f.label :riding_count %>
         <%= f.number_field :riding_count, :value => @report.meter.try(:riding_count) || @report.last_meter.riding_count, :class => "right" %>
+        <div class="right">
+          <span id="riding_count"></span><span id="riding_count_diff"></span>
+        </div>
       </div>
       <div class="field">
         <%= f.label :meter_fare_count %>
         <%= f.number_field :meter_fare_count, :value => @report.meter.try(:meter_fare_count) || @report.last_meter.meter_fare_count, :class => "right" %>
+        <div class="right">
+          <span id="meter_fare_count"></span><span id="meter_fare_count_diff"></span>
+        </div>
       </div>
       <div class="field">
         <%= f.label :passengers %>
@@ -63,7 +78,7 @@
       </div>
     </div>
 
-    <div class="sales_form">
+    <div class="sales_form sales_left">
       <div class="field">
         <%= f.label :sales %>
         <%= f.number_field :sales, :class => "right" %>
