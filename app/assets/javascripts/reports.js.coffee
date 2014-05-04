@@ -36,7 +36,7 @@ $("#report_car_id").change( ->
 $("select[id^='report_started_at_']").change( ->
   $.ajax({
   type: "GET",
-  url: "/api/meters.json?car_id=#{$(this).val()}&year=#{$('#report_started_at_1i').val()}&month=#{$('#report_started_at_2i').val()}&day=#{$('#report_started_at_3i').val()}&hour=#{$('#report_started_at_4i').val()}&minute=#{$('#report_started_at_5i').val()}",
+  url: "/api/meters.json?car_id=#{$("#report_car_id").val()}&year=#{$('#report_started_at_1i').val()}&month=#{$('#report_started_at_2i').val()}&day=#{$('#report_started_at_3i').val()}&hour=#{$('#report_started_at_4i').val()}&minute=#{$('#report_started_at_5i').val()}",
   success: (@json)->
     $("#meter").html(String(@json["meter"].meter).replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'))
     $("#mileage").html(String(@json["meter"].mileage).replace( /(\d)(?=(\d\d\d)+(?!\d))/g, '$1,'))
