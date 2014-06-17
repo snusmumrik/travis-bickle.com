@@ -24,7 +24,7 @@ class LocationsController < InheritedResources::Base
     else
       @locations = Location.includes(:car => :reports).where(["cars.user_id = ? AND reports.finished_at IS NULL AND reports.deleted_at IS NULL",
                                                               current_user.id
-                                                             ]).order("locations.car_id").all
+                                                             ]).order("cars.name").all
     end
 
     @json = @locations.to_gmaps4rails do |location, marker|
