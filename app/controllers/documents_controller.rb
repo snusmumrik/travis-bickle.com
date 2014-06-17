@@ -4,9 +4,96 @@ class DocumentsController < ApplicationController
   before_filter :authenticate_driver_owner, :only => :driver
   before_filter :authenticate_report_owner, :only => :report
 
-  # GET /documents/:drivers/:year/:month/:day.pdf
+  # GET /documents/:daily_sales/:year/:month/:day.pdf
+  def daily_sales
+    title = "#{params[:year]}年#{params[:month]}月#{params[:day]}日 売上一覧"
+    @reports = Report.includes(:car, :driver, :rests).where(["cars.user_id = ? AND reports.started_at BETWEEN ? AND ?",
+                                                             current_user.id,
+                                                             Time.zone.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 00:00}"),
+                                                             Time.zone.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 23:59}")
+                                                            ]).order("cars.name, reports.started_at").all
+
+    @transfer_slips = TransferSlip.where(["user_id = ? AND date = ?", current_user.id, "#{params[:year]}-#{params[:month]}-#{params[:day]}"])
+    @transfer_slips = TransferSlip.includes(:report).where(["transfer_slips.user_id = ? AND (date = ? OR reports.started_at BETWEEN ? AND ?)",
+                                                            current_user.id,
+                                                            "#{params[:year]}-#{params[:month]}-#{params[:day]}",
+                                                            Time.zone.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 00:00}"),
+                                                            Time.zone.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 23:59}")
+                                                           ]).all
+    @transfer_slip_amount = 0
+    @transfer_slips.each do |transfer_slip|
+      @transfer_slip_amount += transfer_slip.debit_amount
+    end
+
+    @title += " | #{@reports.first.started_at.strftime("%Y年%-m月%-d日")} #{t('views.report.index')}" rescue "#{params[:year]}年#{params[:month]}月#{params[:day]} #{t('views.report.index')}"
+
+    @mileage = 0
+    @riding_mileage = 0
+    @riding_count = 0
+    @meter_fare_count = 0
+    @passengers = 0
+    @sales = 0
+    @extra_sales = 0
+    @fuel_cost = 0
+    @ticket = 0
+    @account_receivable = 0
+    @cash = 0
+    @edy = 0
+    @surplus_funds = 0
+    @deficiency_account = 0
+    @advance = 0
+    @rest_hash = {}
+    @sales_array = Array.new
+
+    @reports.each do |report|
+      @mileage += report.mileage if report.mileage
+      @riding_mileage += report.riding_mileage if report.riding_mileage
+      @riding_count += report.riding_count if report.riding_count
+      @meter_fare_count += report.meter_fare_count if report.meter_fare_count
+      @passengers += report.passengers if report.passengers
+      @sales += report.sales if report.sales
+      @extra_sales += report.extra_sales if report.extra_sales
+      @fuel_cost += report.fuel_cost if report.fuel_cost
+      @ticket += report.ticket if report.ticket
+      @account_receivable += report.account_receivable if report.account_receivable
+      @cash += report.cash if report.cash
+      @edy += report.edy if report.edy
+      @surplus_funds += report.surplus_funds if report.surplus_funds
+      @deficiency_account += report.deficiency_account if report.deficiency_account
+      @advance += report.advance if report.advance
+
+      rest_sum = 0
+      report.rests.each do |rest|
+        rest_sum += rest.ended_at - rest.started_at if rest.ended_at && rest.started_at
+      end
+      hours = rest_sum.divmod(60*60) #=> [12.0, 1800.0]
+      mins = hours[1].divmod(60) #=> [30.0, 0.0]
+      @rest_hash.store(report.id, [hours[0], mins[0]])
+      @sales_array << report.sales + report.extra_sales
+    end
+
+    fuel_cost_rates = Array.new
+    sales_array = @reports.collect(&:sales)
+    extra_sales_array = @reports.collect(&:extra_sales)
+    @reports.collect(&:fuel_cost).each_with_index do |fuel_cost, i|
+      if (!sales_array[i].blank? && sales_array[i] != 0) || (!extra_sales_array[i].blank? && extra_sales_array[i] != 0)
+        fuel_cost_rates << (fuel_cost.to_f / (sales_array[i] + extra_sales_array[i]) * 100).ceil
+      else
+        fuel_cost_rates << 0
+      end
+    end
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.pdf do
+        render :pdf => title, :orientation => "Landscape", :encoding => "UTF-8"
+      end
+    end
+  end
+
+  # GET /documents/:roll_calls/:year/:month/:day.pdf
   def roll_calls
-    title = "点呼記録簿#{params[:year]}年#{params[:month]}月#{params[:day]}"
+    title = "#{params[:year]}年#{params[:month]}月#{params[:day]}日 点呼記録簿"
     @user = current_user
     @reports = Report.includes(:car, :driver).where(["cars.user_id = ? AND started_at BETWEEN ? AND ?",
                                                current_user.id,
