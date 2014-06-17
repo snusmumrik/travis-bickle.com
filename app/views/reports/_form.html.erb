@@ -110,13 +110,13 @@
         <%= f.label :ticket %>
         <%= f.number_field :ticket, :class => "right" %>
       </div>
-    </div>
-
-    <div class="sales_form">
       <div class="field">
         <%= f.label :advance %>
         <%= f.number_field :advance, :class => "right" %>
       </div>
+    </div>
+
+    <div class="sales_form">
       <div class="field">
         <%= f.label :fuel_cost %>
         <%= f.number_field :fuel_cost, :class => "right" %>
@@ -124,6 +124,10 @@
       <div class="field">
         <%= f.label :account_receivable %>
         <%= f.number_field :account_receivable, :class => "right" %>
+      </div>
+      <div class="field">
+        <%= f.label :deficiency_account %>
+        <%= f.number_field :deficiency_account, :class => "right" %>
       </div>
       <div class="field">
         <%= label_tag t("views.report.debit") %>
