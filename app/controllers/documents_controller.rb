@@ -86,7 +86,7 @@ class DocumentsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.pdf do
-        render :pdf => title, :orientation => "Landscape", :encoding => "UTF-8"
+        render :pdf => title, :encoding => "UTF-8"
       end
     end
   end
