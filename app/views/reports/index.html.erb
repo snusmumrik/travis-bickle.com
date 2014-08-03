@@ -10,6 +10,12 @@
 <div class="sales">
   <table class="table table-striped table-bordered table-hover">
     <tr>
+      <th><%=t "activerecord.attributes.transfer_slip.debit" %></th>
+      <th><%=t "activerecord.attributes.transfer_slip.debit_amount" %></th>
+      <th><%=t "activerecord.attributes.transfer_slip.credit" %></th>
+      <th><%=t "activerecord.attributes.transfer_slip.credit_amount" %></th>
+    </tr>
+    <tr>
       <th><%=t "activerecord.attributes.report.cash" %></th>
       <td class="right"><%= number_to_currency @cash, :locale => "ja" %></td>
       <th><%=t "activerecord.attributes.report.sales" %></th>

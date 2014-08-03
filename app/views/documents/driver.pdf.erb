@@ -1,6 +1,8 @@
 <%= wicked_pdf_stylesheet_link_tag "bootstrap" %>
 <%= wicked_pdf_stylesheet_link_tag "documents" %>
 
+<% @tax_rate = 0.08 %>
+
 <style type="text/css">
 h1 {
   font-size: 1.7em;
@@ -61,6 +63,13 @@ table.small th,td{
   font-size: 11px !important;
 }
 
+table td {
+  vertical-align: middle !important;
+}
+
+.small {
+  font-size: 70%;
+} 
 </style>
 
 <div class="left title">
@@ -175,21 +184,27 @@ table.small th,td{
   <% end %>
 
   <tr class="info">
-    <td><%=t "label.document.sum" %></td>
-    <td colspan="2" class="center"><%=t "label.document.work_days" %>：<%= @reports.size %></td>
-    <td>
+    <td rowspan="3"><%=t "label.document.sum" %></td>
+    <td rowspan="3" colspan="2" class="center"><%=t "label.document.work_days" %>：<%= @reports.size %></td>
+    <td rowspan="3">
       <%= @working_hours.divmod(60*60)[0] %>時間<%= @working_hours.divmod(60*60)[1].divmod(60)[0] %>分
     </td>
-    <td>
+    <td rowspan="3">
       <%= @rest_hours.divmod(60*60)[0] %>時間<%= @rest_hours.divmod(60*60)[1].divmod(60)[0] %>分
     </td>
-    <td>
+    <td rowspan="3">
       <%= (@working_hours - @rest_hours).divmod(60*60)[0] %>時間<%= (@working_hours - @rest_hours).divmod(60*60)[1].divmod(60)[0] %>分
     </td>
-    <td></td>
-    <td><%= @late_night %></td>
-    <td></td>
-    <td><%= number_to_currency @sales + @extra_sales, :locale => "ja" %></td>
-    <td></td>
+    <td rowspan="3"></td>
+    <td rowspan="3"><%= @late_night %></td>
+    <td rowspan="3"></td>
+    <td><%= number_to_currency @sales + @extra_sales, :locale => "ja" %><span class="small">（税込）</span></td>
+    <td rowspan="3"></td>
+  </tr>
+  <tr class="info">
+    <td><%= number_to_currency (@sales + @extra_sales)*(1 - @tax_rate), :locale => "ja" %><span class="small">（税抜）</span></td>
+  </tr>
+  <tr class="info">
+    <td><%= number_to_currency (@sales + @extra_sales)*(1 - @tax_rate)/2, :locale => "ja" %><span class="small">（給与）</span></td>
   </tr>
 </table>
