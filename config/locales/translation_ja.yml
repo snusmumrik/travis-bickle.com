@@ -110,7 +110,7 @@ ja:
         user: :activerecord.models.user  #g
 
       report:
-        car_id: :activerecord.models.car
+        car: :activerecord.models.car
         driver: :activerecord.models.driver
         date: 日付
         mileage: 走行粁
