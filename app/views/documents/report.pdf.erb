@@ -319,11 +319,13 @@ table td.wide {
          <tr>
            <td><%= i + 1 %></td>
            <td><%= rest.location %></td>
-           <td><%= rest.started_at.strftime("%H時%M分") %></td>
-           <td><%= rest.ended_at.strftime("%H時%M分") %></td>
+           <td><% if rest.started_at %><%= rest.started_at.strftime("%H時%M分") %><% end %></td>
+           <td><% if rest.ended_at %><%= rest.ended_at.strftime("%H時%M分") %><% end %></td>
            <td>
-             <%= (rest.ended_at - rest.started_at).divmod(60*60)[0] %>時間
-             <%= (rest.ended_at - rest.started_at).divmod(60*60)[1].divmod(60)[0]%>分
+             <% if rest.ended_at && rest.started_at %>
+               <%= (rest.ended_at - rest.started_at).divmod(60*60)[0] %>時間
+               <%= (rest.ended_at - rest.started_at).divmod(60*60)[1].divmod(60)[0]%>分
+             <% end %>
            </td>
          </tr>
          <% end %>
@@ -345,12 +347,15 @@ table td.wide {
       <tr>
         <td><%= i + 1 %></td>
         <td><%= rest.location %></td>
-        <td><%= rest.started_at.strftime("%H時%M分") %></td>
-        <td><%= rest.ended_at.strftime("%H時%M分") %></td>
-        <td>
-          <%= (rest.ended_at - rest.started_at).divmod(60*60)[0] %>時間
-          <%= (rest.ended_at - rest.started_at).divmod(60*60)[1].divmod(60)[0]%>分
-        </td>
+           <td><% if rest.started_at %><%= rest.started_at.strftime("%H時%M分") %><% end %></td>
+           <td><% if rest.ended_at %><%= rest.ended_at.strftime("%H時%M分") %><% end %></td>
+           <td>
+             <% if rest.ended_at && rest.started_at %>
+               <%= (rest.ended_at - rest.started_at).divmod(60*60)[0] %>時間
+               <%= (rest.ended_at - rest.started_at).divmod(60*60)[1].divmod(60)[0]%>分
+             <% end %>
+           </td>
+         </tr>
       </tr>
       <% end %>
       <% end %>

@@ -187,7 +187,7 @@ class DocumentsController < ApplicationController
     @estimated_rest = 0
 
     @report.rests.each do |rest|
-      @estimated_rest += rest.ended_at - rest.started_at
+      @estimated_rest += rest.ended_at - rest.started_at if rest.ended_at && rest.started_at
     end
     hours = @estimated_rest.divmod(60*60) #=> [12.0, 1800.0]
     mins = hours[1].divmod(60) #=> [30.0, 0.0]
