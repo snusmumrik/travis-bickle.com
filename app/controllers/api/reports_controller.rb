@@ -18,11 +18,8 @@ class Api::ReportsController < ApplicationController
   # POST /api/reports.json
   def create
     @car = Car.find(params[:car_id])
-    @car.update_attributes({ :device_token => params[:device_token],
-                             :updated_at => Time.now()})
-    driver = Driver.find(params[:driver_id])
-    driver.update_attribute(:device_token, nil)
-
+    @car.update_attributes({:device_token => params[:device_token],
+                            :updated_at => Time.now()})
     @report = Report.where(["car_id = ? AND driver_id = ? AND finished_at IS NULL", params[:car_id], params[:driver_id]]).first
 
     if @report

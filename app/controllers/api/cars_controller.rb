@@ -18,9 +18,7 @@ class Api::CarsController < ApplicationController
 
   private
   def authenticate_token
-    @car = Car.where(["device_token = ? AND deleted_at IS NULL", params[:device_token]]).order("updated_at DESC").first
-    @driver = Driver.find(params[:driver_id])
-
-    render json:{ :error => "Not Acceptable:drivers#authenticate_token", :status => 406 } unless @car || @driver.device_token
+    @driver = Driver.where(["device_token = ?", params[:device_token]]).first
+    render json:{ :error => "Not Acceptable:drivers#authenticate_token", :status => 406 } unless @driver
   end
 end
