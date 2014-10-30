@@ -12,4 +12,8 @@ class ApplicationController < ActionController::Base
     @description = @@description
     @keywords = @@keywords
   end
+
+  def after_sign_in_path_for(resource)
+    "#{reports_path}/#{Date.today.year}/#{Date.today.month}/#{Date.today.day}"
+  end
 end
