@@ -19,7 +19,7 @@
         <%#= f.select :driver_id, options_from_collection_for_select(Driver.all, :id, :name) %>
       </div>
       <div class="field">
-        <%= f.label :car_id %>
+        <%= f.label :car %>
         <%= f.select :car_id, options_for_select(@cars_option, @report.car_id) %>
         <%#= f.select :car_id, options_from_collection_for_select(Car.all, :id, :name) %>
       </div>
