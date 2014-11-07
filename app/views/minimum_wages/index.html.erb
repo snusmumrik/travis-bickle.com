@@ -1,0 +1,22 @@
+<h1><%= t("activerecord.models.minimum_wage") %></h1>
+
+<table class="table table-striped table-bordered">
+  <tr>
+    <th><%=t("activerecord.attributes.minimum_wage.price") %></th>
+    <th></th>
+  </tr>
+
+<% @minimum_wages.each do |minimum_wage| %>
+  <tr>
+    <td class="middle"><%= minimum_wage.price %></td>
+    <td class="middle">
+      <%= link_to t("link.edit"), edit_minimum_wage_path(minimum_wage), :class => "btn" %>
+      <%= link_to t("link.destroy"), minimum_wage, method: :delete, data: { confirm: t("message.destroy_confirmation") }, :class => "btn" %>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<% unless current_user.minimum_wage %><%= link_to t("link.new"), new_minimum_wage_path, :class => "btn" %><% end %>

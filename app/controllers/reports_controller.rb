@@ -51,7 +51,9 @@ class ReportsController < InheritedResources::Base
     @deficiency_account = 0
     @advance = 0
     @rest_hash = {}
+    @average_salary_hash = {}
     @sales_array = Array.new
+    @minimum_wage = current_user.minimum_wage.try(:price) || 0
 
     @reports.each do |report|
       @mileage += report.mileage if report.mileage
@@ -77,6 +79,10 @@ class ReportsController < InheritedResources::Base
       hours = rest_sum.divmod(60*60) #=> [12.0, 1800.0]
       mins = hours[1].divmod(60) #=> [30.0, 0.0]
       @rest_hash.store(report.id, [hours[0], mins[0]])
+
+      average_salary = ((report.sales + report.extra_sales - report.fuel_cost)/@@gst_rate/2)/(((report.finished_at - report.started_at).to_i - (hours[0]*60*60 + mins[0]*60)).divmod(60*60)[0] + ((report.finished_at - report.started_at).to_i - (hours[0]*60*60 + mins[0]*60)).divmod(60*60)[1].divmod(60)[0]/60.0).round(2)
+      @average_salary_hash.store(report.id, average_salary)
+
       @sales_array << report.sales + report.extra_sales
     end
 
@@ -299,6 +305,9 @@ class ReportsController < InheritedResources::Base
     hours = rest_sum.divmod(60*60) #=> [12.0, 1800.0]
     mins = hours[1].divmod(60) #=> [30.0, 0.0]
     @rest_array = [hours[0], mins[0]]
+
+    @minimum_wage = current_user.minimum_wage.try(:price) || 0
+    @average_salary = ((@report.sales + @report.extra_sales - @report.fuel_cost)/@@gst_rate/2)/(((@report.finished_at - @report.started_at).to_i - (@rest_array[0]*60*60 + @rest_array[1]*60)).divmod(60*60)[0] + ((@report.finished_at - @report.started_at).to_i - (@rest_array[0]*60*60 + @rest_array[1]*60)).divmod(60*60)[1].divmod(60)[0]/60.0).round(2)
 
     respond_to do |format|
       format.html # show.html.erb

@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @minimum_wage.user %>
+</p>
+
+<p>
+  <b>Price:</b>
+  <%= @minimum_wage.price %>
+</p>
+
+
+<%= link_to 'Edit', edit_minimum_wage_path(@minimum_wage) %> |
+<%= link_to 'Back', minimum_wages_path %>

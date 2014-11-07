@@ -1,4 +1,7 @@
 TravisBickle::Application.routes.draw do
+  resources :minimum_wages
+
+
   root :to => 'contents#about_travis'
 
   # resources :talks

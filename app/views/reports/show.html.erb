@@ -132,11 +132,19 @@
         <th><%=t "activerecord.attributes.report.passengers" %></th>
         <th><%=t "activerecord.attributes.report.riding_rate" %></th>
         <th><%=t "activerecord.attributes.report.sales_per_kilometer" %></th>
+        <th><%=t "activerecord.attributes.report.income_per_hour" %></th>
       </tr>
       <tr>
         <td class="middle"><% if @report.passengers %><%= number_with_delimiter @report.passengers %>人<% end %></td>
         <td class="middle"><% if @report.finished_at && @report.mileage != 0 %><%= number_to_percentage(@report.riding_mileage*100/@report.mileage, :precision => 0) %><% end %></td>
         <td class="middle"><% if @report.finished_at && @report.mileage != 0 %><%= number_to_currency((@report.sales + @report.extra_sales)/@report.mileage, :precision => 0, :locale => "ja") %><% end %></td>
+        <td class="middle">
+          <% if @report.finished_at && @report.mileage != 0 %>
+            <% if @average_salary < @minimum_wage %><span class="red"><% else %><span><% end %>
+            <%= number_to_currency @average_salary %>
+            </span>
+          <% end %>
+        </td>
       </tr>
     </table>
   </div>

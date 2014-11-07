@@ -76,7 +76,7 @@ CREATE TABLE `cars` (
   PRIMARY KEY (`id`),
   KEY `index_cars_on_user_id` (`user_id`),
   KEY `index_cars_on_device_token` (`device_token`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `check_point_statuses` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -89,7 +89,7 @@ CREATE TABLE `check_point_statuses` (
   PRIMARY KEY (`id`),
   KEY `index_check_point_statuses_on_report_id` (`report_id`),
   KEY `index_check_point_statuses_on_check_point_id` (`check_point_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `check_points` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -100,18 +100,7 @@ CREATE TABLE `check_points` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_check_points_on_user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-CREATE TABLE `device_tokens` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
-  `device_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `index_device_tokens_on_user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `drivers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -125,7 +114,7 @@ CREATE TABLE `drivers` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_drivers_on_user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `images` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -139,7 +128,7 @@ CREATE TABLE `images` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `locations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -152,7 +141,7 @@ CREATE TABLE `locations` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_locations_on_car_id` (`car_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `meters` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -167,7 +156,17 @@ CREATE TABLE `meters` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_meters_on_report_id` (`report_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=783 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5757 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `minimum_wages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `price` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `notifications` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -182,7 +181,7 @@ CREATE TABLE `notifications` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_notifications_on_car_id` (`car_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `pickup_locations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -197,7 +196,7 @@ CREATE TABLE `pickup_locations` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_pickup_locations_on_user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `reports` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -225,7 +224,7 @@ CREATE TABLE `reports` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_reports_on_driver_id` (`driver_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1948 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5850 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `rests` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -241,7 +240,7 @@ CREATE TABLE `rests` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_rests_on_report_id` (`report_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1909 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8587 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `rides` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -262,7 +261,7 @@ CREATE TABLE `rides` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_rides_on_report_id` (`report_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7685 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30760 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `schema_migrations` (
   `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -287,22 +286,25 @@ CREATE TABLE `talks` (
   KEY `index_talks_on_sender_car_id` (`sender_car_id`),
   KEY `index_talks_on_receiver_user_id` (`receiver_user_id`),
   KEY `index_talks_on_receiver_car_id` (`receiver_car_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `transfer_slips` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
   `report_id` int(11) DEFAULT NULL,
+  `date` date DEFAULT NULL,
   `debit` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `debit_amount` int(11) DEFAULT NULL,
   `credit` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `credit_amount` int(11) DEFAULT NULL,
   `note` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `whole_day` tinyint(1) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_transfer_slips_on_report_id` (`report_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -329,7 +331,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `index_users_on_email` (`email`),
   UNIQUE KEY `index_users_on_username` (`username`),
   UNIQUE KEY `index_users_on_reset_password_token` (`reset_password_token`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO schema_migrations (version) VALUES ('20110930085542');
 
@@ -437,10 +439,12 @@ INSERT INTO schema_migrations (version) VALUES ('20140222014208');
 
 INSERT INTO schema_migrations (version) VALUES ('20140302005303');
 
-INSERT INTO schema_migrations (version) VALUES ('20140406021621');
-
 INSERT INTO schema_migrations (version) VALUES ('20140421095955');
 
 INSERT INTO schema_migrations (version) VALUES ('20140423013930');
 
 INSERT INTO schema_migrations (version) VALUES ('20140427145952');
+
+INSERT INTO schema_migrations (version) VALUES ('20140429072149');
+
+INSERT INTO schema_migrations (version) VALUES ('20141104102134');

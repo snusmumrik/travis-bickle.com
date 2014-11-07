@@ -1,33 +1,36 @@
-<h1><%=t "activerecord.models.user" %><%=t "link.show" %></h1>
+<div class="form-signin">
+  <h1><%=t "activerecord.models.user" %><%=t "link.show" %></h1>
 
-<p>
-  <b><%=t "activerecord.attributes.user.username" %></b>
-  <%= @user.username %>
-</p>
+  <p>
+    <b><%=t "activerecord.attributes.user.username" %></b>
+    <%= @user.username %>
+  </p>
 
-<p>
-  <b><%=t "activerecord.attributes.user.person_in_charge" %></b>
-  <%= @user.person_in_charge %>
-</p>
+  <p>
+    <b><%=t "activerecord.attributes.user.person_in_charge" %></b>
+    <%= @user.person_in_charge %>
+  </p>
 
-<p>
-  <b><%=t "activerecord.attributes.user.image" %></b>
-  <% unless @user.images.blank? %>
-    <%= image_tag @user.images.pop.image.url(:medium) %>
+  <p>
+    <b><%=t "activerecord.attributes.user.image" %></b>
+    <% unless @user.images.blank? %>
+      <%= image_tag @user.images.pop.image.url(:medium) %>
+    <% end %>
+  </p>
+
+  <p>
+    <b><%=t "activerecord.attributes.user.email" %></b>
+    <%= @user.email %>
+  </p>
+
+  <p>
+    <b><%=t "activerecord.attributes.user.address" %></b>
+    <%= @user.address %>
+  </p>
+
+
+  <% if user_signed_in? && @user.id == current_user.id %>
+    <%= link_to t("link.edit"), edit_user_path(@user.username), :class => "btn" %>
+    <p><%= link_to t("activerecord.models.minimum_wage") + t("views.minimum_wage.index"), minimum_wages_path %></p>
   <% end %>
-</p>
-
-<p>
-  <b><%=t "activerecord.attributes.user.email" %></b>
-  <%= @user.email %>
-</p>
-
-<p>
-  <b><%=t "activerecord.attributes.user.address" %></b>
-  <%= @user.address %>
-</p>
-
-
-<% if user_signed_in? && @user.id == current_user.id %>
-  <%= link_to t("link.edit"), edit_user_path(@user.username), :class => "btn" %>
-<% end %>
+</div>

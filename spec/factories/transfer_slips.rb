@@ -4,8 +4,8 @@ FactoryGirl.define do
   factory :transfer_slip do
     report
     debit "MyString"
-    debit_amount 1
+    sequence(:debit) {|n| n}
     credit "MyString"
-    credit_amount 1
+    sequence(:credit) {|n| n}
   end
 end

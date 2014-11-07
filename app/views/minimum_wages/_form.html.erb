@@ -1,0 +1,21 @@
+<%= form_for(@minimum_wage) do |f| %>
+  <% if @minimum_wage.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@minimum_wage.errors.count, "error") %> prohibited this minimum_wage from being saved:</h2>
+
+      <ul>
+      <% @minimum_wage.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :price %><br />
+    <%= f.number_field :price %>
+  </div>
+  <div class="actions">
+    <%= f.submit :class => "btn" %>
+  </div>
+<% end %>

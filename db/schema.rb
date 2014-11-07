@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140429072149) do
+ActiveRecord::Schema.define(:version => 20141104102134) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -158,6 +158,14 @@ ActiveRecord::Schema.define(:version => 20140429072149) do
   end
 
   add_index "meters", ["report_id"], :name => "index_meters_on_report_id"
+
+  create_table "minimum_wages", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "price"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.datetime "deleted_at"
+  end
 
   create_table "notifications", :force => true do |t|
     t.integer  "user_id"

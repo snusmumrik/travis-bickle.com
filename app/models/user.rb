@@ -21,6 +21,7 @@ class User < ActiveRecord::Base
   has_many :device_tokens
   has_many :drivers
   has_many :pickup_locations
+  has_one :minimum_wage
 
   geocoded_by :address
   after_validation :geocode

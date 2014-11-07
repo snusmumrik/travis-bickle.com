@@ -22,6 +22,7 @@ ja:
       device_token: device_token  #g
       talk: talk  #g
       transfer_slip: 振替伝票
+      minimum_wage: 最低時給
 
     attributes:
       user:
@@ -108,6 +109,7 @@ ja:
         password_digest: password_digest  #g
         reports: reports  #g
         user: :activerecord.models.user  #g
+        device_token: device_token  #g
 
       report:
         car: :activerecord.models.car
@@ -122,6 +124,7 @@ ja:
         sales: 運送収入
         extra_sales: メーター外収入
         sales_per_kilometer: 収入/Km
+        income_per_hour: 平均時給
         edy: Edy
         fuel_cost: 燃料費
         ticket: 未収チケット
@@ -142,6 +145,7 @@ ja:
         sum: 合計 /平均
         check_point_id: :activerecord.models.check_point
         check_point_statuses: check_point_statuses  #g
+        transfer_slips: transfer_slips  #g
 
       rest:
         location: 場所
@@ -240,6 +244,7 @@ ja:
         deleted_at: deleted_at  #g
         report: :activerecord.models.report  #g
         status: status  #g
+        check_point: :activerecord.models.check_point  #g
 
       device_token:
         device_token: device_token  #g
@@ -250,6 +255,7 @@ ja:
         audio_file_size: audio_file_size  #g
         audio_updated_at: audio_updated_at  #g
         received: received  #g
+        audio_content_type: audio_content_type  #g
 
       transfer_slip:
         credit: 貸方科目
@@ -259,6 +265,12 @@ ja:
         deleted_at: deleted_at  #g
         note: 摘要
         report: :activerecord.models.report  #g
+        date: date  #g
+        user: :activerecord.models.user  #g
+        whole_day: whole_day  #g
+
+      minimum_wage:
+        price: 金額
 
   views:
     pagination:
@@ -266,6 +278,9 @@ ja:
       last: "最後 &raquo;"
       previous: "&lsaquo; 前"
       next: "次 &rsaquo;"
+
+    minimum_wage:
+      index: 設定
 
     report:
       index: 売上

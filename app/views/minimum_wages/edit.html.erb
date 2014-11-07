@@ -1,0 +1,7 @@
+<h1><%= t("activerecord.models.minimum_wage") %><%= t("link.edit") %></h1>
+
+<%= render 'form' %>
+
+
+<%= link_to t("link.show"), minimum_wage_path(@minimum_wage), :class => "btn" %>
+<%= link_to t("link.back"), minimum_wages_path, :class => "btn" %>

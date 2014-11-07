@@ -17,7 +17,10 @@
       <%=t "activerecord.attributes.report.meter_fare_count" %>
     </th>
     <th><%=t "activerecord.attributes.report.passengers" %></th>
-    <th><%=t "activerecord.attributes.report.sales" %></th>
+    <th>
+      <%=t "activerecord.attributes.report.sales" %> /<br>
+      <%=t "activerecord.attributes.report.income_per_hour" %>
+    </th>
     <th><%=t "activerecord.attributes.report.extra_sales" %></th>
     <th><%=t "activerecord.attributes.report.sales_per_kilometer" %></th>
     <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
@@ -52,7 +55,16 @@
         <% if report.meter_fare_count %><%= number_with_delimiter report.meter_fare_count %>回<% end %>
       </td>
       <td><% if report.passengers %><%= number_with_delimiter report.passengers %>人<% end %></td>
-      <td><%= number_to_currency report.sales, :locale => "ja" %></td>
+      <td>
+        <%= number_to_currency report.sales, :locale => "ja" %><br>
+        <% if @average_salary_hash[report.id] %>
+          (
+          <% if @average_salary_hash[report.id] < @minimum_wage %><span class="red"><% else %><span><% end %>
+          <%= number_to_currency @average_salary_hash[report.id] %>
+          </span>
+          )
+        <% end %>
+      </td>
       <td><%= number_to_currency report.extra_sales, :locale => "ja" %></td>
       <td><%= number_to_currency((report.sales + report.extra_sales)/report.mileage, :precision => 0, :locale => "ja") rescue "" %></td>
       <td><%= number_to_currency report.fuel_cost, :locale => "ja" %></td>

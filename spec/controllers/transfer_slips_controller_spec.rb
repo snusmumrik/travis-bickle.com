@@ -24,7 +24,11 @@ describe TransferSlipsController do
   # TransferSlip. As you add validations to TransferSlip, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    { "report" => "" }
+    if controller.current_user
+      FactoryGirl.attributes_for(:transfer_slip, :user_id => controller.current_user.id)
+    else
+      FactoryGirl.attributes_for(:transfer_slip, :user_id => 100)
+    end
   end
 
   # This should return the minimal set of values that should be in the session
