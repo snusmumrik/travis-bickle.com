@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   @@title = "Travis Bickle (トラヴィス ビックル)"
   @@description = ""
   @@keywords = ""
-  @@gst_rate = 1.08
 
   def prepare_meta
     @title = @@title

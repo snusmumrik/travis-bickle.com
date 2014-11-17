@@ -6,6 +6,7 @@ class ReportsController < InheritedResources::Base
   before_filter :get_cars_option, :except => [:index, :show]
   before_filter :check_balance, :only => [:create, :update]
   before_filter :set_check_points, :only => [:new, :create, :edit, :update, :show]
+  before_filter :set_gst_rate, :only => [:index, :show]
   after_filter :set_check_point_status, :only => [:new, :create, :edit, :update]
 
   # GET /reports/:year/:month/:day
@@ -81,7 +82,7 @@ class ReportsController < InheritedResources::Base
       @rest_hash.store(report.id, [hours[0], mins[0]])
 
       begin
-        average_salary = ((report.sales + report.extra_sales - report.fuel_cost)/@@gst_rate/2)/(((report.finished_at - report.started_at).to_i - (hours[0]*60*60 + mins[0]*60)).divmod(60*60)[0] + ((report.finished_at - report.started_at).to_i - (hours[0]*60*60 + mins[0]*60)).divmod(60*60)[1].divmod(60)[0]/60.0).round(2)
+        average_salary = (report.sales/@gst_rate/2)/(((report.finished_at - report.started_at).to_i - (hours[0]*60*60 + mins[0]*60)).divmod(60*60)[0] + ((report.finished_at - report.started_at).to_i - (hours[0]*60*60 + mins[0]*60)).divmod(60*60)[1].divmod(60)[0]/60.0).round(2)
       rescue => ex
         warn ex.message
       end
@@ -311,7 +312,11 @@ class ReportsController < InheritedResources::Base
     @rest_array = [hours[0], mins[0]]
 
     @minimum_wage = current_user.minimum_wage.try(:price) || 0
-    @average_salary = ((@report.sales + @report.extra_sales - @report.fuel_cost)/@@gst_rate/2)/(((@report.finished_at - @report.started_at).to_i - (@rest_array[0]*60*60 + @rest_array[1]*60)).divmod(60*60)[0] + ((@report.finished_at - @report.started_at).to_i - (@rest_array[0]*60*60 + @rest_array[1]*60)).divmod(60*60)[1].divmod(60)[0]/60.0).round(2)
+    begin
+      @average_salary = (@report.sales/@gst_rate/2)/(((@report.finished_at - @report.started_at).to_i - (@rest_array[0]*60*60 + @rest_array[1]*60)).divmod(60*60)[0] + ((@report.finished_at - @report.started_at).to_i - (@rest_array[0]*60*60 + @rest_array[1]*60)).divmod(60*60)[1].divmod(60)[0]/60.0).round(2)
+    rescue => ex
+      warn ex.message
+    end
 
     respond_to do |format|
       format.html # show.html.erb
@@ -514,6 +519,22 @@ class ReportsController < InheritedResources::Base
                                     :status => status[1])
           end
         end
+      end
+    end
+  end
+
+  def set_gst_rate
+    if params[:year] && params[:month]
+      if Date.new(params[:year].to_i, params[:month].to_i, 1) >= Date.new(2014, 4, 1)
+        @gst_rate = 1.08
+      else
+        @gst_rate = 1.05
+      end
+    else
+      if @report.started_at >= Date.new(2014, 4, 1)
+        @gst_rate = 1.08
+      else
+        @gst_rate = 1.05
       end
     end
   end

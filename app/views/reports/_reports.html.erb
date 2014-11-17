@@ -58,11 +58,7 @@
       <td>
         <%= number_to_currency report.sales, :locale => "ja" %><br>
         <% if @average_salary_hash[report.id] %>
-          (
-          <% if @average_salary_hash[report.id] < @minimum_wage %><span class="red"><% else %><span><% end %>
-          <%= number_to_currency @average_salary_hash[report.id] %>
-          </span>
-          )
+          (<% if @average_salary_hash[report.id] < @minimum_wage %><span class="red"><% else %><span><% end %><%= number_to_currency @average_salary_hash[report.id] %></span>)
         <% end %>
       </td>
       <td><%= number_to_currency report.extra_sales, :locale => "ja" %></td>

@@ -31,6 +31,6 @@
 
   <% if user_signed_in? && @user.id == current_user.id %>
     <%= link_to t("link.edit"), edit_user_path(@user.username), :class => "btn" %>
-    <p><%= link_to t("activerecord.models.minimum_wage") + t("views.minimum_wage.index"), minimum_wages_path %></p>
+    <%= link_to t("activerecord.models.minimum_wage") + t("views.minimum_wage.index"), minimum_wages_path, :class => "btn btn-default" %>
   <% end %>
 </div>
