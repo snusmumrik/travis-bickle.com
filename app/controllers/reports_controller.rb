@@ -80,7 +80,11 @@ class ReportsController < InheritedResources::Base
       mins = hours[1].divmod(60) #=> [30.0, 0.0]
       @rest_hash.store(report.id, [hours[0], mins[0]])
 
-      average_salary = ((report.sales + report.extra_sales - report.fuel_cost)/@@gst_rate/2)/(((report.finished_at - report.started_at).to_i - (hours[0]*60*60 + mins[0]*60)).divmod(60*60)[0] + ((report.finished_at - report.started_at).to_i - (hours[0]*60*60 + mins[0]*60)).divmod(60*60)[1].divmod(60)[0]/60.0).round(2)
+      begin
+        average_salary = ((report.sales + report.extra_sales - report.fuel_cost)/@@gst_rate/2)/(((report.finished_at - report.started_at).to_i - (hours[0]*60*60 + mins[0]*60)).divmod(60*60)[0] + ((report.finished_at - report.started_at).to_i - (hours[0]*60*60 + mins[0]*60)).divmod(60*60)[1].divmod(60)[0]/60.0).round(2)
+      rescue => ex
+        warn ex.message
+      end
       @average_salary_hash.store(report.id, average_salary)
 
       @sales_array << report.sales + report.extra_sales
