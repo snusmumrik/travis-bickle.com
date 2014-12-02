@@ -16,21 +16,41 @@
     <%= f.text_field :name %>
   </div>
   <div class="field">
-    <%= f.label :base_fare %>
-    <%= f.number_field :base_fare %>
+    <%= f.label :registration_number %>
+    <%= f.text_field :registration_number %>
   </div>
   <div class="field">
-    <%= f.label :meter_fare %>
-    <%= f.number_field :meter_fare %>
+    <%= f.label :identification_number %>
+    <%= f.text_field :identification_number %>
   </div>
   <div class="field">
-    <%= f.label :initial_meter %>
-    <%= f.number_field :initial_meter %>
+    <%= f.label :model_number %>
+    <%= f.text_field :model_number %>
   </div>
   <div class="field">
-    <%= f.label :meter_fare_segment %>
-    <%= f.number_field :meter_fare_segment %>
+    <%= f.label :model_name %>
+    <%= f.text_field :model_name %>
   </div>
+  <div class="field">
+    <%= f.label :taxi_registration_date %>
+    <%= f.date_select :taxi_registration_date %>
+  </div>
+  <!-- <div class="field">
+   !--   <%= f.label :base_fare %>
+   !--   <%= f.number_field :base_fare %>
+   !-- </div>
+   !-- <div class="field">
+   !--   <%= f.label :meter_fare %>
+   !--   <%= f.number_field :meter_fare %>
+   !-- </div>
+   !-- <div class="field">
+   !--   <%= f.label :initial_meter %>
+   !--   <%= f.number_field :initial_meter %>
+   !-- </div>
+   !-- <div class="field">
+   !--   <%= f.label :meter_fare_segment %>
+   !--   <%= f.number_field :meter_fare_segment %>
+   !-- </div> -->
     <div class="actions">
     <%= f.submit t("helpers.submit.update"), :class => "btn" %>
   </div>

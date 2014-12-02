@@ -250,6 +250,46 @@ class DocumentsController < ApplicationController
     end
   end
 
+  # GET /documents/inspections/:yearpdf
+  def inspections
+    title = "#{params[:year]}年 #{t('activerecord.models.inspection')}"
+
+    @inspections = Hash.new do |hash, key|
+      hash[key] = Hash.new
+    end
+
+    @cars = Car.where(["cars.user_id = ? AND cars.deleted_at IS NULL", current_user.id]).order("cars.name")
+
+    inspections = Inspection.joins(:car).where(["cars.user_id = ? AND inspections.date BETWEEN ? AND ?",
+                                                 current_user.id,
+                                                 Date.new(params[:year].to_i - 1, 1, 1),
+                                                 Date.new(params[:year].to_i, 12, 31)])
+
+    inspections.each do |inspection|
+      if inspection.date.year == params[:year].to_i
+        @inspections[inspection.car_id].store(inspection.date.month, ["車検", inspection.date])
+      end
+
+      if inspection.span < 12
+        for i in 1..12/inspection.span
+          next_implementation = inspection.date >> inspection.span*i
+          if next_implementation.year == params[:year].to_i && @inspections[inspection.car_id][next_implementation.month].blank?
+            @inspections[inspection.car_id].store(next_implementation.month, ["点検"])
+          end
+        end
+      end
+    end
+
+    # raise @inspections.inspect
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.pdf do
+        render :pdf => title, :orientation => "Landscape", :encoding => "UTF-8"
+      end
+    end
+  end
+
   private
   def authenticate_driver_owner
     @driver = Driver.find(params[:driver_id]) if params[:driver_id]

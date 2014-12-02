@@ -4,7 +4,7 @@ ja:
       user: ユーザー
       active_admin/comment: active_admin/comment  #g
       admin_user: admin_user  #g
-      car: 車両
+      car: 車輌
       check_point: 点検項目
       driver: 運転手
       report: 乗務記録
@@ -23,6 +23,7 @@ ja:
       talk: talk  #g
       transfer_slip: 振替伝票
       minimum_wage: 最低時給
+      inspection: 車検
 
     attributes:
       user:
@@ -57,6 +58,7 @@ ja:
         authentication_token: authentication_token  #g
         check_points: check_points  #g
         device_tokens: device_tokens  #g
+        minimum_wage: :activerecord.models.minimum_wage  #g
 
       active_admin/comment:
         author_type: author_type  #g
@@ -78,8 +80,8 @@ ja:
         email: email  #g
 
       car:
-        name: 車両番号
-        car_type: 車両種類
+        name: 車輌番号
+        car_type: 車輌種類
         car_model: 年式
         base_fare: 初乗料金
         meter_fare: メーター料金
@@ -92,6 +94,12 @@ ja:
         reports: reports  #g
         user: :activerecord.models.user  #g
         location: :activerecord.models.location  #g
+        registration_number: 車輌番号
+        identification_number: 車体番号
+        model_number: 車種番号
+        model_name: 車種
+        taxi_registration_date: タクシー登録日
+        inspections: inspections  #g
 
       check_point:
         name: "点検項目"
@@ -249,6 +257,7 @@ ja:
       device_token:
         device_token: device_token  #g
         user: :activerecord.models.user  #g
+        deleted_at: deleted_at  #g
 
       talk:
         audio_file_name: audio_file_name  #g
@@ -271,6 +280,14 @@ ja:
 
       minimum_wage:
         price: 金額
+        deleted_at: deleted_at  #g
+        user: :activerecord.models.user  #g
+
+      inspection:
+        car: :activerecord.models.car
+        date: 車検日
+        deleted_at: deleted_at  #g
+        span: 点検間隔月数
 
   views:
     pagination:
@@ -304,7 +321,7 @@ ja:
   label:
     error: エラー
 
-    car: 車両情報
+    car: 車輌情報
 
     check_point:
       mark: 検印
@@ -333,12 +350,17 @@ ja:
       note: 備考
       sum: 合計
       work_days: 勤務日数
+      inspection: 車輌点検整備計画表
+
+    inspection:
+      schedule: 予定日
+      implementation: 実施日
 
     report:
       total: 合計
       sales: 売上
       daily_driver: 運転手毎売上
-      daily_car: 車両毎売上
+      daily_car: 車輌毎売上
       daily_total: 日次売上
       monthly_total: 月次売上
 
@@ -377,11 +399,18 @@ ja:
       driver: 労務時間報告書
       report: 乗務記録簿
       salaries: 給与一覧
+      inspections: 車輌点検整備計画表
 
     content:
       about_travis: トラヴィスについて
       about_chishaku: 運営者情報
       terms: 特定商取引法に基づく表記
+
+    inspection:
+      registration: 車検登録
+      last_year: 前年
+      this_year: 今年
+      next_year: 来年
 
   message:
     created: を登録しました。
@@ -393,3 +422,4 @@ ja:
   check_point: :activerecord.models.check_point  #g
   deleted_at: deleted_at  #g
   audio_content_type: audio_content_type  #g
+  car: :activerecord.models.car  #g

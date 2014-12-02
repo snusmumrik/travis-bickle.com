@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141104102134) do
+ActiveRecord::Schema.define(:version => 20141202053732) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -72,6 +72,11 @@ ActiveRecord::Schema.define(:version => 20141104102134) do
   create_table "cars", :force => true do |t|
     t.integer  "user_id"
     t.string   "name"
+    t.string   "registration_number"
+    t.string   "identification_number"
+    t.string   "model_number"
+    t.string   "model_name"
+    t.date     "taxi_registration_date"
     t.integer  "base_fare"
     t.integer  "meter_fare"
     t.integer  "initial_meter"
@@ -79,8 +84,8 @@ ActiveRecord::Schema.define(:version => 20141104102134) do
     t.string   "access_token"
     t.string   "device_token"
     t.datetime "deleted_at"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
   end
 
   add_index "cars", ["device_token"], :name => "index_cars_on_device_token"
@@ -108,6 +113,16 @@ ActiveRecord::Schema.define(:version => 20141104102134) do
 
   add_index "check_points", ["user_id"], :name => "index_check_points_on_user_id"
 
+  create_table "device_tokens", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "device_token"
+    t.datetime "deleted_at"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "device_tokens", ["user_id"], :name => "index_device_tokens_on_user_id"
+
   create_table "drivers", :force => true do |t|
     t.integer  "user_id"
     t.string   "name"
@@ -132,6 +147,17 @@ ActiveRecord::Schema.define(:version => 20141104102134) do
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
   end
+
+  create_table "inspections", :force => true do |t|
+    t.integer  "car_id"
+    t.date     "date"
+    t.integer  "span"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.datetime "deleted_at"
+  end
+
+  add_index "inspections", ["car_id"], :name => "index_inspections_on_car_id"
 
   create_table "locations", :force => true do |t|
     t.integer  "car_id"

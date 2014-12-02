@@ -3,8 +3,9 @@ class Car < ActiveRecord::Base
   has_one :location
   has_many :reports
   has_many :drivers, :through => :reports
+  has_many :inspections
 
-  attr_accessible :user_id, :name, :base_fare, :meter_fare, :meter_fare_segment, :initial_meter, :access_token, :device_token, :deleted_at, :updated_at
+  attr_accessible :user_id, :name, :registration_number, :identification_number, :model_number, :model_name, :taxi_registration_date, :base_fare, :meter_fare, :meter_fare_segment, :initial_meter, :access_token, :device_token, :deleted_at, :updated_at
 
   # if use this, deleted car's reports cannot be shown
   # acts_as_paranoid

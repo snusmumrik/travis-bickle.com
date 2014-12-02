@@ -1,9 +1,18 @@
 <tr>
   <td><%= link_to car.name, "#{car_path(car)}" %></td>
-  <td><%= car.base_fare %></td>
-  <td><%= car.meter_fare %></td>
-  <td><%= number_with_delimiter(car.initial_meter) %></td>
-  <td><%= car.meter_fare_segment %></td>
+  <td><%= car.registration_number %></td>
+  <td><%= car.identification_number %></td>
+  <td><%= car.model_number %></td>
+  <td><%= car.model_name %></td>
+  <td>
+    <% if car.taxi_registration_date %>
+      <%= car.taxi_registration_date.strftime("%Y年%m月%d日") %>
+    <% end %>
+  </td>
+  <!-- <td><%= car.base_fare %></td>
+   !-- <td><%= car.meter_fare %></td>
+   !-- <td><%= number_with_delimiter(car.initial_meter) %></td>
+   !-- <td><%= car.meter_fare_segment %></td> -->
   <td><%= link_to t("link.show"), "#{car_path(car)}", :class => "btn" %></td>
   <td><%= link_to t("link.edit"), edit_car_path(car), :class => "btn" %></td>
   <td><%= link_to t("link.destroy"), car, method: :delete, data: { confirm: t("message.destroy_confirmation") }, :class => "btn" %></td>

@@ -1,0 +1,36 @@
+<h1><%= t("activerecord.models.inspection") %><%= t("link.index") %></h1>
+
+<%= paginate @inspections %>
+
+<table class="table table-striped table-bordered">
+  <tr>
+    <th><%=t "activerecord.attributes.inspection.car" %></th>
+    <th><%=t "activerecord.attributes.inspection.date" %></th>
+    <th><%=t "activerecord.attributes.inspection.span" %></th>
+    <th></th>
+  </tr>
+
+<% @inspections.each do |inspection| %>
+  <tr>
+    <td><%= inspection.car.name %></td>
+    <td><%= inspection.date.strftime("%Y年%m月%d日") %></td>
+    <td><%= inspection.span %></td>
+    <td>
+      <%= link_to t("link.edit"), edit_inspection_path(inspection), :class => "btn" %>
+      <%= link_to t("link.destroy"), inspection, method: :delete, data: { confirm: t("message.destroy_confirmation") }, :class => "btn" %>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+<%= paginate @inspections %>
+
+<p><%= link_to t("link.new"), new_inspection_path, :class => "btn" %></p>
+<p><%=t "link.document.inspections" %></p>
+<p>
+  <%= link_to t("link.inspection.last_year"), "#{documents_path}/inspections/#{Date.today.year - 1}.pdf", :class => "btn", :target => "blank" %>
+  <%= link_to t("link.inspection.this_year"), "#{documents_path}/inspections/#{Date.today.year}.pdf", :class => "btn", :target => "blank" %>
+  <%= link_to t("link.inspection.next_year"), "#{documents_path}/inspections/#{Date.today.year + 1}.pdf", :class => "btn", :target => "blank" %>
+</p>
+

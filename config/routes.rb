@@ -1,4 +1,7 @@
 TravisBickle::Application.routes.draw do
+  resources :inspections
+
+
   resources :minimum_wages
 
 
@@ -68,6 +71,7 @@ TravisBickle::Application.routes.draw do
   match 'documents/drivers/:driver_id/:year/:month' => 'documents#driver'
   match 'documents/reports/:report_id' => 'documents#report'
   match 'documents/salaries/:year/:month' => 'documents#salaries'
+  match 'documents/inspections/:year' => 'documents#inspections'
   match 'transfer_slips/new/report/:report_id' => 'transfer_slips#new'
   match 'transfer_slips/new/:year/:month/:day' => 'transfer_slips#new'
   match 'transfer_slips/report/:report_id' => 'transfer_slips#index'
