@@ -19,12 +19,15 @@ require 'spec_helper'
 # that an instance is receiving a specific message.
 
 describe MinimumWagesController do
-
   # This should return the minimal set of attributes required to create a valid
   # MinimumWage. As you add validations to MinimumWage, be sure to
   # update the return value of this method accordingly.
   def valid_attributes
-    { "user" => "" }
+    if controller.current_user
+      FactoryGirl.attributes_for(:minimum_wage, :user_id => controller.current_user.id)
+    else
+      FactoryGirl.attributes_for(:minimum_wage, :user_id => 100)
+    end
   end
 
   # This should return the minimal set of values that should be in the session
@@ -34,131 +37,227 @@ describe MinimumWagesController do
     {}
   end
 
-  describe "GET index" do
-    it "assigns all minimum_wages as @minimum_wages" do
-      minimum_wage = MinimumWage.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:minimum_wages).should eq([minimum_wage])
-    end
-  end
+  context "authenticated user" do
+    signin_user
 
-  describe "GET show" do
-    it "assigns the requested minimum_wage as @minimum_wage" do
-      minimum_wage = MinimumWage.create! valid_attributes
-      get :show, {:id => minimum_wage.to_param}, valid_session
-      assigns(:minimum_wage).should eq(minimum_wage)
-    end
-  end
-
-  describe "GET new" do
-    it "assigns a new minimum_wage as @minimum_wage" do
-      get :new, {}, valid_session
-      assigns(:minimum_wage).should be_a_new(MinimumWage)
-    end
-  end
-
-  describe "GET edit" do
-    it "assigns the requested minimum_wage as @minimum_wage" do
-      minimum_wage = MinimumWage.create! valid_attributes
-      get :edit, {:id => minimum_wage.to_param}, valid_session
-      assigns(:minimum_wage).should eq(minimum_wage)
-    end
-  end
-
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new MinimumWage" do
-        expect {
-          post :create, {:minimum_wage => valid_attributes}, valid_session
-        }.to change(MinimumWage, :count).by(1)
+    describe "GET index" do
+      it "assigns all minimum_wages as @minimum_wages" do
+        minimum_wages = MinimumWage.includes(:user).where(["user_id = ?", controller.current_user.id]).all
+        get :index, {}
+        assigns(:minimum_wages).should eq(minimum_wages)
       end
 
-      it "assigns a newly created minimum_wage as @minimum_wage" do
-        post :create, {:minimum_wage => valid_attributes}, valid_session
-        assigns(:minimum_wage).should be_a(MinimumWage)
-        assigns(:minimum_wage).should be_persisted
-      end
-
-      it "redirects to the created minimum_wage" do
-        post :create, {:minimum_wage => valid_attributes}, valid_session
-        response.should redirect_to(MinimumWage.last)
+      it "do not assigns other's minimum_wages" do
+        minimum_wage = FactoryGirl.create(:minimum_wage, :user_id => controller.current_user.id + 1)
+        assigns(:minimum_wages).should_not eq([minimum_wage])
       end
     end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved minimum_wage as @minimum_wage" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        MinimumWage.any_instance.stub(:save).and_return(false)
-        post :create, {:minimum_wage => { "user" => "invalid value" }}, valid_session
-        assigns(:minimum_wage).should be_a_new(MinimumWage)
-      end
-
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        MinimumWage.any_instance.stub(:save).and_return(false)
-        post :create, {:minimum_wage => { "user" => "invalid value" }}, valid_session
-        response.should render_template("new")
-      end
-    end
-  end
-
-  describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested minimum_wage" do
-        minimum_wage = MinimumWage.create! valid_attributes
-        # Assuming there are no other minimum_wages in the database, this
-        # specifies that the MinimumWage created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        MinimumWage.any_instance.should_receive(:update_attributes).with({ "user" => "" })
-        put :update, {:id => minimum_wage.to_param, :minimum_wage => { "user" => "" }}, valid_session
-      end
-
+    describe "GET show" do
       it "assigns the requested minimum_wage as @minimum_wage" do
         minimum_wage = MinimumWage.create! valid_attributes
-        put :update, {:id => minimum_wage.to_param, :minimum_wage => valid_attributes}, valid_session
+        get :show, {:id => minimum_wage.to_param}
         assigns(:minimum_wage).should eq(minimum_wage)
       end
 
-      it "redirects to the minimum_wage" do
-        minimum_wage = MinimumWage.create! valid_attributes
-        put :update, {:id => minimum_wage.to_param, :minimum_wage => valid_attributes}, valid_session
-        response.should redirect_to(minimum_wage)
+      it "redirects to index in case of unauthorized minimum_wage as @minimum_wage" do
+        minimum_wage = FactoryGirl.create(:minimum_wage, :user_id => controller.current_user.id + 1)
+        get :show, {:id => minimum_wage.to_param}
+        response.should redirect_to minimum_wages_path
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the minimum_wage as @minimum_wage" do
+    describe "GET new" do
+      it "assigns a new minimum_wage as @minimum_wage" do
+        get :new, {}
+        assigns(:minimum_wage).should be_a_new(MinimumWage)
+      end
+    end
+
+    describe "GET edit" do
+      it "assigns the requested minimum_wage as @minimum_wage" do
         minimum_wage = MinimumWage.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        MinimumWage.any_instance.stub(:save).and_return(false)
-        put :update, {:id => minimum_wage.to_param, :minimum_wage => { "user" => "invalid value" }}, valid_session
+        get :edit, {:id => minimum_wage.to_param}
         assigns(:minimum_wage).should eq(minimum_wage)
       end
 
-      it "re-renders the 'edit' template" do
+      it "do not assigns the requested other's minimum_wage as @minimum_wage" do
+        minimum_wage = FactoryGirl.create(:minimum_wage, :user_id => controller.current_user.id + 1)
+        get :edit, {:id => minimum_wage.to_param}
+        response.should redirect_to minimum_wages_path
+      end
+    end
+
+    describe "POST create" do
+      describe "with valid params" do
+        it "creates a new MinimumWage" do
+          expect {
+            post :create, {:minimum_wage => valid_attributes}
+          }.to change(MinimumWage, :count).by(1)
+        end
+
+        it "assigns a newly created minimum_wage as @minimum_wage" do
+          post :create, {:minimum_wage => valid_attributes}
+          assigns(:minimum_wage).should be_a(MinimumWage)
+          assigns(:minimum_wage).should be_persisted
+        end
+
+        it "redirects to minimum_wages index" do
+          post :create, {:minimum_wage => valid_attributes}
+          response.should redirect_to(minimum_wages_path)
+        end
+      end
+
+      describe "with invalid params" do
+        it "assigns a newly created but unsaved minimum_wage as @minimum_wage" do
+          # Trigger the behavior that occurs when invalid params are submitted
+          MinimumWage.any_instance.stub(:save).and_return(false)
+          post :create, {:minimum_wage => {}}
+          assigns(:minimum_wage).should be_a_new(MinimumWage)
+        end
+
+        it "re-renders the 'new' template" do
+          # Trigger the behavior that occurs when invalid params are submitted
+          MinimumWage.any_instance.stub(:save).and_return(false)
+          post :create, {:minimum_wage => {}}
+          response.should render_template("new")
+        end
+      end
+    end
+
+    describe "PUT update" do
+      describe "for unauthorized minimum_wage" do
+        it "redirects to index for unauthorized minimum_wage as @minimum_wage" do
+          minimum_wage = FactoryGirl.create(:minimum_wage, :user_id => controller.current_user.id + 1)
+          put :update, {:id => minimum_wage.to_param, :minimum_wage => valid_attributes}
+          response.should redirect_to(minimum_wages_path)
+        end
+      end
+
+      describe "with valid params" do
+        it "updates the requested minimum_wage" do
+          minimum_wage = MinimumWage.create! valid_attributes
+          # Assuming there are no other minimum_wages in the database, this
+          # specifies that the MinimumWage created on the previous line
+          # receives the :update_attributes message with whatever params are
+          # submitted in the request.
+          MinimumWage.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
+          put :update, {:id => minimum_wage.to_param, :minimum_wage => {'these' => 'params'}}
+        end
+
+        it "assigns the requested minimum_wage as @minimum_wage" do
+          minimum_wage = MinimumWage.create! valid_attributes
+          put :update, {:id => minimum_wage.to_param, :minimum_wage => valid_attributes}
+          assigns(:minimum_wage).should eq(minimum_wage)
+        end
+
+        it "redirects to the minimum_wage" do
+          minimum_wage = MinimumWage.create! valid_attributes
+          put :update, {:id => minimum_wage.to_param, :minimum_wage => valid_attributes}
+          response.should redirect_to(minimum_wages_path)
+        end
+      end
+
+      describe "with invalid params" do
+        it "assigns the minimum_wage as @minimum_wage" do
+          minimum_wage = MinimumWage.create! valid_attributes
+          # Trigger the behavior that occurs when invalid params are submitted
+          MinimumWage.any_instance.stub(:save).and_return(false)
+          put :update, {:id => minimum_wage.to_param, :minimum_wage => {}}
+          assigns(:minimum_wage).should eq(minimum_wage)
+        end
+
+        it "re-renders the 'edit' template" do
+          minimum_wage = MinimumWage.create! valid_attributes
+          # Trigger the behavior that occurs when invalid params are submitted
+          MinimumWage.any_instance.stub(:save).and_return(false)
+          put :update, {:id => minimum_wage.to_param, :minimum_wage => {}}
+          response.should render_template("edit")
+        end
+      end
+    end
+
+    describe "DELETE destroy" do
+      it "destroys the requested minimum_wage" do
         minimum_wage = MinimumWage.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        MinimumWage.any_instance.stub(:save).and_return(false)
-        put :update, {:id => minimum_wage.to_param, :minimum_wage => { "user" => "invalid value" }}, valid_session
-        response.should render_template("edit")
+        expect {
+          delete :destroy, {:id => minimum_wage.to_param}
+        }.to change(MinimumWage, :count).by(0)
+        MinimumWage.last.deleted_at.should_not nil
+      end
+
+      it "does not destroy other's minimum_wage" do
+        minimum_wage = FactoryGirl.create(:minimum_wage, :user_id => controller.current_user.id + 1)
+        expect {
+          delete :destroy, {:id => minimum_wage.to_param}
+        }.to change(MinimumWage, :count).by(0)
+        response.should redirect_to minimum_wages_path
+      end
+
+      it "redirects to the minimum_wages list" do
+        minimum_wage = MinimumWage.create! valid_attributes
+        delete :destroy, {:id => minimum_wage.to_param}
+        response.should redirect_to(minimum_wages_url)
       end
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested minimum_wage" do
-      minimum_wage = MinimumWage.create! valid_attributes
-      expect {
-        delete :destroy, {:id => minimum_wage.to_param}, valid_session
-      }.to change(MinimumWage, :count).by(-1)
+  context "unauthenticated user" do
+    describe "GET index" do
+      it "redirects to signin" do
+        get :index, {}
+        response.should redirect_to new_user_session_path
+      end
     end
 
-    it "redirects to the minimum_wages list" do
-      minimum_wage = MinimumWage.create! valid_attributes
-      delete :destroy, {:id => minimum_wage.to_param}, valid_session
-      response.should redirect_to(minimum_wages_url)
+    describe "GET show" do
+      it "redirect to signin" do
+        minimum_wage = MinimumWage.create! valid_attributes
+        get :show, {:id => minimum_wage.to_param}
+        response.should redirect_to new_user_session_path
+      end
+    end
+
+    describe "GET new" do
+      it "redirect to signin" do
+        get :new, {}
+        response.should redirect_to new_user_session_path
+      end
+    end
+
+    describe "GET edit" do
+      it "redirect to signin" do
+        minimum_wage = MinimumWage.create! valid_attributes
+        get :edit, {:id => minimum_wage.to_param}
+        response.should redirect_to new_user_session_path
+      end
+    end
+
+    describe "POST create" do
+      it "redirect to signin" do
+        expect {
+          post :create, {:minimum_wage => valid_attributes}
+        }.to change(MinimumWage, :count).by(0)
+        response.should redirect_to new_user_session_path
+      end
+    end
+
+    describe "PUT update" do
+      it "redirect to signin" do
+        # minimum_wage = FactoryGirl.build(:minimum_wage)
+        # put :update, {:id => minimum_wage.to_param, :minimum_wage => {'these' => 'params'}}
+        put :update, {:id => 1, :minimum_wage => {'these' => 'params'}}
+        response.should redirect_to new_user_session_path
+      end
+    end
+
+    describe "DELETE destroy" do
+      it "redirects to signin" do
+        # minimum_wage = FactoryGirl.build(:minimum_wage)
+        # delete :destroy, {:id => minimum_wage.to_param}
+        delete :destroy, {:id => 1}
+        response.should redirect_to new_user_session_path
+      end
     end
   end
-
 end

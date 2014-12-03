@@ -25,9 +25,12 @@ describe TransferSlipsController do
   # update the return value of this method accordingly.
   def valid_attributes
     if controller.current_user
-      FactoryGirl.attributes_for(:transfer_slip, :user_id => controller.current_user.id)
+      driver = controller.current_user.drivers.last
+      report = FactoryGirl.create(:report, :driver_id => driver.id)
+      FactoryGirl.attributes_for(:transfer_slip, :report_id => report.id)
     else
-      FactoryGirl.attributes_for(:transfer_slip, :user_id => 100)
+      report = FactoryGirl.create(:report)
+      FactoryGirl.attributes_for(:transfer_slip, :report_id => report.id)
     end
   end
 
@@ -38,131 +41,195 @@ describe TransferSlipsController do
     {}
   end
 
-  describe "GET index" do
-    it "assigns all transfer_slips as @transfer_slips" do
-      transfer_slip = TransferSlip.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:transfer_slips).should eq([transfer_slip])
-    end
-  end
+  context "authenticated user" do
+    signin_user
 
-  describe "GET show" do
-    it "assigns the requested transfer_slip as @transfer_slip" do
-      transfer_slip = TransferSlip.create! valid_attributes
-      get :show, {:id => transfer_slip.to_param}, valid_session
-      assigns(:transfer_slip).should eq(transfer_slip)
-    end
-  end
-
-  describe "GET new" do
-    it "assigns a new transfer_slip as @transfer_slip" do
-      get :new, {}, valid_session
-      assigns(:transfer_slip).should be_a_new(TransferSlip)
-    end
-  end
-
-  describe "GET edit" do
-    it "assigns the requested transfer_slip as @transfer_slip" do
-      transfer_slip = TransferSlip.create! valid_attributes
-      get :edit, {:id => transfer_slip.to_param}, valid_session
-      assigns(:transfer_slip).should eq(transfer_slip)
-    end
-  end
-
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new TransferSlip" do
-        expect {
-          post :create, {:transfer_slip => valid_attributes}, valid_session
-        }.to change(TransferSlip, :count).by(1)
-      end
-
-      it "assigns a newly created transfer_slip as @transfer_slip" do
-        post :create, {:transfer_slip => valid_attributes}, valid_session
-        assigns(:transfer_slip).should be_a(TransferSlip)
-        assigns(:transfer_slip).should be_persisted
-      end
-
-      it "redirects to the created transfer_slip" do
-        post :create, {:transfer_slip => valid_attributes}, valid_session
-        response.should redirect_to(reprot_path TransferSlip.last.report)
+    describe "GET index" do
+      it "assigns all transfer_slips as @transfer_slips" do
+        transfer_slips = TransferSlip.includes(:report => {:driver => :user}).where(["users.id = ?", controller.current_user.id]).all
+        get :index, {}
+        # assigns(:transfer_slips).should eq(transfer_slips)
+        redirect_to root_path
       end
     end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved transfer_slip as @transfer_slip" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        TransferSlip.any_instance.stub(:save).and_return(false)
-        post :create, {:transfer_slip => { "report" => "invalid value" }}, valid_session
-        assigns(:transfer_slip).should be_a_new(TransferSlip)
-      end
-
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        TransferSlip.any_instance.stub(:save).and_return(false)
-        post :create, {:transfer_slip => { "report" => "invalid value" }}, valid_session
-        response.should render_template("new")
-      end
-    end
-  end
-
-  describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested transfer_slip" do
-        transfer_slip = TransferSlip.create! valid_attributes
-        # Assuming there are no other transfer_slips in the database, this
-        # specifies that the TransferSlip created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        TransferSlip.any_instance.should_receive(:update_attributes).with({ "report" => "" })
-        put :update, {:id => transfer_slip.to_param, :transfer_slip => { "report" => "" }}, valid_session
-      end
-
+    describe "GET show" do
       it "assigns the requested transfer_slip as @transfer_slip" do
         transfer_slip = TransferSlip.create! valid_attributes
-        put :update, {:id => transfer_slip.to_param, :transfer_slip => valid_attributes}, valid_session
+        get :show, {:id => transfer_slip.to_param}
         assigns(:transfer_slip).should eq(transfer_slip)
-      end
-
-      it "redirects to the report" do
-        transfer_slip = TransferSlip.create! valid_attributes
-        put :update, {:id => transfer_slip.to_param, :transfer_slip => valid_attributes}, valid_session
-        response.should redirect_to(report_path transfer_slip.report)
       end
     end
 
-    describe "with invalid params" do
-      it "assigns the transfer_slip as @transfer_slip" do
+    describe "GET new" do
+      it "assigns a new transfer_slip as @transfer_slip" do
+        get :new, {:report_id => 1}
+        assigns(:transfer_slip).should be_a_new(TransferSlip)
+      end
+    end
+
+    describe "GET edit" do
+      it "assigns the requested transfer_slip as @transfer_slip" do
         transfer_slip = TransferSlip.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        TransferSlip.any_instance.stub(:save).and_return(false)
-        put :update, {:id => transfer_slip.to_param, :transfer_slip => { "report" => "invalid value" }}, valid_session
+        get :edit, {:id => transfer_slip.to_param}
         assigns(:transfer_slip).should eq(transfer_slip)
       end
+    end
 
-      it "re-renders the 'edit' template" do
+    describe "POST create" do
+      describe "with valid params" do
+        it "creates a new TransferSlip" do
+          expect {
+            post :create, {:transfer_slip => valid_attributes}
+          }.to change(TransferSlip, :count).by(1)
+        end
+
+        it "assigns a newly created transfer_slip as @transfer_slip" do
+          post :create, {:transfer_slip => valid_attributes}
+          assigns(:transfer_slip).should be_a(TransferSlip)
+          assigns(:transfer_slip).should be_persisted
+        end
+
+        it "redirects to the report" do
+          post :create, {:transfer_slip => valid_attributes}
+          response.should redirect_to(TransferSlip.last.report)
+        end
+      end
+
+      describe "with invalid params" do
+        it "assigns a newly created but unsaved transfer_slip as @transfer_slip" do
+          # Trigger the behavior that occurs when invalid params are submitted
+          TransferSlip.any_instance.stub(:save).and_return(false)
+          post :create, {:transfer_slip => {:report_id => FactoryGirl.create(:report).id}}
+          assigns(:transfer_slip).should be_a_new(TransferSlip)
+        end
+
+        it "re-renders the 'new' template" do
+          # Trigger the behavior that occurs when invalid params are submitted
+          TransferSlip.any_instance.stub(:save).and_return(false)
+          post :create, {:transfer_slip => {:report_id => FactoryGirl.create(:report).id}}
+          response.should render_template("new")
+        end
+      end
+    end
+
+    describe "PUT update" do
+      describe "with valid params" do
+        it "updates the requested transfer_slip" do
+          transfer_slip = TransferSlip.create! valid_attributes
+          # Assuming there are no other transfer_slips in the database, this
+          # specifies that the TransferSlip created on the previous line
+          # receives the :update_attributes message with whatever params are
+          # submitted in the request.
+          TransferSlip.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
+          put :update, {:id => transfer_slip.to_param, :transfer_slip => {'these' => 'params'}}
+        end
+
+        it "assigns the requested transfer_slip as @transfer_slip" do
+          transfer_slip = TransferSlip.create! valid_attributes
+          put :update, {:id => transfer_slip.to_param, :transfer_slip => valid_attributes}
+          assigns(:transfer_slip).should eq(transfer_slip)
+        end
+
+        it "redirects to the transfer_slip" do
+          transfer_slip = TransferSlip.create! valid_attributes
+          put :update, {:id => transfer_slip.to_param, :transfer_slip => {:leave_address => "another address"}}
+          response.should redirect_to(report_path(transfer_slip.report))
+        end
+      end
+
+      describe "with invalid params" do
+        it "assigns the transfer_slip as @transfer_slip" do
+          transfer_slip = TransferSlip.create! valid_attributes
+          # Trigger the behavior that occurs when invalid params are submitted
+          TransferSlip.any_instance.stub(:save).and_return(false)
+          put :update, {:id => transfer_slip.to_param, :transfer_slip => {}}
+          assigns(:transfer_slip).should eq(transfer_slip)
+        end
+
+        it "re-renders the 'edit' template" do
+          transfer_slip = TransferSlip.create! valid_attributes
+          # Trigger the behavior that occurs when invalid params are submitted
+          TransferSlip.any_instance.stub(:save).and_return(false)
+          put :update, {:id => transfer_slip.to_param, :transfer_slip => {}}
+          response.should render_template("edit")
+        end
+      end
+    end
+
+    describe "DELETE destroy" do
+      it "destroys the requested transfer_slip" do
         transfer_slip = TransferSlip.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        TransferSlip.any_instance.stub(:save).and_return(false)
-        put :update, {:id => transfer_slip.to_param, :transfer_slip => { "report" => "invalid value" }}, valid_session
-        response.should render_template("edit")
+        expect {
+          delete :destroy, {:id => transfer_slip.to_param}
+        }.to change(TransferSlip, :count).by(-1)
+        TransferSlip.last.deleted_at.should_not nil
+      end
+
+      it "redirects to the transfer_slips list" do
+        transfer_slip = TransferSlip.create! valid_attributes
+        delete :destroy, {:id => transfer_slip.to_param}
+        response.should redirect_to(report_path(transfer_slip.report))
       end
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested transfer_slip" do
-      transfer_slip = TransferSlip.create! valid_attributes
-      expect {
-        delete :destroy, {:id => transfer_slip.to_param}, valid_session
-      }.to change(TransferSlip, :count).by(-1)
+  context "unauthenticated user" do
+    describe "GET index" do
+      it "redirects to signin" do
+        get :index, {}
+        response.should redirect_to "/users/sign_in"
+      end
     end
 
-    it "redirects to the report" do
-      transfer_slip = TransferSlip.create! valid_attributes
-      delete :destroy, {:id => transfer_slip.to_param}, valid_session
-      response.should redirect_to(report_path transfer_slip.report)
+    describe "GET show" do
+      it "redirect to signin" do
+        transfer_slip = TransferSlip.create! valid_attributes
+        get :show, {:id => transfer_slip.to_param}
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+
+    describe "GET new" do
+      it "redirect to signin" do
+        get :new, {}
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+
+    describe "GET edit" do
+      it "redirect to signin" do
+        transfer_slip = TransferSlip.create! valid_attributes
+        get :edit, {:id => transfer_slip.to_param}
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+
+    describe "POST create" do
+      it "redirect to signin" do
+        expect {
+          post :create, {:transfer_slip => valid_attributes}
+        }.to change(TransferSlip, :count).by(0)
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+
+    describe "PUT update" do
+      it "redirect to signin" do
+        # transfer_slip = FactoryGirl.build(:transfer_slip)
+        # put :update, {:id => transfer_slip.to_param, :transfer_slip => {'these' => 'params'}}
+        put :update, {:id => 1, :transfer_slip => {'these' => 'params'}}
+        response.should redirect_to "/users/sign_in"
+      end
+    end
+
+    describe "DELETE destroy" do
+      it "redirects to signin" do
+        # transfer_slip = FactoryGirl.build(:transfer_slip)
+        # delete :destroy, {:id => transfer_slip.to_param}
+        delete :destroy, {:id => 1}
+        response.should redirect_to "/users/sign_in"
+      end
     end
   end
-
 end

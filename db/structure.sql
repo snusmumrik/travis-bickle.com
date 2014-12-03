@@ -64,6 +64,11 @@ CREATE TABLE `cars` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `registration_number` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `identification_number` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `model_number` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `model_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `taxi_registration_date` date DEFAULT NULL,
   `base_fare` int(11) DEFAULT NULL,
   `meter_fare` int(11) DEFAULT NULL,
   `initial_meter` int(11) DEFAULT NULL,
@@ -102,6 +107,17 @@ CREATE TABLE `check_points` (
   KEY `index_check_points_on_user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE `device_tokens` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `device_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_device_tokens_on_user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE `drivers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
@@ -130,6 +146,18 @@ CREATE TABLE `images` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE `inspections` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `car_id` int(11) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `span` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_inspections_on_car_id` (`car_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE `locations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `car_id` int(11) DEFAULT NULL,
@@ -156,7 +184,7 @@ CREATE TABLE `meters` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_meters_on_report_id` (`report_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5757 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9582 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `minimum_wages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -166,7 +194,7 @@ CREATE TABLE `minimum_wages` (
   `updated_at` datetime NOT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `notifications` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -224,7 +252,7 @@ CREATE TABLE `reports` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_reports_on_driver_id` (`driver_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5850 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9682 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `rests` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -240,7 +268,7 @@ CREATE TABLE `rests` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_rests_on_report_id` (`report_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8587 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14312 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `rides` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -261,7 +289,7 @@ CREATE TABLE `rides` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `index_rides_on_report_id` (`report_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30760 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30762 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE `schema_migrations` (
   `version` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -448,3 +476,7 @@ INSERT INTO schema_migrations (version) VALUES ('20140427145952');
 INSERT INTO schema_migrations (version) VALUES ('20140429072149');
 
 INSERT INTO schema_migrations (version) VALUES ('20141104102134');
+
+INSERT INTO schema_migrations (version) VALUES ('20141116041924');
+
+INSERT INTO schema_migrations (version) VALUES ('20141202053732');

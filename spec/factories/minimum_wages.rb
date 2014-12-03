@@ -2,7 +2,8 @@
 
 FactoryGirl.define do
   factory :minimum_wage do
-    user ""
-    price 1
+    user
+    sequence(:price) {|n| n}
+    deleted_at nil
   end
 end

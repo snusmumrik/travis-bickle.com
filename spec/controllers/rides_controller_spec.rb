@@ -179,7 +179,7 @@ describe RidesController do
     end
   end
 
-  context "unauthenticated usef" do
+  context "unauthenticated user" do
     describe "GET index" do
       it "redirects to signin" do
         get :index, {}
