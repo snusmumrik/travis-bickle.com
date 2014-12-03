@@ -17,6 +17,12 @@ h3 {
   margin: 0;
 }
 
+.page-break {
+  display:block;
+  clear:both;
+  page-break-after:always;
+}
+
 table {
   font-size: 0.7em;
 }
@@ -81,56 +87,62 @@ td {
 
 <div class="clear"></div>
 
-<table class="table table-striped table-bordered table-hover small">
-  <tr>
-    <th colspan="2"><%=t "activerecord.attributes.car.registration_number" %></th>
-    <% for i in 1..12 %>
-      <th><%= "#{i}月" %></th>
-    <% end %>
-    <th>備考</th>
-  </tr>
-  <% @cars.each do |car| %>
+<% for i in 0..(@cars.size - 1)/7 %>
+  <table class="table table-striped table-bordered table-hover small">
     <tr>
-      <td rowspan="3">
-        <%= car.registration_number %>
-      </td>
-      <td><%= car.name %></td>
-      <% for i in 1..12 %>
-        <% if @inspections[car.id][i] %>
-          <td>
-          <% if @inspections[car.id][i][0] == "車検" %>
-            <strong><%= @inspections[car.id][i][0] %></strong>
-          <% else %>
-            <%= @inspections[car.id][i][0] %>
-          <% end %>
-          </td>
-        <% else %>
-          <td></td>
-        <% end %>
+      <th colspan="2"><%=t "activerecord.attributes.car.registration_number" %></th>
+      <% for j in 1..12 %>
+        <th><%= "#{j}月" %></th>
       <% end %>
-      <td class="span2"></td>
+      <th>備考</th>
     </tr>
-    <tr>
-      <td><%=t "label.inspection.schedule" %></td>
-      <% for i in 1..12 %>
-        <% if @inspections[car.id][i] %>
-          <% if @inspections[car.id][i][0] == "車検" %>
-            <td><%= @inspections[car.id][i][1].day %></td>
-          <% else %>
+    <% @cars.each_with_index do |car, k| %>
+      <% if k >= 7*i && k < 7*(i + 1) %>
+        <tr>
+          <td rowspan="3">
+            <%= car.registration_number %>
+          </td>
+          <td><%= car.name %></td>
+          <% for l in 1..12 %>
+            <% if @inspections[car.id][l] %>
+              <td>
+              <% if @inspections[car.id][l][0] == "車検" %>
+                <strong><%= @inspections[car.id][l][0] %></strong>
+              <% else %>
+                <%= @inspections[car.id][l][0] %>
+              <% end %>
+              </td>
+            <% else %>
+              <td></td>
+            <% end %>
+          <% end %>
+          <td class="span2"></td>
+        </tr>
+        <tr>
+          <td><%=t "label.inspection.schedule" %></td>
+          <% for l in 1..12 %>
+            <% if @inspections[car.id][l] %>
+              <% if @inspections[car.id][l][0] == "車検" %>
+                <td><%= @inspections[car.id][l][1].day %></td>
+              <% else %>
+                <td></td>
+              <% end %>
+            <% else %>
+              <td></td>
+            <% end %>
+          <% end %>
+          <td></td>
+        </tr>
+        <tr>
+          <td><%=t "label.inspection.implementation" %></td>
+          <% for l in 1..12 %>
             <td></td>
           <% end %>
-        <% else %>
           <td></td>
-        <% end %>
+        </tr>
       <% end %>
-      <td></td>
-    </tr>
-    <tr>
-      <td><%=t "label.inspection.implementation" %></td>
-      <% for i in 1..12 %>
-        <td></td>
-      <% end %>
-      <td></td>
-    </tr>
-  <% end %>
-</table>
+    <% end %>
+  </table>
+
+  <div class="page-break"></div>
+<% end %>
