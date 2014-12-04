@@ -94,9 +94,9 @@ ja:
         reports: reports  #g
         user: :activerecord.models.user  #g
         location: :activerecord.models.location  #g
-        registration_number: 車輌番号
+        registration_number: 無線番号
         identification_number: 車体番号
-        model_number: 車種番号
+        model_number: 年式・型式
         model_name: 車種
         taxi_registration_date: タクシー登録日
         inspections: inspections  #g
