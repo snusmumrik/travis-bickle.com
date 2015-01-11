@@ -1,0 +1,137 @@
+<%= form_for(@tax_withholding) do |f| %>
+  <% if @tax_withholding.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@tax_withholding.errors.count, "error") %> prohibited this tax_withholding from being saved:</h2>
+
+      <ul>
+      <% @tax_withholding.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if params[:driver_id] %>
+    <%= f.hidden_field :driver_id, :value => params[:driver_id] %>
+  <% else %>
+    <%= f.hidden_field :driver_id%>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :date %><br />
+    <% if params[:year] && params[:month] %>
+      <%= f.date_select :date, :default => Date.new(params[:year].to_i, params[:month].to_i, 1), :discard_day => true %>
+    <% else %>
+      <%= f.date_select :date, :discard_day => true %>
+    <% end %>
+  </div>
+  <div class="field">
+    <%= f.label :working_days %><br />
+    <%= f.number_field :working_days %>
+  </div>
+  <div class="field">
+    <%= f.label :working_hours %><br />
+    <%= f.number_field :working_hours %>
+  </div>
+  <div class="field">
+    <%= f.label :holiday_working_hours %><br />
+    <%= f.number_field :holiday_working_hours %>
+  </div>
+  <div class="field">
+    <%= f.label :night_working_hours %><br />
+    <%= f.number_field :night_working_hours %>
+  </div>
+  <div class="field">
+    <%= f.label :extra_working_hours %><br />
+    <%= f.number_field :extra_working_hours %>
+  </div>
+  <div class="field">
+    <%= f.label :base_salary %><br />
+    <%= f.number_field :base_salary %>
+  </div>
+  <div class="field">
+    <%= f.label :percentage_pay %><br />
+    <%= f.number_field :percentage_pay %>
+  </div>
+  <div class="field">
+    <%= f.label :holiday_pay %><br />
+    <%= f.number_field :holiday_pay %>
+  </div>
+  <div class="field">
+    <%= f.label :night_pay %><br />
+    <%= f.number_field :night_pay %>
+  </div>
+  <div class="field">
+    <%= f.label :extra_pay %><br />
+    <%= f.number_field :extra_pay %>
+  </div>
+  <div class="field">
+    <%= f.label :no_absence_pay %><br />
+    <%= f.number_field :no_absence_pay %>
+  </div>
+  <div class="field">
+    <%= f.label :no_accident_pay %><br />
+    <%= f.number_field :no_accident_pay %>
+  </div>
+  <div class="field">
+    <%= f.label :long_service_pay %><br />
+    <%= f.number_field :long_service_pay %>
+  </div>
+  <div class="field">
+    <%= f.label :real_salary %><br />
+    <%= f.number_field :real_salary %>
+  </div>
+  <div class="field">
+    <%= f.label :health_insurance %><br />
+    <%= f.number_field :health_insurance %>
+  </div>
+  <div class="field">
+    <%= f.label :nursing_insurance %><br />
+    <%= f.number_field :nursing_insurance %>
+  </div>
+  <div class="field">
+    <%= f.label :pension %><br />
+    <%= f.text_field :pension %>
+  </div>
+  <div class="field">
+    <%= f.label :unemployment_insurance %><br />
+    <%= f.number_field :unemployment_insurance %>
+  </div>
+  <div class="field">
+    <%= f.label :taxables %><br />
+    <%= f.number_field :taxables %>
+  </div>
+  <div class="field">
+    <%= f.label :dependents %><br />
+    <%= f.number_field :dependents %>
+  </div>
+  <div class="field">
+    <%= f.label :calculated_tax_amount %><br />
+    <%= f.number_field :calculated_tax_amount %>
+  </div>
+  <div class="field">
+    <%= f.label :adjustment %><br />
+    <%= f.number_field :adjustment %>
+  </div>
+  <div class="field">
+    <%= f.label :net_collection %><br />
+    <%= f.number_field :net_collection %>
+  </div>
+  <div class="field">
+    <%= f.label :resident_tax %><br />
+    <%= f.number_field :resident_tax %>
+  </div>
+  <div class="field">
+    <%= f.label :bonus %><br />
+    <%= f.number_field :bonus %>
+  </div>
+  <div class="field">
+    <%= f.label :social_insurance %><br />
+    <%= f.number_field :social_insurance %>
+  </div>
+  <div class="actions">
+    <%= f.submit :class => "btn" %>
+  </div>
+<% end %>
+
+<%= link_to t("link.back"), :back, :class => "btn" %>

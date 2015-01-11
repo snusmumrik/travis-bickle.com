@@ -24,6 +24,7 @@ ja:
       transfer_slip: 振替伝票
       minimum_wage: 最低時給
       inspection: 車検
+      tax_withholding: 所得税源泉徴収簿
 
     attributes:
       user:
@@ -289,6 +290,36 @@ ja:
         deleted_at: deleted_at  #g
         span: 点検間隔月数
 
+      tax_withholding:
+        adjustment: 年調過不足
+        base_salary: 基本賃金
+        bonus: 賞与
+        calculated_tax_amount: 算出税額
+        dependents: 扶養親族の数
+        date: 日付
+        driver: :activerecord.models.driver
+        extra_pay: 所定時間外賃金
+        extra_working_hours: 所定外労働時間
+        health_insurance: 健康保険
+        holiday_pay: 休日賃金
+        holiday_working_hours: 休日労働時間
+        long_service_pay: 勤続手当
+        net_collection: 差引徴収税額
+        night_pay: 深夜賃金
+        night_working_hours: 深夜労働時間
+        no_absence_pay: 満勤手当
+        no_accident_pay: 無事故手当
+        nursing_insurance: 介護保険
+        pension: 厚生年金
+        percentage_pay: 歩合給
+        real_salary: 実物給与
+        resident_tax: 住民税
+        social_insurance: 社会保険
+        taxables: 課税対象額
+        unemployment_insurance: 雇用保険
+        working_days: 労働日数
+        working_hours: 労働時間
+
   views:
     pagination:
       first: "&laquo; 最初"
@@ -312,6 +343,8 @@ ja:
       edy: Edy
       ticket_advance: 前受チケット
       ticket_receivable: 未収チケット
+
+    tax_withholding: 所得税源泉徴収簿・賃金台帳
 
     transfer_slip:
       credit_sales: 運行収入（現金）
@@ -400,6 +433,7 @@ ja:
       report: 乗務記録簿
       salaries: 給与一覧
       inspections: 車輌点検整備計画表
+      tax_withholding: 源泉徴収簿
 
     content:
       about_travis: トラヴィスについて
@@ -418,8 +452,3 @@ ja:
     destroy: を削除しました。
     destroy_confirmation: 本当に削除してもよろしいですか？
     signout_confirmation: サインアウトしてもよろしいですか？
-
-  check_point: :activerecord.models.check_point  #g
-  deleted_at: deleted_at  #g
-  audio_content_type: audio_content_type  #g
-  car: :activerecord.models.car  #g

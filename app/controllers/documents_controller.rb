@@ -109,7 +109,30 @@ class DocumentsController < ApplicationController
     end
   end
 
-  # GET /documents/driver/:id/:year/:month.pdf
+  # # GET /documents/drivers/:id/:year.pdf
+  # def tax_withholding
+  #   title = "所得税源泉徴収簿 #{@reports[0].started_at.strftime('%Y%0m')}_(#{@reports[0].driver.name})" rescue "所得税源泉徴収簿"
+
+  #   @driver = Driver.find(params[:driver_id])
+
+  #   params[:year] = Date.today.year unless params[:year]
+
+  #   @reports = Report.where(["driver_id = ? AND started_at BETWEEN ? AND ?",
+  #                            params[:driver_id],
+  #                            Time.zone.parse("#{params[:year].to_s}-1-1 00:00}"),
+  #                            Time.zone.parse("#{params[:year].to_s}-12-31 23:59}")
+  #                           ]).order("started_at").all
+
+  #   respond_to do |format|
+  #     format.html # show.html.erb
+  #     format.pdf do
+  #       # render :pdf => title, :orientation => "Landscape", :encoding => "UTF-8"
+  #       render :pdf => title, :encoding => "UTF-8"
+  #     end
+  #   end
+  # end
+
+  # GET /documents/drivers/:id/:year/:month.pdf
   def driver
     title = "労務時間報告書#{@reports[0].started_at.strftime('%Y%0m')}_(#{@reports[0].driver.name})" rescue "労務時間報告書"
 

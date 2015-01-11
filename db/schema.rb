@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141202053732) do
+ActiveRecord::Schema.define(:version => 20141223032249) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -301,6 +301,39 @@ ActiveRecord::Schema.define(:version => 20141202053732) do
   add_index "talks", ["receiver_user_id"], :name => "index_talks_on_receiver_user_id"
   add_index "talks", ["sender_car_id"], :name => "index_talks_on_sender_car_id"
   add_index "talks", ["sender_user_id"], :name => "index_talks_on_sender_user_id"
+
+  create_table "tax_withholdings", :force => true do |t|
+    t.integer  "driver_id"
+    t.date     "date"
+    t.integer  "working_days"
+    t.integer  "working_hours"
+    t.integer  "holiday_working_hours"
+    t.integer  "night_working_hours"
+    t.integer  "extra_working_hours"
+    t.integer  "base_salary"
+    t.integer  "percentage_pay"
+    t.integer  "holiday_pay"
+    t.integer  "night_pay"
+    t.integer  "extra_pay"
+    t.integer  "no_absence_pay"
+    t.integer  "no_accident_pay"
+    t.integer  "long_service_pay"
+    t.integer  "real_salary"
+    t.integer  "health_insurance"
+    t.integer  "nursing_insurance"
+    t.integer  "pension"
+    t.integer  "unemployment_insurance"
+    t.integer  "taxables"
+    t.integer  "dependents"
+    t.integer  "calculated_tax_amount"
+    t.integer  "adjustment"
+    t.integer  "net_collection"
+    t.integer  "resident_tax"
+    t.integer  "bonus"
+    t.integer  "social_insurance"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+  end
 
   create_table "transfer_slips", :force => true do |t|
     t.integer  "user_id"

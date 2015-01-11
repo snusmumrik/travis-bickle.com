@@ -1,11 +1,11 @@
 TravisBickle::Application.routes.draw do
+  root :to => 'contents#about_travis'
+
+  resources :tax_withholdings
+
   resources :inspections
 
-
   resources :minimum_wages
-
-
-  root :to => 'contents#about_travis'
 
   # resources :talks
 
@@ -68,10 +68,13 @@ TravisBickle::Application.routes.draw do
   match 'reports/:year/:month/:day' => 'reports#index'
   match 'documents/daily_sales/:year/:month/:day' => 'documents#daily_sales'
   match 'documents/roll_calls/:year/:month/:day' => 'documents#roll_calls'
+  # match 'documents/:driver_id/:year' => 'documents#tax_withholding'
   match 'documents/drivers/:driver_id/:year/:month' => 'documents#driver'
   match 'documents/reports/:report_id' => 'documents#report'
   match 'documents/salaries/:year/:month' => 'documents#salaries'
   match 'documents/inspections/:year' => 'documents#inspections'
+  match 'tax_withholdings/new/:driver_id/:year/:month' => 'tax_withholdings#new'
+  match 'tax_withholdings/:driver_id/:year' => 'tax_withholdings#index'
   match 'transfer_slips/new/report/:report_id' => 'transfer_slips#new'
   match 'transfer_slips/new/:year/:month/:day' => 'transfer_slips#new'
   match 'transfer_slips/report/:report_id' => 'transfer_slips#index'

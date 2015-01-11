@@ -1,0 +1,522 @@
+<%= wicked_pdf_stylesheet_link_tag "bootstrap" %>
+<%= wicked_pdf_stylesheet_link_tag "documents" %>
+
+<style type="text/css">
+h2 {
+  font-size: 1.2em;
+  margin: 0;
+}
+
+table {
+  font-size: 0.7em;
+}
+
+table.tax td {
+    text-align: right !important;
+}
+
+th {
+  line-height: 0px !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+  font-size: 7px !important;
+  padding: 10px 0 5px 0 !important;
+}
+
+th.small {
+  font-size: 6px !important;
+}
+
+td {
+  line-height: 0px !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+  font-size: 8px !important;
+}
+
+td.left {
+  text-align: left !important;
+  vertical-align: top !important;
+}
+
+.title {
+  float: left;
+  vertical-align: middle;
+  width: 50%;
+}
+
+.title td {
+  padding: 8px 0 5px 10px !important;
+}
+
+.small {
+  font-size: 70%;
+}
+
+.vertical {
+  float: left;
+  width: 1em;
+  line-height: 10px;
+  margin-left: 33%;
+}
+
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+</style>
+
+<div class="left title">
+  <div class="float-left">
+    <h2><%= "#{params[:year]}年" %> <%=t "views.tax_withholding" %></h2>
+  </div>
+  <div class="float-right">
+    <table class="table table-striped table-bordered table-hover table-narrow minimize float-right">
+      <tr>
+        <td class="span3 left"><%= current_user.username %></td>
+        <td class="span2 left"><%= @driver.name %></td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div class="clear"></div>
+
+<table class="table table-striped table-bordered table-hover small tax">
+  <tr>
+    <th colspan="3">賃金計算期間</th>
+    <% for i in 1..12 %>
+       <th><%= "#{i}月" %></th>
+    <% end %>
+    <th>合計</th>
+  </tr>
+  <tr>
+    <th colspan="3"><%=t "activerecord.attributes.tax_withholding.working_days" %></th>
+    <% for i in 1..12 %>
+       <td>
+         <% if @tax_withholding_hash[i] %>
+           <%= @tax_withholding_hash[i].working_days %>
+         <% end %>
+       </td>
+    <% end %>
+    <td><%= @total_hash[:working_days] %></td>
+  </tr>
+  <tr>
+    <th colspan="3"><%=t "activerecord.attributes.tax_withholding.working_hours" %></th>
+    <% for i in 1..12 %>
+       <td>
+         <% if @tax_withholding_hash[i] %>
+           <%= @tax_withholding_hash[i].working_hours %>
+         <% end %>
+       </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th colspan="3"><%=t "activerecord.attributes.tax_withholding.holiday_working_hours" %></th>
+    <% for i in 1..12 %>
+    <td>
+      <% if @tax_withholding_hash[i] %>
+        <%= @tax_withholding_hash[i].holiday_working_hours %>
+      <% end %>
+    </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th colspan="3"><%=t "activerecord.attributes.tax_withholding.night_working_hours" %></th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= @tax_withholding_hash[i].night_working_hours %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th colspan="3"><%=t "activerecord.attributes.tax_withholding.extra_working_hours" %></th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= @tax_withholding_hash[i].extra_working_hours %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th rowspan="14"><span class="vertical">給与手当</span></th>
+    <th rowspan="10"><span class="vertical">課税分</span></th>
+    <th><%=t "activerecord.attributes.tax_withholding.base_salary" %></th>
+    <% for i in 1..12 %>
+       <td>
+         <% if @tax_withholding_hash[i] %>
+           <%= number_with_delimiter @tax_withholding_hash[i].base_salary %>
+         <% end %>
+       </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th><%=t "activerecord.attributes.tax_withholding.percentage_pay" %></th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter@tax_withholding_hash[i].percentage_pay %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th><%=t "activerecord.attributes.tax_withholding.holiday_pay" %></th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @tax_withholding_hash[i].holiday_pay %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th><%=t "activerecord.attributes.tax_withholding.night_pay" %></th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @tax_withholding_hash[i].night_pay %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th class="small"><%=t "activerecord.attributes.tax_withholding.extra_pay" %></th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @tax_withholding_hash[i].extra_pay %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th><%=t "activerecord.attributes.tax_withholding.no_absence_pay" %></th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @tax_withholding_hash[i].no_absence_pay %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th><%=t "activerecord.attributes.tax_withholding.no_accident_pay" %></th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @tax_withholding_hash[i].no_accident_pay %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th><%=t "activerecord.attributes.tax_withholding.long_service_pay" %></th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @tax_withholding_hash[i].long_service_pay %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th><%=t "activerecord.attributes.tax_withholding.real_salary" %></th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @tax_withholding_hash[i].real_salary %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th>小計</th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @salary_subtotals[i] %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th rowspan="3"><span class="vertical">非課税分</span></td>
+    <td></td>
+    <% for i in 1..12 %>
+       <td><%=  %></td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <% for i in 1..12 %>
+       <td><%=  %></td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <% for i in 1..12 %>
+       <td><%=  %></td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th colspan="2">合計</th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @salary_subtotals[i] %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+
+  <tr>
+    <th rowspan="14"><span class="vertical">控除額</span></th>
+    <th rowspan="5"><span class="vertical">社会保険料</span></th>
+    <th><%=t "activerecord.attributes.tax_withholding.health_insurance" %></th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @tax_withholding_hash[i].health_insurance %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th><%=t "activerecord.attributes.tax_withholding.nursing_insurance" %></th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @tax_withholding_hash[i].nursing_insurance %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th><%=t "activerecord.attributes.tax_withholding.pension" %></th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @tax_withholding_hash[i].pension %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th><%=t "activerecord.attributes.tax_withholding.unemployment_insurance" %></th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @tax_withholding_hash[i].unemployment_insurance %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th>合計</th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @social_insurence_subtotals[i] %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+
+  <tr>
+    <th rowspan="5"><span class="vertical">所得税</span></th>
+    <th>課税対象額</th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @tax_withholding_hash[i].taxables %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th><%=t "activerecord.attributes.tax_withholding.dependents" %></th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @tax_withholding_hash[i].dependents %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th><%=t "activerecord.attributes.tax_withholding.calculated_tax_amount" %></th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @tax_withholding_hash[i].calculated_tax_amount %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th><%=t "activerecord.attributes.tax_withholding.adjustment" %></th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @tax_withholding_hash[i].adjustment %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th><%=t "activerecord.attributes.tax_withholding.net_collection" %></th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @tax_withholding_hash[i].net_collection %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th colspan="2"><%=t "activerecord.attributes.tax_withholding.resident_tax" %></th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @tax_withholding_hash[i].resident_tax %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th colspan="2"></th>
+    <% for i in 1..12 %>
+       <td><%=  %></td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th colspan="2"></th>
+    <% for i in 1..12 %>
+       <td><%=  %></td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th colspan="2">合計</th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @social_insurence_subtotals[i] + @tax_withholding_hash[i].net_collection + @tax_withholding_hash[i].resident_tax %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th colspan="3">差引支給額</th>
+    <% for i in 1..12 %>
+      <td>
+        <% if @tax_withholding_hash[i] %>
+          <%= number_with_delimiter @salary_subtotals[i] - (@social_insurence_subtotals[i] + @tax_withholding_hash[i].net_collection + @tax_withholding_hash[i].resident_tax) %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+  </tr>
+  <tr>
+    <th colspan="3">受領印</th>
+    <% for i in 1..12 %>
+       <td><%=  %></td>
+    <% end %>
+    <td></td>
+  </tr>
+
+  <tr>
+    <th rowspan="9"><span class="vertical">賞与等</span></th>
+    <th colspan="2">支給月区別</th>
+    <% for i in 1..13 %>
+       <td><%=  %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <th colspan="2">支給金額</th>
+    <% for i in 1..13 %>
+       <td><%=  %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <th rowspan="5"><span class="vertical">控除額</span></th>
+    <th>社会保険料</th>
+    <% for i in 1..13 %>
+       <td><%=  %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <th class="small">社会保険料<br><br>除後の金額</th>
+    <% for i in 1..13 %>
+       <td><%=  %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <th>税率</th>
+    <% for i in 1..13 %>
+       <td><%=  %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <th>算出税額</th>
+    <% for i in 1..13 %>
+       <td><%=  %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <th>年調過不足</th>
+    <% for i in 1..13 %>
+       <td><%=  %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <th colspan="2">差引支給額</th>
+    <% for i in 1..13 %>
+       <td><%=  %></td>
+    <% end %>
+  </tr>
+  <tr>
+    <th colspan="2">受領印</th>
+    <% for i in 1..13 %>
+       <td><%=  %></td>
+    <% end %>
+  </tr>
+</table>
