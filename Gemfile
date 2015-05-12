@@ -24,6 +24,11 @@ group :test do
   gem 'cucumber-rails', :require => false # rails generate cucumber:install --capybara --rspec --spork
   gem 'database_cleaner' # database_cleaner is not required, but highly recommended
   gem 'fakeweb'
+  gem 'turn', :require => false
+  gem 'guard-rspec'
+  gem 'spork'
+  gem 'minitest'
+  gem 'factory_girl_rails'
 end
 
 group :test, :development do
@@ -35,6 +40,11 @@ group :test, :development do
   gem 'rails3-generators'
   gem 'capybara'
   gem 'i18n_generators', :git => 'git://github.com/amatsuda/i18n_generators'
+end
+
+group :production do
+  gem 'rails_12factor'
+  gem 'newrelic_rpm'
 end
 
 gem 'jquery-rails'
@@ -53,15 +63,6 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
-
-group :test do
-  # Pretty printed test output
-  gem 'turn', :require => false
-  gem 'guard-rspec'
-  gem 'spork'
-  gem 'minitest'
-  gem 'factory_girl_rails'
-end
 
 gem 'devise'
 gem 'paranoia'
