@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.17'
+gem 'rails', '3.2.22'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -36,7 +36,7 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'guard-rspec'
   gem 'parallel_tests'
-  gem 'metric_fu'
+  # gem 'metric_fu'
   gem 'rails3-generators'
   gem 'capybara'
   gem 'i18n_generators', :git => 'git://github.com/amatsuda/i18n_generators'
