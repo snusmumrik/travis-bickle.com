@@ -477,7 +477,7 @@
     <% for i in 1..12 %>
       <td>
         <% if @tax_withholding_hash[i] %>
-          <%= number_with_delimiter @social_insurence_subtotals[i] + @tax_withholding_hash[i].net_collection + @tax_withholding_hash[i].resident_tax %>
+          <%= number_with_delimiter @social_insurence_subtotals[i] + @tax_withholding_hash[i].net_collection + @tax_withholding_hash[i].resident_tax rescue nil %>
         <% end %>
       </td>
     <% end %>
@@ -489,7 +489,7 @@
     <% for i in 1..12 %>
       <td>
         <% if @tax_withholding_hash[i] %>
-          <%= number_with_delimiter @salary_subtotals[i] - (@social_insurence_subtotals[i] + @tax_withholding_hash[i].net_collection + @tax_withholding_hash[i].resident_tax) %>
+          <%= number_with_delimiter @salary_subtotals[i] - (@social_insurence_subtotals[i] + @tax_withholding_hash[i].net_collection + @tax_withholding_hash[i].resident_tax) rescue nil %>
         <% end %>
       </td>
     <% end %>
