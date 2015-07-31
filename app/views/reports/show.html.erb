@@ -157,7 +157,7 @@
         <th><%=t "activerecord.attributes.report.cash" %></th>
         <td class="right"><%= number_to_currency @report.cash, :locale => "ja" %></td>
         <th><%=t "activerecord.attributes.report.sales" %></th>
-        <td class="right"><%= number_to_currency @report.sales, :locale => "ja" %></td>
+        <td class="right"><%= number_to_currency @report.sales - @report.ticket, :locale => "ja" %></td>
       </tr>
       <tr>
         <th><%=t "activerecord.attributes.report.edy" %></th>
@@ -168,14 +168,14 @@
       <tr>
         <th><%=t "activerecord.attributes.report.ticket" %></th>
         <td class="right"><%= number_to_currency @report.ticket, :locale => "ja" %></td>
-        <th><%=t "activerecord.attributes.report.surplus_funds" %></th>
-        <td class="right"><%= number_to_currency @report.surplus_funds, :locale => "ja" %></td>
+        <th><%=t "views.report.credit_sales" %></th>
+        <td class="right"><%= number_to_currency @report.ticket, :locale => "ja" %></td>
       </tr>
       <tr>
         <th><%=t "activerecord.attributes.report.advance" %></th>
         <td class="right"><%= number_to_currency @report.advance, :locale => "ja" %></td>
-        <td></td>
-        <td></td>
+        <th><%=t "activerecord.attributes.report.surplus_funds" %></th>
+        <td class="right"><%= number_to_currency @report.surplus_funds, :locale => "ja" %></td>
       </tr>
       <tr>
         <th><%=t "activerecord.attributes.report.fuel_cost" %></th>

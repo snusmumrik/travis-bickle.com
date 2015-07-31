@@ -481,8 +481,9 @@ class ReportsController < InheritedResources::Base
   end
 
   def check_balance
+    debit_amount = @report.transfer_slips.sum(:debit_amount) || 0
     credit = params[:report][:cash].to_i + params[:report][:edy].to_i + params[:report][:ticket].to_i + params[:report][:advance].to_i + params[:report][:fuel_cost].to_i + params[:report][:account_receivable].to_i
-    debit = params[:report][:sales].to_i + params[:report][:extra_sales].to_i
+    debit = params[:report][:sales].to_i + params[:report][:extra_sales].to_i - debit_amount
     if debit - credit >= 0
       params[:report][:deficiency_account] = debit - credit
       params[:report][:surplus_funds] = 0

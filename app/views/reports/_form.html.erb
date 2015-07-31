@@ -129,44 +129,56 @@
         <%= f.label :deficiency_account %>
         <%= f.number_field :deficiency_account, :class => "right" %>
       </div>
+
+      <%= label_tag t("activerecord.models.transfer_slip") %>
+      <% @report.transfer_slips.each do |t| %>
+        <div class="right">
+          <%= t.debit %>
+          <%= t.debit_amount %>
+        </div>
+      <% end %>
+      <%= hidden_field_tag :debit_amount, @report.transfer_slips.sum(:debit_amount) %>
+
       <div class="field">
         <%= label_tag t("views.report.debit") %>
         <div class="right"><span id="debit"></span></div>
       </div>
     </div>
 
-    <div class="check_point_form control-group">
-      <%= f.label :check_point_id, :class => 'control-label' %>
-      <div class="controls inline">
-        <ul>
-          <%= f.fields_for :check_point_statuses do |check_point_form| %>
-            <% @check_points.each_with_index do |check_point, i| %>
-              <% if i < @check_points.size/2 %>
-              <li class="none">
-                <%= check_point_form.select check_point.id, options_for_select(@status_options, @selected_status[check_point.id]), {}, {:class => "input-medium"} %>
-                <%= check_point_form.label check_point.name %>
-              </li>
+    <% unless @check_points.blank? %>
+      <div class="check_point_form control-group">
+        <%= f.label :check_point_id, :class => 'control-label' %>
+        <div class="controls inline">
+          <ul>
+            <%= f.fields_for :check_point_statuses do |check_point_form| %>
+              <% @check_points.each_with_index do |check_point, i| %>
+                <% if i < @check_points.size/2 %>
+                <li class="none">
+                  <%= check_point_form.select check_point.id, options_for_select(@status_options, @selected_status[check_point.id]), {}, {:class => "input-medium"} %>
+                  <%= check_point_form.label check_point.name %>
+                </li>
+                <% end %>
               <% end %>
             <% end %>
-          <% end %>
-        </ul>
-      </div>
+          </ul>
+        </div>
 
-      <div class="controls inline">
-        <ul>
-          <%= f.fields_for :check_point_statuses do |check_point_form| %>
-            <% @check_points.each_with_index do |check_point, i| %>
-              <% if i >= @check_points.size/2 %>
-              <li class="none">
-                <%= check_point_form.select check_point.id, options_for_select(@status_options, @selected_status[check_point.id]), {}, {:class => "input-medium"} %>
-                <%= check_point_form.label check_point.name %>
-              </li>
+        <div class="controls inline">
+          <ul>
+            <%= f.fields_for :check_point_statuses do |check_point_form| %>
+              <% @check_points.each_with_index do |check_point, i| %>
+                <% if i >= @check_points.size/2 %>
+                <li class="none">
+                  <%= check_point_form.select check_point.id, options_for_select(@status_options, @selected_status[check_point.id]), {}, {:class => "input-medium"} %>
+                  <%= check_point_form.label check_point.name %>
+                </li>
+                <% end %>
               <% end %>
             <% end %>
-          <% end %>
-        </ul>
+          </ul>
+        </div>
       </div>
-    </div>
+    <% end %>
   </div>
   <div class="actions">
     <%= f.submit :class => "btn" %>

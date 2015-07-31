@@ -337,6 +337,7 @@ ja:
       fuel_cost_rate: 燃料費率
       debit: 収入内訳
       credit: 収入合計
+      credit_sales: 売掛金
 
     ride:
       cash: 現金
