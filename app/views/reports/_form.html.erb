@@ -118,8 +118,12 @@
 
     <div class="sales_form">
       <div class="field">
-        <%= f.label :fuel_cost %>
+        <%= label_tag t("views.report.fuel_cost_gas") %>
         <%= f.number_field :fuel_cost, :class => "right" %>
+      </div>
+      <div class="field">
+        <%= f.label :fuel_cost_lpg %>
+        <%= f.number_field :fuel_cost_lpg, :class => "right" %>
       </div>
       <div class="field">
         <%= f.label :account_receivable %>

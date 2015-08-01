@@ -44,6 +44,7 @@ class ReportsController < InheritedResources::Base
     @sales = 0
     @extra_sales = 0
     @fuel_cost = 0
+    @fuel_cost_lpg = 0
     @ticket = 0
     @account_receivable = 0
     @cash = 0
@@ -65,6 +66,7 @@ class ReportsController < InheritedResources::Base
       @sales += report.sales if report.sales
       @extra_sales += report.extra_sales if report.extra_sales
       @fuel_cost += report.fuel_cost if report.fuel_cost
+      @fuel_cost_lpg += report.fuel_cost_lpg if report.fuel_cost_lpg
       @ticket += report.ticket if report.ticket
       @account_receivable += report.account_receivable if report.account_receivable
       @cash += report.cash if report.cash
@@ -94,9 +96,9 @@ class ReportsController < InheritedResources::Base
     fuel_cost_rates = Array.new
     sales_array = @reports.collect(&:sales)
     extra_sales_array = @reports.collect(&:extra_sales)
-    @reports.collect(&:fuel_cost).each_with_index do |fuel_cost, i|
+    @reports.each_with_index do |report, i|
       if (!sales_array[i].blank? && sales_array[i] != 0) || (!extra_sales_array[i].blank? && extra_sales_array[i] != 0)
-        fuel_cost_rates << (fuel_cost.to_f / (sales_array[i] + extra_sales_array[i]) * 100).ceil
+        fuel_cost_rates << ((report.fuel_cost.to_f + report.fuel_cost_lpg.to_f) / (sales_array[i] + extra_sales_array[i]) * 100).ceil
       else
         fuel_cost_rates << 0
       end
@@ -109,7 +111,7 @@ class ReportsController < InheritedResources::Base
       # f.series(:type => "column", :name => t("activerecord.attributes.report.sales"), :yAxis => 0, :data => @reports.collect(&:sales), :tooltip => {:valueSuffix => "円"})
       # f.series(:type => "column", :name => t("activerecord.attributes.report.extra_sales"), :yAxis => 0, :data => @reports.collect(&:extra_sales), :tooltip => {:valueSuffix => "円"})
       f.series(:type => 'column', :name => t("activerecord.attributes.report.sales") + "+" + t("activerecord.attributes.report.extra_sales"), :yAxis => 0, :data => @sales_array, :tooltip => {:valueSuffix => "円"})
-      f.series(:type => "column", :name => t("activerecord.attributes.report.fuel_cost"), :yAxis => 0, :data => @reports.collect(&:fuel_cost), :tooltip => {:valueSuffix => "円"})
+      f.series(:type => "column", :name => t("activerecord.attributes.report.fuel_cost"), :yAxis => 0, :data => @reports.collect(&:fuel_cost) + @reports.collect(&:fuel_cost_lpg), :tooltip => {:valueSuffix => "円"})
       f.series(:type => "spline", :name => t("views.report.fuel_cost_rate"), :yAxis => 1, :data => fuel_cost_rates, :tooltip => {:valueSuffix => "%"})
 
       f.yAxis [
@@ -167,6 +169,7 @@ class ReportsController < InheritedResources::Base
     @sales = 0
     @extra_sales = 0
     @fuel_cost = 0
+    @fuel_cost_lpg = 0
     @ticket = 0
     @account_receivable = 0
     @cash = 0
@@ -189,6 +192,7 @@ class ReportsController < InheritedResources::Base
       @report_hash[report.started_at.day][:sales] += report.sales if report.sales
       @report_hash[report.started_at.day][:extra_sales] += report.extra_sales if report.extra_sales
       @report_hash[report.started_at.day][:fuel_cost] += report.fuel_cost if report.fuel_cost
+      @report_hash[report.started_at.day][:fuel_cost_lpg] += report.fuel_cost_lpg if report.fuel_cost_lpg
       @report_hash[report.started_at.day][:ticket] += report.ticket if report.ticket
       @report_hash[report.started_at.day][:account_receivable] += report.account_receivable if report.account_receivable
       @report_hash[report.started_at.day][:cash] += report.cash if report.cash
@@ -205,6 +209,7 @@ class ReportsController < InheritedResources::Base
       @sales += report.sales if report.sales
       @extra_sales += report.extra_sales if report.extra_sales
       @fuel_cost += report.fuel_cost if report.fuel_cost
+      @fuel_cost_lpg += report.fuel_cost_lpg if report.fuel_cost_lpg
       @ticket += report.ticket if report.ticket
       @account_receivable += report.account_receivable if report.account_receivable
       @cash += report.cash if report.cash
@@ -223,6 +228,7 @@ class ReportsController < InheritedResources::Base
       @drivers_hash[report.driver_id][:sales] += report.sales if report.sales
       @drivers_hash[report.driver_id][:extra_sales] += report.extra_sales if report.extra_sales
       @drivers_hash[report.driver_id][:fuel_cost] += report.fuel_cost if report.fuel_cost
+      @drivers_hash[report.driver_id][:fuel_cost_lpg] += report.fuel_cost_lpg if report.fuel_cost_lpg
       @drivers_hash[report.driver_id][:ticket] += report.ticket if report.ticket
       @drivers_hash[report.driver_id][:account_receivable] += report.account_receivable if report.account_receivable
       @drivers_hash[report.driver_id][:cash] += report.cash if report.cash
@@ -243,7 +249,7 @@ class ReportsController < InheritedResources::Base
     @fuel_cost_array = Array.new
     for i in 1..Date.new(year, month, -1).day
       if @report_hash[i]
-        @fuel_cost_array << @report_hash[i][:fuel_cost]
+        @fuel_cost_array << @report_hash[i][:fuel_cost] + @report_hash[i][:fuel_cost_lpg]
       else
         @fuel_cost_array << 0
       end
@@ -257,7 +263,7 @@ class ReportsController < InheritedResources::Base
     fuel_cost_rates = Array.new
     for i in 1..@report_hash.size
       if (!@report_hash[i][:sales].blank? && @report_hash[i][:sales].to_i != 0) || (!@report_hash[i][:extra_sales].blank? && @report_hash[i][:extra_sales].to_i != 0)
-        fuel_cost_rates << (@report_hash[i][:fuel_cost].to_f / (@report_hash[i][:sales].to_i + @report_hash[i][:extra_sales]) * 100).ceil
+        fuel_cost_rates << ((@report_hash[i][:fuel_cost].to_f + @report_hash[i][:fuel_cost_lpg].to_f) / (@report_hash[i][:sales].to_i + @report_hash[i][:extra_sales]) * 100).ceil
       else
         fuel_cost_rates << 0
       end
@@ -353,6 +359,7 @@ class ReportsController < InheritedResources::Base
                                     :meter_fare_count => params[:report][:meter_fare_count].to_i - @last_meter.meter_fare_count,
                                     :passengers => params[:report][:passengers].presence || 0,
                                     :fuel_cost => params[:report][:fuel_cost].presence || 0,
+                                    :fuel_cost_lpg => params[:report][:fuel_cost_lpg].presence || 0,
                                     :ticket => params[:report][:ticket].presence || 0,
                                     :advance => params[:report][:advance].presence || 0,
                                     :account_receivable => params[:report][:account_receivable].presence || 0,
@@ -408,6 +415,7 @@ class ReportsController < InheritedResources::Base
                                      :sales => params[:report][:sales].presence || 0,
                                      :extra_sales => params[:report][:extra_sales].presence || 0,
                                      :fuel_cost => params[:report][:fuel_cost].presence || 0,
+                                     :fuel_cost_lpg => params[:report][:fuel_cost_lpg].presence || 0,
                                      :ticket => params[:report][:ticket].presence || 0,
                                      :advance => params[:report][:advance] || 0,
                                      :account_receivable => params[:report][:account_receivable].presence || 0,
@@ -482,7 +490,7 @@ class ReportsController < InheritedResources::Base
 
   def check_balance
     debit_amount = @report.transfer_slips.sum(:debit_amount) || 0
-    credit = params[:report][:cash].to_i + params[:report][:edy].to_i + params[:report][:ticket].to_i + params[:report][:advance].to_i + params[:report][:fuel_cost].to_i + params[:report][:account_receivable].to_i
+    credit = params[:report][:cash].to_i + params[:report][:edy].to_i + params[:report][:ticket].to_i + params[:report][:advance].to_i + params[:report][:fuel_cost].to_i + params[:report][:fuel_cost_lpg].to_i + params[:report][:account_receivable].to_i
     debit = params[:report][:sales].to_i + params[:report][:extra_sales].to_i - debit_amount
     if debit - credit >= 0
       params[:report][:deficiency_account] = debit - credit

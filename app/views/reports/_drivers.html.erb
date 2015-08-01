@@ -14,7 +14,8 @@
     <th><%=t "activerecord.attributes.report.sales" %></th>
     <th><%=t "activerecord.attributes.report.extra_sales" %></th>
     <th><%=t "activerecord.attributes.report.sales_per_kilometer" %></th>
-    <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
+    <th><%=t "views.report.fuel_cost_gas" %></th>
+    <th><%=t "activerecord.attributes.report.fuel_cost_lpg" %></th>
     <th><%=t "activerecord.attributes.report.cash" %></th>
     <th><%=t "activerecord.attributes.report.ticket" %></th>
     <th><%=t "activerecord.attributes.report.advance" %></th>
@@ -41,6 +42,7 @@
     <td><%= number_to_currency @drivers_hash[driver.id][:extra_sales], :locale => "ja" %></td>
     <td><%= number_to_currency((@drivers_hash[driver.id][:sales] + @drivers_hash[driver.id][:extra_sales])/@drivers_hash[driver.id][:mileage], :precision => 0, :locale => "ja") rescue "" %></td>
     <td><%= number_to_currency @drivers_hash[driver.id][:fuel_cost], :locale => "ja" %></td>
+    <td><%= number_to_currency @drivers_hash[driver.id][:fuel_cost_lpg], :locale => "ja" %></td>
     <td><%= number_to_currency @drivers_hash[driver.id][:cash], :locale => "ja" %></td>
     <td><%= number_to_currency @drivers_hash[driver.id][:ticket], :locale => "ja" %></td>
     <td><%= number_to_currency @drivers_hash[driver.id][:advance], :locale => "ja" %></td>

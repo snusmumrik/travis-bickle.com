@@ -136,6 +136,7 @@ ja:
         income_per_hour: 平均時給
         edy: Edy
         fuel_cost: 燃料費
+        fuel_cost_lpg: 燃料費（LPG）
         ticket: 未収チケット
         account_receivable: 未収金
         cash: 現金
@@ -338,6 +339,7 @@ ja:
       debit: 収入内訳
       credit: 収入合計
       credit_sales: 売掛金
+      fuel_cost_gas: 燃料費（ガソリン）
 
     ride:
       cash: 現金
