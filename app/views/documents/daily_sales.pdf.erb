@@ -252,8 +252,14 @@ td {
       <td></td>
     </tr>
     <tr>
-      <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
+      <th><%=t "views.report.fuel_cost_gas" %></th>
       <td class="right"><%= number_to_currency @fuel_cost, :locale => "ja" %></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th><%=t "activerecord.attributes.report.fuel_cost_lpg" %></th>
+      <td class="right"><%= number_to_currency @fuel_cost_lpg, :locale => "ja" %></td>
       <td></td>
       <td></td>
     </tr>
@@ -272,7 +278,7 @@ td {
     <tr></tr>
     <tr>
       <th><%= t("label.report.total") %></th>
-      <td class="right"><%= number_to_currency @cash + @edy + @ticket + @advance + @account_receivable + @fuel_cost + @deficiency_account, :locale => "ja" %></td>
+      <td class="right"><%= number_to_currency @cash + @edy + @ticket + @advance + @account_receivable + @fuel_cost + @fuel_cost_lpg + @deficiency_account, :locale => "ja" %></td>
       <th><%= t("label.report.total") %></th>
       <td class="right"><%= number_to_currency @sales + @extra_sales + @surplus_funds, :locale => "ja" %></td>
     </tr>
