@@ -69,6 +69,9 @@ h3 {
 
 table {
   font-size: 14px;
+  page-break-inside: avoid;
+  position: relative;
+  margin-bottom: 30px !important;
 }
 
 th {
@@ -100,6 +103,7 @@ table.small th,td {
 
 <% @drivers.each_with_index do |driver, i| %>
   <% if i % 5 == 0 %>
+  <div class="page-break"></div>
   <div class="header">
     <div class="left title">
       <h1><%= "#{params[:year]}年#{params[:month]}月" %> <%=t "link.document.salaries" %>（<%= i/5 + 1 %>/<%= (@drivers.size - 1)/5 + 1 %>）</h1>
@@ -194,8 +198,4 @@ table.small th,td {
       <td><%= number_with_delimiter @salaries[driver.id][:total][:deficiency_account] %></td>
     </tr>
   </table>
-
-  <% if i % 5 == 4 || i == @drivers.size - 1 %>
-  <div class="page-break"></div>
-  <% end %>
 <% end %>

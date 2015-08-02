@@ -35,6 +35,7 @@ class DocumentsController < ApplicationController
     @sales = 0
     @extra_sales = 0
     @fuel_cost = 0
+    @fuel_cost_lpg = 0
     @ticket = 0
     @account_receivable = 0
     @cash = 0
@@ -54,6 +55,7 @@ class DocumentsController < ApplicationController
       @sales += report.sales if report.sales
       @extra_sales += report.extra_sales if report.extra_sales
       @fuel_cost += report.fuel_cost if report.fuel_cost
+      @fuel_cost_lpg += report.fuel_cost_lpg if report.fuel_cost_lpg
       @ticket += report.ticket if report.ticket
       @account_receivable += report.account_receivable if report.account_receivable
       @cash += report.cash if report.cash
@@ -75,9 +77,9 @@ class DocumentsController < ApplicationController
     fuel_cost_rates = Array.new
     sales_array = @reports.collect(&:sales)
     extra_sales_array = @reports.collect(&:extra_sales)
-    @reports.collect(&:fuel_cost).each_with_index do |fuel_cost, i|
+    @reports.each_with_index do |report, i|
       if (!sales_array[i].blank? && sales_array[i] != 0) || (!extra_sales_array[i].blank? && extra_sales_array[i] != 0)
-        fuel_cost_rates << (fuel_cost.to_f / (sales_array[i] + extra_sales_array[i]) * 100).ceil
+        fuel_cost_rates << ((report.fuel_cost.to_f + report.fuel_cost_lpg.to_f) / (sales_array[i] + extra_sales_array[i]) * 100).ceil
       else
         fuel_cost_rates << 0
       end
