@@ -22,7 +22,6 @@ class ReportsController < InheritedResources::Base
                                                              Time.zone.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{params[:day].to_s} 23:59}")
                                                             ]).order("cars.name, reports.started_at").all
 
-    @transfer_slips = TransferSlip.where(["user_id = ? AND date = ?", current_user.id, "#{params[:year]}-#{params[:month]}-#{params[:day]}"])
     @transfer_slips = TransferSlip.includes(:report).where(["transfer_slips.user_id = ? AND (date = ? OR reports.started_at BETWEEN ? AND ?)",
                                                             current_user.id,
                                                             "#{params[:year]}-#{params[:month]}-#{params[:day]}",
@@ -159,6 +158,18 @@ class ReportsController < InheritedResources::Base
       hash[key] = Hash.new do |hash, key|
         hash[key] = 0
       end
+    end
+
+    end_date = Date.new(params[:year].to_i, params[:month].to_i, -1)
+    @transfer_slips = TransferSlip.includes(:report).where(["transfer_slips.user_id = ? AND (date = ? OR reports.started_at BETWEEN ? AND ?)",
+                                                            current_user.id,
+                                                            "#{params[:year]}-#{params[:month]}-#{params[:day]}",
+                                                            Time.zone.parse("#{params[:year].to_s}-#{params[:month].to_s}-1 00:00}"),
+                                                            Time.zone.parse("#{params[:year].to_s}-#{params[:month].to_s}-#{end_date.day} 23:59}")
+                                                           ]).all
+    @transfer_slip_amount = 0
+    @transfer_slips.each do |transfer_slip|
+      @transfer_slip_amount += transfer_slip.debit_amount
     end
 
     @mileage = 0

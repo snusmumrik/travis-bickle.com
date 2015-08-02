@@ -46,8 +46,14 @@
       <td></td>
     </tr>
     <tr>
-      <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
-      <td class="right"><%= number_to_currency @fuel_cost + @fuel_cost_lpg, :locale => "ja" %></td>
+      <th><%=t "views.report.fuel_cost_gas" %></th>
+      <td class="right"><%= number_to_currency @fuel_cost, :locale => "ja" %></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th><%=t "activerecord.attributes.report.fuel_cost_lpg" %></th>
+      <td class="right"><%= number_to_currency @fuel_cost_lpg, :locale => "ja" %></td>
       <td></td>
       <td></td>
     </tr>

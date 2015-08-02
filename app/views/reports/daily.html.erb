@@ -4,6 +4,79 @@
 </h1>
 
 <%= render "daily_reports" %>
+
+<div class="sales">
+  <table class="table table-striped table-bordered table-hover">
+    <tr>
+      <th><%=t "activerecord.attributes.transfer_slip.debit" %></th>
+      <th><%=t "activerecord.attributes.transfer_slip.debit_amount" %></th>
+      <th><%=t "activerecord.attributes.transfer_slip.credit" %></th>
+      <th><%=t "activerecord.attributes.transfer_slip.credit_amount" %></th>
+    </tr>
+    <tr>
+      <th><%=t "activerecord.attributes.report.cash" %></th>
+      <td class="right"><%= number_to_currency @cash, :locale => "ja" %></td>
+      <th><%=t "activerecord.attributes.report.sales" %></th>
+      <td class="right"><%= number_to_currency @sales, :locale => "ja" %></td>
+    </tr>
+    <tr>
+      <th><%=t "activerecord.attributes.report.edy" %></th>
+      <td class="right"><%= number_to_currency @edy, :locale => "ja" %></td>
+      <th><%=t "activerecord.attributes.report.extra_sales" %></th>
+      <td class="right"><%= number_to_currency @extra_sales, :locale => "ja" %></td>
+    </tr>
+    <tr>
+      <th><%=t "activerecord.attributes.report.ticket" %></th>
+      <td class="right"><%= number_to_currency @ticket, :locale => "ja" %></td>
+      <th><%=t "activerecord.attributes.report.surplus_funds" %></th>
+      <td class="right"><%= number_to_currency @surplus_funds, :locale => "ja" %></td>
+    </tr>
+    <tr>
+      <th><%=t "activerecord.attributes.report.advance" %></th>
+      <td class="right"><%= number_to_currency @advance, :locale => "ja" %></td>
+      <th></th>
+      <td></td>
+    </tr>
+    <tr>
+      <th><%=t "activerecord.attributes.report.account_receivable" %></th>
+      <td class="right"><%= number_to_currency @account_receivable, :locale => "ja" %></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th><%=t "views.report.fuel_cost_gas" %></th>
+      <td class="right"><%= number_to_currency @fuel_cost, :locale => "ja" %></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th><%=t "activerecord.attributes.report.fuel_cost_lpg" %></th>
+      <td class="right"><%= number_to_currency @fuel_cost_lpg, :locale => "ja" %></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th><%=t "activerecord.attributes.report.deficiency_account" %></th>
+      <td class="right"><%= number_to_currency @deficiency_account, :locale => "ja" %></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <% @transfer_slips.each do |transfer_slip| %>
+      <tr>
+        <th><%= transfer_slip.debit %></th>
+        <td class="right"><%= number_to_currency transfer_slip.debit_amount, :locale => "ja" %></td>
+      </tr>
+    <% end %>
+    <tr></tr>
+    <tr>
+      <th><%= t("label.report.total") %></th>
+      <td class="right"><%= number_to_currency @cash + @edy + @ticket + @advance + @account_receivable + @fuel_cost + @fuel_cost_lpg + @deficiency_account + @transfer_slip_amount, :locale => "ja" %></td>
+      <th><%= t("label.report.total") %></th>
+      <td class="right"><%= number_to_currency @sales + @extra_sales + @surplus_funds, :locale => "ja" %></td>
+    </tr>
+  </table>
+</div>
+
 <%= high_chart("daily_chart", @daily_chart) %>
 
 <h2><%=t "label.report.daily_driver" %></h2>
