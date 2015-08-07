@@ -35,22 +35,22 @@
     <%= f.label :taxi_registration_date %>
     <%= f.date_select :taxi_registration_date %>
   </div>
-  <!-- <div class="field">
-   !--   <%= f.label :base_fare %>
-   !--   <%= f.number_field :base_fare %>
-   !-- </div>
-   !-- <div class="field">
-   !--   <%= f.label :meter_fare %>
-   !--   <%= f.number_field :meter_fare %>
-   !-- </div>
-   !-- <div class="field">
-   !--   <%= f.label :initial_meter %>
-   !--   <%= f.number_field :initial_meter %>
-   !-- </div>
-   !-- <div class="field">
-   !--   <%= f.label :meter_fare_segment %>
-   !--   <%= f.number_field :meter_fare_segment %>
-   !-- </div> -->
+  <div class="field">
+    <%= f.label :base_fare %>
+    <%= f.number_field :base_fare %>
+  </div>
+  <div class="field">
+    <%= f.label :meter_fare %>
+    <%= f.number_field :meter_fare %>
+  </div>
+  <div class="field">
+    <%= f.label :initial_meter %>
+    <%= f.number_field :initial_meter %>
+  </div>
+  <div class="field">
+    <%= f.label :meter_fare_segment %>
+    <%= f.number_field :meter_fare_segment %>
+  </div>
     <div class="actions">
     <%= f.submit t("helpers.submit.update"), :class => "btn" %>
   </div>
