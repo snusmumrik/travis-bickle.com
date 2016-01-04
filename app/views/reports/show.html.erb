@@ -210,9 +210,9 @@
       <tr></tr>
       <tr>
         <th><%= t("label.report.total") %></th>
-        <td class="right"><%= number_to_currency @report.cash + @report.edy + @report.ticket + @report.advance + @report.fuel_cost + @report.fuel_cost_lpg + @report.account_receivable + @report.deficiency_account + @report.transfer_slips.sum(:debit_amount), :locale => "ja" %></td>
+        <td class="right"><%= number_to_currency @report.cash + @report.edy + @report.ticket + @report.advance + @report.fuel_cost + @report.fuel_cost_lpg + @report.account_receivable + @report.deficiency_account + @report.transfer_slips.sum(:debit_amount), :locale => "ja" rescue nil %></td>
         <th><%= t("label.report.total") %></th>
-        <td class="right"><%= number_to_currency @report.sales + @report.extra_sales + @report.surplus_funds, :locale => "ja" %></td>
+        <td class="right"><%= number_to_currency @report.sales + @report.extra_sales + @report.surplus_funds, :locale => "ja" rescue nil %></td>
       </tr>
     </table>
   </div>
