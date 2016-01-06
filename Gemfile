@@ -42,10 +42,10 @@ group :test, :development do
   gem 'i18n_generators', :git => 'git://github.com/amatsuda/i18n_generators'
 end
 
-group :production do
-  gem 'rails_12factor'
-  gem 'newrelic_rpm'
-end
+# group :production do
+#   gem 'rails_12factor'
+#   gem 'newrelic_rpm'
+# end
 
 gem 'jquery-rails'
 
