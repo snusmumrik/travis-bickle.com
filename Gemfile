@@ -64,6 +64,7 @@ gem 'jquery-rails'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
+gem 'aws-sdk', '~> 2'
 gem 'devise'
 gem 'paranoia'
 gem 'omniauth'
