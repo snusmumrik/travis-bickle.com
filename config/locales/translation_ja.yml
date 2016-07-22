@@ -138,7 +138,7 @@ ja:
         fuel_cost: 燃料費
         fuel_cost_lpg: 燃料費（LPG）
         ticket: 未収チケット
-        account_receivable: 未収金
+        account_receivable: 障害割 # 未収金
         cash: 現金
         surplus_funds: 過剰金
         deficiency_account: 不足金
