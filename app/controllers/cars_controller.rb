@@ -51,6 +51,7 @@ class CarsController < InheritedResources::Base
     @sales = 0
     @extra_sales = 0
     @fuel_cost = 0
+    @fuel_cost_lpg = 0
     @ticket = 0
     @account_receivable = 0
     @cash = 0
@@ -68,9 +69,9 @@ class CarsController < InheritedResources::Base
       hash[key] = 0
     end
 
-    fuel_cost_hash = Hash.new do |hash, key|
-      hash[key] = 0
-    end
+    # fuel_cost_hash = Hash.new do |hash, key|
+    #   hash[key] = 0
+    # end
 
     sales_data_hash = Hash.new do |hash, key|
       hash[key] = 0
@@ -89,6 +90,7 @@ class CarsController < InheritedResources::Base
       @sales_hash[report.started_at.day][:sales] += report.sales if report.sales
       @sales_hash[report.started_at.day][:extra_sales] += report.extra_sales if report.extra_sales
       @sales_hash[report.started_at.day][:fuel_cost] += report.fuel_cost if report.fuel_cost
+      @sales_hash[report.started_at.day][:fuel_cost_lpg] += report.fuel_cost_lpg if report.fuel_cost_lpg
       @sales_hash[report.started_at.day][:ticket] += report.ticket if report.ticket
       @sales_hash[report.started_at.day][:account_receivable] += report.account_receivable if report.account_receivable
       @sales_hash[report.started_at.day][:cash] += report.cash if report.cash
@@ -104,6 +106,7 @@ class CarsController < InheritedResources::Base
       @sales += report.sales if report.sales
       @extra_sales += report.extra_sales if report.extra_sales
       @fuel_cost += report.fuel_cost if report.fuel_cost
+      @fuel_cost_lpg += report.fuel_cost_lpg if report.fuel_cost_lpg
       @ticket += report.ticket if report.ticket
       @account_receivable += report.account_receivable if report.account_receivable
       @cash += report.cash if report.cash
@@ -117,6 +120,7 @@ class CarsController < InheritedResources::Base
 
       sales_data_hash[report.started_at.day] += report.sales + report.extra_sales if report.sales && report.extra_sales
       fuel_cost_data_hash[report.started_at.day] += report.fuel_cost if report.fuel_cost
+      fuel_cost_data_hash[report.started_at.day] += report.fuel_cost_lpg if report.fuel_cost_lpg
     end
 
     sales_array = Array.new

@@ -135,7 +135,7 @@ ja:
         sales_per_kilometer: 収入/Km
         income_per_hour: 平均時給
         edy: Edy
-        fuel_cost: 燃料費
+        fuel_cost: 燃料費（ガソリン）
         fuel_cost_lpg: 燃料費（LPG）
         ticket: 未収チケット
         account_receivable: 障害割 # 未収金

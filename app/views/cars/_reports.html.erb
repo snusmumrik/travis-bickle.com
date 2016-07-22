@@ -30,6 +30,7 @@
     <th><%=t "activerecord.attributes.report.extra_sales" %></th>
     <th><%=t "activerecord.attributes.report.sales_per_kilometer" %></th>
     <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
+    <th><%=t "activerecord.attributes.report.fuel_cost_lpg" %></th>
     <th><%=t "activerecord.attributes.report.cash" %></th>
     <th><%=t "activerecord.attributes.report.ticket" %></th>
     <th><%=t "activerecord.attributes.report.advance" %></th>
@@ -61,6 +62,7 @@
       <td><%= number_to_currency report.extra_sales, :locale => "ja" %></td>
       <td><%= number_to_currency((report.sales + report.extra_sales)/report.mileage, :precision => 0, :locale => "ja") rescue "" %></td>
       <td><%= number_to_currency report.fuel_cost, :locale => "ja" %></td>
+      <td><%= number_to_currency report.fuel_cost_lpg, :locale => "ja" %></td>
       <td><%= number_to_currency report.cash, :locale => "ja" %></td>
       <td><%= number_to_currency report.ticket, :locale => "ja" %></td>
       <td><%= number_to_currency report.advance, :locale => "ja" %></td>
@@ -86,6 +88,7 @@
     <th><%=t "activerecord.attributes.report.extra_sales" %></th>
     <th><%=t "activerecord.attributes.report.sales_per_kilometer" %></th>
     <th><%=t "activerecord.attributes.report.fuel_cost" %></th>
+    <th><%=t "activerecord.attributes.report.fuel_cost_lpg" %></th>
     <th><%=t "activerecord.attributes.report.cash" %></th>
     <th><%=t "activerecord.attributes.report.ticket" %></th>
     <th><%=t "activerecord.attributes.report.advance" %></th>
@@ -107,6 +110,7 @@
     <td><%= number_to_currency @extra_sales, :locale => "ja" %></td>
     <td><%= number_to_currency((@sales + @extra_sales)/@mileage, :precision => 0, :locale => "ja") rescue "" %></td>
     <td><%= number_to_currency @fuel_cost, :locale => "ja" %></td>
+    <td><%= number_to_currency @fuel_cost_lpg, :locale => "ja" %></td>
     <td><%= number_to_currency @cash, :locale => "ja" %></td>
     <td><%= number_to_currency @ticket, :locale => "ja" %></td>
     <td><%= number_to_currency @advance, :locale => "ja" %></td>
