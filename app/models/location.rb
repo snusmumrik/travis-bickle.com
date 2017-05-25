@@ -2,7 +2,7 @@ class Location < ActiveRecord::Base
   belongs_to :car
   attr_accessible :car_id, :address, :gmaps, :latitude, :longitude
 
-  acts_as_gmappable :process_geocoding => false
+  # acts_as_gmappable :process_geocoding => false
   geocoded_by :address
   # reverse_geocoded_by :latitude, :longitude
   # after_validation :geocode, :reverse_geocode
