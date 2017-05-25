@@ -205,6 +205,8 @@
       <tr>
         <th><%= transfer_slip.debit %></th>
         <td class="right"><%= number_to_currency transfer_slip.debit_amount, :locale => "ja" %></td>
+        <th><%= transfer_slip.credit %></th>
+        <td class="right"><%= number_to_currency transfer_slip.credit_amount, :locale => "ja" %></td>
       </tr>
       <% end %>
       <tr></tr>
@@ -212,7 +214,7 @@
         <th><%= t("label.report.total") %></th>
         <td class="right"><%= number_to_currency @report.cash + @report.edy + @report.ticket + @report.advance + @report.fuel_cost + @report.fuel_cost_lpg + @report.account_receivable + @report.deficiency_account + @report.transfer_slips.sum(:debit_amount), :locale => "ja" rescue nil %></td>
         <th><%= t("label.report.total") %></th>
-        <td class="right"><%= number_to_currency @report.sales + @report.extra_sales + @report.surplus_funds, :locale => "ja" rescue nil %></td>
+        <td class="right"><%= number_to_currency @report.sales + @report.extra_sales + @report.surplus_funds + @report.transfer_slips.sum(:debit_amount), :locale => "ja" rescue nil %></td>
       </tr>
     </table>
   </div>
