@@ -10,7 +10,9 @@ config/initializers/secret_token.rb
 config/initializers/session_store.rb
 config/initializers/s3-mysql-backup-config.yml
 db/*.sqlite3
+environments/production.rb
 log/*.log*
 public/assets
 public/system
+script/backup
 tmp/
