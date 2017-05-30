@@ -196,6 +196,8 @@ class DocumentsController < ApplicationController
       end
     end
 
+    @working_days = @report_hash.size
+
     respond_to do |format|
       format.html # show.html.erb
       format.pdf do

@@ -136,7 +136,11 @@ td {
           </td>
           <td>
             <% if report.finished_at && @rest_hash[report.id] %>
-              <%= ((report.finished_at - report.started_at).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[0] %>時間<%= ((report.finished_at - report.started_at).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
+              <% if @report_hash[i][j + 1] %>
+                <%= ((report.finished_at - report.started_at - (@report_hash[i][j + 1].finished_at - @report_hash[i][j + 1].started_at)).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[0] %>時間<%= ((report.finished_at - report.started_at - (@report_hash[i][j + 1].finished_at - @report_hash[i][j + 1].started_at)).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
+              <% else %>
+                <%= ((report.finished_at - report.started_at).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[0] %>時間<%= ((report.finished_at - report.started_at).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
+              <% end %>
             <% end %>
           </td>
           <td></td>
@@ -173,7 +177,7 @@ td {
 
   <tr class="info">
     <td rowspan="3"><%=t "label.document.sum" %></td>
-    <td rowspan="3" colspan="2" class="center"><%=t "label.document.work_days" %>：<%= @reports.size %></td>
+    <td rowspan="3" colspan="2" class="center"><%=t "label.document.work_days" %>：<%= @working_days %></td>
     <td rowspan="3">
       <%= @working_hours.divmod(60*60)[0] %>時間<%= @working_hours.divmod(60*60)[1].divmod(60)[0] %>分
     </td>
