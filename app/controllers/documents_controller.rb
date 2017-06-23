@@ -181,18 +181,14 @@ class DocumentsController < ApplicationController
 
       if report.finished_at.nil?
         next
-      elsif report.finished_at.hour == 22 || report.finished_at.hour == 23
-        @late_night_hash.store(report.id, 1)
-        @late_night += 1
-      elsif report.finished_at.hour == 0 || report.finished_at.hour == 1
-        @late_night_hash.store(report.id, 2)
-        @late_night += 2
-      elsif report.finished_at.hour == 2
-        @late_night_hash.store(report.id, 3)
-        @late_night += 3
-      elsif report.finished_at.hour >= 3 && report.finished_at.hour < 11
-        @late_night_hash.store(report.id, 4)
-        @late_night += 4
+      elsif report.finished_at.hour >= 22 && report.finished_at.hour < 24
+        hour = report.finished_at.hour - 21
+        @late_night_hash.store(report.id, hour)
+        @late_night += hour
+      elsif report.finished_at.hour < 11
+        hour = report.finished_at.hour + 3
+        @late_night_hash.store(report.id, hour)
+        @late_night += hour
       end
     end
 

@@ -59,7 +59,7 @@ table td {
 }
 
 table.small th,td{
-  font-size: 10px !important;
+  font-size: 9px !important;
 }
 
 td {
@@ -143,7 +143,15 @@ td {
               <% end %>
             <% end %>
           </td>
-          <td></td>
+          <td>
+            <% if report.finished_at %>
+              <% if @report_hash[i][j + 1] && (report.finished_at - report.started_at - (@report_hash[i][j + 1].finished_at - @report_hash[i][j + 1].started_at)).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60) > 16*60*60 %>
+                <%= ((report.finished_at - report.started_at - (@report_hash[i][j + 1].finished_at - @report_hash[i][j + 1].started_at)).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[0] - 16 %>時間<%= ((report.finished_at - report.started_at - (@report_hash[i][j + 1].finished_at - @report_hash[i][j + 1].started_at)).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
+              <% elsif (report.finished_at - report.started_at).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60) > 16*60*60 %>
+                <%= ((report.finished_at - report.started_at).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[0] - 16 %>時間<%= ((report.finished_at - report.started_at).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
+              <% end %>
+            <% end %>
+          </td>
           <td><%= @late_night_hash[report.id] %></td>
           <td></td>
           <td><%= number_to_currency report.sales + report.extra_sales, :locale => "ja" %></td>
