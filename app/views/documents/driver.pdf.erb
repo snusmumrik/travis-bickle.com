@@ -122,7 +122,7 @@ td {
           </td>
           <td>
             <% if report.finished_at %>
-              <% if @report_hash[i][j + 1] %>
+              <% if @report_hash[i][j + 1] && report.finished_at > @report_hash[i][j + 1].started_at %>
                 <%= (report.finished_at - report.started_at - (@report_hash[i][j + 1].finished_at - @report_hash[i][j + 1].started_at)).divmod(60*60)[0] %>時間<%= (report.finished_at - report.started_at - (@report_hash[i][j + 1].finished_at - @report_hash[i][j + 1].started_at)).divmod(60*60)[1].divmod(60)[0] %>分
               <% else %>
                 <%= (report.finished_at - report.started_at).divmod(60*60)[0] %>時間<%= (report.finished_at - report.started_at).divmod(60*60)[1].divmod(60)[0] %>分
@@ -136,7 +136,7 @@ td {
           </td>
           <td>
             <% if report.finished_at && @rest_hash[report.id] %>
-              <% if @report_hash[i][j + 1] %>
+              <% if @report_hash[i][j + 1] && report.finished_at > @report_hash[i][j + 1].started_at %>
                 <%= ((report.finished_at - report.started_at - (@report_hash[i][j + 1].finished_at - @report_hash[i][j + 1].started_at)).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[0] %>時間<%= ((report.finished_at - report.started_at - (@report_hash[i][j + 1].finished_at - @report_hash[i][j + 1].started_at)).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
               <% else %>
                 <%= ((report.finished_at - report.started_at).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[0] %>時間<%= ((report.finished_at - report.started_at).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
@@ -145,7 +145,7 @@ td {
           </td>
           <td>
             <% if report.finished_at %>
-              <% if @report_hash[i][j + 1] && (report.finished_at - report.started_at - (@report_hash[i][j + 1].finished_at - @report_hash[i][j + 1].started_at)).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60) > 16*60*60 %>
+              <% if @report_hash[i][j + 1] && report.finished_at > @report_hash[i][j + 1].started_at && (report.finished_at - report.started_at - (@report_hash[i][j + 1].finished_at - @report_hash[i][j + 1].started_at)).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60) > 16*60*60 %>
                 <%= ((report.finished_at - report.started_at - (@report_hash[i][j + 1].finished_at - @report_hash[i][j + 1].started_at)).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[0] - 16 %>時間<%= ((report.finished_at - report.started_at - (@report_hash[i][j + 1].finished_at - @report_hash[i][j + 1].started_at)).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[1].divmod(60)[0] %>分
               <% elsif (report.finished_at - report.started_at).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60) > 16*60*60 %>
                 <%= ((report.finished_at - report.started_at).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[0] - 16 %>時間<%= ((report.finished_at - report.started_at).to_i - (@rest_hash[report.id][0]*60*60 + @rest_hash[report.id][1]*60)).divmod(60*60)[1].divmod(60)[0] %>分

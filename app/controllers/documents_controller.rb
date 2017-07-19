@@ -185,7 +185,7 @@ class DocumentsController < ApplicationController
         hour = report.finished_at.hour - 21
         @late_night_hash.store(report.id, hour)
         @late_night += hour
-      elsif report.finished_at.hour < 11
+      elsif report.finished_at - report.started_at > 8*60*60 && report.finished_at.hour < 11
         hour = report.finished_at.hour + 3
         @late_night_hash.store(report.id, hour)
         @late_night += hour
