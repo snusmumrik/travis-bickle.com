@@ -228,8 +228,6 @@ class ReportsController < InheritedResources::Base
       @surplus_funds += report.surplus_funds if report.surplus_funds
       @deficiency_account += report.deficiency_account if report.deficiency_account
       @advance += report.advance if report.advance
-      logger.debug(@advance)
-
 
       @drivers_hash[report.driver_id][:mileage] += report.mileage if report.mileage
       @drivers_hash[report.driver_id][:riding_mileage] += report.riding_mileage if report.riding_mileage
